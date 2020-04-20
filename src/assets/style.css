@@ -1,0 +1,96 @@
+/* Background pattern from Toptal Subtle Patterns */
+* {
+    padding: 0;
+    margin: 0;
+    letter-spacing: 1px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    text-shadow: 5px 0px 20px #00c3ff, -5px 0px 20px #00c3ff, 0px 5px 20px #00c3ff, 0px -5px 20px #00c3ff;
+    color: #fff;
+}
+
+:root {
+    font-size: 30px;
+}
+
+html body {
+    background: url(./fancy-cushion.png);
+}
+
+#app {
+    max-width: 2500px;
+    margin: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+.gradeWeightColor {
+    padding: 5px !important;
+    margin: 3px;
+    display: inline-block;
+    border: 2px solid white;
+    width: 35px;
+    margin-right: 10px;
+    position: relative;
+}
+
+.gradeWeightGreen {
+    text-shadow: 5px 0px 20px #3be029, -5px 0px 20px #3be029, 0px 5px 20px #3be029, 0px -5px 20px #3be029;
+    background-color: #3be029;
+    color: black;
+}
+
+.gradeWeightYellow {
+    text-shadow: 5px 0px 20px #ffc800, -5px 0px 20px #ffc800, 0px 5px 20px #ffc800, 0px -5px 20px #ffc800;
+    background-color: #ffc800;
+    color: black;
+}
+
+.gradeWeightRed {
+    text-shadow: 5px 0px 20px #ff001e, -5px 0px 20px #ff001e, 0px 5px 20px #ff001e, 0px -5px 20px #ff001e;
+    background-color: #ff001e;
+    filter: blur(10px;)
+}
+
+
+
+span.fire {
+    padding: 17px 35px;
+    border: 1px solid whitesmoke;
+    text-shadow: none;
+    background-image: url(./Animated_fire_by_nevit.gif);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-animation: fire 5s linear infinite;
+    -webkit-backface-visibility: hidden;
+}
+
+@keyframes fire {
+
+    0% {
+        background-position: 90% 95%
+    }
+
+    ;
+
+    50% {
+        background-position: center;
+    }
+
+    100% {
+        background-position: 90% 95%
+    }
+
+    ;
+}
+
+
+

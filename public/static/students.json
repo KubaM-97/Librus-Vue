@@ -1,0 +1,202 @@
+{
+    "students": [
+        {
+            "id": 1,
+            "lastName": "Anon",
+            "firstName": "Aleksandra",
+            "grades": [4, 2, 3, 1],
+            "weights": [1, 1, 2, 3],
+            "description": ["Praca Domowa", "Praca Domowa", "Kartkówka", "Klasówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+    },
+        {
+            "id": 2,
+            "lastName": "Bosak",
+            "firstName": "Bartłomiej",
+            "grades": [5, 5, 5, 5],
+            "weights": [1, 1, 2, 3],
+            "description": ["Praca Domowa", "Praca Domowa", "Kartkówka", "Klasówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+    },
+        {
+            "id": 3,
+            "lastName": "Czosnek",
+            "firstName": "Czesław",
+            "grades": [1, 2, 1, 1],
+            "weights": [1, 1, 2, 3],
+            "description": ["Praca Domowa", "Praca Domowa", "Kartkówka", "Klasówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+        },
+        {
+            "id": 4,
+            "lastName": "Dziurman",
+            "firstName": "Daria",
+            "grades": [2, 2, 3, 2],
+            "weights": [1, 1, 2, 3],
+            "description": ["Praca Domowa", "Praca Domowa", "Kartkówka", "Klasówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+        },
+        {
+            "id": 5,
+            "lastName": "Eliksir",
+            "firstName": "Eryk",
+            "grades": [4, 5, 4, 4],
+            "weights": [1, 2, 3, 2],
+            "description": ["Praca Domowa", "Praca Domowa", "Klasówka", "Kartkówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+        },
+        {
+            "id": 6,
+            "lastName": "Figurski",
+            "firstName": "Franciszek",
+            "grades": [3, 4, 5],
+            "weights": [1, 1, 3],
+            "description": ["Praca Domowa", "Praca Domowa", "Klasówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+        },
+        {
+            "id": 7,
+            "lastName": "Gołębiowska",
+            "firstName": "Gabrysia",
+            "grades": [5, 5, 3, 5],
+            "weights": [1, 1, 2, 3],
+            "description": ["Praca Domowa", "Praca Domowa", "Kartkówka", "Klasówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+        },
+        {
+            "id": 8,
+            "lastName": "Helikopterek",
+            "firstName": "Henryk",
+            "grades": [3, 3, 2, 3],
+            "weights": [1, 1, 2, 3],
+            "description": ["Praca Domowa", "Praca Domowa", "Kartkówka", "Klasówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+        },
+        {
+            "id": 9,
+            "lastName": "Irytek",
+            "firstName": "Igor",
+            "grades": [1, 1, 2, 2],
+            "weights": [1, 1, 2, 3],
+            "description": ["Praca Domowa", "Praca Domowa", "Kartkówka", "Klasówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+        },
+        {
+            "id": 10,
+            "lastName": "Jastrzębski",
+            "firstName": "Jacek",
+            "grades": [2, 3, 5, 3],
+            "weights": [1, 1, 2, 3],
+            "description": ["Praca Domowa", "Praca Domowa", "Kartkówka", "Klasówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+        },
+        {
+            "id": 11,
+            "lastName": "Kulesza",
+            "firstName": "Kasia",
+            "grades": [5, 5, 5, 5],
+            "weights": [1, 1, 2, 3],
+            "description": ["Praca Domowa", "Praca Domowa", "Kartkówka", "Klasówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+        },
+        {
+            "id": 12,
+            "lastName": "Lemańska",
+            "firstName": "Laura",
+            "grades": [5, 4, 5, 5],
+            "weights": [1, 1, 2, 3],
+            "description": ["Praca Domowa", "Praca Domowa", "Kartkówka", "Klasówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+        },
+        {
+            "id": 13,
+            "lastName": "Mkbewe",
+            "firstName": "Matylda",
+            "grades": [4, 3, 4, 4],
+            "weights": [1, 1, 2, 3],
+            "description": ["Praca Domowa", "Praca Domowa", "Kartkówka", "Klasówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+        },
+        {
+            "id": 14,
+            "lastName": "Nykiel",
+            "firstName": "Natalia",
+            "grades": [4, 4, 5, 4],
+            "weights": [1, 1, 2, 3],
+            "description": ["Praca Domowa", "Praca Domowa", "Kartkówka", "Klasówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+        },
+        {
+            "id": 15,
+            "lastName": "Opona",
+            "firstName": "Oliwier",
+            "grades": [2, 4, 3, 3],
+            "weights": [1, 1, 2, 3],
+            "description": ["Praca Domowa", "Praca Domowa", "Kartkówka", "Klasówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+        }, 
+        {
+            "id": 16,
+            "lastName": "Prot",
+            "firstName": "Patryk",
+            "grades": [2, 3, 4, 3],
+            "weights": [1, 1, 2, 3],
+            "description": ["Praca Domowa", "Praca Domowa", "Kartkówka", "Klasówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+        }, 
+        {
+            "id": 17,
+            "lastName": "Rarytas",
+            "firstName": "Ryszard",
+            "grades": [2, 3, 3, 3],
+            "weights": [1, 1, 2, 3],
+            "description": ["Praca Domowa", "Praca Domowa", "Kartkówka", "Klasówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+        }, 
+        {
+            "id": 18,
+            "lastName": "Stonoga",
+            "firstName": "Szymon",
+            "grades": [1, 1, 4, 1],
+            "weights": [2, 1, 2, 3],
+            "description": ["Kartkówka", "Praca Domowa", "Kartkówka", "Klasówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+        }, 
+        {
+            "id": 19,
+            "lastName": "Torpeda",
+            "firstName": "Tadeusz",
+            "grades": [2, 2, 3],
+            "weights": [3, 1, 2],
+            "description": ["Klasówka", "Praca Domowa", "Kartkówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+        }, 
+        {
+            "id": 20,
+            "lastName": "Ukwiał",
+            "firstName": "Urszula",
+            "grades": [3, 3, 3, 4],
+            "weights": [1, 1, 2, 3],
+            "description": ["Praca Domowa", "Praca Domowa", "Kartkówka", "Klasówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+        }, 
+        {
+            "id": 21,
+            "lastName": "Walaszek",
+            "firstName": "Witold",
+            "grades": [2, 1, 5, 3],
+            "weights": [1, 1, 2, 3],
+            "description": ["Praca Domowa", "Praca Domowa", "Kartkówka", "Klasówka"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+        }, 
+        {
+            "id": 22,
+            "lastName": "Zagłoba",
+            "firstName": "Zbigniew",
+            "grades": [3, 2, 2],
+            "weights": [3, 3, 1],
+            "description": ["Klasówka", "Klasówka", "Praca Domowa"],
+            "date": ["02.04.2020 12:00:00", "02.04.2020 12:00:00", "02.04.2020 12:00:00"]
+        }
+      ]
+}
