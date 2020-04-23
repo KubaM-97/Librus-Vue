@@ -14,9 +14,10 @@ export default {
 <style lang="css" scoped>
 div#Error404{
   position: absolute;
+  left: 40%;
   top: 50%;
-  left: 50%;
   transform: translate(-50%, -50%);
+  margin: 100px 0
 }
 img{
   width: 100%;

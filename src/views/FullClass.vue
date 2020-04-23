@@ -1,7 +1,6 @@
 <template>
 
 <div class="fullClass">
-
     <div class="tableColorsLegend">
 
         <div class="tableColorsLegendTitle">
@@ -48,19 +47,26 @@
             <th>Zagrożenia:</th>
         </thead>
 
-        <tbody v-for="student in students" :key="student.id">        
-            <tr>
-                <td>{{student.id}}.</td>
+        <tbody v-for="student in students" :key="student.id">
+            <router-link tag="tr"
+            :to="{ name: 'Student',
+                   params: {
+                    lastName: student.lastName,
+                    firstName: student.firstName,
+                    grades: student.grades,
+                    weights: student.weights
+                   }
+                  }">
+                <td></td>
                 <td>{{ student.lastName.toUpperCase() }} {{ student.firstName }}</td>
-                <td v-html="wrapMyGradesIntoDiv(student.grades)"><span v-html="gradeWeightColor(student.weights)"></span></td>
+                <td v-html="wrapMyGradesIntoDiv(student.grades)"></td>
                 <td>{{ avg(student.grades, student.weights) }}</td>
                 <td v-html="threatness(avg(student.grades, student.weights))"></td>
-            </tr>
+            </router-link>
         </tbody>
 
     </table>
-    
-    {{showTooltip()}}
+    <!-- {{showTooltip()}} -->
 </div>
 </template>
 
@@ -76,25 +82,45 @@ export default {
    name: 'fullClass',
    data(){
        return{
+         idCounter: 0,
            students:{},
        }
    },
    created(){
        const url = 'http://localhost:8080/static/students.json';
        axios.get(url)
-       .then(res => {   
+       .then(res => {
            this.students = res.data.students;
            console.log(this.students);
        })
        .catch(error => console.log(error))
    },
+   updated(){
+
+     //gets table
+     const table = document.getElementById("tableStudents");
+
+     //adds Nr (first <td> in every <tr>) in table
+     const rowsNr = table.rows;
+     for (let j = 1; j < rowsNr.length+1; j++) {
+         rowsNr[j-1].getElementsByTagName("TD")[0].innerHTML = j+".";
+     }
+
+
+     //colors grades
+     this.gradeWeightColor();
+
+     //show tooltip after hovering on every grade
+     this.showTooltip();
+
+   },
+
    methods:{
 
-       
         //wraps grades in div, I need an array with one student's grades
-        wrapMyGradesIntoDiv(anotherStudentGradesArray) {
+        wrapMyGradesIntoDiv: function(anotherStudentGradesArray) {
 
-            
+
             this.wrappedGrades = "";
 
             //wraps every single grade of one single student in div.gradeWeightColor, as a result we get one super big variable full of few divs
@@ -107,7 +133,7 @@ export default {
         },
 
         //colors grades
-        gradeWeightColor: function(anotherStudentWeightArray) {
+        gradeWeightColor: function() {
 
             //all weights in one array
             const weightSuperArray = [];
@@ -121,8 +147,8 @@ export default {
 
 
             //adds new classes to divs with grades, what causes coloring them on green, yellow or red
-            const allDivsWithGrades = document.querySelectorAll(".gradeWeightColor");
-            console.log(allDivsWithGrades.length)
+            const allDivsWithGrades = document.querySelectorAll("tbody .gradeWeightColor");
+            // console.log(allDivsWithGrades.length)
             for (let i = 0; i < allDivsWithGrades.length; i++) {
                 if (weightSuperArrayFlatted[i] == 1) {
                     allDivsWithGrades[i].classList.add("gradeWeightGreen")
@@ -136,10 +162,10 @@ export default {
 
         },
 
-        //show tooltip after hover on every grade
+        //show tooltip after hovering on every grade
         showTooltip: function() {
 
-            const gradeInDiv = document.querySelectorAll(".gradeWeightColor");
+            const gradeInDiv = document.querySelectorAll("tbody .gradeWeightColor");
 
             const gradesSuperArray = [];
             const weightSuperArray = [];
@@ -255,24 +281,24 @@ export default {
             const table = document.getElementById("tableStudents");
             let switching = true;
             let Switch, i;
-            // Run loop until no switching is needed 
+            // Run loop until no switching is needed
             while (switching == true) {
 
                 switching = false;
                 const rows = table.rows;
                 //
-                //goes through all rows 
+                //goes through all rows
                 for (i = 1; i < (rows.length - 1); i++) {
                     Switch = false;
 
-                    //fetches 2 elements that will be compared 
+                    //fetches 2 elements that will be compared
                     const x = rows[i].getElementsByTagName("TD")[1];
                     const y = rows[i + 1].getElementsByTagName("TD")[1];
 
-                    //checks if these 2 rows need to be switched 
+                    //checks if these 2 rows need to be switched
                     if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
 
-                        //if yes, updates Switch and breaks loop 
+                        //if yes, updates Switch and breaks loop
                         Switch = true;
                         break;
                     }
@@ -280,21 +306,21 @@ export default {
 
                 if (Switch) {
 
-                    // Function to switch rows and mark switch as completed 
+                    // Function to switch rows and mark switch as completed
                     rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
                     switching = true;
 
                 }
             }
-
-            //sorting Nr in table
-            const rowsNr = table.rows;
-            for (let j = 1; j < rowsNr.length; j++) {
-                rowsNr[j].getElementsByTagName("TD")[0].innerHTML = j;
-            }
+            //
+            // //sorting Nr in table
+            // const rowsNr = table.rows;
+            // for (let j = 1; j < rowsNr.length; j++) {
+            //     rowsNr[j].getElementsByTagName("TD")[0].innerHTML = j;
+            // }
         },
 
-            
+
 
    }
 }

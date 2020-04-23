@@ -27,7 +27,7 @@
           </router-link>
 
           <button active-class="active" class="btn btn-primary btn-lg with-logout-icon"  @click="logMeOut()">
-            <img src="./assets/logout.png" alt="logout icon" height="30"/> Wyloguj się
+            <img src="./assets/logout.png" alt="logout icon" height="25"/> Wyloguj się
           </button>
 
         </nav>
@@ -77,7 +77,7 @@ export default {
   },
 methods:{
   logMeOut(){
-    this.$router.push({name: 'Start'})
+    this.$router.push({name: '/'})
     this.navpanel = false;
     this.showLoaderGif = true;
     setTimeout(()=>{
@@ -86,7 +86,6 @@ methods:{
     },1000)
   }
 }
-
 }
 </script>
 
@@ -102,9 +101,9 @@ header.main-header {
     -webkit-box-shadow: 3px 3px 30px 5px #00c3ff;
     -moz-box-shadow: 3px 3px 30px 5px #00c3ff;
     box-shadow: 3px 3px 30px 5px #00c3ff;
-    padding: 20px 0 70px;
-    margin-bottom: 100px;
-    font-size: 14px;
+    padding: 20px 0 40px;
+    margin-bottom: 60px;
+    font-size: 11px;
 }
 
 header, .logo, nav {
@@ -122,7 +121,7 @@ header .logo {
 
 header .logo img {
     border-radius: 6px;
-    height: 150px;
+    height: 120px;
     vertical-align: -200%;
     margin: 5px 65px 0 30px
 }
@@ -140,8 +139,8 @@ nav button.btn{
     background-color: rgba(0, 162, 255, 0.822);
     margin-right: 10px;
     margin-top: 10px;
-    font-size: 20px;
-    padding: 10px 30px
+    font-size: 16px;
+    padding: 10px 20px
 }
 
 nav button.btn.with-logout-icon{

@@ -1,9 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // import Home from '../views/Home.vue'
+import Start from '../views/Start.vue'
 import FullClass from '../views/FullClass.vue'
+import Student from '../views/Student.vue'
+import EditStudent from '../views/EditStudent.vue'
 import AddStudent from '../views/AddStudent.vue'
 import MainLogPanel from '../views/MainLogPanel.vue'
+import Error404 from '../views/Error404.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -12,7 +16,7 @@ export default new Router({
     {
       path: '/',
       name: 'Start',
-      // component: Start,
+      component: Start,
       props: true
     },
     {
@@ -20,6 +24,20 @@ export default new Router({
       name: 'FullClass',
       component: FullClass,
       props: true
+    },
+    {
+      path: '/Student/:lastName:firstName',
+      name: 'Student',
+      component: Student,
+      props: true,
+      // children: [
+      //   {
+      //     path: "edit",
+      //     name: EditStudent,
+      //     component: EditStudent,
+      //     props: true
+      //   }
+      // ]
     },{
       path: '/AddStudent',
       name: 'AddStudent',
@@ -34,7 +52,7 @@ export default new Router({
     {
       path: '/Error404',
       name: 'Error404',
-      // component: Error404,
+      component: Error404,
       props: false
     },
      {

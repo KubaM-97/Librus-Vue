@@ -1,174 +1,450 @@
 <template>
-    <div class="addStudentPanel">
+<div class="addStudentPanel">
 
-        <div class="addStudentPanelMain">
+    <div class="addStudentPanelMain">
 
-            <div class="addStudentPanelName">
+        <div class="addStudentPanelName">
 
-                <label for="name">*Imię i Nazwisko:
+            <label for="name">*Imię i Nazwisko:
+                <span class="nameTooltip">
+                    Podwójne nazwiska przy pomocy myślnika
+                </span>
+            </label>
 
-                    <span class="nameTooltip">
-                        Podwójne nazwiska przy pomocy myślnika
-                    </span>
+            <input type="text" v-model="add.name" id="name" maxlength="30">
 
-                </label>
+            <span class="required"></span>
 
-                <input type="text" v-model="add.name" id="name" maxlength="30">
+              Informacje dodatkowe
+              <span class="showInfo" @click="additionalInfoSwitcher">Rozwiń</span>
 
-                <span class="required"></span>
+        </div>
+
+        <div class="addStudentPanelNameInfo">
+
+          <div class="info" v-show="info">
+
+
+            <div class="form-group">
+              <label for="pesel">PESEL:</label>
+              <input type="text" id="Pesel" placeholder="PESEL" @blur="validatorData('Pesel', '[0-9]{9}', 'Dokładnie 9 cyfr')">
+              <span class="wrongAdditionalInfo" id="wrongPesel"></span>
+            </div>
+
+            <div class="form-group">
+
+              <label>Adres:</label>
+
+              <input type="text" id="Street" placeholder="ulica" @blur="validatorData('Street', '', '')">
+              <span class="wrongAdditionalInfo" id="wrongStreet"></span>
+
+              <input type="text" id="HouseNr" placeholder="nr_domu" @blur="validatorData('HouseNr', '', '')">
+              <span class="wrongAdditionalInfo" id="wrongHouseNr"></span>
+
+              <input type="text" id="FlatNr" placeholder="nr_mieszkania" @blur="validatorData('FlatNr', '', '')">
+              <span class="wrongAdditionalInfo" id="wrongFlatNr"></span>
+
+              <input type="text" id="PostCode" placeholder="kod pocztowy" @blur="validatorData('PostCode', '/^\\d{2}-\\d{3}$/', '_ _ - _ _ _')">
+              <span class="wrongAdditionalInfo" id="wrongPostCode"></span>
+
+              <input type="text" id="City" placeholder="miasto" @blur="validatorData('City', '', '')">
+              <span class="wrongAdditionalInfo" id="wrongCity"></span>
 
             </div>
 
-            <div class="addStudentPanelGrades">
+            <div class="form-group">
+              <label for="Tel">Telefon:</label>
+              <input type="text" id="Tel" placeholder="Telefon" @blur="validatorData('Tel', '', 'Dokładnie 7 lub 9 cyfr.')">
+              <span class="wrongAdditionalInfo" id="wrongTel"></span>
+            </div>
 
-                <div class="addStudentPanelGradesTitle">
+            <div class="parents">
 
-                    <span class="addStudentGradeSubpanelTitle">Dotychczasowe oceny:</span>
 
+              <div class="mother">
+                <div class="form-group">
+                  <label>Matka:</label>
+                  <input type="text" id="mothersFirsName" placeholder="Imię matki" />
+                  <input type="text" id="mothersLastName" placeholder="Nazwisko matki" />
+                  <input type="text" id="mothersTelephone" placeholder="numer telefonu matki">
+                  <input type="text" id="mothersEmail" placeholder="email matki">
                 </div>
+              </div>
 
-                <div class="addStudentPanelGradesContent">
+              <div class="father">
+                <div class="form-group">
+                  <label>Ojciec:</label>
+                  <input type="text" id="fathersFirsName" placeholder="Imię ojca" />
+                  <input type="text" id="fathersLastName" placeholder="Nazwisko ojca" />
+                  <input type="text" id="fathersTelephone" placeholder="numer telefonu ojca">
+                  <input type="text" id="fathersEmail" placeholder="email ojca">
+                </div>
+              </div>
 
-                    <div class="addStudentPanelGradesContentSingle">
 
-                        <div class="addStudentPanelGradesContentSingleGrade">
+            </div>
 
-                            <label for="grades">Ocena:</label>
+          </div>
 
-                            <select v-model.number="add.grades" id="grades">
-                                <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                            </select>
+        </div>
 
-                        </div>
+        <div class="addStudentPanelGradesTitle">
+                <span class="addStudentGradeSubpanelTitle">Dotychczasowe oceny:</span>
+            </div>
 
-                        <div class="addStudentPanelGradesContentSingleWeight">
+        <div class="addStudentPanelGradesContent">
 
-                            <label for="weight">Waga oceny:</label>
+                <div class="addStudentPanelGradesContentSingle">
 
-                            <select v-model.number="add.weight" id="weight">
-                                <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
+                    <div class="addStudentPanelGradesContentSingleGrade">
 
-                        </div>
+                        <label for="grades">Ocena:</label>
 
-                        <div class="addStudentPanelGradesContentSingleDescription">
+                        <select v-model.number="add.grades" id="grades">
+                            <option value=""></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                        </select>
 
-                            <span class="descriptionCount">Pozostało: 30 znaków.</span>
+                    </div>
 
-                            <label>Opis oceny:
+                    <div class="addStudentPanelGradesContentSingleWeight">
 
-                                <input type="text" v-model.number="add.description" class="description" maxlength="30">
+                        <label for="weight">Waga oceny:</label>
 
-                            </label>
+                        <select v-model.number="add.weight" id="weight">
+                            <option value=""></option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
 
-                        </div>
+                    </div>
+
+                    <div class="addStudentPanelGradesContentSingleDescription">
+
+                        <span class="descriptionCount">Pozostało: 30 znaków.</span>
+
+                        <label>Opis oceny:
+
+                            <input type="text" v-model.number="add.description" class="description" maxlength="30">
+
+                        </label>
 
                     </div>
 
                 </div>
 
-                <!-- <div class="addStudentPanelGradesContentButton"> -->
-
-                    <button class="addNewGradeButton" @click="addNewGrade()">
-                        +
-                    </button>
-
-                <!-- </div> -->
-
-               <div class="addStudentPanelSummary">
-
-                    <table class="summary">
-
-                            <tr>
-                                <td><span v-if="add.name!==''">{{add.name | formatName}}</span></td>
-
-                                <td>
-
-                                    <span v-if="add.grades!=='' && add.weight===''">
-                                        <div class="gradeWeightColor">
-                                            {{add.grades}}
-                                        </div>
-                                    </span>
-
-                                    <span v-else-if="add.grades!=='' && add.weight===1">
-                                        <div class="gradeWeightColor gradeWeightGreen"> {{add.grades}}
-                                        </div>
-                                    </span>
-
-                                    <span v-else-if="add.grades!=='' && add.weight===2">
-                                        <div class="gradeWeightColor gradeWeightYellow"> {{add.grades}}
-                                        </div>
-                                    </span>
-
-                                    <span v-else-if="add.grades!=='' && add.weight===3">
-                                        <div class="gradeWeightColor gradeWeightRed"> {{add.grades}}
-                                        </div>
-                                    </span>
-
-                                </td>
-
-                                <td>
-                                    <!-- <span v-if="add.grades!=='' && add.weight!==''" v-model="add.avg">{{addAvg}} -->
-                                    <!-- </span> -->
-                                </td>
-
-                                <td>
-                                    <span v-if="add.avg!==''" class="fire">
-                                        {{addThreatness}}
-                                    </span>
-                                </td>
-                            </tr>
-
-                        </table>
-
-                </div>
-
-                <div class="addStudentPanelButtons">
-
-                        <button class="btn btn-danger btn-lg" @click="addStudentCancel()">Anuluj</button>
-
-                        <button class="btn btn-primary btn-lg" @click="addStudent()">Dodaj ucznia</button>
-
-                </div>
-
-
             </div>
 
+        <div class="addStudentPanelGradesContentButton">
+
+          <button @click="addNewGrade()">
+                      +
+          </button>
+
+        </div>
+
+        <div class="addStudentPanelSummary">
+
+          <table class="summary">
+                    <tr>
+                        <td><span v-if="add.name!==''">{{add.name | formatName}}</span></td>
+
+                        <td>
+                            <span v-if="add.grades!=='' && add.weight===''">
+                                <div class="gradeWeightColor">
+                                    {{add.grades}}
+                                </div></span>
+                            <span v-else-if="add.grades!=='' && add.weight===1">
+                                <div class="gradeWeightColor gradeWeightGreen"> {{add.grades}}
+                                </div></span>
+                            <span v-else-if="add.grades!=='' && add.weight===2">
+                                <div class="gradeWeightColor gradeWeightYellow"> {{add.grades}}
+                                </div></span>
+                            <span v-else-if="add.grades!=='' && add.weight===3">
+                                <div class="gradeWeightColor gradeWeightRed"> {{add.grades}}
+                                </div></span>
+                        </td>
+
+                        <td>
+                            <!-- <span v-if="add.grades!=='' && add.weight!==''" v-model="add.avg">{{addAvg}}
+                             </span> -->
+                        </td>
+
+                        <td>
+                            <span v-if="add.avg!==''" class="fire">
+                                {{addThreatness}}
+                            </span>
+                        </td>
+                    </tr>
+
+            </table>
+
+        </div>
+
+        <div class="addStudentPanelButtons">
+          <button class="btn btn-danger btn-lg" @click="addStudentCancel()">Anuluj</button>
+          <button class="btn btn-primary btn-lg" @click="addStudent()">Dodaj ucznia</button>
         </div>
 
     </div>
 
+</div>
 </template>
 
 <script>
-import Vue from 'vue'
 export default {
-    // el:".addStudentPanel",
-    name: "currentViewAdd",
-    // components:{AddStudent},
-     data(){
+  name: "currentViewAdd",
+  data(){
        return{
-            add: {
-                    name: "",
-                    grades: "",
-                    weight: "",
-                    avg: "",
-                    description: "",
-                    date: "",
-                },
+        add: {
+                name: "",
+                grades: "",
+                weight: "",
+                avg: "",
+                description: "",
+                date: "",
+            },
+        info: false
        }
-   },
+  },
+  filters: {
+
+    //converts student's full name to correct form
+    //e.g jan kowalski => KOWALSKI Jan
+    formatName(name) {
+
+        const array = [];
+
+        //splits name into firstName and lastName
+        //e.g jan kowalski => ["jan", "kowalski"]
+        const nameArray = name.split(" ");
+
+
+        nameArray[0].toLowerCase();
+
+        //splits firstName and lastName into single letters
+        //e.g jan => ["j", "a", "n"]
+        const singleLetter = nameArray[0].split("");
+
+        //makes the first letter bigger
+        //e.g jan[0] => ["j"] => ["J"]
+        const bigFirstLetter = singleLetter[0].toUpperCase();
+
+        //replaces firts small letter of firstName to Big letter
+        //e.g jan => Jan
+        array.push(nameArray[0].replace(singleLetter[0], bigFirstLetter));
+
+        if (nameArray.length > 1) {
+            //replaces lastname to BIG LETTERS
+            //e.g kowalski => KOWALSKI
+            array.push(nameArray[1].toUpperCase());
+        }
+        //converts array into string
+        return array.reverse().join(" ");
+    },
+
+  },
+  methods: {
+
+      //shows additional information
+      additionalInfoSwitcher: function() {
+
+        const spanInfoSwitcher = document.querySelector(".addStudentPanelName span.showInfo");
+        this.info = !this.info;
+        if(spanInfoSwitcher.innerHTML == "Rozwiń") {
+          spanInfoSwitcher.innerHTML = "Zwiń";
+          // document.querySelector(".info").classList.add("expanded")
+        }
+        else {
+          spanInfoSwitcher.innerHTML = "Rozwiń";
+          // document.querySelector(".info").classList.remove("expanded")
+        }
+
+      },
+
+      //regular expressions
+      validatorData: function(Data, RegularExpression, Format) {
+        //gets inserted value
+        const insertedData = document.querySelector("#"+Data).value;
+
+        const rega = `/${RegularExpression}/`;
+        alert(rega)
+        console.log(insertedData, RegularExpression, rega.test(insertedData))
+        // checks if inserted data is correct
+        if( (insertedData !== '') && (/RegularExpression/.test(insertedData)) ){
+
+        //gets span below served input
+        const span = document.querySelector("#wrong"+Data);
+        span.innerHTML = `Podaj prawidłowy format : ${Format}`;
+        }
+
+      },
+
+      //adds a new grade to new student
+      addNewGrade: function() {
+
+          // const button = document.querySelector(".addStudentPanelGradesContentButton button");
+
+          //tutaj docelowo content
+          const panelGrades = document.querySelector(".addStudentPanelGradesContent");
+
+          const panelSingleGrade = document.querySelector(".addStudentPanelGradesContentSingle");
+
+          console.log(panelGrades, panelSingleGrade);
+
+          //transforms node to string and appends it to mainSubPane
+          const tmpNode = document.createElement("div");
+          tmpNode.appendChild(panelSingleGrade.cloneNode(true));
+
+          console.log(tmpNode)
+          //                    button.parentNode.removeChild(button)
+          const newStr = tmpNode.innerHTML;
+          panelGrades.innerHTML += newStr;
+
+      },
+
+      //resets addStudent Panel
+      addStudentCancel: function() {
+          this.add.name = "";
+          this.add.grades = "";
+          this.add.weight = "";
+          this.add.description = "";
+      },
+
+      //adds a new student to the class table
+      addStudent: function() {
+
+          const gradeInDiv = document.querySelectorAll("table.summary .gradeWeightColor");
+
+          //these arrays contain grades and weigths of a new student
+          const ArrayNewStudentGrade = [];
+          const ArrayNewStudentWeight = [];
+          const ArrayNewStudentDescription = [];
+          ArrayNewStudentGrade.push(this.add.grades);
+          ArrayNewStudentWeight.push(this.add.weight);
+          ArrayNewStudentDescription.push(this.add.description);
+
+          //this is inserted by user (by teacher) name for a new student
+          const addedStudentName = this.add.name;
+
+          //splits name into firstname and lastname
+          const addedStudentNameArray = addedStudentName.split(" ");
+
+          //if we've got both firstname and lastname
+          if (addedStudentNameArray.length >= 2) {
+
+              //adds a new row to the end of table and connects new cells with a new row
+              const table = document.querySelector(".students");
+              const tr = document.querySelectorAll(".students tbody tr").length;
+
+              const row = table.insertRow(tr + 1);
+              const cell1 = row.insertCell(0);
+              const cell2 = row.insertCell(1);
+              const cell3 = row.insertCell(2);
+              const cell4 = row.insertCell(3);
+              const cell5 = row.insertCell(4);
+
+              //this is a variable with avg
+              const cell4Shorthand = this.avg(ArrayNewStudentGrade, ArrayNewStudentWeight);
+
+              //wraps grades in div
+              this.wrapMyGradesIntoDiv(ArrayNewStudentGrade);
+
+              //adds content to table
+              cell1.innerHTML = tr + 1;
+              cell2.innerHTML = addedStudentNameArray[1].toUpperCase() + " " + addedStudentNameArray[0];
+              cell3.appendChild(gradeInDiv[0]);
+              cell4.innerHTML = cell4Shorthand;
+              cell5.innerHTML = this.threatness(cell4Shorthand);
+
+              //colors grades
+              this.gradeWeightColor(ArrayNewStudentWeight);
+
+              //adds tooltips
+              this.showTooltip();
+
+              //sorts students in table
+              this.sortMyStudents();
+
+              //get current date
+              this.whatsTheDatePlease();
+
+          }
+
+          //if we've got only firstname or lastname
+          else {
+              document.querySelector("span.required").innerHTML = "Uzupełnij imię i nazwisko"
+          }
+
+          //if we've got both grade, weigth and description
+
+
+      },
+
+      //returns current Date in an Array
+      whatsTheDatePlease: function() {
+
+          const today = new Date();
+
+          const currentYear = today.getFullYear();
+          let currentMonth = today.getMonth();
+          let currentDay = today.getDate();
+
+          let currentHours = today.getHours();
+          let currentMinutes = today.getMinutes();
+          let currentSeconds = today.getSeconds();
+
+          if (currentMonth < 10) {
+              currentMonth = `0${currentMonth}`;
+          }
+          if (currentDay < 10) {
+              currentDay = `0${currentDay}`;
+          }
+          if (currentHours < 10) {
+              currentHours = `0${currentHours}`;
+          }
+          if (currentMinutes < 10) {
+              currentMinutes = `0${currentMinutes}`;
+          }
+          if (currentSeconds < 10) {
+              currentSeconds = `0${currentSeconds}`;
+          }
+
+          // [DD.MM.YYYY]
+          const dateSubArrayDDMMYYYY = [currentDay, currentMonth, currentYear].join(".");
+
+          // [HH:MM:SS]
+          const dateSubArrayHHMMSS = [currentHours, currentMinutes, currentSeconds].join(":");
+
+          // [["DD.MM.YYYY"] ["HH:MM:SS"]]
+          const dateFull = [];
+          dateFull.push(dateSubArrayDDMMYYYY, dateSubArrayHHMMSS)
+
+          // DD.MM.YYYY HH:MM:SS
+          const dateFullStr = dateFull.join(" ")
+
+          // [DD.MM.YYYY HH:MM:SS]
+          const dateFullArray = [];
+          dateFullArray.push(dateFullStr);
+
+          let dateArray;
+
+          return dateArray = dateFullStr;
+      }
+
+   }
 }
 </script>
+
+
+
+
 
 <style scoped>
 
@@ -183,103 +459,56 @@ export default {
     filter: blur(0.44px);
     background-color: rgba(0, 0, 0, .55);
     text-align: center;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 .addStudentPanelMain {
     padding: 40px;
     display: grid;
 
-    grid-template-columns: [startName]6fr [endName-startFreeSpace]1fr [endFreeSpace-startGrade]1fr [startTitle]1fr [endGrade-startWeight]2fr [endWeight-startDescription]3fr [endTitle]2fr [endDescription-startPlus]2fr [endPlus];
+    grid-template-columns: [startName]4fr [startGrade]5fr [startButton]1fr;
 
-    grid-template-rows: [startTitle] [endFreeSpace-startSummary]1fr [endButtons];
-    grid-row-gap: 30px;
+    grid-template-rows: [startTitle]100px [startName]300px [startNameInfo]auto [startFreeSpace]1fr [startSummary]100px [startButton]100px;
 }
 
 .addStudentPanelMain .addStudentPanelName {
-    grid-column: startName / endName-startFreeSpace;
-    margin-top: 90px;
+    grid-column: startName / span 1;
+    grid-row: startName / span 1;
 }
 
-.addStudentPanel label span.nameTooltip {
-    font-size: 14px;
-    display: block;
-}
-
-
-.addStudentPanelMain .addStudentPanelGrades {
-    grid-column: endFreeSpace-startGrade / endPlus;
+.addStudentPanelMain .addStudentPanelNameInfo {
+    grid-column: startName / span 1;
+    grid-row: startNameInfo / span 1;
 }
 
 .addStudentPanelMain .addStudentPanelGradesTitle {
-    grid-column: startTitle / endTitle;
-    grid-row: startTitle / endTitle-startLabels;
+    grid-column: startGrade;
+    grid-row: startTitle / startName;
+    font-size: 12px;
 }
 
-.addStudentPanelMain div[class^="addStudentPanelGradesContent"] {
-    margin: 30px 0;
-    display: inline-block;
+.addStudentPanelMain .addStudentPanelGradesContent {
+    grid-column: startGrade;
+    grid-row: startName / startSummary;
 }
-
-.addStudentPanelMain .addStudentPanelGradesContentSingleGrade {
-    grid-column: endFreeSpace-startGrade / endGrade-startWeight;
-}
-
-.addStudentPanelMain .addStudentPanelGradesContentSingleWeight {
-    grid-column: endGrade-startWeight / endWeight-startDescription
-}
-
-.addStudentPanelMain .addStudentPanelGradesContentSingleDescription {
-    grid-column: endWeight-startDescription / endDescription-startPlus;
-}
-
-.addStudentPanelMain .addStudentPanelGradesContentSingleDescription span.descriptionCount {
-    font-size: 14px;
-}
-
-
-.addStudentPanelMain .addStudentPanelGradesContentButton {
-    grid-column: endDescription-startPlus;
-    grid-row: endTitle-startLabels / endLabels-startFreeSpace;
-    position: absolute;
-    right: 90px;
-    top: 10px;
-}
-
-.addStudentPanel .addStudentPanelGradesContentButton button {
-    border-radius: 50%;
-    width: 40px;
-    height: 25px;
-    text-shadow: none;
-    color: black;
-    font-size: 20px;
-    padding-bottom: 32px;
-    background-color: #a5a6a8;
-    border: 7px solid #797c80;
-}
-
-.addStudentPanel .addNewGradeButton:hover {
-    background-color: #797c80;
-    border: 7px solid #a5a6a8;
-}
-
-
-
 
 .addStudentPanelMain .addStudentPanelSummary {
-    grid-column: startName / endDescription-startPlus;
-    grid-row: endFreeSpace-startSummary;
+    grid-column: startName / span 2;
+    grid-row: startSummary;
 }
 
 .addStudentPanelMain .addStudentPanelButtons {
-    grid-column: endWeight-startDescription / endDescription-startPlus;
+    grid-column: startGrade / startButton;
+    grid-row: startButton;
+    margin-left: 70px;
 }
 
-.addStudentPanel label {
+
+.addStudentPanelMain label {
     display: block;
 }
 
-.addStudentPanel input {
+.addStudentPanelMain input {
     outline: none;
     display: block;
     margin: auto;
@@ -295,7 +524,7 @@ export default {
     caret-color: #00c3ff;
 }
 
-.addStudentPanel input:focus {
+.addStudentPanelMain input:focus {
     border: 2px solid #a5cda5;
     background-color: #00c3ff;
     color: black;
@@ -304,21 +533,134 @@ export default {
     box-shadow: 0px 0px 10px 2px rgba(204, 204, 204, 0.9)
 }
 
-.addStudentPanel select {
+.addStudentPanelMain select {
     color: #00c3ff;
     font-size: 18px;
     border-radius: 4px;
     margin-top: 5px;
 }
 
-.addStudentPanel select option {
+.addStudentPanelMain select option {
     color: #00c3ff;
     text-align: center;
 }
 
+.addStudentPanelMain .addStudentPanelName span.nameTooltip {
+    font-size: 12px;
+    display: block;
+}
+
+.addStudentPanelMain .addStudentPanelName input{
+  margin-bottom: 80px;
+}
+
+.addStudentPanelMain .addStudentPanelName span.showInfo {
+  cursor: pointer;
+  font-size: 9px;
+  margin-left: 25px;
+}
+
+.addStudentPanelMain .addStudentPanelNameInfo .form-group{
+  width: 70%;
+  margin: 0 auto;
+  margin-top: 20px;
+  display: inline-block;
+}
+
+.addStudentPanelMain .addStudentPanelNameInfo .form-group:first-child{
+  margin-top: 60px;
+}
+
+.addStudentPanelMain .addStudentPanelNameInfo label{
+  float: left;
+  font-size: 12px;
+  margin-top: 35px;
+}
+
+.addStudentPanelMain .addStudentPanelNameInfo input{
+  float: right;
+  font-size: 11px;
+  width: 60%;
+  display: block;
+  margin-top: 25px;
+  margin-right: 30px;
+  background-color: black;
+  border: 1px solid white;
+  box-shadow: 2px 2px 0px 0px white;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  text-align: left;
+  padding-left: 10px;
+  text-shadow: none;
+}
+
+.addStudentPanelMain .addStudentPanelNameInfo span[class^="wrong"]{
+  font-size: 9px; display: block;
+}
+
+
+.addStudentPanelMain div[class^="addStudentPanelGradesContentSingle"] {
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.addStudentPanelMain .addStudentPanelGradesContentSingleGrade {
+    grid-column:
+}
+
+.addStudentPanelMain .addStudentPanelGradesContentSingleWeight {
+    grid-column:
+}
+
+.addStudentPanelMain .addStudentPanelGradesContentSingleDescription {
+    grid-column:
+}
+
+
+
+
+.addStudentPanelMain .addStudentPanelGradesContentSingleDescription span.descriptionCount {
+    font-size: 12px;
+}
+
+.addStudentPanelMain .addStudentPanelGradesContentButton {
+    grid-column: startButton;
+    grid-row: startName;
+    position: relative;
+    /* position: absolute;
+    right: 90px;
+    top: 10px; */
+}
+
+.addStudentPanelMain .addStudentPanelGradesContentButton button {
+  background-color: #00c3ff;
+  color: white;
+  text-shadow: -1px 0 #00c3ff, 0 1px #00c3ff, 1px 0 #00c3ff, 0 -1px #00c3ff;
+  -webkit-box-shadow: inset 0px 0px 20px 12px black,  0px 0px 20px 3px black;
+  -moz-box-shadow: inset 0px 0px 20px 12px black,  0px 0px 20px 3px black;
+  box-shadow: inset 0px 0px 20px 12px black,  0px 0px 20px 3px black;
+  border: 1px solid #00c3ff !important;
+  padding: 0 15px;
+  font-size: 39px;
+  border-radius: 50%;
+  position: absolute;
+  right: 40%;
+  margin-top: 50px;
+}
+
+.addStudentPanelMain .addStudentPanelGradesContentButton button:hover {
+    background-color: black;
+    -webkit-box-shadow: inset 0px 0px 15px 2px #00c3ff ,  0px 0px 15px 3px #00c3ff;
+    -moz-box-shadow: inset 0px 0px 15px 2px #00c3ff ,  0px 0px 15px 3px #00c3ff;
+    box-shadow: inset 0px 0px 15px 2px #00c3ff ,  0px 0px 15px 3px #00c3ff;
+    color: black;
+    border: 1px solid white !important;
+}
+
 .addStudentPanelMain .addStudentPanelSummary table.summary {
     width: 100%;
-    margin-left: 30px
+    margin-left: 30px;
 }
 
 .addStudentPanelMain .addStudentPanelSummary table.summary td {
@@ -338,9 +680,12 @@ export default {
     width: 100px;
 }
 
-
-
-
+.addStudentPanelMain .addStudentPanelButtons button{
+  font-size: 16px;
+  height: 50px;
+  margin-top: 10px;
+  margin-left: 30px;
+}
 
 
 </style>

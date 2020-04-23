@@ -1,7 +1,7 @@
-<template lang="html">
- <div>
-
- </div>
+<template>
+<div>
+  
+</div>
 </template>
 
 <script>
