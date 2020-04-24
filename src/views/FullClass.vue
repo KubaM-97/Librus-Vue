@@ -1,6 +1,7 @@
 <template>
 
 <div class="fullClass">
+
     <div class="tableColorsLegend">
 
         <div class="tableColorsLegendTitle">
@@ -66,7 +67,7 @@
         </tbody>
 
     </table>
-    <!-- {{showTooltip()}} -->
+
 </div>
 </template>
 
@@ -78,6 +79,8 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 
+// import Student from './Student.vue'
+
 export default {
    name: 'fullClass',
    data(){
@@ -86,6 +89,7 @@ export default {
            students:{},
        }
    },
+   // components:{Student},
    created(){
        const url = 'http://localhost:8080/static/students.json';
        axios.get(url)

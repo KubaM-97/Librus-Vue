@@ -74,7 +74,6 @@
             </div>
 
         </div>
-
 </div>
 </template>
 
@@ -97,17 +96,15 @@ export default {
     .then((response) => {
       this.student = response.data.students.filter(
         data => data.id == this.$route.params.id)[0];
-    });
-
+    });alert(12)
+    this.gradeWeightColor();
   },
   updated(){
-    //colors grades
+    alert(12)
     this.gradeWeightColor();
-
-    //show tooltip after hovering on every grade
-    // this.showTooltip();
   },
   methods:{
+
     //wraps grades in div, it needs an array with one student's grades
     wrapMyGradesIntoDiv(anotherStudentGradesArray) {
 
@@ -119,10 +116,10 @@ export default {
             this.wrappedGrades += `<div class="gradeWeightColor">${anotherStudentGradesArray[j]}</div>`
         }
 
+        this.gradeWeightColor();
         this.gradeInDiv = "";
         return this.gradeInDiv = this.wrappedGrades;
     },
-
 
     //colors grades
     gradeWeightColor: function() {
@@ -139,110 +136,111 @@ export default {
 //         const weightSuperArrayFlatted = weightSuperArray.flat(1);
 
         //adds new classes to divs with grades, what causes coloring them on green, yellow or red
-        const allDivsWithGrades = document.querySelectorAll("div");
+        const allDivsWithGrades = document.querySelectorAll("div.editStudentPanel");
 
         console.log(this.$route.params.weights)
-        console.log(allDivsWithGrades.length);
+        // console.log(allDivsWithGrades.length);
         console.log(allDivsWithGrades);
 
-        for (let i = 0; i < allDivsWithGrades.length; i++) {
-            if (this.$route.params.weights[i] == 1) {
-                allDivsWithGrades[i].classList.add("gradeWeightGreen")
-            } else if (this.$route.params.weights[i] == 2) {
-                allDivsWithGrades[i].classList.add("gradeWeightYellow")
-            } else if (this.$route.params.weights[i] == 3) {
-                allDivsWithGrades[i].classList.add("gradeWeightRed")
-            }
-        }
+        // for (let i = 0; i < allDivsWithGrades.length; i++) {
+        //     if (this.$route.params.weights[i] == 1) {
+        //         allDivsWithGrades[i].classList.add("gradeWeightGreen")
+        //     } else if (this.$route.params.weights[i] == 2) {
+        //         allDivsWithGrades[i].classList.add("gradeWeightYellow")
+        //     } else if (this.$route.params.weights[i] == 3) {
+        //         allDivsWithGrades[i].classList.add("gradeWeightRed")
+        //     }
+        // }
 
 
     },
 
-//
-//     //show tooltip after hovering on every grade
-//     showTooltip: function() {
-//
-//         const gradeInDiv = document.querySelectorAll("tbody .gradeWeightColor");
-//
-//         const gradesSuperArray = [];
-//         const weightSuperArray = [];
-//         const descriptionSuperArray = [];
-//         const dateSuperArray = [];
-//
-//
-//
-//         for (let i = 0; i < this.students.length; i++) {
-//             for (let j = 0; j < this.students[i].grades.length; j++) {
-//                 gradesSuperArray.push(this.students[i].grades[j]);
-//                 weightSuperArray.push(this.students[i].weights[j]);
-//                 descriptionSuperArray.push(this.students[i].description[j]);
-//                 dateSuperArray.push(this.students[i].date[j]);
-//             }
-//         }
-//         // if (this.add.grades !== '') {
-//         //     this.whatsTheDatePlease();
-//         //     //                        for (let i = 0; i < this.add.grades.length;) {
-//         //     gradesSuperArray.push(this.add.grades);
-//         //     weightSuperArray.push(this.add.weight);
-//         //     descriptionSuperArray.push(this.add.description);
-//         //     // dateSuperArray.push(dateArray);
-//         //     console.log(dateSuperArray);
-//         //     //                        }
-//         // }
-//
-//         for (let i = 0; i < gradeInDiv.length; i++) {
-//
-//             //draws tooltip after hovering
-//             gradeInDiv[i].addEventListener("mouseenter", function() {
-//                 this.canvas(gradesSuperArray, weightSuperArray, descriptionSuperArray, dateSuperArray, gradeInDiv[i], i)
-//             }.bind(this), false);
-//
-//
-//             //destroyes tooltip after leaving
-//             gradeInDiv[i].addEventListener("mouseleave", function() {
-//                 const canv = document.querySelector("canvas");
-//                 canv.parentNode.removeChild(canv);
-//             });
-//
-//         }
-//     },
-//
-//     //draws tooltip
-//     canvas: function(arrayWithAllGrades, arrayWithAllWeights, arrayWithAllDescriptions, arrayWithAllDates, anotherGradeWeightColorDiv, i) {
-//
-//
-//         const canvas = document.createElement("CANVAS");
-//         anotherGradeWeightColorDiv.appendChild(canvas);
-//
-//         const canv = document.querySelector("canvas");
-//         const ctx = canv.getContext("2d");
-//
-//         canvas.style['z-index'] = 2;
-//         canvas.style.position = 'absolute';
-//         canvas.style.padding = 0;
-//         canvas.style.border = 0;
-//
-//         ctx.beginPath();
-//         ctx.moveTo(0, 10);
-//         ctx.lineTo(25, 15);
-//         ctx.lineTo(255, 15);
-//         ctx.lineTo(255, 135);
-//         ctx.lineTo(25, 135);
-//         ctx.lineTo(25, 40);
-//         ctx.lineTo(0, 10);
-//         ctx.stroke();
-//         ctx.fillStyle = "#ffeab0";
-//         ctx.fill();
-//         ctx.fillStyle = "black";
-//         ctx.font = "bold 15px Arial";
-//
-//         ctx.fillText(`Ocena: ${arrayWithAllGrades[i]}`, 40, 50);
-//         ctx.fillText(`Waga: ${arrayWithAllWeights[i] } `, 40, 70);
-//         ctx.fillText(`Opis: ${arrayWithAllDescriptions[i]}`, 40, 90);
-//         ctx.fillText(`Data: ${arrayWithAllDates[i]}`, 40, 110);
-//
-//     },
-//
+
+    // //show tooltip after hovering on every grade
+    // showTooltip: function() {
+    //
+    //     const gradeInDiv = document.querySelectorAll("div");
+    //     console.log(gradeInDiv);
+    //     const gradesSuperArray = [];
+    //     const weightSuperArray = [];
+    //     const descriptionSuperArray = [];
+    //     const dateSuperArray = [];
+    //
+    //
+    //
+    //     for (let i = 0; i < this.students.length; i++) {
+    //         for (let j = 0; j < this.students[i].grades.length; j++) {
+    //             gradesSuperArray.push(this.students[i].grades[j]);
+    //             weightSuperArray.push(this.students[i].weights[j]);
+    //             descriptionSuperArray.push(this.students[i].description[j]);
+    //             dateSuperArray.push(this.students[i].date[j]);
+    //         }
+    //     }
+    //     // if (this.add.grades !== '') {
+    //     //     this.whatsTheDatePlease();
+    //     //     //                        for (let i = 0; i < this.add.grades.length;) {
+    //     //     gradesSuperArray.push(this.add.grades);
+    //     //     weightSuperArray.push(this.add.weight);
+    //     //     descriptionSuperArray.push(this.add.description);
+    //     //     // dateSuperArray.push(dateArray);
+    //     //     console.log(dateSuperArray);
+    //     //     //                        }
+    //     // }
+    //
+    //     for (let i = 0; i < gradeInDiv.length; i++) {
+    //
+    //         //draws tooltip after hovering
+    //         gradeInDiv[i].addEventListener("mouseenter", function() {
+    //             this.canvas(gradesSuperArray, weightSuperArray, descriptionSuperArray, dateSuperArray, gradeInDiv[i], i)
+    //         }.bind(this), false);
+    //
+    //
+    //         //destroyes tooltip after leaving
+    //         gradeInDiv[i].addEventListener("mouseleave", function() {
+    //             const canv = document.querySelector("canvas");
+    //             canv.parentNode.removeChild(canv);
+    //         });
+    //
+    //     }
+    // },
+    //
+    // //draws tooltip
+    // canvas: function(arrayWithAllGrades, arrayWithAllWeights, arrayWithAllDescriptions, arrayWithAllDates, anotherGradeWeightColorDiv, i) {
+    //
+    //
+    //     const canvas = document.createElement("CANVAS");
+    //     anotherGradeWeightColorDiv.appendChild(canvas);
+    //
+    //     const canv = document.querySelector("canvas");
+    //     const ctx = canv.getContext("2d");
+    //
+    //     canvas.style['z-index'] = 2;
+    //     canvas.style.position = 'absolute';
+    //     canvas.style.padding = 0;
+    //     canvas.style.border = 0;
+    //
+    //     ctx.beginPath();
+    //     ctx.moveTo(0, 10);
+    //     ctx.lineTo(25, 15);
+    //     ctx.lineTo(255, 15);
+    //     ctx.lineTo(255, 135);
+    //     ctx.lineTo(25, 135);
+    //     ctx.lineTo(25, 40);
+    //     ctx.lineTo(0, 10);
+    //     ctx.stroke();
+    //     ctx.fillStyle = "#ffeab0";
+    //     ctx.fill();
+    //     ctx.fillStyle = "black";
+    //     ctx.font = "bold 15px Arial";
+    //
+    //     ctx.fillText(`Ocena: ${arrayWithAllGrades[i]}`, 40, 50);
+    //     ctx.fillText(`Waga: ${arrayWithAllWeights[i] } `, 40, 70);
+    //     ctx.fillText(`Opis: ${arrayWithAllDescriptions[i]}`, 40, 90);
+    //     ctx.fillText(`Data: ${arrayWithAllDates[i]}`, 40, 110);
+    //
+    // },
+    //
+
     //returns grades' average
     avg: function(gradesSmallArray, weightSmallArray) {
 

@@ -1,5 +1,201 @@
 <template>
 <div class="addStudentPanel">
+        <div class="container">
+          <div class="addStudentPanelMain">
+             <div class="row">
+
+               <div class="col-md-5">
+
+                 <div class="addStudentPanelName">
+
+                     <label for="name">*Imię i Nazwisko:
+                         <span class="nameTooltip">
+                             Podwójne nazwiska przy pomocy myślnika
+                         </span>
+                     </label>
+
+                     <input type="text" v-model="add.name" id="name" maxlength="30">
+
+                     <span class="required"></span>
+
+                       Informacje dodatkowe
+                       <span class="showInfo" @click="additionalInfoSwitcher">Rozwiń</span>
+
+                 </div>
+
+                 <div class="addStudentPanelNameInfo">
+
+                   <div class="info" v-show="info">
+
+
+                     <div class="form-group">
+                       <label for="pesel">PESEL:</label>
+                       <input type="text" id="Pesel" placeholder="PESEL" @keyup="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
+                       <span class="wrongAdditionalInfo" id="wrongPesel"></span>
+                     </div>
+
+                     <div class="form-group">
+
+                       <label>Adres:</label>
+
+                       <input type="text" id="Street" placeholder="ulica" @keyup="validatorData('Street', '^[0-9a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ ]*$', 'Bez znaków specjalnych.')">
+                       <span class="wrongAdditionalInfo" id="wrongStreet"></span>
+
+                       <input type="text" id="HouseNr" placeholder="nr_domu" @keyup="validatorData('HouseNr', '^[0-9]+[a-zA-Z]?(/?[0-9]*[a-zA-Z]?)?$', 'Nr, Nr/Nr, Nr Litera <br /> np. 11 11/13 11A 11A/13B')">
+                       <span class="wrongAdditionalInfo" id="wrongHouseNr"></span>
+
+                       <input type="text" id="FlatNr" placeholder="nr_mieszkania" @keyup="validatorData('FlatNr', '^[0-9]+[a-zA-Z]?$', 'Liczba + ew.litera np.116F')">
+                       <span class="wrongAdditionalInfo" id="wrongFlatNr"></span>
+
+                       <input type="text" id="PostCode" placeholder="kod pocztowy" @blur="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
+                       <span class="wrongAdditionalInfo" id="wrongPostCode"></span>
+
+                       <input type="text" id="City" placeholder="miasto" @keyup="validatorData('City', '^[A-ZĄĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( (- )?[A-ZĄĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)*$', 'Brak Cyfr i znaków specjalnych. <br />')">
+                       <span class="wrongAdditionalInfo" id="wrongCity"></span>
+
+                     </div>
+
+                     <div class="form-group">
+                       <label for="Tel">Telefon:</label>
+                       <input type="text" id="Tel" placeholder="Telefon" @blur="validatorData('Tel', '^([0-9]{7}|[0-9]{9})$', 'Dokładnie 7 lub 9 cyfr.')">
+                       <span class="wrongAdditionalInfo" id="wrongTel"></span>
+                     </div>
+
+                     <div class="form-group">
+                       <label for="Email">Email:</label>
+                       <input type="text" id="Email" placeholder="adres e-mail" @blur="validatorData('Email', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                       <span class="wrongAdditionalInfo" id="wrongEmail"></span>
+                     </div>
+
+                     <div class="parents">
+
+
+                       <div class="mother">
+                         <div class="form-group">
+                           <label>Matka:</label>
+
+                             <input type="text" id="MothersFirstName" placeholder="Imię matki" @keyup="validatorData('MothersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-zząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')"/>
+                             <span class="wrongAdditionalInfo" id="wrongMothersFirstName"></span>
+
+                             <input type="text" id="MothersLastName" placeholder="Nazwisko matki" @keyup="validatorData('MothersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
+                             <span class="wrongAdditionalInfo" id="wrongMothersLastName"></span>
+
+                             <input type="text" id="MothersTelephone" placeholder="numer telefonu matki" @blur="validatorData('MothersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
+                             <span class="wrongAdditionalInfo" id="wrongMothersTelephone"></span>
+
+                             <input type="text" id="MothersEmail" placeholder="email matki" @blur="validatorData('MothersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                             <span class="wrongAdditionalInfo" id="wrongMothersEmail"></span>
+
+
+                         </div>
+                       </div>
+
+                       <div class="father">
+                         <div class="form-group">
+
+                           <label>Ojciec:</label>
+
+                           <input type="text" id="FathersFirstName" placeholder="Imię ojca" @keyup="validatorData('FathersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')"/>
+                           <span class="wrongAdditionalInfo" id="wrongFathersFirstName"></span>
+
+                           <input type="text" id="FathersLastName" placeholder="Nazwisko ojca" @keyup="validatorData('FathersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
+                           <span class="wrongAdditionalInfo" id="wrongFathersLastName"></span>
+
+                           <input type="text" id="FathersTelephone" placeholder="numer telefonu ojca" @blur="validatorData('FathersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
+                           <span class="wrongAdditionalInfo" id="wrongFathersTelephone"></span>
+
+                           <input type="text" id="FathersEmail" placeholder="email ojca" @blur="validatorData('FathersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                           <span class="wrongAdditionalInfo" id="wrongFathersEmail"></span>
+
+                         </div>
+                       </div>
+
+
+                     </div>
+
+                   </div>
+
+                 </div>
+
+               </div>
+
+               <div class="col-md-7">
+                 <div class="addStudentPanelGradesTitle">
+                         <span class="addStudentGradeSubpanelTitle">Dotychczasowe oceny:</span>
+                     </div>
+                 <div class="container">
+                   <div class="row">
+                     <div class="col-md-3">
+                       <div class="addStudentPanelGradesContentSingleGrade">
+
+                           <label for="grades">Ocena:</label>
+
+                           <select v-model.number="add.grades" id="grades">
+                               <option value=""></option>
+                               <option value="1">1</option>
+                               <option value="2">2</option>
+                               <option value="3">3</option>
+                               <option value="4">4</option>
+                               <option value="5">5</option>
+                               <option value="6">6</option>
+                           </select>
+
+                       </div>
+
+                     </div>
+                     <div class="col-md-3">
+                       <div class="addStudentPanelGradesContentSingleWeight">
+
+                           <label for="weight">Waga oceny:</label>
+
+                           <select v-model.number="add.weight" id="weight">
+                               <option value=""></option>
+                               <option value="1">1</option>
+                               <option value="2">2</option>
+                               <option value="3">3</option>
+                           </select>
+
+                       </div>
+
+                     </div>
+                     <div class="col-md-5">
+
+                          <div class="addStudentPanelGradesContentSingleDescription">
+
+                              <span class="descriptionCount">Pozostało: 30 znaków.</span>
+
+                              <label>Opis oceny:
+
+                                  <input type="text" v-model.number="add.description" class="description" maxlength="30">
+
+                              </label>
+
+                          </div>
+
+                     </div>
+                     <div class="col-md-1">
+                       <div class="addStudentPanelGradesContentButton">
+
+                         <button @click="addNewGrade()">
+                                     +
+                         </button>
+
+                       </div>
+
+                     </div>
+                   </div>
+                 </div>
+                
+               </div>
+
+             </div>
+          </div>
+        </div>
+</div>
+</template>
+
+ <!-- <template>
+<div class="addStudentPanel">
 
     <div class="addStudentPanelMain">
 
@@ -27,7 +223,7 @@
 
             <div class="form-group">
               <label for="pesel">PESEL:</label>
-              <input type="text" id="Pesel" placeholder="PESEL" @blur="validatorData('Pesel', '[0-9]{9}', 'Dokładnie 9 cyfr')">
+              <input type="text" id="Pesel" placeholder="PESEL" @keyup="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
               <span class="wrongAdditionalInfo" id="wrongPesel"></span>
             </div>
 
@@ -35,27 +231,33 @@
 
               <label>Adres:</label>
 
-              <input type="text" id="Street" placeholder="ulica" @blur="validatorData('Street', '', '')">
+              <input type="text" id="Street" placeholder="ulica" @keyup="validatorData('Street', '^[0-9a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ ]*$', 'Bez znaków specjalnych.')">
               <span class="wrongAdditionalInfo" id="wrongStreet"></span>
 
-              <input type="text" id="HouseNr" placeholder="nr_domu" @blur="validatorData('HouseNr', '', '')">
+              <input type="text" id="HouseNr" placeholder="nr_domu" @keyup="validatorData('HouseNr', '^[0-9]+[a-zA-Z]?(/?[0-9]*[a-zA-Z]?)?$', 'Nr, Nr/Nr, Nr Litera <br /> np. 11 11/13 11A 11A/13B')">
               <span class="wrongAdditionalInfo" id="wrongHouseNr"></span>
 
-              <input type="text" id="FlatNr" placeholder="nr_mieszkania" @blur="validatorData('FlatNr', '', '')">
+              <input type="text" id="FlatNr" placeholder="nr_mieszkania" @keyup="validatorData('FlatNr', '^[0-9]+[a-zA-Z]?$', 'Liczba + ew.litera np.116F')">
               <span class="wrongAdditionalInfo" id="wrongFlatNr"></span>
 
-              <input type="text" id="PostCode" placeholder="kod pocztowy" @blur="validatorData('PostCode', '/^\\d{2}-\\d{3}$/', '_ _ - _ _ _')">
+              <input type="text" id="PostCode" placeholder="kod pocztowy" @blur="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
               <span class="wrongAdditionalInfo" id="wrongPostCode"></span>
 
-              <input type="text" id="City" placeholder="miasto" @blur="validatorData('City', '', '')">
+              <input type="text" id="City" placeholder="miasto" @keyup="validatorData('City', '^[A-ZĄĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( (- )?[A-ZĄĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)*$', 'Brak Cyfr i znaków specjalnych. <br />')">
               <span class="wrongAdditionalInfo" id="wrongCity"></span>
 
             </div>
 
             <div class="form-group">
               <label for="Tel">Telefon:</label>
-              <input type="text" id="Tel" placeholder="Telefon" @blur="validatorData('Tel', '', 'Dokładnie 7 lub 9 cyfr.')">
+              <input type="text" id="Tel" placeholder="Telefon" @blur="validatorData('Tel', '^([0-9]{7}|[0-9]{9})$', 'Dokładnie 7 lub 9 cyfr.')">
               <span class="wrongAdditionalInfo" id="wrongTel"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="Email">Email:</label>
+              <input type="text" id="Email" placeholder="adres e-mail" @blur="validatorData('Email', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+              <span class="wrongAdditionalInfo" id="wrongEmail"></span>
             </div>
 
             <div class="parents">
@@ -64,20 +266,40 @@
               <div class="mother">
                 <div class="form-group">
                   <label>Matka:</label>
-                  <input type="text" id="mothersFirsName" placeholder="Imię matki" />
-                  <input type="text" id="mothersLastName" placeholder="Nazwisko matki" />
-                  <input type="text" id="mothersTelephone" placeholder="numer telefonu matki">
-                  <input type="text" id="mothersEmail" placeholder="email matki">
+
+                    <input type="text" id="MothersFirstName" placeholder="Imię matki" @keyup="validatorData('MothersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-zząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')"/>
+                    <span class="wrongAdditionalInfo" id="wrongMothersFirstName"></span>
+
+                    <input type="text" id="MothersLastName" placeholder="Nazwisko matki" @keyup="validatorData('MothersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
+                    <span class="wrongAdditionalInfo" id="wrongMothersLastName"></span>
+
+                    <input type="text" id="MothersTelephone" placeholder="numer telefonu matki" @blur="validatorData('MothersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
+                    <span class="wrongAdditionalInfo" id="wrongMothersTelephone"></span>
+
+                    <input type="text" id="MothersEmail" placeholder="email matki" @blur="validatorData('MothersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                    <span class="wrongAdditionalInfo" id="wrongMothersEmail"></span>
+
+
                 </div>
               </div>
 
               <div class="father">
                 <div class="form-group">
+
                   <label>Ojciec:</label>
-                  <input type="text" id="fathersFirsName" placeholder="Imię ojca" />
-                  <input type="text" id="fathersLastName" placeholder="Nazwisko ojca" />
-                  <input type="text" id="fathersTelephone" placeholder="numer telefonu ojca">
-                  <input type="text" id="fathersEmail" placeholder="email ojca">
+
+                  <input type="text" id="FathersFirstName" placeholder="Imię ojca" @keyup="validatorData('FathersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')"/>
+                  <span class="wrongAdditionalInfo" id="wrongFathersFirstName"></span>
+
+                  <input type="text" id="FathersLastName" placeholder="Nazwisko ojca" @keyup="validatorData('FathersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
+                  <span class="wrongAdditionalInfo" id="wrongFathersLastName"></span>
+
+                  <input type="text" id="FathersTelephone" placeholder="numer telefonu ojca" @blur="validatorData('FathersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
+                  <span class="wrongAdditionalInfo" id="wrongFathersTelephone"></span>
+
+                  <input type="text" id="FathersEmail" placeholder="email ojca" @blur="validatorData('FathersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                  <span class="wrongAdditionalInfo" id="wrongFathersEmail"></span>
+
                 </div>
               </div>
 
@@ -172,8 +394,8 @@
                         </td>
 
                         <td>
-                            <!-- <span v-if="add.grades!=='' && add.weight!==''" v-model="add.avg">{{addAvg}}
-                             </span> -->
+                             <span v-if="add.grades!=='' && add.weight!==''" v-model="add.avg">{{addAvg}}
+                             </span>
                         </td>
 
                         <td>
@@ -195,7 +417,7 @@
     </div>
 
 </div>
-</template>
+</template> -->
 
 <script>
 export default {
@@ -218,6 +440,14 @@ export default {
     //converts student's full name to correct form
     //e.g jan kowalski => KOWALSKI Jan
     formatName(name) {
+
+      const wrongName = document.querySelector(".required");
+
+      const reg = new RegExp("^[A-Z]?[a-z]*( [A-Z]?[a-z]*)?$");
+
+      if(reg.test(name) == true){
+
+        wrongName.innerHTML = "";
 
         const array = [];
 
@@ -247,6 +477,10 @@ export default {
         }
         //converts array into string
         return array.reverse().join(" ");
+      }
+      else if(reg.test(name) == false){
+        wrongName.innerHTML = "Bez cyferek i znaków specjalnych."
+      }
     },
 
   },
@@ -270,18 +504,21 @@ export default {
 
       //regular expressions
       validatorData: function(Data, RegularExpression, Format) {
+
         //gets inserted value
         const insertedData = document.querySelector("#"+Data).value;
 
-        const rega = `/${RegularExpression}/`;
-        alert(rega)
-        console.log(insertedData, RegularExpression, rega.test(insertedData))
-        // checks if inserted data is correct
-        if( (insertedData !== '') && (/RegularExpression/.test(insertedData)) ){
+        //gets regular expression
+        const reg = new RegExp(RegularExpression);
 
-        //gets span below served input
         const span = document.querySelector("#wrong"+Data);
-        span.innerHTML = `Podaj prawidłowy format : ${Format}`;
+
+        if((insertedData !== '') && (reg.test(insertedData)==false)){
+          span.innerHTML = `Podaj prawidłowy format :
+          <br /> ${Format}`;
+        }
+        else{
+          span.innerHTML = ``;
         }
 
       },
@@ -456,19 +693,18 @@ export default {
     -webkit-box-shadow: 3px 3px 30px 5px #00c3ff;
     -moz-box-shadow: 3px 3px 30px 5px #00c3ff;
     box-shadow: 3px 3px 30px 5px #00c3ff;
-    filter: blur(0.44px);
     background-color: rgba(0, 0, 0, .55);
     text-align: center;
-    font-size: 14px;
+    font-size: 11px;
 }
 
 .addStudentPanelMain {
     padding: 40px;
-    display: grid;
+    /* display: grid; */
 
     grid-template-columns: [startName]4fr [startGrade]5fr [startButton]1fr;
 
-    grid-template-rows: [startTitle]100px [startName]300px [startNameInfo]auto [startFreeSpace]1fr [startSummary]100px [startButton]100px;
+    grid-template-rows: [startTitle]100px [startName]200px [startNameInfo]auto [startFreeSpace]100px [startFreeSpace]1fr [startSummary]100px [startButton]100px;
 }
 
 .addStudentPanelMain .addStudentPanelName {
@@ -513,21 +749,21 @@ export default {
     display: block;
     margin: auto;
     margin-top: 10px;
-    width: 300px;
-    height: 30px;
-    font-size: 0.52rem;
+    width: 50%;
+    height: 23px;
+    font-size: 0.30rem;
     text-align: center;
-    background-color: #efefef;
+    background-color: black;
     border-radius: 5px;
-    border: 2px solid #ddd;
+    border: .6px solid #ddd;
     box-sizing: border-box;
-    caret-color: #00c3ff;
+    text-shadow: none;
 }
 
 .addStudentPanelMain input:focus {
     border: 2px solid #a5cda5;
-    background-color: #00c3ff;
-    color: black;
+    color: white;
+    /* text-shadow: .2px 0px 1px #00c3ff, -.2px 0px 1px #00c3ff, 0px .2px 1px #00c3ff, 0px -.2px 1px #00c3ff; */
     -webkit-box-shadow: 0px 0px 10px 2px rgba(204, 204, 204, 0.9);
     -moz-box-shadow: 0px 0px 10px 2px rgba(204, 204, 204, 0.9);
     box-shadow: 0px 0px 10px 2px rgba(204, 204, 204, 0.9)
@@ -546,7 +782,7 @@ export default {
 }
 
 .addStudentPanelMain .addStudentPanelName span.nameTooltip {
-    font-size: 12px;
+    font-size: 10px;
     display: block;
 }
 
@@ -563,40 +799,44 @@ export default {
 .addStudentPanelMain .addStudentPanelNameInfo .form-group{
   width: 70%;
   margin: 0 auto;
-  margin-top: 20px;
   display: inline-block;
 }
 
 .addStudentPanelMain .addStudentPanelNameInfo .form-group:first-child{
-  margin-top: 60px;
+  margin-top: 5px;
 }
 
 .addStudentPanelMain .addStudentPanelNameInfo label{
   float: left;
-  font-size: 12px;
+  font-size: 10.5px;
+  padding-left: 25px;
   margin-top: 35px;
 }
 
 .addStudentPanelMain .addStudentPanelNameInfo input{
-  float: right;
-  font-size: 11px;
-  width: 60%;
   display: block;
-  margin-top: 25px;
-  margin-right: 30px;
+  float: right;
+  font-size: 9px;
+  width: 50%;
+  margin-right: 50px;
   background-color: black;
-  border: 1px solid white;
+  border: 0.2px solid white;
   box-shadow: 2px 2px 0px 0px white;
   border-top: none;
   border-left: none;
   border-right: none;
   text-align: left;
-  padding-left: 10px;
+  padding-left: 15px;
   text-shadow: none;
 }
 
 .addStudentPanelMain .addStudentPanelNameInfo span[class^="wrong"]{
-  font-size: 9px; display: block;
+  font-size: 9px;
+  display: block;
+  width: 60%;
+  float: right;
+  margin-right: 30px;
+  margin-top: 11px;
 }
 
 
