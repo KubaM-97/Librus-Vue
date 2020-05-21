@@ -14,28 +14,41 @@
 
             <div class="editStudentPanelNameDetailData">
 
-              <div class="titles">
-                <span class="title">PESEL:</span>
-                <span class="title">Adres:</span>
-                <span class="title">Telefon:</span>
-                <span class="title">Email:</span>
-                <span class="title">Matka:</span>
-                <span class="title">Ojciec:</span>
+              <div class="form-group">
+                  <span class="title">PESEL:</span>
+                  <span class="data">{{$route.params.pesel}}</span>
               </div>
 
-              <div class="data">
-                 <span class="data">123456789</span>
-                 <span class="data">ul.Kowieńska 24 m.10</span>
-                 <span class="data">606584869</span>
-                 <span class="data">jakubm16@interia.pl</span>
-                 <span class="data">KK 111222333 xxx@gmail.com.pl</span>
-                 <span class="data">MM 333222111 yyy@gmail.com.pl</span>
+              <div class="form-group">
+                  <span class="title">Adres:</span>
+                  <span class="data">ul.{{$route.params.street.street_Name}} {{$route.params.street.street_Nr}} m.{{$route.params.street.street_Flat}} <br />{{$route.params.street.street_PostCode}} {{$route.params.street.street_City}}</span>
               </div>
+
+              <div class="form-group">
+                  <span class="title">Telefon:</span>
+                  <span class="data">{{$route.params.phone}}</span>
+              </div>
+
+              <div class="form-group">
+                  <span class="title">Email:</span>
+                  <span class="data">{{$route.params.email}}</span>
+              </div>
+
+              <div class="form-group">
+                  <span class="title">Matka:</span>
+                  <span class="data">{{$route.params.mother.firstName}} {{$route.params.mother.lastName}} <br /> {{$route.params.mother.phone}} <br /> {{$route.params.mother.email}} </span>
+              </div>
+
+              <div class="form-group">
+                  <span class="title">Ojciec:</span>
+                  <span class="data">{{$route.params.father.firstName}} {{$route.params.father.lastName}} <br /> {{$route.params.father.phone}} <br /> {{$route.params.father.email}}</span>
+              </div>
+
 
             </div>
 
             <div class="editStudentPanelNameButtons">
-                <button>Edytuj Dane:</button>
+                <button>Edytuj Dane</button>
             </div>
 
             <div class="editStudentPanelGrades">
@@ -96,11 +109,9 @@ export default {
     .then((response) => {
       this.student = response.data.students.filter(
         data => data.id == this.$route.params.id)[0];
-    });alert(12)
-    this.gradeWeightColor();
+    });
   },
   updated(){
-    alert(12)
     this.gradeWeightColor();
   },
   methods:{
@@ -123,17 +134,6 @@ export default {
 
     //colors grades
     gradeWeightColor: function() {
-
-// console.log(this.$route.params.weights)
-//         //all weights in one array
-//         const weightSuperArray = [];
-//
-//         for (let i = 0; i < this.$route.params.weights.length; i++) {
-//             weightSuperArray.push(this.students[i].weights)
-//         }
-//
-//         //this is a super big array with every single weight
-//         const weightSuperArrayFlatted = weightSuperArray.flat(1);
 
         //adds new classes to divs with grades, what causes coloring them on green, yellow or red
         const allDivsWithGrades = document.querySelectorAll("div.editStudentPanel");
@@ -279,14 +279,16 @@ export default {
 
 
 .editStudentPanel {
-    font-size: 0.67rem;
-    background-color: black;
+    width: 90%;
+    max-width: 1400px;
+    margin: 100px auto;
     -webkit-box-shadow: 3px 3px 30px 5px #00c3ff;
     -moz-box-shadow: 3px 3px 30px 5px #00c3ff;
     box-shadow: 3px 3px 30px 5px #00c3ff;
-    width: 95%;
-    margin: 50px auto;
+    background-color: rgba(0, 0, 0, .55);
     text-align: center;
+
+    font-size: 15px;
 }
 
 .editStudentPanelMain{
@@ -304,7 +306,6 @@ div[class^="editStudentPanelName"] {
 
 .editStudentPanelName {
     grid-row: startTitle / startStudentData;
-    font-size: 18px;
 }
 
 .editStudentPanelNameStudent {
@@ -317,14 +318,13 @@ div[class^="editStudentPanelName"] {
 
 .editStudentPanelNameButtons {
     grid-row: startStudentDetailDataButton;
-    text-align: left;
     margin-left: 10px;
+    text-align: center;
 }
 
 
 div[class^="editStudentPanelGrades"] {
     grid-column: startGrades / startAvg;
-    font-size: 18px;
 }
 
 .editStudentPanelGrades {
@@ -333,7 +333,6 @@ div[class^="editStudentPanelGrades"] {
 
 .editStudentPanelGradesStudent {
     grid-row: startStudentData / startStudentDetailData;
-    font-size: 18px;
 }
 
 .editStudentPanelGradesButtons{
@@ -347,7 +346,6 @@ div[class^="editStudentPanelAvg"] {
 
 .editStudentPanelAvg {
     grid-row: startTitle / startStudentData;
-    font-size: 18px;
 }
 
 .editStudentPanelAvgAvg {
@@ -361,7 +359,6 @@ div[class^="editStudentPanelThreatness"] {
 
 .editStudentPanelThreatness {
     grid-row: startTitle / startStudentData;
-    font-size: 18px;
 }
 
 .editStudentPanelThreatnessThreatness {
@@ -369,115 +366,46 @@ div[class^="editStudentPanelThreatness"] {
 }
 
 
-.editStudentPanelNameDetailData {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr 2fr 2fr;
+
+.editStudentPanelNameDetailData{
+  margin: 20px 0;
+  font-size: 15px;
+  float: left;
 }
 
-.editStudentPanelNameDetailData div.titles {
-  display: grid;
-  grid-column: 1 / 2;
-  grid-row: 1 / 6;
-}
-.editStudentPanelNameDetailData div.titles span.title:nth-child(1){
-  grid-column: 1 / 2;
-  grid-row: 1 / 2;
+.editStudentPanelNameDetailData .form-group{
   display: block;
-  width: 100%;
-
-}
-.editStudentPanelNameDetailData div.titles span.title:nth-child(2){
-  grid-column: 1 / 2;
-  grid-row: 2 / 3;
-  display: block;
-  width: 100%;
-
-}
-.editStudentPanelNameDetailData div.titles span.title:nth-child(3){
-  grid-column: 1 / 2;
-  grid-row: 3 / 4;
-  display: block;
-  width: 100%;
-
-}
-.editStudentPanelNameDetailData div.titles span.title:nth-child(4){
-  grid-column: 1 / 2;
-  grid-row: 4 / 5;
-  display: block;
-  width: 100%;
-
-}
-.editStudentPanelNameDetailData div.titles span.title:nth-child(5){
-  grid-column: 1 / 2;
-  grid-row: 5 / 6;
-  display: block;
-  width: 100%;
-
-}
-.editStudentPanelNameDetailData div.titles span.title:nth-child(6){
-  grid-column: 1 / 2;
-  grid-row: 6 / span 1;
-  display: block;
-  width: 100%;
-
+  margin: auto;
+  margin-bottom: 25px;
+  padding-left: 45px;
+  font-size: 12px;
 }
 
-.editStudentPanelNameDetailData div.data {
-  display: grid;
-  grid-column: 2;
-  grid-row: 1 / 6;
+.editStudentPanelNameDetailData .form-group span.title{
+  float: left;
+  display: inline-block;
+  width: 30%;
+  text-align: left;
 }
-.editStudentPanelNameDetailData div.data span.data:nth-child(1){
-  grid-column: 2;
-  grid-row: 1 / span 1;
-  display: block;
-  width: 100%;
 
+.editStudentPanelNameDetailData .form-group span.data{
+  text-align: left;
+  display: inline-block;
+  width: 60%;
 }
-.editStudentPanelNameDetailData div.data span.data:nth-child(2){
-  grid-column: 2;
-  grid-row: 2 / span 1;
-  display: block;
-  width: 100%;
 
-}
-.editStudentPanelNameDetailData div.data span.data:nth-child(3){
-  grid-column: 2;
-  grid-row: 3 / span 1;
-  display: block;
-  width: 100%;
-
-}
-.editStudentPanelNameDetailData div.data span.data:nth-child(4){
-  grid-column: 2;
-  grid-row: 4 / span 1;
-  display: block;
-  width: 100%;
-
-}
-.editStudentPanelNameDetailData div.data span.data:nth-child(5){
-  grid-column: 2;
-  grid-row: 5 / span 1;
-  display: block;
-  width: 100%;
-
-}
-.editStudentPanelNameDetailData div.data span.data:nth-child(6){
-  grid-column: 2;
-  grid-row: 6 / span 1;
-  display: block;
-  width: 100%;
-
-}
 
 .editStudentPanelMain button{
     background-color: blueviolet;
+    display: inline-block;
+    font-size: 14px;
     color: #fff;
     border-radius: 4px;
-    padding: 11px 15px;
-    text-shadow: 2px 2px 1px violet;
+    padding: 6px 11px;
+    text-shadow: 1px 1px 1px violet;
+    margin: 0 15px;
 }
+
 .editStudentPanelGradesButtons button.add{
   background-color: green;
 }

@@ -6,7 +6,7 @@ import FullClass from '../views/FullClass.vue'
 import Student from '../views/Student.vue'
 import EditStudent from '../views/EditStudent.vue'
 import AddStudent from '../views/AddStudent.vue'
-import MainLogPanel from '../views/MainLogPanel.vue'
+import LoggedOut from '../views/LoggedOut.vue'
 import Error404 from '../views/Error404.vue'
 Vue.use(Router)
 
@@ -44,9 +44,9 @@ export default new Router({
       component: AddStudent,
       props: true
     },{
-      path: '/MainLogPanel',
-      name: 'MainLogPanel',
-      component: MainLogPanel,
+      path: '/LoggedOut',
+      name: 'LoggedOut',
+      component: LoggedOut,
       props: true
     },
     {

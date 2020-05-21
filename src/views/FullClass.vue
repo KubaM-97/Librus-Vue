@@ -55,7 +55,13 @@
                     lastName: student.lastName,
                     firstName: student.firstName,
                     grades: student.grades,
-                    weights: student.weights
+                    weights: student.weights,
+                    pesel: student.pesel,
+                    street: student.street,
+                    phone: student.phone,
+                    email: student.email,
+                    mother: student.mother,
+                    father: student.father
                    }
                   }">
                 <td></td>
@@ -241,7 +247,7 @@ export default {
             ctx.fillStyle = "#ffeab0";
             ctx.fill();
             ctx.fillStyle = "black";
-            ctx.font = "bold 15px Arial";
+            ctx.font = "bold 14px Arial";
 
             ctx.fillText(`Ocena: ${arrayWithAllGrades[i]}`, 40, 50);
             ctx.fillText(`Waga: ${arrayWithAllWeights[i] } `, 40, 70);
@@ -332,30 +338,40 @@ export default {
 
 <style scoped>
 
+
 .fullClass {
+    width: 90%;
+    max-width: 1400px;
+    margin: 100px auto;
+    -webkit-box-shadow: 3px 3px 30px 5px #00c3ff;
+    -moz-box-shadow: 3px 3px 30px 5px #00c3ff;
+    box-shadow: 3px 3px 30px 5px #00c3ff;
+    background-color: rgba(0, 0, 0, .55);
     text-align: center;
-    margin: auto;
+
+    font-size: 17px;
+    padding: 50px 0
 }
 
 .tableColorsLegend .tableColorsLegendTitle {
-    font-size: 20px;
-    margin: 20px 0;
+    font-size: 15.5px;
+    margin: 30px 0;
 }
 
 .tableColorsLegend .tableColorsLegendContent .tableColorsLegendSingleContent {
     display: inline-block;
     margin-left: 10px;
     margin-right: 40px;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .tableColorsLegend .tableColorsLegendContent .tableColorsLegendSingleContent * {
-    vertical-align: text-bottom;
+    vertical-align: bottom;
 }
 
 table {
-    margin: 50px auto;
-    font-size: 0.67rem;
+  width:90%;
+  margin: 50px auto;
 }
 
 table.students * {
@@ -366,11 +382,11 @@ table.students * {
 
 table.students thead th:first-child,
 table.students td {
-    padding: 15px;
+    padding: 12px 15px;
 }
 
 table.students tr {
-    height: 82px;
+    height: 77px;
 }
 
 table.students tbody tr:hover {

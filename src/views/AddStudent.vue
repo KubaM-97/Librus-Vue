@@ -1,36 +1,42 @@
 <template>
 <div class="addStudentPanel">
-        <div class="container">
-          <div class="addStudentPanelMain">
-             <div class="row">
 
-               <div class="col-md-5">
+    <div class="addStudentPanelMain">
 
-                 <div class="addStudentPanelName">
+      <div class="container">
 
-                     <label for="name">*Imię i Nazwisko:
-                         <span class="nameTooltip">
-                             Podwójne nazwiska przy pomocy myślnika
-                         </span>
-                     </label>
+          <div class="row">
 
-                     <input type="text" v-model="add.name" id="name" maxlength="30">
+             <div class="col-md-4">
 
-                     <span class="required"></span>
+               <div class="addStudentPanelName">
 
-                       Informacje dodatkowe
-                       <span class="showInfo" @click="additionalInfoSwitcher">Rozwiń</span>
+                   <label for="name">*Imię i Nazwisko:
+                       <span class="nameTooltip">
+                           Podwójne nazwiska przy pomocy myślnika
+                       </span>
+                   </label>
 
-                 </div>
+                   <input type="text" v-model="add.name" id="name" maxlength="30">
 
-                 <div class="addStudentPanelNameInfo">
+                   <transition name="slide-fade">
+                      <span class="required"></span>
+                   </transition>
 
-                   <div class="info" v-show="info">
+                     Informacje dodatkowe
+                     <span class="showInfo" @click="additionalInfoSwitcher">Rozwiń</span>
 
+               </div>
+
+               <div class="addStudentPanelNameInfo">
+
+                  <transition name="slide-fade">
+
+                    <div class="info" v-show="info">
 
                      <div class="form-group">
                        <label for="pesel">PESEL:</label>
-                       <input type="text" id="Pesel" placeholder="PESEL" @keyup="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
+                       <input type="text" id="Pesel" placeholder="PESEL" @keyup="validatorData('Pesel', '^[0-9]{11}$', 'Dokładnie 9 cyfr')">
                        <span class="wrongAdditionalInfo" id="wrongPesel"></span>
                      </div>
 
@@ -62,13 +68,14 @@
                      </div>
 
                      <div class="form-group">
+
                        <label for="Email">Email:</label>
                        <input type="text" id="Email" placeholder="adres e-mail" @blur="validatorData('Email', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
                        <span class="wrongAdditionalInfo" id="wrongEmail"></span>
+
                      </div>
 
                      <div class="parents">
-
 
                        <div class="mother">
                          <div class="form-group">
@@ -110,314 +117,172 @@
                          </div>
                        </div>
 
-
                      </div>
 
                    </div>
 
-                 </div>
+                  </transition>
 
-               </div>
-
-               <div class="col-md-7">
-                 <div class="addStudentPanelGradesTitle">
-                         <span class="addStudentGradeSubpanelTitle">Dotychczasowe oceny:</span>
-                     </div>
-                 <div class="container">
-                   <div class="row">
-                     <div class="col-md-3">
-                       <div class="addStudentPanelGradesContentSingleGrade">
-
-                           <label for="grades">Ocena:</label>
-
-                           <select v-model.number="add.grades" id="grades">
-                               <option value=""></option>
-                               <option value="1">1</option>
-                               <option value="2">2</option>
-                               <option value="3">3</option>
-                               <option value="4">4</option>
-                               <option value="5">5</option>
-                               <option value="6">6</option>
-                           </select>
-
-                       </div>
-
-                     </div>
-                     <div class="col-md-3">
-                       <div class="addStudentPanelGradesContentSingleWeight">
-
-                           <label for="weight">Waga oceny:</label>
-
-                           <select v-model.number="add.weight" id="weight">
-                               <option value=""></option>
-                               <option value="1">1</option>
-                               <option value="2">2</option>
-                               <option value="3">3</option>
-                           </select>
-
-                       </div>
-
-                     </div>
-                     <div class="col-md-5">
-
-                          <div class="addStudentPanelGradesContentSingleDescription">
-
-                              <span class="descriptionCount">Pozostało: 30 znaków.</span>
-
-                              <label>Opis oceny:
-
-                                  <input type="text" v-model.number="add.description" class="description" maxlength="30">
-
-                              </label>
-
-                          </div>
-
-                     </div>
-                     <div class="col-md-1">
-                       <div class="addStudentPanelGradesContentButton">
-
-                         <button @click="addNewGrade()">
-                                     +
-                         </button>
-
-                       </div>
-
-                     </div>
-                   </div>
-                 </div>
-                
                </div>
 
              </div>
-          </div>
-        </div>
-</div>
-</template>
 
- <!-- <template>
-<div class="addStudentPanel">
+             <div class="col-md-8">
 
-    <div class="addStudentPanelMain">
+               <div class="addStudentPanelGradesTitle">
+                    <span class="addStudentGradeSubpanelTitle">Dotychczasowe oceny:</span>
+               </div>
 
-        <div class="addStudentPanelName">
+               <div class="addStudentPanelGradesContent">
 
-            <label for="name">*Imię i Nazwisko:
-                <span class="nameTooltip">
-                    Podwójne nazwiska przy pomocy myślnika
-                </span>
-            </label>
+                 <div class="addStudentPanelGradesContentSingle">
 
-            <input type="text" v-model="add.name" id="name" maxlength="30">
+                      <div class="container">
+                         <div class="row">
+                           <div class="col-md-3">
+                             <div class="addStudentPanelGradesContentSingleGrade">
 
-            <span class="required"></span>
+                                 <label for="grades">Ocena:</label>
 
-              Informacje dodatkowe
-              <span class="showInfo" @click="additionalInfoSwitcher">Rozwiń</span>
+                                 <div class="select">
 
-        </div>
+                                   <select v-model.number="add.grades" id="grades">
+                                       <option value=""></option>
+                                       <option value="1">1</option>
+                                       <option value="2">2</option>
+                                       <option value="3">3</option>
+                                       <option value="4">4</option>
+                                       <option value="5">5</option>
+                                       <option value="6">6</option>
+                                   </select>
 
-        <div class="addStudentPanelNameInfo">
+                                </div>
 
-          <div class="info" v-show="info">
+                             </div>
+                           </div>
 
+                           <div class="col-md-3">
+                             <div class="addStudentPanelGradesContentSingleWeight">
 
-            <div class="form-group">
-              <label for="pesel">PESEL:</label>
-              <input type="text" id="Pesel" placeholder="PESEL" @keyup="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
-              <span class="wrongAdditionalInfo" id="wrongPesel"></span>
-            </div>
+                                 <label for="weight">Waga oceny:</label>
 
-            <div class="form-group">
+                                 <div class="select">
+                                     <select v-model.number="add.weights" id="weight">
+                                         <option value=""></option>
+                                         <option value="1">1</option>
+                                         <option value="2">2</option>
+                                         <option value="3">3</option>
+                                     </select>
+                                 </div>
 
-              <label>Adres:</label>
+                             </div>
+                           </div>
+                           <div class="col-md-5">
 
-              <input type="text" id="Street" placeholder="ulica" @keyup="validatorData('Street', '^[0-9a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ ]*$', 'Bez znaków specjalnych.')">
-              <span class="wrongAdditionalInfo" id="wrongStreet"></span>
+                            <div class="addStudentPanelGradesContentSingleDescription">
 
-              <input type="text" id="HouseNr" placeholder="nr_domu" @keyup="validatorData('HouseNr', '^[0-9]+[a-zA-Z]?(/?[0-9]*[a-zA-Z]?)?$', 'Nr, Nr/Nr, Nr Litera <br /> np. 11 11/13 11A 11A/13B')">
-              <span class="wrongAdditionalInfo" id="wrongHouseNr"></span>
+                                <span class="descriptionCount">Pozostało: 30 znaków.</span>
 
-              <input type="text" id="FlatNr" placeholder="nr_mieszkania" @keyup="validatorData('FlatNr', '^[0-9]+[a-zA-Z]?$', 'Liczba + ew.litera np.116F')">
-              <span class="wrongAdditionalInfo" id="wrongFlatNr"></span>
+                                <label>Opis oceny:
 
-              <input type="text" id="PostCode" placeholder="kod pocztowy" @blur="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
-              <span class="wrongAdditionalInfo" id="wrongPostCode"></span>
+                                    <input type="text" v-model.number="add.description" class="description" maxlength="30">
 
-              <input type="text" id="City" placeholder="miasto" @keyup="validatorData('City', '^[A-ZĄĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( (- )?[A-ZĄĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)*$', 'Brak Cyfr i znaków specjalnych. <br />')">
-              <span class="wrongAdditionalInfo" id="wrongCity"></span>
+                                </label>
 
-            </div>
+                            </div>
 
-            <div class="form-group">
-              <label for="Tel">Telefon:</label>
-              <input type="text" id="Tel" placeholder="Telefon" @blur="validatorData('Tel', '^([0-9]{7}|[0-9]{9})$', 'Dokładnie 7 lub 9 cyfr.')">
-              <span class="wrongAdditionalInfo" id="wrongTel"></span>
-            </div>
+                         </div>
+                         </div>
+                      </div>
 
-            <div class="form-group">
-              <label for="Email">Email:</label>
-              <input type="text" id="Email" placeholder="adres e-mail" @blur="validatorData('Email', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
-              <span class="wrongAdditionalInfo" id="wrongEmail"></span>
-            </div>
+                 </div>
 
-            <div class="parents">
+                 <div class="addStudentPanelGradesContentButton">
 
+                   <button @click="addNewGrade()">
+                               +
+                   </button>
 
-              <div class="mother">
-                <div class="form-group">
-                  <label>Matka:</label>
+                 </div>
 
-                    <input type="text" id="MothersFirstName" placeholder="Imię matki" @keyup="validatorData('MothersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-zząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')"/>
-                    <span class="wrongAdditionalInfo" id="wrongMothersFirstName"></span>
+               </div>
 
-                    <input type="text" id="MothersLastName" placeholder="Nazwisko matki" @keyup="validatorData('MothersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
-                    <span class="wrongAdditionalInfo" id="wrongMothersLastName"></span>
-
-                    <input type="text" id="MothersTelephone" placeholder="numer telefonu matki" @blur="validatorData('MothersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
-                    <span class="wrongAdditionalInfo" id="wrongMothersTelephone"></span>
-
-                    <input type="text" id="MothersEmail" placeholder="email matki" @blur="validatorData('MothersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
-                    <span class="wrongAdditionalInfo" id="wrongMothersEmail"></span>
-
-
-                </div>
-              </div>
-
-              <div class="father">
-                <div class="form-group">
-
-                  <label>Ojciec:</label>
-
-                  <input type="text" id="FathersFirstName" placeholder="Imię ojca" @keyup="validatorData('FathersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')"/>
-                  <span class="wrongAdditionalInfo" id="wrongFathersFirstName"></span>
-
-                  <input type="text" id="FathersLastName" placeholder="Nazwisko ojca" @keyup="validatorData('FathersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
-                  <span class="wrongAdditionalInfo" id="wrongFathersLastName"></span>
-
-                  <input type="text" id="FathersTelephone" placeholder="numer telefonu ojca" @blur="validatorData('FathersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
-                  <span class="wrongAdditionalInfo" id="wrongFathersTelephone"></span>
-
-                  <input type="text" id="FathersEmail" placeholder="email ojca" @blur="validatorData('FathersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
-                  <span class="wrongAdditionalInfo" id="wrongFathersEmail"></span>
-
-                </div>
-              </div>
-
-
-            </div>
+             </div>
 
           </div>
 
-        </div>
+          <div class="row">
 
-        <div class="addStudentPanelGradesTitle">
-                <span class="addStudentGradeSubpanelTitle">Dotychczasowe oceny:</span>
-            </div>
+            <div class="addStudentPanelSummary">
 
-        <div class="addStudentPanelGradesContent">
+              <table>
 
-                <div class="addStudentPanelGradesContentSingle">
+                        <tr>
+                            <td>
+                              <span v-if="add.name!==''">{{add.name | formatName}}</span>
+                            </td>
 
-                    <div class="addStudentPanelGradesContentSingleGrade">
+                            <td>
+                                <span v-if="add.grades!=='' && add.weights===''">
+                                    <div class="gradeWeightColor">
+                                        {{add.grades}}
+                                    </div>
+                                </span>
 
-                        <label for="grades">Ocena:</label>
+                                <span v-else-if="add.grades!=='' && add.weights===1">
+                                    <div class="gradeWeightColor gradeWeightGreen"> {{add.grades}}
+                                    </div>
+                                </span>
 
-                        <select v-model.number="add.grades" id="grades">
-                            <option value=""></option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                        </select>
+                                <span v-else-if="add.grades!=='' && add.weights===2">
+                                    <div class="gradeWeightColor gradeWeightYellow"> {{add.grades}}
+                                    </div>
+                                </span>
 
-                    </div>
+                                <span v-else-if="add.grades!=='' && add.weights===3">
+                                    <div class="gradeWeightColor gradeWeightRed"> {{add.grades}}
+                                    </div>
+                                </span>
+                            </td>
 
-                    <div class="addStudentPanelGradesContentSingleWeight">
+                            <td>
+                                <span v-if="add.grades!=='' && add.weight!==''">{{addAvg}}
+                                </span>
+                            </td>
 
-                        <label for="weight">Waga oceny:</label>
+                            <td>
+                                <span v-if="add.avg!==''" class="fire">
+                                    {{addThreatness}}
+                                </span>
+                            </td>
+                        </tr>
 
-                        <select v-model.number="add.weight" id="weight">
-                            <option value=""></option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
-
-                    </div>
-
-                    <div class="addStudentPanelGradesContentSingleDescription">
-
-                        <span class="descriptionCount">Pozostało: 30 znaków.</span>
-
-                        <label>Opis oceny:
-
-                            <input type="text" v-model.number="add.description" class="description" maxlength="30">
-
-                        </label>
-
-                    </div>
-
-                </div>
+              </table>
 
             </div>
 
-        <div class="addStudentPanelGradesContentButton">
+          </div>
 
-          <button @click="addNewGrade()">
-                      +
-          </button>
+          <div class="row">
 
-        </div>
+            <div class="addStudentPanelButtons">
 
-        <div class="addStudentPanelSummary">
+              <button class="btn btn-danger btn-lg" @click="addStudentCancel()">Anuluj</button>
 
-          <table class="summary">
-                    <tr>
-                        <td><span v-if="add.name!==''">{{add.name | formatName}}</span></td>
+              <button class="btn btn-primary btn-lg" @click="addStudent()">Dodaj ucznia</button>
 
-                        <td>
-                            <span v-if="add.grades!=='' && add.weight===''">
-                                <div class="gradeWeightColor">
-                                    {{add.grades}}
-                                </div></span>
-                            <span v-else-if="add.grades!=='' && add.weight===1">
-                                <div class="gradeWeightColor gradeWeightGreen"> {{add.grades}}
-                                </div></span>
-                            <span v-else-if="add.grades!=='' && add.weight===2">
-                                <div class="gradeWeightColor gradeWeightYellow"> {{add.grades}}
-                                </div></span>
-                            <span v-else-if="add.grades!=='' && add.weight===3">
-                                <div class="gradeWeightColor gradeWeightRed"> {{add.grades}}
-                                </div></span>
-                        </td>
+            </div>
 
-                        <td>
-                             <span v-if="add.grades!=='' && add.weight!==''" v-model="add.avg">{{addAvg}}
-                             </span>
-                        </td>
+          </div>
 
-                        <td>
-                            <span v-if="add.avg!==''" class="fire">
-                                {{addThreatness}}
-                            </span>
-                        </td>
-                    </tr>
-
-            </table>
-
-        </div>
-
-        <div class="addStudentPanelButtons">
-          <button class="btn btn-danger btn-lg" @click="addStudentCancel()">Anuluj</button>
-          <button class="btn btn-primary btn-lg" @click="addStudent()">Dodaj ucznia</button>
-        </div>
+      </div>
 
     </div>
 
 </div>
-</template> -->
+</template>
+
+
 
 <script>
 export default {
@@ -427,7 +292,7 @@ export default {
         add: {
                 name: "",
                 grades: "",
-                weight: "",
+                weights: "",
                 avg: "",
                 description: "",
                 date: "",
@@ -435,6 +300,90 @@ export default {
         info: false
        }
   },
+  mounted() {
+      //creates counter from 30 to 0 characters
+      const description = document.querySelector(".description");
+      const descriptionCount = document.querySelector(".descriptionCount");
+
+      description.addEventListener("input", function() {
+          const textInserted = this.value;
+          const counter = (30 - (textInserted.length));
+          switch (counter) {
+              case 2:
+              case 3:
+              case 4:
+              case 22:
+              case 23:
+              case 24:
+                  descriptionCount.innerHTML = `Pozostały: ${counter} znaki.`;
+                  break;
+              case 1:
+                  descriptionCount.innerHTML = `Pozostał: ${counter} znak.`;
+                  break;
+              default:
+                  descriptionCount.innerHTML = `Pozostało: ${counter} znaków.`;
+
+
+          }
+      });
+
+  },
+  computed: {
+
+      addAvg: function() {
+
+          if (this.add.grades !== '' && this.add.weight !== '') {
+
+              const arr1 = [];
+              const arr2 = [];
+
+              this.avg(arr1.push(this.add.grades), arr2.push(this.add.weights));
+
+              const addAvgRounded = Math.round(arr1[0] * arr2[0] / arr2[0]).toFixed(2);
+
+              console.log(arr1)
+              console.log(arr2)
+              console.log(addAvgRounded)
+              // this.add.avg = addAvgRounded;
+              return addAvgRounded
+          }
+          else{return ''}
+      },
+
+      addThreatness: function() {
+
+          if (this.add.avg !== "") {
+
+              if (this.add.avg < 2) {
+                  return "ZAGROŻENIE"
+              } else {
+                  return ""
+              }
+
+          }
+          else{return ''}
+      }
+
+  },
+  beforeUpdate() {
+    let addAvgRounded = '';
+      if (this.add.avg !== '') {
+          const arr1 = [];
+          const arr2 = [];
+          arr1.push(this.add.grades);
+          arr2.push(this.add.weight);
+          addAvgRounded = Math.round(arr1[0] * arr2[0] / arr2[0]).toFixed(2);
+      }
+      return this.add.avg = addAvgRounded;
+  },
+  // updated(){
+  //   const Arr1 = [];
+  //   console.log(Arr1);
+  //   const Arr2 = Arr1.push(this.add.grades);
+  //   // console.log(this.add.grades)
+  //   // this.add.grades = Arr1.push(this.add.grades);
+  //   // console.log(Arr1.push(this.add.grades))
+  // },
   filters: {
 
     //converts student's full name to correct form
@@ -443,7 +392,7 @@ export default {
 
       const wrongName = document.querySelector(".required");
 
-      const reg = new RegExp("^[A-Z]?[a-z]*( [A-Z]?[a-z]*)?$");
+      const reg = new RegExp("^[A-Z]?[a-z]*( [A-Z]?[a-z]*)+(-[A-Z]?[a-z]+)?$");
 
       if(reg.test(name) == true){
 
@@ -479,7 +428,7 @@ export default {
         return array.reverse().join(" ");
       }
       else if(reg.test(name) == false){
-        wrongName.innerHTML = "Bez cyferek i znaków specjalnych."
+        wrongName.innerHTML = "Bez cyfr i znaków specjalnych."
       }
     },
 
@@ -523,6 +472,21 @@ export default {
 
       },
 
+      //wraps grades in div, I need an array with one student's grades
+      wrapMyGradesIntoDiv: function(anotherStudentGradesArray) {
+
+
+          this.wrappedGrades = "";
+
+          //wraps every single grade of one single student in div.gradeWeightColor, as a result we get one super big variable full of few divs
+          for (let j = 0; j < anotherStudentGradesArray.length; j++) {
+              this.wrappedGrades += `<div class="gradeWeightColor">${anotherStudentGradesArray[j]}</div>`
+          }
+
+          this.gradeInDiv = "";
+          return this.gradeInDiv = this.wrappedGrades;
+      },
+
       //adds a new grade to new student
       addNewGrade: function() {
 
@@ -544,6 +508,35 @@ export default {
           const newStr = tmpNode.innerHTML;
           panelGrades.innerHTML += newStr;
 
+      },
+
+      //returns grades' average
+      avg: function(gradesSmallArray, weightSmallArray) {
+
+          let gradesSuperValue = 0;
+          let weightSum = 0;
+
+
+          for (let i = 0; i < gradesSmallArray.length; i++) {
+              gradesSuperValue += gradesSmallArray[i] * weightSmallArray[i];
+              weightSum += weightSmallArray[i]
+          }
+
+          //round avg to 2 decimal places
+          const average = gradesSuperValue / weightSum;
+          const averageRounded = (Math.round(average * 100) / 100).toFixed(2);
+
+          return averageRounded;
+
+      },
+
+      //decides if student is threated
+      threatness: function(myAVG) {
+          if (myAVG < 2) {
+              return "<span class='fire'>ZAGROŻENIE</span>"
+          } else {
+              return ""
+          }
       },
 
       //resets addStudent Panel
@@ -681,67 +674,29 @@ export default {
 
 
 
-
-
 <style scoped>
 
 
 .addStudentPanel {
     width: 90%;
-    max-width: 1500px;
+    max-width: 1400px;
     margin: 100px auto;
     -webkit-box-shadow: 3px 3px 30px 5px #00c3ff;
     -moz-box-shadow: 3px 3px 30px 5px #00c3ff;
     box-shadow: 3px 3px 30px 5px #00c3ff;
     background-color: rgba(0, 0, 0, .55);
     text-align: center;
-    font-size: 11px;
+
+    font-size: 13px;
 }
 
-.addStudentPanelMain {
+.addStudentPanelMain{
     padding: 40px;
-    /* display: grid; */
-
-    grid-template-columns: [startName]4fr [startGrade]5fr [startButton]1fr;
-
-    grid-template-rows: [startTitle]100px [startName]200px [startNameInfo]auto [startFreeSpace]100px [startFreeSpace]1fr [startSummary]100px [startButton]100px;
 }
-
-.addStudentPanelMain .addStudentPanelName {
-    grid-column: startName / span 1;
-    grid-row: startName / span 1;
-}
-
-.addStudentPanelMain .addStudentPanelNameInfo {
-    grid-column: startName / span 1;
-    grid-row: startNameInfo / span 1;
-}
-
-.addStudentPanelMain .addStudentPanelGradesTitle {
-    grid-column: startGrade;
-    grid-row: startTitle / startName;
-    font-size: 12px;
-}
-
-.addStudentPanelMain .addStudentPanelGradesContent {
-    grid-column: startGrade;
-    grid-row: startName / startSummary;
-}
-
-.addStudentPanelMain .addStudentPanelSummary {
-    grid-column: startName / span 2;
-    grid-row: startSummary;
-}
-
-.addStudentPanelMain .addStudentPanelButtons {
-    grid-column: startGrade / startButton;
-    grid-row: startButton;
-    margin-left: 70px;
-}
-
 
 .addStudentPanelMain label {
     display: block;
+    font-size: 15px;
 }
 
 .addStudentPanelMain input {
@@ -749,13 +704,13 @@ export default {
     display: block;
     margin: auto;
     margin-top: 10px;
-    width: 50%;
+    width: 65%;
     height: 23px;
-    font-size: 0.30rem;
+    font-size: 0.40rem;
     text-align: center;
     background-color: black;
     border-radius: 5px;
-    border: .6px solid #ddd;
+    border: 1px solid #ddd;
     box-sizing: border-box;
     text-shadow: none;
 }
@@ -769,54 +724,71 @@ export default {
     box-shadow: 0px 0px 10px 2px rgba(204, 204, 204, 0.9)
 }
 
-.addStudentPanelMain select {
-    color: #00c3ff;
-    font-size: 18px;
-    border-radius: 4px;
-    margin-top: 5px;
+
+
+.addStudentPanelName {
+    padding-top: 40px
 }
 
-.addStudentPanelMain select option {
-    color: #00c3ff;
-    text-align: center;
+.addStudentPanelName input{
+  margin-bottom: 10px;
+  height: 28px;
 }
 
-.addStudentPanelMain .addStudentPanelName span.nameTooltip {
+.addStudentPanelName span.nameTooltip {
     font-size: 10px;
     display: block;
 }
 
-.addStudentPanelMain .addStudentPanelName input{
-  margin-bottom: 80px;
+.addStudentPanelName span.required{
+   margin-bottom: 80px;
+   display: block;
+   font-size: 11px;
+   color: white;
+   text-shadow: 5px 0px 5px #f0351d, -5px 0px 5px #f0351d, 0px 5px 5px #f0351d, 0px -5px 5px #f0351d;
+
 }
 
-.addStudentPanelMain .addStudentPanelName span.showInfo {
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to{
+  transform: translateY(-100px);
+  opacity: 0;
+}
+
+.addStudentPanelName span.showInfo {
   cursor: pointer;
   font-size: 9px;
   margin-left: 25px;
 }
 
-.addStudentPanelMain .addStudentPanelNameInfo .form-group{
-  width: 70%;
-  margin: 0 auto;
+
+
+.addStudentPanelNameInfo div.info{
+  margin-top:50px;
+  width: 100%
+}
+
+.addStudentPanelNameInfo .form-group{
+  width: 100%;
   display: inline-block;
+  vertical-align: top;
 }
 
-.addStudentPanelMain .addStudentPanelNameInfo .form-group:first-child{
-  margin-top: 5px;
-}
-
-.addStudentPanelMain .addStudentPanelNameInfo label{
+.addStudentPanelNameInfo label{
   float: left;
-  font-size: 10.5px;
   padding-left: 25px;
-  margin-top: 35px;
+  margin-top: 15px;
+  font-size: 12px;
 }
 
-.addStudentPanelMain .addStudentPanelNameInfo input{
+.addStudentPanelNameInfo input{
   display: block;
   float: right;
-  font-size: 9px;
   width: 50%;
   margin-right: 50px;
   background-color: black;
@@ -828,9 +800,10 @@ export default {
   text-align: left;
   padding-left: 15px;
   text-shadow: none;
+  font-size: 11px;
 }
 
-.addStudentPanelMain .addStudentPanelNameInfo span[class^="wrong"]{
+.addStudentPanelNameInfo span[class^="wrong"]{
   font-size: 9px;
   display: block;
   width: 60%;
@@ -840,40 +813,98 @@ export default {
 }
 
 
-.addStudentPanelMain div[class^="addStudentPanelGradesContentSingle"] {
-    margin-bottom: 20px;
-    display: inline-block;
+
+
+
+
+
+
+.addStudentPanelMain div.select{
+  position: relative;
+  overflow: hidden;
+  display:none;
 }
 
-.addStudentPanelMain .addStudentPanelGradesContentSingleGrade {
-    grid-column:
+.addStudentPanelMain div.select:after {
+  content: "▼";
+  padding: 12px 8px;
+  position: absolute;
+  right: 10px;
+  top: 0;
+  z-index: 1;
+  text-align: center;
+  width: 10%;
+  height: 100%;
+  pointer-events: none;
 }
 
-.addStudentPanelMain .addStudentPanelGradesContentSingleWeight {
-    grid-column:
+.addStudentPanelMain select {
+   background-color: black;
+   color: white;
+   text-shadow: none;
+   width: 35px;
+   text-align: center;
+   font-size: 15px;
+   border-radius: 4px;
+   height: 25px;
 }
 
-.addStudentPanelMain .addStudentPanelGradesContentSingleDescription {
-    grid-column:
+/* .addStudentPanelMain select::after{
+  content: "▼";
+  padding: 12px 8px;
+  position: absolute;
+  right: 10px;
+  top: 0;
+  z-index: 1;
+  text-align: center;
+  width: 10%;
+  height: 100%;
+  pointer-events: none;
+} */
+
+.addStudentPanelMain select option {
+    color: #00c3ff;
+    text-align: center;
+}
+
+.addStudentPanelGradesTitle {
+    margin-top: 10px;
+    font-size: 11px;
+}
+
+.addStudentPanelGradesContent {
+  margin-top: 19px;
 }
 
 
-
-
-.addStudentPanelMain .addStudentPanelGradesContentSingleDescription span.descriptionCount {
-    font-size: 12px;
+.addStudentPanelGradesContentSingle {
+  display: inline-block;
+  width: 90%;
+  float: left;
+  margin-bottom: 20px;
 }
 
-.addStudentPanelMain .addStudentPanelGradesContentButton {
-    grid-column: startButton;
-    grid-row: startName;
-    position: relative;
-    /* position: absolute;
-    right: 90px;
-    top: 10px; */
+.addStudentPanelGradesContentSingleGrade {
+    margin-top: 12px;
 }
 
-.addStudentPanelMain .addStudentPanelGradesContentButton button {
+.addStudentPanelGradesContentSingleWeight {
+    margin-top: 12px;
+}
+
+.addStudentPanelGradesContentSingleDescription {
+}
+
+.addStudentPanelGradesContentSingleDescription input{
+  width: 100%;
+  height: 25px;
+}
+
+.addStudentPanelGradesContentSingleDescription span.descriptionCount {
+    font-size: 9px;
+}
+
+.addStudentPanelGradesContentButton button {
   background-color: #00c3ff;
   color: white;
   text-shadow: -1px 0 #00c3ff, 0 1px #00c3ff, 1px 0 #00c3ff, 0 -1px #00c3ff;
@@ -881,15 +912,13 @@ export default {
   -moz-box-shadow: inset 0px 0px 20px 12px black,  0px 0px 20px 3px black;
   box-shadow: inset 0px 0px 20px 12px black,  0px 0px 20px 3px black;
   border: 1px solid #00c3ff !important;
-  padding: 0 15px;
-  font-size: 39px;
   border-radius: 50%;
-  position: absolute;
-  right: 40%;
-  margin-top: 50px;
+  margin-top: 20px;
+  padding: 0 12px;
+  font-size: 29px;
 }
 
-.addStudentPanelMain .addStudentPanelGradesContentButton button:hover {
+.addStudentPanelGradesContentButton button:hover {
     background-color: black;
     -webkit-box-shadow: inset 0px 0px 15px 2px #00c3ff ,  0px 0px 15px 3px #00c3ff;
     -moz-box-shadow: inset 0px 0px 15px 2px #00c3ff ,  0px 0px 15px 3px #00c3ff;
@@ -898,33 +927,50 @@ export default {
     border: 1px solid white !important;
 }
 
-.addStudentPanelMain .addStudentPanelSummary table.summary {
-    width: 100%;
-    margin-left: 30px;
+
+
+
+.addStudentPanelSummary{
+  width: 80%;
+  margin: 50px 70px 0;
 }
 
-.addStudentPanelMain .addStudentPanelSummary table.summary td {
-    height: 60px;
+table {
+    width: 100%;
+}
+
+table td {
+    height: 50px;
     padding: 15px 50px;
     border: 1px solid white;
     text-align: center;
 }
 
-.addStudentPanelMain .addStudentPanelSummary table.summary td:nth-child(1),
-.addStudentPanelMain .addStudentPanelSummary table.summary td:nth-child(4) {
-    width: 250px;
+table td:nth-child(1),
+table td:nth-child(4) {
+    width: 33%;
 }
 
-.addStudentPanelMain .addStudentPanelSummary table.summary td:nth-child(2),
-.addStudentPanelMain .addStudentPanelSummary table.summary td:nth-child(3) {
-    width: 100px;
+table td:nth-child(2),
+table td:nth-child(3) {
+    width: 16%;
 }
 
-.addStudentPanelMain .addStudentPanelButtons button{
-  font-size: 16px;
-  height: 50px;
-  margin-top: 10px;
-  margin-left: 30px;
+
+
+
+
+
+.addStudentPanelButtons {
+    width: 90%;
+    text-align: right;
+    margin-top: 50px;
+}
+
+.addStudentPanelButtons button{
+  font-size: 14px;
+  padding: 8px 12px;
+  margin-left: 25px;
 }
 
 

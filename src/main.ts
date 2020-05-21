@@ -6,6 +6,18 @@ import store from './store'
 
 Vue.config.productionTip = false
 
+//Custom directives
+Vue.directive("styleMe",{
+  bind(el,binding,vnode){
+    if((binding.value == 'italic')&&(binding.arg == 'class')){
+      el.style.fontStyle = "italic"
+    }
+    else{
+      el.style.fontStyle = "normal"
+    }
+  }
+});
+
 new Vue({
   router,
   store,

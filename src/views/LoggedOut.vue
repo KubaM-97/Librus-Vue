@@ -37,9 +37,11 @@
 
   </div>
 
-    <div class="loader" v-show="showLoaderGif">
-        <img src="@/assets/gifloader3.gif" alt="loaderLogo">
-    </div>
+  <transition name="fade-logOut" mode="out-in">
+      <div class="loader" v-show="showLoaderGif">
+          <img src="@/assets/gifloader.gif" alt="loaderLogo">
+      </div>
+  </transition>
 
 </div>
 </template>

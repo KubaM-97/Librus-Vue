@@ -11,7 +11,7 @@
 
             <div class="logo">
                 Nauczyciel: <span v-html="teacher"></span>
-                Klasa: <span v-html="Class"></span>
+                Klasa: <span v-style-me:class="'italic'">{{Class}}</span>
             </div>
 
         </header>
@@ -34,14 +34,17 @@
 
     </header>
 
-
-    <div class="loader" v-show="showLoaderGif">
-        <img src="@/assets/gifloader3.gif" alt="loaderLogo">
-    </div>
+    <transition name="fade-logOut" mode="out-in">
+        <div class="loader" v-show="showLoaderGif">
+            <img src="@/assets/gifloader.gif" alt="loaderLogo">
+        </div>
+    </transition>
 
     <log-out v-show="mainpanellog" :navpanel.sync="navpanel"></log-out>
 
-    <router-view/>
+    <transition name="fade" mode="out-in">
+      <router-view/>
+    </transition>
 
   </div>
 
@@ -61,10 +64,10 @@ Vue.use(IconsPlugin)
 //CSS
 require("./assets/style.css");
 
-import MainLogPanel from "./views/MainLogPanel.vue"
+import LoggedOut from "./views/LoggedOut.vue"
 
 export default {
-  components: {"log-out": MainLogPanel},
+  components: {"log-out": LoggedOut},
   data(){
     return{
       navpanel: true,
@@ -72,18 +75,18 @@ export default {
       showLoaderGif: false,
       sitename: "Dziennik elektroniczny",
       teacher: "<em>Kuba Preceptor</em>",
-      Class: "<em>3B</em>"
+      Class: "3B"
     }
   },
 methods:{
   logMeOut(){
-    this.$router.push({name: '/'})
+    this.$router.push('/LoggedOut');
     this.navpanel = false;
     this.showLoaderGif = true;
     setTimeout(()=>{
       this.showLoaderGif = false;
-      this.mainpanellog = true;
-    },1000)
+      // this.mainpanellog = true;
+    },1500)
   }
 }
 }
@@ -102,7 +105,6 @@ header.main-header {
     -moz-box-shadow: 3px 3px 30px 5px #00c3ff;
     box-shadow: 3px 3px 30px 5px #00c3ff;
     padding: 20px 0 40px;
-    margin-bottom: 60px;
     font-size: 11px;
 }
 
@@ -157,11 +159,24 @@ button{
     display: block;
     position: absolute;
     width: 350px;
-    top: 30%;
+    top: 20%;
     left: 50%;
     transform: translateX(-50%);
 }
 .loader img{
-    width: 100%
+    width: 100%;
+}
+.fade-enter-active, .fade-leave-active{
+  transition: opacity .5s ease-out;
+}
+.fade-enter, .fade-leave-to{
+  opacity: 0;
+}
+
+.fade-logOut-enter-active, .fade-logOut-leave-active{
+  transition: opacity .15s ease-out;
+}
+.fade-logOut-enter, .fade-logOut-leave-to{
+  opacity: 0;
 }
 </style>
