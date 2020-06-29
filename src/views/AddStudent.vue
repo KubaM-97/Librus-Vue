@@ -160,7 +160,6 @@
 
                              </div>
                            </div>
-
                            <div class="col-md-3">
                              <div class="addStudentPanelGradesContentSingleWeight">
 
@@ -181,11 +180,11 @@
 
                             <div class="addStudentPanelGradesContentSingleDescription">
 
-                                <span class="descriptionCount">Pozostało: 30 znaków.</span>
+                                <span class="descriptionCount">Pozostało: {{characters}} znaków.</span>
 
                                 <label>Opis oceny:
 
-                                    <input type="text" v-model.number="add.description" class="description" maxlength="30">
+                                    <input type="text" v-model="add.description" class="description" maxlength="30">
 
                                 </label>
 
@@ -279,6 +278,11 @@
 
     </div>
 
+    <div class="confirm" v-show="confirm">
+      <p>Na pewno chcesz wyjść? Nie zapisano zmian...</p>
+      <button @click="confirmWindow('leave')">Wychodzę</button>
+      <button @click="confirmWindow('stay')">Racja, zostaję!</button>
+    </div>
 </div>
 </template>
 
@@ -295,39 +299,72 @@ export default {
                 weights: "",
                 avg: "",
                 description: "",
-                date: "",
-            },
-        info: false
-       }
+                date: ""
+        },
+        info: false,
+        characters: 30,
+        confirm: false,
+        exitPath: "",
+        leave: false,
+        stay: false
+      }
   },
-  mounted() {
-      //creates counter from 30 to 0 characters
-      const description = document.querySelector(".description");
-      const descriptionCount = document.querySelector(".descriptionCount");
+  watch: {
+    add: {
+      handler(newValue, oldValue){
+        const inputGradeDescription = document.querySelector(".description").value;
+        const descriptionCount = document.querySelector("span.descriptionCount");
 
-      description.addEventListener("input", function() {
-          const textInserted = this.value;
-          const counter = (30 - (textInserted.length));
-          switch (counter) {
-              case 2:
-              case 3:
-              case 4:
-              case 22:
-              case 23:
-              case 24:
-                  descriptionCount.innerHTML = `Pozostały: ${counter} znaki.`;
-                  break;
-              case 1:
-                  descriptionCount.innerHTML = `Pozostał: ${counter} znak.`;
-                  break;
-              default:
-                  descriptionCount.innerHTML = `Pozostało: ${counter} znaków.`;
+        const counter = (30 - (inputGradeDescription.length));
+        switch (counter) {
+            case 2:
+            case 3:
+            case 4:
+            case 22:
+            case 23:
+            case 24:
+                descriptionCount.innerHTML = `Pozostały: ${counter} znaki.`;
+                break;
+            case 1:
+                descriptionCount.innerHTML = `Pozostał: ${counter} znak.`;
+                break;
+            default:
+                descriptionCount.innerHTML = `Pozostało: ${counter} znaków.`;
+        }
 
-
-          }
-      });
-
+        return this.characters--
+      },
+      deep: true
+    }
   },
+  // mounted() {
+  //     //creates counter from 30 to 0 characters
+  //     const description = document.querySelector(".description");
+  //     const descriptionCount = document.querySelector(".descriptionCount");
+  //
+  //     description.addEventListener("input", function() {
+  //         const textInserted = this.value;
+  //         const counter = (30 - (textInserted.length));
+  //         switch (counter) {
+  //             case 2:
+  //             case 3:
+  //             case 4:
+  //             case 22:
+  //             case 23:
+  //             case 24:
+  //                 descriptionCount.innerHTML = `Pozostały: ${counter} znaki.`;
+  //                 break;
+  //             case 1:
+  //                 descriptionCount.innerHTML = `Pozostał: ${counter} znak.`;
+  //                 break;
+  //             default:
+  //                 descriptionCount.innerHTML = `Pozostało: ${counter} znaków.`;
+  //
+  //
+  //         }
+  //     });
+  //
+  // },
   computed: {
 
       addAvg: function() {
@@ -364,6 +401,25 @@ export default {
           else{return ''}
       }
 
+  },
+  beforeRouteLeave(to,from,next){
+    if((this.add.name == "")||(this.add.grades == "")||(this.add.weights == "")||(this.add.description == "")){
+
+      // alert(to.path)
+
+      if(this.exitPath == ""){
+        setTimeout(()=>{
+          //shows confirm window
+          this.confirm = true;
+        },500)
+
+        this.exitPath = to.path;
+        next(false)
+      }
+      else{
+        next()
+      }
+    }
   },
   beforeUpdate() {
     let addAvgRounded = '';
@@ -435,6 +491,19 @@ export default {
   },
   methods: {
 
+      //shows confirm window
+      confirmWindow: function(action){
+        if(action=="leave"){
+          this.confirm = false;
+          this.$router.push({path: this.exitPath})
+        }
+        else if(action == "stay"){
+          this.confirm = false;
+          this.exitPath = "";
+          this.$router.push({path: this.exitPath});
+        }
+      },
+
       //shows additional information
       additionalInfoSwitcher: function() {
 
@@ -492,12 +561,17 @@ export default {
 
           // const button = document.querySelector(".addStudentPanelGradesContentButton button");
 
+          //pojedyncza ocena
+          const panelSingleGrade = document.querySelector(".addStudentPanelGradesContentSingle");
+
           //tutaj docelowo content
           const panelGrades = document.querySelector(".addStudentPanelGradesContent");
 
-          const panelSingleGrade = document.querySelector(".addStudentPanelGradesContentSingle");
+          // console.log(panelSingleGrade)
+          // console.log(panelGrades)
 
-          console.log(panelGrades, panelSingleGrade);
+          // panelGrades.innerHTML += panelSingleGrade;
+
 
           //transforms node to string and appends it to mainSubPane
           const tmpNode = document.createElement("div");
@@ -817,39 +891,39 @@ export default {
 
 
 
-
-
-.addStudentPanelMain div.select{
-  position: relative;
+.addStudentPanelMain div.select {
+  height: 40px;
+  width: 100%;
   overflow: hidden;
-  display:none;
+  position: relative;
+  border-radius: 3px;
+  margin-bottom: 1em;
 }
 
-.addStudentPanelMain div.select:after {
+/* .addStudentPanelMain select:after {
   content: "▼";
-  padding: 12px 8px;
   position: absolute;
   right: 10px;
   top: 0;
   z-index: 1;
   text-align: center;
-  width: 10%;
   height: 100%;
   pointer-events: none;
-}
+} */
 
 .addStudentPanelMain select {
+/* position: absolute; */
+-webkit-appearance: none;
+  line-height: 1.7em;
    background-color: black;
-   color: white;
-   text-shadow: none;
    width: 35px;
+   /* text-shadow: none; */
    text-align: center;
    font-size: 15px;
    border-radius: 4px;
-   height: 25px;
 }
 
-/* .addStudentPanelMain select::after{
+/* .addStudentPanelMain select:after{
   content: "▼";
   padding: 12px 8px;
   position: absolute;
@@ -973,5 +1047,32 @@ table td:nth-child(3) {
   margin-left: 25px;
 }
 
-
+.confirm{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 15px;
+  width: 500px;
+  max-width: 80%;
+  height: 200px;
+  padding-top: 50px;
+  background-color: black;
+  box-shadow: 3px 3px 30px 5px #00c3ff;
+}
+.confirm p{
+  margin-bottom: 50px;
+}
+.confirm button{
+  padding: 10px;
+  color: white;
+  margin: 0 30px;
+  border-radius: 10px;
+}
+.confirm button:first-of-type{
+  background-color: red
+}
+.confirm button:last-of-type{
+  background-color: green
+}
 </style>

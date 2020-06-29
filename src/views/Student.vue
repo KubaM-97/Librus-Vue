@@ -104,7 +104,7 @@ export default {
       student: ''
     }
   },
-  created: function(){
+  created(){
     axios.get("/static/students.json")
     .then((response) => {
       this.student = response.data.students.filter(

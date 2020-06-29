@@ -26,9 +26,11 @@
               Dodaj ucznia
           </router-link>
 
-          <button active-class="active" class="btn btn-primary btn-lg with-logout-icon"  @click="logMeOut()">
+          <log-out-button :navpanel.sync="navpanel" :showLoaderGif.sync="showLoaderGif"> Wyloguj się</log-out-button>
+
+          <!-- <button active-class="active" class="btn btn-primary btn-lg with-logout-icon"  @click="logMeOut()">
             <img src="./assets/logout.png" alt="logout icon" height="25"/> Wyloguj się
-          </button>
+          </button> -->
 
         </nav>
 
@@ -40,11 +42,12 @@
         </div>
     </transition>
 
-    <log-out v-show="mainpanellog" :navpanel.sync="navpanel"></log-out>
+    <log-out v-if="navpanel"></log-out>
 
     <transition name="fade" mode="out-in">
       <router-view/>
     </transition>
+
 
   </div>
 
@@ -52,19 +55,20 @@
 
 
 <script>
+
 import Vue from 'vue'
 
 //Bootstrap
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
-
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 //CSS
 require("./assets/style.css");
 
 import LoggedOut from "./views/LoggedOut.vue"
+// import LogOutButton from "./views/LogOutButton.vue"
 
 export default {
   components: {"log-out": LoggedOut},
@@ -77,19 +81,66 @@ export default {
       teacher: "<em>Kuba Preceptor</em>",
       Class: "3B"
     }
+//   },
+// methods:{
+//   logMeOut(){
+//     this.$router.push('/LoggedOut');
+//     this.navpanel = false;
+//     this.showLoaderGif = true;
+//     setTimeout(()=>{
+//       this.showLoaderGif = false;
+//       // this.mainpanellog = true;
+//     },1500)
+//   }
+}
+}
+Vue.component('log-out-button', {
+  render: function (createElement) {
+    return createElement(
+      'button',   // tag name
+      {
+        "class": "btn btn-primary btn-lg with-logout-icon",
+          on: {
+            click:(e)=>{
+              console.log(this)
+              this.logMeOut()
+            }
+          }
+      },
+      [
+        createElement('img',
+          {
+            attrs: {
+              src: "./img/logout2.png",
+              alt: "logout icon",
+              height: "25"
+            }
+          }
+        ),
+        this.$slots.default // array of children
+      ]
+    )
   },
-methods:{
-  logMeOut(){
-    this.$router.push('/LoggedOut');
-    this.navpanel = false;
-    this.showLoaderGif = true;
-    setTimeout(()=>{
-      this.showLoaderGif = false;
-      // this.mainpanellog = true;
-    },1500)
+  methods:{
+    logMeOut(){
+
+      this.navpanel = false
+      this.$router.push({name: 'LoggedOut', params: {navpanel: false, mainpanellog: true}});
+      // this.$emit('update:navpanel', false)
+      this.$emit('update:showLoaderGif', true)
+
+      setTimeout(()=>{
+        this.$emit('update:showLoaderGif', false)
+      },500)
+    }
+  },
+  props:['navpanel'],
+  data(){
+    return{
+      aaa: "true"
+    }
   }
-}
-}
+});
 </script>
 
 
