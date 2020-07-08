@@ -88,7 +88,7 @@ Vue.use(VueAxios, axios)
 // import Student from './Student.vue'
 
 export default {
-   name: 'fullClass',
+   name: 'FullClass',
    data(){
        return{
          idCounter: 0,

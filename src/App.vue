@@ -26,7 +26,9 @@
               Dodaj ucznia
           </router-link>
 
-          <log-out-button :navpanel.sync="navpanel" :showLoaderGif.sync="showLoaderGif"> Wyloguj się</log-out-button>
+          <log-out-button :navpanel.sync="navpanel" :mainpanellog.sync="mainpanellog" :showLoaderGif.sync="showLoaderGif">
+             Wyloguj się
+          </log-out-button>
 
           <!-- <button active-class="active" class="btn btn-primary btn-lg with-logout-icon"  @click="logMeOut()">
             <img src="./assets/logout.png" alt="logout icon" height="25"/> Wyloguj się
@@ -64,6 +66,7 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 //CSS
 require("./assets/style.css");
 
@@ -75,24 +78,24 @@ export default {
   data(){
     return{
       navpanel: true,
-      mainpanellog: false,
+      mainpanellog:false,
       showLoaderGif: false,
       sitename: "Dziennik elektroniczny",
       teacher: "<em>Kuba Preceptor</em>",
       Class: "3B"
     }
-//   },
-// methods:{
-//   logMeOut(){
-//     this.$router.push('/LoggedOut');
-//     this.navpanel = false;
-//     this.showLoaderGif = true;
-//     setTimeout(()=>{
-//       this.showLoaderGif = false;
-//       // this.mainpanellog = true;
-//     },1500)
-//   }
-}
+  // },
+  // methods:{
+  //   logMeOut(){
+  //     this.$router.push('/LoggedOut');
+  //     this.navpanel = false;
+  //     this.showLoaderGif = true;
+  //     setTimeout(()=>{
+  //       this.showLoaderGif = false;
+  //       // this.mainpanellog = true;
+  //     },1500)
+  //   }
+  }
 }
 Vue.component('log-out-button', {
   render: function (createElement) {
@@ -102,7 +105,6 @@ Vue.component('log-out-button', {
         "class": "btn btn-primary btn-lg with-logout-icon",
           on: {
             click:(e)=>{
-              console.log(this)
               this.logMeOut()
             }
           }
@@ -121,23 +123,21 @@ Vue.component('log-out-button', {
       ]
     )
   },
+  props:["navpanel","mainpanellog", "showLoaderGif"],
+  data(){
+    return{
+
+    }
+  },
   methods:{
     logMeOut(){
-
-      this.navpanel = false
-      this.$router.push({name: 'LoggedOut', params: {navpanel: false, mainpanellog: true}});
-      // this.$emit('update:navpanel', false)
+      this.$router.push({name: 'LoggedOut', params: {navpanel: false, mainpanellog: true, showLoaderGif: false}});
+      this.$emit('update:navpanel', false);
+      this.$emit('update:mainpanellog', true);
       this.$emit('update:showLoaderGif', true)
-
       setTimeout(()=>{
         this.$emit('update:showLoaderGif', false)
       },500)
-    }
-  },
-  props:['navpanel'],
-  data(){
-    return{
-      aaa: "true"
     }
   }
 });

@@ -1,0 +1,34 @@
+.addStudentPanelName span.required{
+   height: 80px;
+   display: block;
+}
+
+span.required{
+  font-size: 11px;
+  color: white;
+  text-shadow: 5px 0px 5px #f0351d, -5px 0px 5px #f0351d, 0px 5px 5px #f0351d, 0px -5px 5px #f0351d;
+}
+
+.bounce-enter-active {
+  /* transition: all .3s ease; */
+animation: shake .73s ease;
+transform: translate3d(0,0,0);
+backface-visibility: hidden;
+}
+
+@keyframes shake {
+  10%, 30%, 50%, 70%, 90% { transform: translate3d(-2px, .1px, 0) }
+  20%, 80% { transform: translate3d(2px, -.1px, 0) }
+  /* 30%, 50%, 70% { transform: translate3d(-2px, .1px, 0) } */
+  40%, 60% { transform: translate3d(2px, .1px, 0) }
+}
+
+
+
+
+
+@keyframes aaa {
+  0%{opacity: 0; transform: translateY(-40px)}
+  /* 50%{opacity:0.5; transform: translateY(-20px)} */
+  100%{ opacity: 1; transform: translateY(0px)}
+}

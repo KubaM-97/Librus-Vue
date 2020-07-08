@@ -1,296 +1,244 @@
 <template>
-<div class="addStudentPanel">
 
-    <div class="addStudentPanelMain">
+    <div class="addStudentPanel">
 
-      <div class="container">
+        <div class="addStudentPanelMain">
 
-          <div class="row">
+          <div class="container">
 
-             <div class="col-md-4">
+              <div class="row">
 
-               <div class="addStudentPanelName">
+                 <div class="col-md-4">
 
-                   <label for="name">*Imię i Nazwisko:
-                       <span class="nameTooltip">
-                           Podwójne nazwiska przy pomocy myślnika
-                       </span>
-                   </label>
+                   <div class="addStudentPanelName">
 
-                   <input type="text" v-model="add.name" id="name" maxlength="30">
+                       <label for="name">*Imię i Nazwisko:
+                           <span class="nameTooltip">
+                               Podwójne nazwiska przy pomocy myślnika
+                           </span>
+                       </label>
 
-                   <transition name="slide-fade">
-                      <span class="required"></span>
-                   </transition>
-
-                     Informacje dodatkowe
-                     <span class="showInfo" @click="additionalInfoSwitcher">Rozwiń</span>
-
-               </div>
-
-               <div class="addStudentPanelNameInfo">
-
-                  <transition name="slide-fade">
-
-                    <div class="info" v-show="info">
-
-                     <div class="form-group">
-                       <label for="pesel">PESEL:</label>
-                       <input type="text" id="Pesel" placeholder="PESEL" @keyup="validatorData('Pesel', '^[0-9]{11}$', 'Dokładnie 9 cyfr')">
-                       <span class="wrongAdditionalInfo" id="wrongPesel"></span>
-                     </div>
-
-                     <div class="form-group">
-
-                       <label>Adres:</label>
-
-                       <input type="text" id="Street" placeholder="ulica" @keyup="validatorData('Street', '^[0-9a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ ]*$', 'Bez znaków specjalnych.')">
-                       <span class="wrongAdditionalInfo" id="wrongStreet"></span>
-
-                       <input type="text" id="HouseNr" placeholder="nr_domu" @keyup="validatorData('HouseNr', '^[0-9]+[a-zA-Z]?(/?[0-9]*[a-zA-Z]?)?$', 'Nr, Nr/Nr, Nr Litera <br /> np. 11 11/13 11A 11A/13B')">
-                       <span class="wrongAdditionalInfo" id="wrongHouseNr"></span>
-
-                       <input type="text" id="FlatNr" placeholder="nr_mieszkania" @keyup="validatorData('FlatNr', '^[0-9]+[a-zA-Z]?$', 'Liczba + ew.litera np.116F')">
-                       <span class="wrongAdditionalInfo" id="wrongFlatNr"></span>
-
-                       <input type="text" id="PostCode" placeholder="kod pocztowy" @blur="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
-                       <span class="wrongAdditionalInfo" id="wrongPostCode"></span>
-
-                       <input type="text" id="City" placeholder="miasto" @keyup="validatorData('City', '^[A-ZĄĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( (- )?[A-ZĄĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)*$', 'Brak Cyfr i znaków specjalnych. <br />')">
-                       <span class="wrongAdditionalInfo" id="wrongCity"></span>
-
-                     </div>
-
-                     <div class="form-group">
-                       <label for="Tel">Telefon:</label>
-                       <input type="text" id="Tel" placeholder="Telefon" @blur="validatorData('Tel', '^([0-9]{7}|[0-9]{9})$', 'Dokładnie 7 lub 9 cyfr.')">
-                       <span class="wrongAdditionalInfo" id="wrongTel"></span>
-                     </div>
-
-                     <div class="form-group">
-
-                       <label for="Email">Email:</label>
-                       <input type="text" id="Email" placeholder="adres e-mail" @blur="validatorData('Email', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
-                       <span class="wrongAdditionalInfo" id="wrongEmail"></span>
-
-                     </div>
-
-                     <div class="parents">
-
-                       <div class="mother">
-                         <div class="form-group">
-                           <label>Matka:</label>
-
-                             <input type="text" id="MothersFirstName" placeholder="Imię matki" @keyup="validatorData('MothersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-zząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')"/>
-                             <span class="wrongAdditionalInfo" id="wrongMothersFirstName"></span>
-
-                             <input type="text" id="MothersLastName" placeholder="Nazwisko matki" @keyup="validatorData('MothersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
-                             <span class="wrongAdditionalInfo" id="wrongMothersLastName"></span>
-
-                             <input type="text" id="MothersTelephone" placeholder="numer telefonu matki" @blur="validatorData('MothersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
-                             <span class="wrongAdditionalInfo" id="wrongMothersTelephone"></span>
-
-                             <input type="text" id="MothersEmail" placeholder="email matki" @blur="validatorData('MothersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
-                             <span class="wrongAdditionalInfo" id="wrongMothersEmail"></span>
-
-
-                         </div>
-                       </div>
-
-                       <div class="father">
-                         <div class="form-group">
-
-                           <label>Ojciec:</label>
-
-                           <input type="text" id="FathersFirstName" placeholder="Imię ojca" @keyup="validatorData('FathersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')"/>
-                           <span class="wrongAdditionalInfo" id="wrongFathersFirstName"></span>
-
-                           <input type="text" id="FathersLastName" placeholder="Nazwisko ojca" @keyup="validatorData('FathersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
-                           <span class="wrongAdditionalInfo" id="wrongFathersLastName"></span>
-
-                           <input type="text" id="FathersTelephone" placeholder="numer telefonu ojca" @blur="validatorData('FathersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
-                           <span class="wrongAdditionalInfo" id="wrongFathersTelephone"></span>
-
-                           <input type="text" id="FathersEmail" placeholder="email ojca" @blur="validatorData('FathersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
-                           <span class="wrongAdditionalInfo" id="wrongFathersEmail"></span>
-
-                         </div>
-                       </div>
-
-                     </div>
+                       <input type="text" v-model="add.name" id="name" maxlength="30">
+                      <span class="required">
+                           <transition name="bounce">
+                              <span class="required" v-if="showError">Uzupełnij imię i nazwisko</span>
+                           </transition>
+                      </span>
+                         Informacje dodatkowe
+                         <span class="showInfo" @click="additionalInfoSwitcher">Rozwiń</span>
 
                    </div>
 
-                  </transition>
+                   <div class="addStudentPanelNameInfo">
 
-               </div>
+                      <transition name="slide-fade" @enter="enter" @leave="leave" :css="false">
 
-             </div>
+                          <div class="info" v-if="info">
 
-             <div class="col-md-8">
+                               <div class="form-group">
+                                 <label for="pesel">PESEL:</label>
+                                 <input type="text" id="Pesel" placeholder="PESEL" @keyup="validatorData('Pesel', '^[0-9]{11}$', 'Dokładnie 9 cyfr')">
+                                 <span class="wrongAdditionalInfo" id="wrongPesel"></span>
+                               </div>
 
-               <div class="addStudentPanelGradesTitle">
-                    <span class="addStudentGradeSubpanelTitle">Dotychczasowe oceny:</span>
-               </div>
+                               <div class="form-group">
 
-               <div class="addStudentPanelGradesContent">
+                                 <label>Adres:</label>
 
-                 <div class="addStudentPanelGradesContentSingle">
+                                 <input type="text" id="Street" placeholder="ulica" @keyup="validatorData('Street', '^[0-9a-zA-ZąćęłńóśźżĄĘŁŃÓŚŹŻ ]*$', 'Bez znaków specjalnych.')">
+                                 <span class="wrongAdditionalInfo" id="wrongStreet"></span>
 
-                      <div class="container">
-                         <div class="row">
-                           <div class="col-md-3">
-                             <div class="addStudentPanelGradesContentSingleGrade">
+                                 <input type="text" id="HouseNr" placeholder="nr_domu" @keyup="validatorData('HouseNr', '^[0-9]+[a-zA-Z]?(/?[0-9]*[a-zA-Z]?)?$', 'Nr, Nr/Nr, Nr Litera <br /> np. 11 11/13 11A 11A/13B')">
+                                 <span class="wrongAdditionalInfo" id="wrongHouseNr"></span>
 
-                                 <label for="grades">Ocena:</label>
+                                 <input type="text" id="FlatNr" placeholder="nr_mieszkania" @keyup="validatorData('FlatNr', '^[0-9]+[a-zA-Z]?$', 'Liczba + ew.litera np.116F')">
+                                 <span class="wrongAdditionalInfo" id="wrongFlatNr"></span>
 
-                                 <div class="select">
+                                 <input type="text" id="PostCode" placeholder="kod pocztowy" @blur="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
+                                 <span class="wrongAdditionalInfo" id="wrongPostCode"></span>
 
-                                   <select v-model.number="add.grades" id="grades">
-                                       <option value=""></option>
-                                       <option value="1">1</option>
-                                       <option value="2">2</option>
-                                       <option value="3">3</option>
-                                       <option value="4">4</option>
-                                       <option value="5">5</option>
-                                       <option value="6">6</option>
-                                   </select>
+                                 <input type="text" id="City" placeholder="miasto" @keyup="validatorData('City', '^[A-ZĄĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( (- )?[A-ZĄĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)*$', 'Brak Cyfr i znaków specjalnych. <br />')">
+                                 <span class="wrongAdditionalInfo" id="wrongCity"></span>
 
-                                </div>
+                               </div>
 
+                               <div class="form-group">
+                                 <label for="Tel">Telefon:</label>
+                                 <input type="text" id="Tel" placeholder="Telefon" @blur="validatorData('Tel', '^([0-9]{7}|[0-9]{9})$', 'Dokładnie 7 lub 9 cyfr.')">
+                                 <span class="wrongAdditionalInfo" id="wrongTel"></span>
+                               </div>
+
+                               <div class="form-group">
+
+                                 <label for="Email">Email:</label>
+                                 <input type="text" id="Email" placeholder="adres e-mail" @blur="validatorData('Email', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                                 <span class="wrongAdditionalInfo" id="wrongEmail"></span>
+
+                               </div>
+
+                               <div class="parents">
+
+                             <div class="mother">
+                               <div class="form-group">
+                                 <label>Matka:</label>
+
+                                   <input type="text" id="MothersFirstName" placeholder="Imię matki" @keyup="validatorData('MothersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-zząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')"/>
+                                   <span class="wrongAdditionalInfo" id="wrongMothersFirstName"></span>
+
+                                   <input type="text" id="MothersLastName" placeholder="Nazwisko matki" @keyup="validatorData('MothersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
+                                   <span class="wrongAdditionalInfo" id="wrongMothersLastName"></span>
+
+                                   <input type="text" id="MothersTelephone" placeholder="numer telefonu matki" @blur="validatorData('MothersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
+                                   <span class="wrongAdditionalInfo" id="wrongMothersTelephone"></span>
+
+                                   <input type="text" id="MothersEmail" placeholder="email matki" @blur="validatorData('MothersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                                   <span class="wrongAdditionalInfo" id="wrongMothersEmail"></span>
+
+
+                               </div>
                              </div>
-                           </div>
-                           <div class="col-md-3">
-                             <div class="addStudentPanelGradesContentSingleWeight">
 
-                                 <label for="weight">Waga oceny:</label>
+                             <div class="father">
+                               <div class="form-group">
 
-                                 <div class="select">
-                                     <select v-model.number="add.weights" id="weight">
-                                         <option value=""></option>
-                                         <option value="1">1</option>
-                                         <option value="2">2</option>
-                                         <option value="3">3</option>
-                                     </select>
-                                 </div>
+                                 <label>Ojciec:</label>
 
+                                 <input type="text" id="FathersFirstName" placeholder="Imię ojca" @keyup="validatorData('FathersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')"/>
+                                 <span class="wrongAdditionalInfo" id="wrongFathersFirstName"></span>
+
+                                 <input type="text" id="FathersLastName" placeholder="Nazwisko ojca" @keyup="validatorData('FathersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
+                                 <span class="wrongAdditionalInfo" id="wrongFathersLastName"></span>
+
+                                 <input type="text" id="FathersTelephone" placeholder="numer telefonu ojca" @blur="validatorData('FathersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
+                                 <span class="wrongAdditionalInfo" id="wrongFathersTelephone"></span>
+
+                                 <input type="text" id="FathersEmail" placeholder="email ojca" @blur="validatorData('FathersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                                 <span class="wrongAdditionalInfo" id="wrongFathersEmail"></span>
+
+                               </div>
                              </div>
+
                            </div>
-                           <div class="col-md-5">
 
-                            <div class="addStudentPanelGradesContentSingleDescription">
+                          </div>
 
-                                <span class="descriptionCount">Pozostało: {{characters}} znaków.</span>
+                      </transition>
 
-                                <label>Opis oceny:
-
-                                    <input type="text" v-model="add.description" class="description" maxlength="30">
-
-                                </label>
-
-                            </div>
-
-                         </div>
-                         </div>
-                      </div>
+                   </div>
 
                  </div>
 
-                 <div class="addStudentPanelGradesContentButton">
+                 <div class="col-md-7">
 
-                   <button @click="addNewGrade()">
-                               +
-                   </button>
+                   <div class="addStudentPanelGradesTitle">
+                        <span class="addStudentGradeSubpanelTitle">Dotychczasowe oceny:</span>
+                   </div>
+
+                   <div class="addStudentPanelGradesContent" v-for="n in gradesLength" :key="n">
+
+                     <grade-component></grade-component>
+
+                   </div>
+
 
                  </div>
+                                    <div class="addStudentPanelGradesContentButton">
 
-               </div>
+                                      <button @click="addNewGrade()">
+                                                  +
+                                      </button>
 
-             </div>
+                                    </div>
+
+              </div>
+
+              <div class="row">
+
+                <div class="addStudentPanelSummary">
+
+                  <table>
+
+                            <tr>
+                                <td>
+                                  <span v-if="add.name!==''">{{add.name | formatName}}</span>
+                                </td>
+
+                                <td>
+                                    <span v-if="add.grades!=='' && add.weights===''">
+                                        <div class="gradeWeightColor">
+                                            {{add.grades}}
+                                        </div>
+                                    </span>
+
+                                    <span v-else-if="add.grades!=='' && add.weights===1">
+                                        <div class="gradeWeightColor gradeWeightGreen"> {{add.grades}}
+                                        </div>
+                                    </span>
+
+                                    <span v-else-if="add.grades!=='' && add.weights===2">
+                                        <div class="gradeWeightColor gradeWeightYellow"> {{add.grades}}
+                                        </div>
+                                    </span>
+
+                                    <span v-else-if="add.grades!=='' && add.weights===3">
+                                        <div class="gradeWeightColor gradeWeightRed"> {{add.grades}}
+                                        </div>
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span v-if="add.grades!=='' && add.weight!==''">{{addAvg}}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span v-if="add.avg!==''" class="fire">
+                                        {{addThreatness}}
+                                    </span>
+                                </td>
+                            </tr>
+
+                  </table>
+
+                </div>
+
+              </div>
+
+              <div class="row">
+
+                <div class="addStudentPanelButtons">
+
+                  <button class="btn btn-danger btn-lg" @click="addStudentCancel()">Anuluj</button>
+
+                  <button class="btn btn-primary btn-lg" @click="addStudent()">Dodaj ucznia</button>
+
+                </div>
+
+              </div>
 
           </div>
 
-          <div class="row">
+        </div>
 
-            <div class="addStudentPanelSummary">
-
-              <table>
-
-                        <tr>
-                            <td>
-                              <span v-if="add.name!==''">{{add.name | formatName}}</span>
-                            </td>
-
-                            <td>
-                                <span v-if="add.grades!=='' && add.weights===''">
-                                    <div class="gradeWeightColor">
-                                        {{add.grades}}
-                                    </div>
-                                </span>
-
-                                <span v-else-if="add.grades!=='' && add.weights===1">
-                                    <div class="gradeWeightColor gradeWeightGreen"> {{add.grades}}
-                                    </div>
-                                </span>
-
-                                <span v-else-if="add.grades!=='' && add.weights===2">
-                                    <div class="gradeWeightColor gradeWeightYellow"> {{add.grades}}
-                                    </div>
-                                </span>
-
-                                <span v-else-if="add.grades!=='' && add.weights===3">
-                                    <div class="gradeWeightColor gradeWeightRed"> {{add.grades}}
-                                    </div>
-                                </span>
-                            </td>
-
-                            <td>
-                                <span v-if="add.grades!=='' && add.weight!==''">{{addAvg}}
-                                </span>
-                            </td>
-
-                            <td>
-                                <span v-if="add.avg!==''" class="fire">
-                                    {{addThreatness}}
-                                </span>
-                            </td>
-                        </tr>
-
-              </table>
-
-            </div>
-
-          </div>
-
-          <div class="row">
-
-            <div class="addStudentPanelButtons">
-
-              <button class="btn btn-danger btn-lg" @click="addStudentCancel()">Anuluj</button>
-
-              <button class="btn btn-primary btn-lg" @click="addStudent()">Dodaj ucznia</button>
-
-            </div>
-
-          </div>
-
-      </div>
+        <div class="confirm" v-show="confirm">
+          <p>Na pewno chcesz wyjść? Nie zapisano zmian...</p>
+          <button @click="confirmWindow('quit')">Wychodzę</button>
+          <button @click="confirmWindow('stay')">Racja, zostaję!</button>
+        </div>
 
     </div>
 
-    <div class="confirm" v-show="confirm">
-      <p>Na pewno chcesz wyjść? Nie zapisano zmian...</p>
-      <button @click="confirmWindow('leave')">Wychodzę</button>
-      <button @click="confirmWindow('stay')">Racja, zostaję!</button>
-    </div>
-</div>
 </template>
 
 
 
 <script>
+//CSS
+require("../assets/animations.css");
+
+import Grade from "./Grade.vue"
 export default {
-  name: "currentViewAdd",
+  name: "AddStudent",
   data(){
        return{
         add: {
@@ -302,41 +250,18 @@ export default {
                 date: ""
         },
         info: false,
-        characters: 30,
         confirm: false,
         exitPath: "",
-        leave: false,
-        stay: false
+        quit: false,
+        stay: false,
+        showError: false,
+        gradesLength: 1
       }
   },
-  watch: {
-    add: {
-      handler(newValue, oldValue){
-        const inputGradeDescription = document.querySelector(".description").value;
-        const descriptionCount = document.querySelector("span.descriptionCount");
-
-        const counter = (30 - (inputGradeDescription.length));
-        switch (counter) {
-            case 2:
-            case 3:
-            case 4:
-            case 22:
-            case 23:
-            case 24:
-                descriptionCount.innerHTML = `Pozostały: ${counter} znaki.`;
-                break;
-            case 1:
-                descriptionCount.innerHTML = `Pozostał: ${counter} znak.`;
-                break;
-            default:
-                descriptionCount.innerHTML = `Pozostało: ${counter} znaków.`;
-        }
-
-        return this.characters--
-      },
-      deep: true
-    }
+  components: {
+    "grade-component": Grade
   },
+
   // mounted() {
   //     //creates counter from 30 to 0 characters
   //     const description = document.querySelector(".description");
@@ -403,14 +328,18 @@ export default {
 
   },
   beforeRouteLeave(to,from,next){
-    if((this.add.name == "")||(this.add.grades == "")||(this.add.weights == "")||(this.add.description == "")){
+    if((this.confirm==false) && ((this.add.name == "")||(this.add.grades == "")||(this.add.weights == "")||(this.add.description == ""))){
 
-      // alert(to.path)
+      if(to.path == "/LoggedOut"){
+        next()
+      }
 
-      if(this.exitPath == ""){
+      else if(this.exitPath == ""){
         setTimeout(()=>{
+
           //shows confirm window
           this.confirm = true;
+
         },500)
 
         this.exitPath = to.path;
@@ -491,9 +420,28 @@ export default {
   },
   methods: {
 
+      enter: function(el, done){
+        el.addEventListener("animationend", function(){
+          el.style="";
+          done();
+        });
+        el.style.animationName="aaa";
+        el.style.animationDuration="1s"
+      },
+
+      leave: function(el, done){
+        el.addEventListener("animationend", function(){
+          el.style="";
+          done();
+        });
+        el.style.animationName="aaa";
+        el.style.animationDuration="1s";
+        el.style.animationDirection="reverse"
+      },
+
       //shows confirm window
       confirmWindow: function(action){
-        if(action=="leave"){
+        if(action=="quit"){
           this.confirm = false;
           this.$router.push({path: this.exitPath})
         }
@@ -559,28 +507,29 @@ export default {
       //adds a new grade to new student
       addNewGrade: function() {
 
-          // const button = document.querySelector(".addStudentPanelGradesContentButton button");
-
-          //pojedyncza ocena
-          const panelSingleGrade = document.querySelector(".addStudentPanelGradesContentSingle");
-
-          //tutaj docelowo content
-          const panelGrades = document.querySelector(".addStudentPanelGradesContent");
-
-          // console.log(panelSingleGrade)
-          // console.log(panelGrades)
-
-          // panelGrades.innerHTML += panelSingleGrade;
-
-
-          //transforms node to string and appends it to mainSubPane
-          const tmpNode = document.createElement("div");
-          tmpNode.appendChild(panelSingleGrade.cloneNode(true));
-
-          console.log(tmpNode)
-          //                    button.parentNode.removeChild(button)
-          const newStr = tmpNode.innerHTML;
-          panelGrades.innerHTML += newStr;
+        this.gradesLength++;
+          // // const button = document.querySelector(".addStudentPanelGradesContentButton button");
+          //
+          // //pojedyncza ocena
+          // const panelSingleGrade = document.querySelector(".addStudentPanelGradesContentSingle");
+          //
+          // //tutaj docelowo content
+          // const panelGrades = document.querySelector(".addStudentPanelGradesContent");
+          //
+          // // console.log(panelSingleGrade)
+          // // console.log(panelGrades)
+          //
+          // // panelGrades.innerHTML += panelSingleGrade;
+          //
+          //
+          // //transforms node to string and appends it to mainSubPane
+          // const tmpNode = document.createElement("div");
+          // tmpNode.appendChild(panelSingleGrade.cloneNode(true));
+          //
+          // console.log(tmpNode)
+          // //                    button.parentNode.removeChild(button)
+          // const newStr = tmpNode.innerHTML;
+          // panelGrades.innerHTML += newStr;
 
       },
 
@@ -683,7 +632,8 @@ export default {
 
           //if we've got only firstname or lastname
           else {
-              document.querySelector("span.required").innerHTML = "Uzupełnij imię i nazwisko"
+            this.showError = true;
+              // document.querySelector("span.required").innerHTML = "Uzupełnij imię i nazwisko"
           }
 
           //if we've got both grade, weigth and description
@@ -748,7 +698,7 @@ export default {
 
 
 
-<style scoped>
+<style>
 
 
 .addStudentPanel {
@@ -814,25 +764,8 @@ export default {
     display: block;
 }
 
-.addStudentPanelName span.required{
-   margin-bottom: 80px;
-   display: block;
-   font-size: 11px;
-   color: white;
-   text-shadow: 5px 0px 5px #f0351d, -5px 0px 5px #f0351d, 0px 5px 5px #f0351d, 0px -5px 5px #f0351d;
 
-}
 
-.slide-fade-enter-active {
-  transition: all .3s ease;
-}
-.slide-fade-leave-active {
-  transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-}
-.slide-fade-enter, .slide-fade-leave-to{
-  transform: translateY(-100px);
-  opacity: 0;
-}
 
 .addStudentPanelName span.showInfo {
   cursor: pointer;
@@ -891,14 +824,14 @@ export default {
 
 
 
-.addStudentPanelMain div.select {
+/* .addStudentPanelMain div.select {
   height: 40px;
   width: 100%;
   overflow: hidden;
   position: relative;
   border-radius: 3px;
   margin-bottom: 1em;
-}
+} */
 
 /* .addStudentPanelMain select:after {
   content: "▼";
@@ -912,18 +845,20 @@ export default {
 } */
 
 .addStudentPanelMain select {
-/* position: absolute; */
--webkit-appearance: none;
   line-height: 1.7em;
-   background-color: black;
-   width: 35px;
-   /* text-shadow: none; */
-   text-align: center;
    font-size: 15px;
-   border-radius: 4px;
+     text-shadow: none;
+     padding-left: 6px;
+     border-radius: 2px;
+     background-color: black;
+     appearance: none;
+     width: 35px;
+     background-image: url("./../assets/arrow_down.png");
+     background-repeat: no-repeat, repeat;
+     background-position: right .3em top 50%, 0 0 ;
+     background-size: .55em auto, 130%
 }
-
-/* .addStudentPanelMain select:after{
+ /* .addStudentPanelMain select:after{
   content: "▼";
   padding: 12px 8px;
   position: absolute;
@@ -939,43 +874,13 @@ export default {
 .addStudentPanelMain select option {
     color: #00c3ff;
     text-align: center;
+    border-bottom: 1px solid blue;
 }
+
 
 .addStudentPanelGradesTitle {
     margin-top: 10px;
     font-size: 11px;
-}
-
-.addStudentPanelGradesContent {
-  margin-top: 19px;
-}
-
-
-.addStudentPanelGradesContentSingle {
-  display: inline-block;
-  width: 90%;
-  float: left;
-  margin-bottom: 20px;
-}
-
-.addStudentPanelGradesContentSingleGrade {
-    margin-top: 12px;
-}
-
-.addStudentPanelGradesContentSingleWeight {
-    margin-top: 12px;
-}
-
-.addStudentPanelGradesContentSingleDescription {
-}
-
-.addStudentPanelGradesContentSingleDescription input{
-  width: 100%;
-  height: 25px;
-}
-
-.addStudentPanelGradesContentSingleDescription span.descriptionCount {
-    font-size: 9px;
 }
 
 .addStudentPanelGradesContentButton button {
@@ -1000,8 +905,6 @@ export default {
     color: black;
     border: 1px solid white !important;
 }
-
-
 
 
 .addStudentPanelSummary{
