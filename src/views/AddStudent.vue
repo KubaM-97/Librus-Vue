@@ -136,19 +136,16 @@
 
                    <div class="addStudentPanelGradesContent" v-for="n in gradesLength" :key="n">
 
-                     <grade-component></grade-component>
+                     <grade-component :n="n-1"></grade-component>
 
                    </div>
 
 
                  </div>
-                                    <div class="addStudentPanelGradesContentButton">
 
-                                      <button @click="addNewGrade()">
-                                                  +
-                                      </button>
-
-                                    </div>
+                  <div class="addStudentPanelGradesContentButton">
+                    <button @click="addNewGrade()">  +  </button>
+                  </div>
 
               </div>
 

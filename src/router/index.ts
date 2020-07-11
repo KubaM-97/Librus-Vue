@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // import Home from '../views/Home.vue'
-import Start from '../views/Start.vue'
+// import Start from '../views/Start.vue'
 import FullClass from '../views/FullClass.vue'
 import Student from '../views/Student.vue'
 import EditStudent from '../views/EditStudent.vue'
@@ -16,7 +16,7 @@ export default new Router({
     {
       path: '/',
       name: 'Start',
-      component: Start,
+      component: FullClass,
       props: true
     },
     {

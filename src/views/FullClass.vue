@@ -92,18 +92,15 @@ export default {
    data(){
        return{
          idCounter: 0,
-           students:{},
        }
    },
-   // components:{Student},
+   computed:{
+     students(){
+       return this.$store.getters.students
+     }
+   },
    created(){
-       const url = 'http://localhost:8080/static/students.json';
-       axios.get(url)
-       .then(res => {
-           this.students = res.data.students;
-           console.log(this.students);
-       })
-       .catch(error => console.log(error))
+       this.$store.dispatch("initFullClass")
    },
    updated(){
 
@@ -124,7 +121,6 @@ export default {
      this.showTooltip();
 
    },
-
    methods:{
 
         //wraps grades in div, I need an array with one student's grades
@@ -382,7 +378,7 @@ table.students * {
 
 table.students thead th:first-child,
 table.students td {
-    padding: 12px 15px;
+    padding: 12px 25px;
 }
 
 table.students tr {
@@ -394,7 +390,9 @@ table.students tbody tr:hover {
     cursor: pointer;
 }
 
-
+table.students td:first-child{
+  width: 15px;
+}
 
 
 

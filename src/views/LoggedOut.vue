@@ -1,12 +1,12 @@
 <template>
 <div>
 
-  <div class="mainPanelLog" v-show="mainpanellog">
+  <div class="mainLogPanel" v-show="showMainLogPanel">
 
     <div class="form-group">
 
       <label for="login">
-        Login<span class="mainPanelLogTooltip">(Proszę wpisać: Login1)</span>
+        Login<span class="mainLogPanelTooltip">(Proszę wpisać: Login1)</span>
       </label>
 
       <input type="text" id="login">
@@ -18,7 +18,7 @@
     <div class="form-group">
 
         <label for="password">
-          Hasło<span class="mainPanelLogTooltip">(Proszę wpisać: Hasło1)</span>
+          Hasło<span class="mainLogPanelTooltip">(Proszę wpisać: Hasło1)</span>
         </label>
 
         <input type="password" id="password">
@@ -29,15 +29,11 @@
 
     <div class="form-group">
 
-      <!-- <log-in>Zaloguj się</log-in> -->
-
 
       <log-in-button>
-
-          <button @click="giveMeAccess()" slot="logIn">
+          <button @click="logMeIn()" slot="logIn">
               Zaloguj się
           </button>
-
       </log-in-button>
 
     </div>
@@ -54,45 +50,38 @@
 </template>
 
 <script>
-import logInButton from './logInButton.vue'
+import LogInButton from './LogInButton.vue'
 export default {
   name: "LoggedOut",
-  components: {'log-in-button': logInButton},
-  props:["navpanel", "mainpanellog", "showLoaderGif"],
-  data(){
-    return{
-      // navpanel: false,
-      // mainpanellog: true,
-      // showLoaderGif: false
-    }
-  },
+  components: {'log-in-button': LogInButton},
+  props:["showNavpanel", "showLoaderGif", "showMainLogPanel"],
   methods: {
 
         //Main Log Panel
-        giveMeAccess: function() {
+        logMeIn: function() {
 
           //gets inserted login
-          const userLogin = document.querySelector(".mainPanelLog input[type=text]").value;
+          const userLogin = document.querySelector(".mainLogPanel input[type=text]").value;
 
           //gets inserted password
-          const userPassword = document.querySelector(".mainPanelLog input[type=password]").value;
+          const userPassword = document.querySelector(".mainLogPanel input[type=password]").value;
 
           //if inserted login and password are correct
           if ((userLogin === "Login1") && (userPassword === "Hasło1")) {
 
-            alert(this.navpanel)
+            this.$store.commit("changeMainLogPanel");
+            this.$store.commit("changeLoaderGif");
+
             setTimeout(()=>{
-              this.$emit("update:navpanel", true);
-              this.$emit("update:mainpanellog", false);
-              this.$router.push({name: 'Start', params: {navpanel: true}});
-              alert(this.navpanel)
-            },100);
+              this.$store.commit("changeLoaderGif");
+              this.$store.commit("changeNavpanel");
+            },1200);
 
           }
 
           //if inserted login or password are incorrect
           else {
-              const wrong = document.querySelectorAll(".mainPanelLog span.wrongLoginPassword");
+              const wrong = document.querySelectorAll(".mainLogPanel span.wrongLoginPassword");
               for (let i = 0; i < wrong.length; i++) {
                   wrong[i].innerHTML = "Login i hasło muszą się zgadzać!"
               }
@@ -108,7 +97,7 @@ export default {
 
 <style scoped>
 
-.mainPanelLog {
+.mainLogPanel {
     margin: 100px auto;
     background-image: url(../assets/Logo.png);
     background-position: center;
@@ -120,7 +109,7 @@ export default {
     border-right: 2px solid #00c3ff;
 }
 
-.mainPanelLog .form-group {
+.mainLogPanel .form-group {
     font-size: 22px;
     margin-bottom: 55px;
     filter: blur(0.44px);
@@ -128,27 +117,27 @@ export default {
     opacity: 0.7
 }
 
-.mainPanelLog .form-group:hover {
+.mainLogPanel .form-group:hover {
     opacity: 1;
 }
 
-.mainPanelLog .form-group label {
+.mainLogPanel .form-group label {
     margin-bottom: 16px
 }
 
-.mainPanelLog .form-group label span.mainPanelLogTooltip {
+.mainLogPanel .form-group label span.mainLogPanelTooltip {
     font-size: 15px;
     margin-left: 20px
 }
 
-.mainPanelLog .form-group label + input {
+.mainLogPanel .form-group label + input {
     height: 36px;
     width: 95%;
     max-width: 360px;
     color: black;
 }
 
-.mainPanelLog .form-group button {
+.mainLogPanel .form-group button {
     background-color: deeppink;
     padding: 10px;
     border: 2px solid black;
@@ -157,7 +146,7 @@ export default {
     margin-top: 10px;
 }
 
-.mainPanelLog span.wrongLoginPassword,
+.mainLogPanel span.wrongLoginPassword,
 .form-group span.required {
     font-size: 14px;
 }

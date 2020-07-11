@@ -1,7 +1,7 @@
 <template>
     <div id="app">
 
-    <header class="main-header" v-show="navpanel">
+    <header class="main-header" v-show="showNavpanel">
 
         <header>
 
@@ -26,13 +26,9 @@
               Dodaj ucznia
           </router-link>
 
-          <log-out-button :navpanel.sync="navpanel" :mainpanellog.sync="mainpanellog" :showLoaderGif.sync="showLoaderGif">
+          <log-out-button>
              Wyloguj się
           </log-out-button>
-
-          <!-- <button active-class="active" class="btn btn-primary btn-lg with-logout-icon"  @click="logMeOut()">
-            <img src="./assets/logout.png" alt="logout icon" height="25"/> Wyloguj się
-          </button> -->
 
         </nav>
 
@@ -44,7 +40,7 @@
         </div>
     </transition>
 
-    <log-out v-if="navpanel"></log-out>
+    <log-out v-if="showMainLogPanel" :showNavpanel.sync="showNavpanel" :showLoaderGif.sync="showLoaderGif" :showMainLogPanel.sync="showMainLogPanel"></log-out>
 
     <transition name="fade" mode="out-in">
       <router-view/>
@@ -71,32 +67,34 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 require("./assets/style.css");
 
 import LoggedOut from "./views/LoggedOut.vue"
-// import LogOutButton from "./views/LogOutButton.vue"
 
 export default {
   components: {"log-out": LoggedOut},
   data(){
     return{
-      navpanel: true,
-      mainpanellog:false,
-      showLoaderGif: false,
       sitename: "Dziennik elektroniczny",
       teacher: "<em>Kuba Preceptor</em>",
       Class: "3B"
     }
-  // },
-  // methods:{
-  //   logMeOut(){
-  //     this.$router.push('/LoggedOut');
-  //     this.navpanel = false;
-  //     this.showLoaderGif = true;
-  //     setTimeout(()=>{
-  //       this.showLoaderGif = false;
-  //       // this.mainpanellog = true;
-  //     },1500)
-  //   }
-  }
-}
+  },
+  computed: {
+    showNavpanel(){
+      return this.$store.getters.visibleNavpanel
+    },
+    showLoaderGif(){
+      return this.$store.getters.visibleLoaderGif
+    },
+    showMainLogPanel(){
+      return this.$store.getters.visibleMainLogPanel
+    }
+  },
+
+};
+
+
+
+
+// Log-Out-Button Component
 Vue.component('log-out-button', {
   render: function (createElement) {
     return createElement(
@@ -123,21 +121,15 @@ Vue.component('log-out-button', {
       ]
     )
   },
-  props:["navpanel","mainpanellog", "showLoaderGif"],
-  data(){
-    return{
-
-    }
-  },
   methods:{
     logMeOut(){
-      this.$router.push({name: 'LoggedOut', params: {navpanel: false, mainpanellog: true, showLoaderGif: false}});
-      this.$emit('update:navpanel', false);
-      this.$emit('update:mainpanellog', true);
-      this.$emit('update:showLoaderGif', true)
+      this.$router.push({name: 'LoggedOut'});
+      this.$store.commit("changeNavpanel");
+      this.$store.commit("changeLoaderGif");
       setTimeout(()=>{
-        this.$emit('update:showLoaderGif', false)
-      },500)
+        this.$store.commit("changeLoaderGif");
+        this.$store.commit("changeMainLogPanel");
+      }, 1000)
     }
   }
 });

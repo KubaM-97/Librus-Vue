@@ -14,8 +14,7 @@
 
                   <div class="select">
 
-                    <select v-model.number="add.grades" id="grades">
-                        <option value=""></option>
+                    <select v-model.number="payloadGrade.grade" @change="addNewGrade" id="grades">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -37,7 +36,7 @@
                   <label for="weight">Waga oceny:</label>
 
                   <div class="select">
-                      <select v-model.number="add.weights" id="weight">
+                      <select v-model.number="payloadWeight.weight" @change="addNewWeight" id="weight">
                           <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
@@ -56,7 +55,7 @@
 
                  <label>Opis oceny:
 
-                     <input type="text" v-model="add.description" class="description" maxlength="30">
+                     <input type="text" v-model="payloadDescription.description" @change="addNewDescription" class="description" maxlength="30">
 
                  </label>
 
@@ -104,16 +103,40 @@ export default {
   },
   data(){
     return{
-      add: {
-              name: "",
-              grades: "",
-              weights: "",
-              avg: "",
-              description: "",
-              date: ""
+      // add: {
+      //         name: "",
+      //         grade: "",
+      //         weights: "",
+      //         avg: "",
+      //         description: "",
+      //         date: ""
+      // },
+      characters: 30,
+      payloadGrade:{
+        grade: "",
+        placeInArray: this.n
       },
-      characters: 30
+      payloadWeight:{
+        weight: "",
+        placeInArray: this.n
+      },
+      payloadDescription:{
+        description: "",
+        placeInArray: this.n
+      }
     }
+  },
+  props:["n"],
+  methods:{
+    addNewGrade(){
+      return this.$store.commit("addNewGrade", this.payloadGrade)
+    },
+    addNewWeight(){
+      return this.$store.commit("addNewWeight", this.payloadWeight)
+    },
+    addNewDescription(){
+      return this.$store.commit("addNewDescription", this.payloadDescription)
+    },
   }
 }
 </script>
