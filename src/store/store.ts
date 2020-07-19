@@ -13,13 +13,16 @@ export const store = new Vuex.Store({
     showNavpanel: true,
     showLoaderGif: false,
     showMainLogPanel: false,
-    newGrades:{
-        grades: [],
-        weights: [],
+    newStudentGrades:{
+        grades: "",
+        weights: "",
         descriptions: []
     }
   },
   getters:{
+    newGrades(state){
+      return state.newStudentGrades.grades
+    },
     visibleNavpanel(state){
       return state.showNavpanel;
     },
@@ -47,17 +50,33 @@ export const store = new Vuex.Store({
       state.students = students
     },
 
-    addNewGrade(state, payload){
-      state.newGrades.grades[payload.placeInArray] = payload.grade;
-      console.log(state.newGrades.grades)
+    addNewGradeToArray(state, payload){
+
+      if(state.newStudentGrades.grades == ""){
+            //splits string into array
+            //e.g    3 => [3]
+            state.newStudentGrades.grades = state.newStudentGrades.grades.split("");
+      }
+
+      //places new grade in appropriate place according to the provided index
+      //e.g    second component Grade.vue:   newGradesArray[1] = 5        newGradesArray=[3,5]
+      state.newStudentGrades.grades.splice(payload.placeInArray,1,payload.grade);
+
     },
-    addNewWeight(state, payload){
-      state.newGrades.weights[payload.placeInArray] = payload.weight;
-      console.log(state.newGrades.weights)
+    addNewWeightToArray(state, payload){
+      if(state.newStudentGrades.weights == ""){
+            //splits string into array
+            //e.g    3 => [3]
+            state.newStudentGrades.weights = state.newStudentGrades.weights.split("");
+      }
+
+      //places new grade in appropriate place according to the provided index
+      //e.g    second component Grade.vue:   newGradesArray[1] = 5        newGradesArray=[3,5]
+      state.newStudentGrades.weights.splice(payload.placeInArray,1,payload.weight);
     },
-    addNewDescription(state, payload){
-      state.newGrades.descriptions[payload.placeInArray] = payload.description;
-      console.log(state.newGrades.descriptions)
+    addNewDescriptionToArray(state, payload){
+      state.newStudentGrades.descriptions[payload.placeInArray] = payload.description;
+      // console.log(state.newGrades.descriptions)
     },
   },
   actions: {

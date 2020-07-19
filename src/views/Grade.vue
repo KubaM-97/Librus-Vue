@@ -37,7 +37,6 @@
 
                   <div class="select">
                       <select v-model.number="payloadWeight.weight" @change="addNewWeight" id="weight">
-                          <option value=""></option>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -103,14 +102,6 @@ export default {
   },
   data(){
     return{
-      // add: {
-      //         name: "",
-      //         grade: "",
-      //         weights: "",
-      //         avg: "",
-      //         description: "",
-      //         date: ""
-      // },
       characters: 30,
       payloadGrade:{
         grade: "",
@@ -129,19 +120,75 @@ export default {
   props:["n"],
   methods:{
     addNewGrade(){
-      return this.$store.commit("addNewGrade", this.payloadGrade)
+        this.$store.commit("addNewGradeToArray", this.payloadGrade);
     },
     addNewWeight(){
-      return this.$store.commit("addNewWeight", this.payloadWeight)
+        this.$store.commit("addNewWeightToArray", this.payloadWeight)
     },
     addNewDescription(){
-      return this.$store.commit("addNewDescription", this.payloadDescription)
-    },
+        return this.$store.commit("addNewDescriptionToArray", this.payloadDescription)
+    }
   }
 }
 </script>
 
-<style scoped>
+<style>
+
+
+.addStudentPanelMain select {
+  line-height: 1.7em;
+   font-size: 15px;
+     text-shadow: none;
+     padding-left: 6px;
+     border-radius: 2px;
+     background-color: black;
+     appearance: none;
+     width: 35px;
+     background-image: url("./../assets/arrow_down.png");
+     background-repeat: no-repeat, repeat;
+     background-position: right .3em top 50%, 0 0 ;
+     background-size: .55em auto, 130%
+}
+ /* .addStudentPanelMain select:after{
+  content: "▼";
+  padding: 12px 8px;
+  position: absolute;
+  right: 10px;
+  top: 0;
+  z-index: 1;
+  text-align: center;
+  width: 10%;
+  height: 100%;
+  pointer-events: none;
+} */
+.addStudentPanelMain select option {
+    color: #00c3ff;
+    text-align: center;
+    border-bottom: 1px solid blue;
+}
+.addStudentPanelMain input {
+    outline: none;
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+    width: 65%;
+    height: 23px;
+    font-size: 0.40rem;
+    text-align: center;
+    background-color: black;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    text-shadow: none;
+}
+.addStudentPanelMain input:focus {
+    border: 2px solid #a5cda5;
+    color: white;
+    /* text-shadow: .2px 0px 1px #00c3ff, -.2px 0px 1px #00c3ff, 0px .2px 1px #00c3ff, 0px -.2px 1px #00c3ff; */
+    -webkit-box-shadow: 0px 0px 10px 2px rgba(204, 204, 204, 0.9);
+    -moz-box-shadow: 0px 0px 10px 2px rgba(204, 204, 204, 0.9);
+    box-shadow: 0px 0px 10px 2px rgba(204, 204, 204, 0.9)
+}
 
 .addStudentPanelGradesContent {
   margin-top: 19px;
