@@ -54,7 +54,7 @@
 
                  <label>Opis oceny:
 
-                     <input type="text" v-model="payloadDescription.description" @change="addNewDescription" class="description" maxlength="30">
+                     <input type="text" v-model.lazy="payloadDescription.description" @change="addNewDescription" class="description" maxlength="30">
 
                  </label>
 
@@ -118,6 +118,9 @@ export default {
     }
   },
   props:["n"],
+  // updated(){
+  //   this.gradeWeightColor
+  // },
   methods:{
     addNewGrade(){
         this.$store.commit("addNewGradeToArray", this.payloadGrade);
@@ -126,7 +129,7 @@ export default {
         this.$store.commit("addNewWeightToArray", this.payloadWeight)
     },
     addNewDescription(){
-        return this.$store.commit("addNewDescriptionToArray", this.payloadDescription)
+        this.$store.commit("addNewDescriptionToArray", this.payloadDescription)
     }
   }
 }

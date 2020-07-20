@@ -173,20 +173,21 @@
 
                                     </span> -->
 
-                                    <span v-html="gradeWeightColor()">
+                                    <span v-html="gradeWeightColor(this.$store.state.newStudentGrades.grades)">
 
                                     </span>
                                 </td>
 
                                 <td>
-                                    <!-- <span v-if="add.grades!=='' && add.weight!==''">{{addAvg}}
-                                    </span> -->
+                                    <span>
+                                      {{avg(this.$store.state.newStudentGrades.grades,this.$store.state.newStudentGrades.weights)}}
+                                    </span>
                                 </td>
 
                                 <td>
-                                    <!-- <span v-if="add.avg!==''" class="fire">
-                                        {{addThreatness}}
-                                    </span> -->
+                                  <span v-html="threatness(avg(this.$store.state.newStudentGrades.grades,this.$store.state.newStudentGrades.weights))">
+
+                                  </span>
                                 </td>
                             </tr>
 
@@ -256,33 +257,11 @@ export default {
   },
   computed: {
       newGrades(){
-        console.log(this.$store.getters.newGrades);
-        return this.gradeWeightColor();
-      },
-      addAvg: function() {
-          if (this.add.grades !== '' && this.add.weight !== '') {
-              const arr1 = [];
-              const arr2 = [];
-              this.avg(arr1.push(this.add.grades), arr2.push(this.add.weights));
-              const addAvgRounded = Math.round(arr1[0] * arr2[0] / arr2[0]).toFixed(2);
-              console.log(arr1)
-              console.log(arr2)
-              console.log(addAvgRounded)
-              // this.add.avg = addAvgRounded;
-              return addAvgRounded
-          }
-          else{return ''}
-      },
-      addThreatness: function() {
-          if (this.add.avg !== "") {
-              if (this.add.avg < 2) {
-                  return "ZAGROŻENIE"
-              } else {
-                  return ""
-              }
-          }
-          else{return ''}
+        // console.log(this.$store.getters.newGrades);
+        return this.gradeWeightColor(this.$store.getters.newGrades);
       }
+
+
   },
   beforeRouteLeave(to,from,next){
     if((this.confirm==false) && ((this.add.name == "")||(this.add.grades == "")||(this.add.weights == "")||(this.add.description == ""))){
@@ -314,7 +293,7 @@ export default {
       return this.add.avg = addAvgRounded;
   },
   // updated(){
-  //   this.gradeWeightColor()
+  //   this.gradeWeightColor(
   // },
   filters: {
     //converts student's full name to correct form
@@ -352,6 +331,7 @@ export default {
     },
   },
   methods: {
+
       //starts animation
       enter: function(el, done){
         el.addEventListener("animationend", function(){
@@ -361,6 +341,7 @@ export default {
         el.style.animationName="aaa";
         el.style.animationDuration="1s"
       },
+
       //ends animation
       leave: function(el, done){
         el.addEventListener("animationend", function(){
@@ -371,6 +352,7 @@ export default {
         el.style.animationDuration="1s";
         el.style.animationDirection="reverse"
       },
+
       //shows confirm window
       confirmWindow: function(action){
         if(action=="quit"){
@@ -383,19 +365,19 @@ export default {
           this.$router.push({path: this.exitPath});
         }
       },
+
       //shows additional information
       additionalInfoSwitcher: function() {
         const spanInfoSwitcher = document.querySelector(".addStudentPanelName span.showInfo");
         this.info = !this.info;
         if(spanInfoSwitcher.innerHTML == "Rozwiń") {
           spanInfoSwitcher.innerHTML = "Zwiń";
-          // document.querySelector(".info").classList.add("expanded")
         }
         else {
           spanInfoSwitcher.innerHTML = "Rozwiń";
-          // document.querySelector(".info").classList.remove("expanded")
         }
       },
+
       //regular expressions
       validatorData: function(Data, RegularExpression, Format) {
         //gets inserted value
@@ -413,12 +395,20 @@ export default {
       },
 
       //colors grades
-      gradeWeightColor: function() {
+      gradeWeightColor: function(newStudentGrades) {
 
+        let limit = this.$store.state.newStudentGrades.grades.length;
+        if(this.$store.state.newStudentGrades.weights.length>this.$store.state.newStudentGrades.grades.length){
+          limit = this.$store.state.newStudentGrades.weights.length
+        }
+
+        console.log(newStudentGrades)
         let aaa = "";
-
-          for (let i = 0; i < this.$store.state.newStudentGrades.grades.length; i++) {
-              if((this.$store.state.newStudentGrades.grades!=="")&&(this.$store.state.newStudentGrades.weights!=="")){
+        // console.log("HEHEHEHE")
+        // alert(11)
+          for (let i = 0; i < limit; i++) {
+            // console.log("Próbka nr: " + i + ". Ocena:" + this.$store.state.newStudentGrades.grades[i])
+              if(this.$store.state.newStudentGrades.grades[i]!==undefined){
                     if (this.$store.state.newStudentGrades.weights[i] == 1) {
                         aaa += `<div class="gradeWeightColor gradeWeightGreen">${this.$store.state.newStudentGrades.grades[i]}</div>`
                     } else if (this.$store.state.newStudentGrades.weights[i] == 2) {
@@ -426,48 +416,84 @@ export default {
                     } else if (this.$store.state.newStudentGrades.weights[i] == 3) {
                         aaa +=  `<div class="gradeWeightColor gradeWeightRed">${this.$store.state.newStudentGrades.grades[i]}</div>`
                     }
+                    else if(this.$store.state.newStudentGrades.weights[i]==undefined){
+                      // alert(this.$store.state.newStudentGrades.weights[i]===undefined)
+                      aaa +=  `<div class="gradeWeightColor">${this.$store.state.newStudentGrades.grades[i]}</div>`
+                    }
+
               }
-              else {
-                aaa +=  `<div class="gradeWeightColor">${this.$store.state.newStudentGrades.grades[i]}</div>`
+              else if(this.$store.state.newStudentGrades.grades[i]==undefined){
+                if(this.$store.state.newStudentGrades.weights[i]===1){
+                  aaa +=  `<div class="gradeWeightColor gradeWeightGreen" style="height:32px;"> </div>`
+                }
+                else if(this.$store.state.newStudentGrades.weights[i]===2){
+                  aaa +=  `<div class="gradeWeightColor gradeWeightYellow" style="height:32px;"> </div>`
+                }
+                else if(this.$store.state.newStudentGrades.weights[i]===3){
+                  aaa +=  `<div class="gradeWeightColor gradeWeightRed" style="height:32px;"> </div>`
+                }
+
               }
+              // else if((this.$store.state.newStudentGrades.grades[i]!=="")&&(this.$store.state.newStudentGrades.weights[i]==="")) {
+              // alert(222)
+              // }
+              // else {
+              //   aaa +=  `<div class="gradeWeightColor">${this.$store.state.newStudentGrades.grades[i]}</div>`
+              // }
           }
+
+          // console.log(aaa)
 
         return aaa
 
 
       },
+
       //adds a new grade to new student
       addNewGrade: function() {
         this.gradesLength++;
       },
+
       //returns grades' average
-      avg: function(gradesSmallArray, weightSmallArray) {
+      avg: function(gradesArray, weightArray) {
+
           let gradesSuperValue = 0;
           let weightSum = 0;
-          for (let i = 0; i < gradesSmallArray.length; i++) {
-              gradesSuperValue += gradesSmallArray[i] * weightSmallArray[i];
-              weightSum += weightSmallArray[i]
+
+
+          for (let i = 0; i < gradesArray.length; i++) {
+              gradesSuperValue += gradesArray[i] * weightArray[i];
+              weightSum += weightArray[i]
           }
+
           //round avg to 2 decimal places
           const average = gradesSuperValue / weightSum;
-          const averageRounded = (Math.round(average * 100) / 100).toFixed(2);
+          let averageRounded = (Math.round(average * 100) / 100).toFixed(2);
+          if(isNaN(averageRounded)){
+            averageRounded = ""
+          }
           return averageRounded;
+
+
       },
+
       //decides if student is threated
       threatness: function(myAVG) {
-          if (myAVG < 2) {
+        console.log(myAVG)
+          if ((myAVG < 2) && (myAVG != "")) {
               return "<span class='fire'>ZAGROŻENIE</span>"
           } else {
               return ""
           }
       },
+
       //resets addStudent Panel
       addStudentCancel: function() {
-          this.add.name = "";
-          this.add.grades = "";
-          this.add.weight = "";
-          this.add.description = "";
+          this.add.name = ""
+          this.$store.state.newStudentGrades.grades = "";
+          this.$store.state.newStudentGrades.weights = "";
       },
+
       //adds a new student to the class table
       addStudent: function() {
           const gradeInDiv = document.querySelectorAll("table.summary .gradeWeightColor");
@@ -519,6 +545,7 @@ export default {
           }
           //if we've got both grade, weigth and description
       },
+
       //returns current Date in an Array
       whatsTheDatePlease: function() {
           const today = new Date();

@@ -60,7 +60,14 @@ export const store = new Vuex.Store({
 
       //places new grade in appropriate place according to the provided index
       //e.g    second component Grade.vue:   newGradesArray[1] = 5        newGradesArray=[3,5]
-      state.newStudentGrades.grades.splice(payload.placeInArray,1,payload.grade);
+
+      state.newStudentGrades.grades[payload.placeInArray]=payload.grade
+      // console.log(state.newStudentGrades.grades)
+
+      // state.newStudentGrades.grades.splice(payload.placeInArray,1,payload.grade);
+
+
+
 
     },
     addNewWeightToArray(state, payload){
@@ -72,7 +79,9 @@ export const store = new Vuex.Store({
 
       //places new grade in appropriate place according to the provided index
       //e.g    second component Grade.vue:   newGradesArray[1] = 5        newGradesArray=[3,5]
-      state.newStudentGrades.weights.splice(payload.placeInArray,1,payload.weight);
+      state.newStudentGrades.weights[payload.placeInArray]=payload.weight
+      // state.newStudentGrades.weights.splice(payload.placeInArray,1,payload.weight);
+
     },
     addNewDescriptionToArray(state, payload){
       state.newStudentGrades.descriptions[payload.placeInArray] = payload.description;
