@@ -18,7 +18,7 @@
                            </span>
                        </label>
 
-                       <input type="text" v-model="add.name" id="name" maxlength="30">
+                       <input type="text" v-model="name" id="name" maxlength="30">
                       <span class="required">
                            <transition name="bounce">
                               <span class="required" v-if="showError">Uzupełnij imię i nazwisko</span>
@@ -157,7 +157,7 @@
 
                             <tr>
                                 <td>
-                                  <span v-if="add.name!==''">{{add.name | formatName}}</span>
+                                  <span v-if="name!==''">{{name | formatName}}</span>
                                 </td>
 
                                 <td ref="allNewStudentGrades">
@@ -263,10 +263,9 @@ export default {
                  "lastName": "",
                  "phone": "",
                  "email": ""
-             },
-
-             name: ""
+             }
         },
+        name: "",
         info: false,
         confirm: false,
         exitPath: "",
@@ -325,33 +324,71 @@ export default {
       }
       return this.add.avg = addAvgRounded;
   },
+  updated(){
+    // alert("UUU")
+    if(this.name!=""){
+      const arr = this.name.split(" ");
+      this.add.firstName = arr[0];
+      this.add.lastName = arr[1];
+      console.log(this.add)
+      // const array = [];
+      // const name=this.name
+      // //splits name into firstName and lastName
+      // //e.g jan kowalski => ["jan", "kowalski"]
+      // const nameArray = name.split(" ");
+      // nameArray[0].toLowerCase();
+      //
+      // //splits firstName and lastName into single letters
+      // //e.g jan => ["j", "a", "n"]
+      // const singleLetter = nameArray[0].split("");
+      //
+      // //makes the first letter bigger
+      // //e.g jan[0] => ["j"] => ["J"]
+      // const bigFirstLetter = singleLetter[0].toUpperCase();
+      //
+      // //replaces firts small letter of firstName to Big letter
+      // //e.g jan => Jan
+      // array.push(nameArray[0].replace(singleLetter[0], bigFirstLetter));
+      // console.log(array)
+    }
+  },
   filters: {
     //converts student's full name to correct form
     //e.g jan kowalski => KOWALSKI Jan
     formatName(name) {
+      // console.log(this)
       const wrongName = document.querySelector(".required");
       const reg = new RegExp("^[A-Z]?[a-z]*( [A-Z]?[a-z]*)+(-[A-Z]?[a-z]+)?$");
       if(reg.test(name) == true){
         wrongName.innerHTML = "";
         const array = [];
+
         //splits name into firstName and lastName
         //e.g jan kowalski => ["jan", "kowalski"]
         const nameArray = name.split(" ");
         nameArray[0].toLowerCase();
+
         //splits firstName and lastName into single letters
         //e.g jan => ["j", "a", "n"]
         const singleLetter = nameArray[0].split("");
+
         //makes the first letter bigger
         //e.g jan[0] => ["j"] => ["J"]
         const bigFirstLetter = singleLetter[0].toUpperCase();
+
         //replaces firts small letter of firstName to Big letter
         //e.g jan => Jan
         array.push(nameArray[0].replace(singleLetter[0], bigFirstLetter));
+
         if (nameArray.length > 1) {
             //replaces lastname to BIG LETTERS
             //e.g kowalski => KOWALSKI
             array.push(nameArray[1].toUpperCase());
         }
+        // console.log(array)
+        // this.add.lastName = array;
+        // this.add.firstName = array[0];
+
         //converts array into string
         return array.reverse().join(" ");
       }
@@ -606,7 +643,8 @@ export default {
 
       //adds a new student to the class table
       addStudent: function() {
-        this.$store.commit("addNewStudentToClass", this.add)
+        this.$store.commit("addNewStudentToClass", this.add);
+        this.$store.commit("setFullClass", this.$store.state.students)
         this.$router.push({name: "FullClass"})
 
           // const gradeInDiv = document.querySelectorAll("table.summary .gradeWeightColor");

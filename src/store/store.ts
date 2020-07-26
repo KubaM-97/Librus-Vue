@@ -16,7 +16,7 @@ export const store = new Vuex.Store({
     newStudentGrades:{
         grades: "",
         weights: "",
-        descriptions: "",
+        descriptions: [],
         dates: []
     }
   },
@@ -33,7 +33,9 @@ export const store = new Vuex.Store({
     visibleMainLogPanel(state){
       return state.showMainLogPanel;
     },
-    students: state=>state.students
+    students(state){
+      return state.students
+    }
   },
   mutations: {
 
@@ -101,7 +103,10 @@ export const store = new Vuex.Store({
       payload.id = allStudents.length + 1;
       payload.lastName = "AAA";
       payload.firstName = "BBB";
-      console.log(allStudents)
+      state.students = allStudents;
+      // console.log(state.students[21])
+      // console.log(allStudents)
+      // return allStudents
       // allStudents[allStudents.length-1] = this.add;
     }
   },

@@ -73,7 +73,6 @@
         </tbody>
 
     </table>
-
 </div>
 </template>
 
@@ -96,16 +95,58 @@ export default {
    },
    computed:{
      students(){
-       console.log(this.$store.getters.students)
        return this.$store.getters.students
      }
    },
    created(){
-     // this.gradeWeightColor()
-       this.$store.dispatch("initFullClass")
+       // this.$store.dispatch("initFullClass")
+       // console.log(this.$store.state.students)
+       this.$store.commit("setFullClass", this.$store.state.students);
+       // this.gradeWeightColor();
+       // this.sortMyStudents();
    },
-   updated(){
+   // updated(){
+   //   this.gradeWeightColor();
+   //   this.sortMyStudents();
+   // },
+   // beforeRouteEnter(){
+   // // console.log(this)
+   //   // //gets table
+   //   // const table = document.getElementById("tableStudents");
+   //   //
+   //   // //adds Nr (first <td> in every <tr>) in table
+   //   // const rowsNr = table.rows;
+   //   // for (let j = 1; j < rowsNr.length+1; j++) {
+   //   //     rowsNr[j-1].getElementsByTagName("TD")[0].innerHTML = j+".";
+   //   // }
+   //     //
+   //     //
+   //     // //colors grades
+   //     // this.gradeWeightColor();
+   //     //
+   //     // //show tooltip after hovering on every grade
+   //     // this.showTooltip();
+   //
+   //
+   // },
+   beforeRouteEnter (to, from, next) {
+      next(vm => { // alert(4434)
+       //gets table
+       const table = document.getElementById("tableStudents");
 
+       //adds Nr (first <td> in every <tr>) in table
+       const rowsNr = table.rows;
+       for (let j = 1; j < rowsNr.length+1; j++) {
+           rowsNr[j-1].getElementsByTagName("TD")[0].innerHTML = j+".";
+       }
+        vm.gradeWeightColor();
+        vm.showTooltip();
+        vm.sortMyStudents();
+      })
+   },
+   updated() {
+
+     // alert(4434)
      //gets table
      const table = document.getElementById("tableStudents");
 
@@ -114,12 +155,7 @@ export default {
      for (let j = 1; j < rowsNr.length+1; j++) {
          rowsNr[j-1].getElementsByTagName("TD")[0].innerHTML = j+".";
      }
-
-
-     //colors grades
      this.gradeWeightColor();
-
-     //show tooltip after hovering on every grade
      this.showTooltip();
 
    },
@@ -289,12 +325,13 @@ export default {
             const table = document.getElementById("tableStudents");
             let switching = true;
             let Switch, i;
+
             // Run loop until no switching is needed
             while (switching == true) {
 
                 switching = false;
                 const rows = table.rows;
-                //
+                console.log(rows.length)
                 //goes through all rows
                 for (i = 1; i < (rows.length - 1); i++) {
                     Switch = false;
@@ -305,7 +342,6 @@ export default {
 
                     //checks if these 2 rows need to be switched
                     if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-
                         //if yes, updates Switch and breaks loop
                         Switch = true;
                         break;
@@ -313,19 +349,11 @@ export default {
                 }
 
                 if (Switch) {
-
                     // Function to switch rows and mark switch as completed
                     rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
                     switching = true;
-
                 }
             }
-            //
-            // //sorting Nr in table
-            // const rowsNr = table.rows;
-            // for (let j = 1; j < rowsNr.length; j++) {
-            //     rowsNr[j].getElementsByTagName("TD")[0].innerHTML = j;
-            // }
         },
 
 
