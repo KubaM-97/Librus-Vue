@@ -97,17 +97,10 @@ export const store = new Vuex.Store({
     },
 
     addNewStudentToClass(state, payload){
-      // alert("HEJKA")
       const allStudents = state.students;
       allStudents[allStudents.length] = payload
-      payload.id = allStudents.length + 1;
-      payload.lastName = "AAA";
-      payload.firstName = "BBB";
+      payload.id = allStudents.length;
       state.students = allStudents;
-      // console.log(state.students[21])
-      // console.log(allStudents)
-      // return allStudents
-      // allStudents[allStudents.length-1] = this.add;
     }
   },
   actions: {

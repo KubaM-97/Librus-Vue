@@ -131,21 +131,22 @@ export default {
    // },
    beforeRouteEnter (to, from, next) {
       next(vm => { // alert(4434)
-       //gets table
-       const table = document.getElementById("tableStudents");
 
-       //adds Nr (first <td> in every <tr>) in table
-       const rowsNr = table.rows;
-       for (let j = 1; j < rowsNr.length+1; j++) {
-           rowsNr[j-1].getElementsByTagName("TD")[0].innerHTML = j+".";
-       }
         vm.gradeWeightColor();
         vm.showTooltip();
         vm.sortMyStudents();
+        //gets table
+        const table = document.getElementById("tableStudents");
+
+        //adds Nr (first <td> in every <tr>) in table
+        const rowsNr = table.rows;
+        for (let j = 1; j < rowsNr.length+1; j++) {
+            rowsNr[j-1].getElementsByTagName("TD")[0].innerHTML = j+".";
+        }
       })
    },
    updated() {
-
+    this.sortMyStudents();
      // alert(4434)
      //gets table
      const table = document.getElementById("tableStudents");
@@ -331,15 +332,16 @@ export default {
 
                 switching = false;
                 const rows = table.rows;
-                console.log(rows.length)
+
                 //goes through all rows
-                for (i = 1; i < (rows.length - 1); i++) {
+                for (i = 0; i < (rows.length - 1); i++) {
                     Switch = false;
 
                     //fetches 2 elements that will be compared
                     const x = rows[i].getElementsByTagName("TD")[1];
                     const y = rows[i + 1].getElementsByTagName("TD")[1];
 
+                    // alert(rows[1])
                     //checks if these 2 rows need to be switched
                     if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
                         //if yes, updates Switch and breaks loop

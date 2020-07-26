@@ -385,9 +385,6 @@ export default {
             //e.g kowalski => KOWALSKI
             array.push(nameArray[1].toUpperCase());
         }
-        // console.log(array)
-        // this.add.lastName = array;
-        // this.add.firstName = array[0];
 
         //converts array into string
         return array.reverse().join(" ");
@@ -644,6 +641,7 @@ export default {
       //adds a new student to the class table
       addStudent: function() {
         this.$store.commit("addNewStudentToClass", this.add);
+        console.log(this.$store.state.students)
         this.$store.commit("setFullClass", this.$store.state.students)
         this.$router.push({name: "FullClass"})
 
