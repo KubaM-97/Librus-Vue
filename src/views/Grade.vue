@@ -8,7 +8,7 @@
 
             <div class="col-md-3">
 
-              <div class="addStudentPanelGradesContentSingleGrade">
+                <div class="addStudentPanelGradesContentSingleGrade">
 
                   <label for="grades">Ocena:</label>
 
@@ -31,7 +31,7 @@
 
             <div class="col-md-3">
 
-              <div class="addStudentPanelGradesContentSingleWeight">
+                <div class="addStudentPanelGradesContentSingleWeight">
 
                   <label for="weight">Waga oceny:</label>
 
@@ -44,27 +44,30 @@
                   </div>
 
               </div>
+
             </div>
 
             <div class="col-md-5">
 
-             <div class="addStudentPanelGradesContentSingleDescription">
+                <div class="addStudentPanelGradesContentSingleDescription">
 
                  <span class="descriptionCount">Pozostało: {{characters}} znaków.</span>
 
                  <label>Opis oceny:
 
-                     <input type="text" v-model.lazy="payloadDescription.description" @change="addNewDescription" class="description" maxlength="30">
+                     <input type="text" v-model="payloadDescription.description" @change="addNewDescription" class="description" maxlength="30">
 
                  </label>
 
              </div>
 
-          </div>
+            </div>
 
           </div>
 
        </div>
+
+       <span @click="usun"><em>Usuń</em></span>
 
   </div>
 </template>
@@ -73,11 +76,10 @@
 export default {
   name: "Grade",
   watch: {
-    add: {
-      handler(newValue, oldValue){
-        const inputGradeDescription = document.querySelector(".description").value;
-        const descriptionCount = document.querySelector("span.descriptionCount");
-        console.log(inputGradeDescription.length)
+    "payloadDescription.description": {
+      handler: function(newVal,oldVal){
+        const inputGradeDescription = document.querySelectorAll(".description")[this.n].value;
+        const descriptionCount = document.querySelectorAll("span.descriptionCount")[this.n];
         const counter = (30 - (inputGradeDescription.length));
         switch (counter) {
             case 2:
@@ -95,9 +97,34 @@ export default {
                 descriptionCount.innerHTML = `Pozostało: ${counter} znaków.`;
         }
 
-        return this.characters--
+        // return this.characters--
       },
-      deep: true
+      deep:true
+      // handler(newValue, oldValue){
+      //   alert(newValue)
+      //   const inputGradeDescription = document.querySelector(".description").value;
+      //   const descriptionCount = document.querySelector("span.descriptionCount");
+      //   console.log(inputGradeDescription.length)
+      //   const counter = (30 - (inputGradeDescription.length));
+      //   switch (counter) {
+      //       case 2:
+      //       case 3:
+      //       case 4:
+      //       case 22:
+      //       case 23:
+      //       case 24:
+      //           descriptionCount.innerHTML = `Pozostały: ${counter} znaki.`;
+      //           break;
+      //       case 1:
+      //           descriptionCount.innerHTML = `Pozostał: ${counter} znak.`;
+      //           break;
+      //       default:
+      //           descriptionCount.innerHTML = `Pozostało: ${counter} znaków.`;
+      //   }
+      //
+      //   return this.characters--
+      // },
+      // deep: true
     }
   },
   data(){
@@ -114,6 +141,10 @@ export default {
       payloadDescription:{
         description: "",
         placeInArray: this.n
+      },
+      payloadDate: {
+        date: "",
+        placeInArray: this.n
       }
     }
   },
@@ -121,7 +152,18 @@ export default {
   // updated(){
   //   this.gradeWeightColor
   // },
+  updated(){
+    // if we've got both: grade, weight and description
+    if((this.payloadGrade.grade!=="")&&(this.payloadWeight.weight!=="")&&(this.payloadDescription.description!=="")){
+      this.payloadDate.date = this.whatsTheDatePlease();
+      this.addNewDate();
+    }
+  },
   methods:{
+    usun(){
+      document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].innerHTML = ""
+      // this.$emit("bbbb", false)
+    },
     addNewGrade(){
         this.$store.commit("addNewGradeToArray", this.payloadGrade);
     },
@@ -130,14 +172,74 @@ export default {
     },
     addNewDescription(){
         this.$store.commit("addNewDescriptionToArray", this.payloadDescription)
+    },
+    addNewDate(){
+        this.$store.commit("addNewDateToArray", this.payloadDate)
+    },
+
+    //returns current Date in an Array
+    whatsTheDatePlease: function() {
+        const today = new Date();
+        const currentYear = today.getFullYear();
+        let currentMonth = today.getMonth();
+        let currentDay = today.getDate();
+        let currentHours = today.getHours();
+        let currentMinutes = today.getMinutes();
+        let currentSeconds = today.getSeconds();
+        if (currentMonth < 10) {
+            currentMonth = `0${currentMonth}`;
+        }
+        if (currentDay < 10) {
+            currentDay = `0${currentDay}`;
+        }
+        if (currentHours < 10) {
+            currentHours = `0${currentHours}`;
+        }
+        if (currentMinutes < 10) {
+            currentMinutes = `0${currentMinutes}`;
+        }
+        if (currentSeconds < 10) {
+            currentSeconds = `0${currentSeconds}`;
+        }
+        // [DD.MM.YYYY]
+        const dateSubArrayDDMMYYYY = [currentDay, currentMonth, currentYear].join(".");
+        // [HH:MM:SS]
+        const dateSubArrayHHMMSS = [currentHours, currentMinutes, currentSeconds].join(":");
+        // [["DD.MM.YYYY"] ["HH:MM:SS"]]
+        const dateFull = [];
+        dateFull.push(dateSubArrayDDMMYYYY, dateSubArrayHHMMSS)
+        // DD.MM.YYYY HH:MM:SS
+        const dateFullStr = dateFull.join(" ")
+        // [DD.MM.YYYY HH:MM:SS]
+        const dateFullArray = [];
+        dateFullArray.push(dateFullStr);
+        let dateArray;
+        return dateArray = dateFullStr;
     }
+
+  },
+  // beforeDestroy(){
+  //
+  // },
+  destroy(){
+    let limit = this.$store.state.newStudentGrades.grades.length;
+    if(this.$store.state.newStudentGrades.weights.length>this.$store.state.newStudentGrades.grades.length){
+      limit = this.$store.state.newStudentGrades.weights.length
+    }
+    for(let i = 0; i<=limit; i++){
+      if(i>this.n){
+        this.$store.state.newStudentGrades.grades[i]=this.$store.state.newStudentGrades.grades[i-1]
+      }
+    }
+    this.$store.state.newStudentGrades.grades.pop()
+    this.$store.state.newStudentGrades.weights.pop()
+    this.$store.state.newStudentGrades.descriptions.pop()
+    this.$store.state.newStudentGrades.dates.pop()
   }
 }
 </script>
 
 <style>
-
-
 .addStudentPanelMain select {
   line-height: 1.7em;
    font-size: 15px;

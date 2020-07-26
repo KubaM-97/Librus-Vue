@@ -96,10 +96,12 @@ export default {
    },
    computed:{
      students(){
+       console.log(this.$store.getters.students)
        return this.$store.getters.students
      }
    },
    created(){
+     // this.gradeWeightColor()
        this.$store.dispatch("initFullClass")
    },
    updated(){

@@ -121,6 +121,9 @@ Vue.component('log-out-button', {
       ]
     )
   },
+  created(){
+      this.$store.dispatch("initFullClass")
+  },
   methods:{
     logMeOut(){
       this.$router.push({name: 'LoggedOut'});

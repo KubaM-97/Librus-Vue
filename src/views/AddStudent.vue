@@ -37,7 +37,7 @@
 
                                <div class="form-group">
                                  <label for="pesel">PESEL:</label>
-                                 <input type="text" id="Pesel" placeholder="PESEL" @keyup="validatorData('Pesel', '^[0-9]{11}$', 'Dokładnie 9 cyfr')">
+                                 <input type="text" id="Pesel" placeholder="PESEL" @keyup="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
                                  <span class="wrongAdditionalInfo" id="wrongPesel"></span>
                                </div>
 
@@ -160,7 +160,7 @@
                                   <span v-if="add.name!==''">{{add.name | formatName}}</span>
                                 </td>
 
-                                <td>
+                                <td ref="allNewStudentGrades">
                                     <!-- <span v-if="this.$store.state.newStudentGrades.grades!=='' && this.$store.state.newStudentGrades.weights[0]===1" v-html="gradeWeightColor(1)">
 
                                     </span>
@@ -172,7 +172,7 @@
                                     <span v-else-if="this.$store.state.newStudentGrades.grades!=='' && this.$store.state.newStudentGrades.weights===3" v-html="gradeWeightColor(3)">
 
                                     </span> -->
-
+                                    {{newGrades}}
                                     <span v-html="gradeWeightColor(this.$store.state.newStudentGrades.grades)">
 
                                     </span>
@@ -215,8 +215,8 @@
 
         <div class="confirm" v-show="confirm">
           <p>Na pewno chcesz wyjść? Nie zapisano zmian...</p>
-          <button @click="confirmWindow('quit')">Wychodzę</button>
-          <button @click="confirmWindow('stay')">Racja, zostaję!</button>
+          <button @click="showConfirmWindow('quit')">Wychodzę</button>
+          <button @click="showConfirmWindow('stay')">Racja, zostaję!</button>
         </div>
 
     </div>
@@ -234,13 +234,38 @@ export default {
   name: "AddStudent",
   data(){
        return{
-        add: {
-                name: "",
-                grades: "",
-                weights: "",
-                avg: "",
-                description: "",
-                date: ""
+         add: {
+             id: "",
+             lastName: "",
+             firstName: "",
+             grades: this.$store.state.newStudentGrades.grades,
+             weights: this.$store.state.newStudentGrades.weights,
+             descriptions: this.$store.state.newStudentGrades.descriptions,
+             date: "",
+             pesel: "",
+             street: {
+                 streetName: "",
+                 streetNr: "",
+                 streetFlat: "",
+                 streetPostCode: "",
+                 streetCity: ""
+             },
+             phone: "",
+             email: "",
+             mother: {
+                 "firstName": "",
+                 "lastName": "",
+                 "phone": "",
+                 "email": ""
+             },
+             father: {
+                 "firstName": "",
+                 "lastName": "",
+                 "phone": "",
+                 "email": ""
+             },
+
+             name: ""
         },
         info: false,
         confirm: false,
@@ -255,20 +280,27 @@ export default {
   components: {
     "grade-component": Grade
   },
-  computed: {
-      newGrades(){
-        // console.log(this.$store.getters.newGrades);
-        return this.gradeWeightColor(this.$store.getters.newGrades);
-      }
-
-
+  computed:{
+    newGrades(){
+        return this.$store.getters.newGrades
+    }
   },
   beforeRouteLeave(to,from,next){
-    if((this.confirm==false) && ((this.add.name == "")||(this.add.grades == "")||(this.add.weights == "")||(this.add.description == ""))){
+    const grades = this.$store.state.newStudentGrades.grades
+    const weights = this.$store.state.newStudentGrades.weights
+    const descriptions = this.$store.state.newStudentGrades.descriptions
+
+
+    if((this.confirm==false) && (
+      (this.add.name == "") || (grades.length!=weights.length) || (grades.length!=descriptions.length) || (weights.length!=descriptions.length)
+      || (grades.includes(undefined))||(weights.includes(undefined))||(descriptions.includes(undefined))
+    )){
+      // this.exitPath = to.path;
+      // alert(this.exitPath)
       if(to.path == "/LoggedOut"){
         next()
       }
-      else if(this.exitPath == ""){
+      else if (this.exitPath == ""){
         setTimeout(()=>{
           //shows confirm window
           this.confirm = true;
@@ -276,10 +308,11 @@ export default {
         this.exitPath = to.path;
         next(false)
       }
-      else{
-        next()
-      }
     }
+    else{
+      next()
+    }
+
   },
   beforeUpdate() {
     let addAvgRounded = '';
@@ -292,9 +325,6 @@ export default {
       }
       return this.add.avg = addAvgRounded;
   },
-  // updated(){
-  //   this.gradeWeightColor(
-  // },
   filters: {
     //converts student's full name to correct form
     //e.g jan kowalski => KOWALSKI Jan
@@ -354,10 +384,10 @@ export default {
       },
 
       //shows confirm window
-      confirmWindow: function(action){
+      showConfirmWindow: function(action){
         if(action=="quit"){
-          this.confirm = false;
           this.$router.push({path: this.exitPath})
+          this.confirm = false;
         }
         else if(action == "stay"){
           this.confirm = false;
@@ -402,7 +432,6 @@ export default {
           limit = this.$store.state.newStudentGrades.weights.length
         }
 
-        console.log(newStudentGrades)
         let aaa = "";
         // console.log("HEHEHEHE")
         // alert(11)
@@ -443,13 +472,13 @@ export default {
           }
 
           // console.log(aaa)
-
+          this.showTooltip();
         return aaa
 
 
       },
 
-      //adds a new grade to new student
+      //adds a new grade to the new student
       addNewGrade: function() {
         this.gradesLength++;
       },
@@ -479,7 +508,6 @@ export default {
 
       //decides if student is threated
       threatness: function(myAVG) {
-        console.log(myAVG)
           if ((myAVG < 2) && (myAVG != "")) {
               return "<span class='fire'>ZAGROŻENIE</span>"
           } else {
@@ -487,63 +515,155 @@ export default {
           }
       },
 
+      //shows tooltip after hovering on every grade
+      showTooltip: function() {
+        const gradesWrappedInDiv = document.getElementsByClassName("gradeWeightColor");
+
+        // console.log(this.$refs.allNewStudentGrades.querySelectorAll("span"))
+          // const gradeInDiv = this.$el.querySelectorAll("div");
+          if(gradesWrappedInDiv.length>0){
+              for(let i=0; i<gradesWrappedInDiv.length;i++){
+                //  draws tooltip after hovering
+                  gradesWrappedInDiv[i].addEventListener("mouseenter", function() {
+                      this.canvas(this.$store.state.newStudentGrades.grades, this.$store.state.newStudentGrades.weights, this.$store.state.newStudentGrades.descriptions, this.$store.state.newStudentGrades.dates, gradesWrappedInDiv[i], i)
+                  }.bind(this), false);
+
+                  //destroyes tooltip after leaving
+                  gradesWrappedInDiv[i].addEventListener("mouseleave", function() {
+                      const canv = document.querySelector("canvas");
+                      canv.parentNode.removeChild(canv);
+                  });
+              }
+          }
+        // if((this.$store.state.newStudentGrades.grades!=="")&&(this.$store.state.newStudentGrades.weights!=="")){
+
+
+          // const gradeInDiv = this.$el.querySelectorAll("div");
+          // console.log(this.$refs);
+
+          // for(let i=0; i<=gradeInDiv.length;i++){
+          // //  draws tooltip after hovering
+          //   gradeInDiv[i].addEventListener("mouseenter", function() {
+          //       this.canvas(this.$store.state.newStudentGrades.grades, this.$store.state.newStudentGrades.weights, this.$store.state.newStudentGrades.descriptions, 330, gradeInDiv[i], i)
+          //   }.bind(this), false);
+          //
+          //
+          //   //destroyes tooltip after leaving
+          //   gradeInDiv[i].addEventListener("mouseleave", function() {
+          //       const canv = document.querySelector("canvas");
+          //       canv.parentNode.removeChild(canv);
+          //   });
+          //
+          // }
+          // }
+      },
+
+      //draws tooltip
+      canvas: function(arrayWithAllGrades, arrayWithAllWeights, arrayWithAllDescriptions, arrayWithAllDates, anotherGradeWeightColorDiv, i) {
+
+          const canvas = document.createElement("CANVAS");
+          anotherGradeWeightColorDiv.appendChild(canvas);
+
+          const canv = document.querySelector("canvas");
+          const ctx = canv.getContext("2d");
+
+          canvas.style['z-index'] = 2;
+          canvas.style.position = 'absolute';
+          canvas.style.padding = 0;
+          canvas.style.border = 0;
+
+          ctx.beginPath();
+          ctx.moveTo(0, 10);
+          ctx.lineTo(25, 15);
+          ctx.lineTo(255, 15);
+          ctx.lineTo(255, 135);
+          ctx.lineTo(25, 135);
+          ctx.lineTo(25, 40);
+          ctx.lineTo(0, 10);
+          ctx.stroke();
+          ctx.fillStyle = "#ffeab0";
+          ctx.fill();
+          ctx.fillStyle = "black";
+          ctx.font = "bold 14px Arial";
+
+          ctx.fillText(`Ocena: ${arrayWithAllGrades[i]}`, 40, 50);
+          ctx.fillText(`Waga: ${arrayWithAllWeights[i] } `, 40, 70);
+          ctx.fillText(`Opis: ${arrayWithAllDescriptions[i]}`, 40, 90);
+          ctx.fillText(`Data: ${arrayWithAllDates[i]}`, 40, 110);
+
+      },
+
       //resets addStudent Panel
       addStudentCancel: function() {
           this.add.name = ""
           this.$store.state.newStudentGrades.grades = "";
           this.$store.state.newStudentGrades.weights = "";
+          this.gradesLength = 0;
+          setTimeout(()=>{
+            this.gradesLength = 1;
+          },10);
       },
 
       //adds a new student to the class table
       addStudent: function() {
-          const gradeInDiv = document.querySelectorAll("table.summary .gradeWeightColor");
-          //these arrays contain grades and weigths of a new student
-          const ArrayNewStudentGrade = [];
-          const ArrayNewStudentWeight = [];
-          const ArrayNewStudentDescription = [];
-          ArrayNewStudentGrade.push(this.add.grades);
-          ArrayNewStudentWeight.push(this.add.weight);
-          ArrayNewStudentDescription.push(this.add.description);
-          //this is inserted by user (by teacher) name for a new student
-          const addedStudentName = this.add.name;
-          //splits name into firstname and lastname
-          const addedStudentNameArray = addedStudentName.split(" ");
-          //if we've got both firstname and lastname
-          if (addedStudentNameArray.length >= 2) {
-              //adds a new row to the end of table and connects new cells with a new row
-              const table = document.querySelector(".students");
-              const tr = document.querySelectorAll(".students tbody tr").length;
-              const row = table.insertRow(tr + 1);
-              const cell1 = row.insertCell(0);
-              const cell2 = row.insertCell(1);
-              const cell3 = row.insertCell(2);
-              const cell4 = row.insertCell(3);
-              const cell5 = row.insertCell(4);
-              //this is a variable with avg
-              const cell4Shorthand = this.avg(ArrayNewStudentGrade, ArrayNewStudentWeight);
-              //wraps grades in div
-              this.wrapMyGradesIntoDiv(ArrayNewStudentGrade);
-              //adds content to table
-              cell1.innerHTML = tr + 1;
-              cell2.innerHTML = addedStudentNameArray[1].toUpperCase() + " " + addedStudentNameArray[0];
-              cell3.appendChild(gradeInDiv[0]);
-              cell4.innerHTML = cell4Shorthand;
-              cell5.innerHTML = this.threatness(cell4Shorthand);
-              //colors grades
-              this.gradeWeightColor(ArrayNewStudentWeight);
-              //adds tooltips
-              this.showTooltip();
-              //sorts students in table
-              this.sortMyStudents();
-              //get current date
-              this.whatsTheDatePlease();
-          }
-          //if we've got only firstname or lastname
-          else {
-            this.showError = true;
-              // document.querySelector("span.required").innerHTML = "Uzupełnij imię i nazwisko"
-          }
-          //if we've got both grade, weigth and description
+        this.$store.commit("addNewStudentToClass", this.add)
+        this.$router.push({name: "FullClass"})
+
+          // const gradeInDiv = document.querySelectorAll("table.summary .gradeWeightColor");
+          // //these arrays contain grades and weigths of a new student
+          // const ArrayNewStudentGrade = [];
+          // const ArrayNewStudentWeight = [];
+          // const ArrayNewStudentDescription = [];
+          // ArrayNewStudentGrade.push(this.add.grades);
+          // ArrayNewStudentWeight.push(this.add.weight);
+          // ArrayNewStudentDescription.push(this.add.description);
+          // //this is inserted by user (by teacher) name for a new student
+          // const addedStudentName = this.add.name;
+          // //splits name into firstname and lastname
+          // const addedStudentNameArray = addedStudentName.split(" ");
+          // //if we've got both firstname and lastname
+          // if (addedStudentNameArray.length >= 2) {
+          //     //adds a new row to the end of table and connects new cells with a new row
+          //     const table = document.querySelector(".students");
+          //     const tr = document.querySelectorAll(".students tbody tr").length;
+          //     const row = table.insertRow(tr + 1);
+          //     const cell1 = row.insertCell(0);
+          //     const cell2 = row.insertCell(1);
+          //     const cell3 = row.insertCell(2);
+          //     const cell4 = row.insertCell(3);
+          //     const cell5 = row.insertCell(4);
+          //     //this is a variable with avg
+          //     const cell4Shorthand = this.avg(ArrayNewStudentGrade, ArrayNewStudentWeight);
+          //     //wraps grades in div
+          //     this.wrapMyGradesIntoDiv(ArrayNewStudentGrade);
+          //     //adds content to table
+          //     cell1.innerHTML = tr + 1;
+          //     cell2.innerHTML = addedStudentNameArray[1].toUpperCase() + " " + addedStudentNameArray[0];
+          //     cell3.appendChild(gradeInDiv[0]);
+          //     cell4.innerHTML = cell4Shorthand;
+          //     cell5.innerHTML = this.threatness(cell4Shorthand);
+          //     //colors grades
+          //     this.gradeWeightColor(ArrayNewStudentWeight);
+          //     //adds tooltips
+          //     this.showTooltip();
+          //     //sorts students in table
+          //     this.sortMyStudents();
+          //     //get current date
+          //     this.whatsTheDatePlease();
+          //     this.$router.push({name: "FullClass"})
+          // }
+          // //if we've got only firstname or lastname
+          // else {
+          //   this.showError = true;
+          //   if(this.showError==true){
+          //     this.showError = false;
+          //     setTimeout(()=>{
+          //       this.showError = true
+          //     },10)
+          //   }
+          //     // document.querySelector("span.required").innerHTML = "Uzupełnij imię i nazwisko"
+          // }
+          // //if we've got both grade, weigth and description
       },
 
       //returns current Date in an Array
@@ -570,20 +690,26 @@ export default {
           if (currentSeconds < 10) {
               currentSeconds = `0${currentSeconds}`;
           }
+
           // [DD.MM.YYYY]
           const dateSubArrayDDMMYYYY = [currentDay, currentMonth, currentYear].join(".");
+
           // [HH:MM:SS]
           const dateSubArrayHHMMSS = [currentHours, currentMinutes, currentSeconds].join(":");
+
           // [["DD.MM.YYYY"] ["HH:MM:SS"]]
           const dateFull = [];
           dateFull.push(dateSubArrayDDMMYYYY, dateSubArrayHHMMSS)
+
           // DD.MM.YYYY HH:MM:SS
           const dateFullStr = dateFull.join(" ")
-          // [DD.MM.YYYY HH:MM:SS]
-          const dateFullArray = [];
-          dateFullArray.push(dateFullStr);
-          let dateArray;
-          return dateArray = dateFullStr;
+
+          // // [DD.MM.YYYY HH:MM:SS]
+          // const dateFullArray = [];
+          // dateFullArray.push(dateFullStr);
+          // let dateArray;
+          // return dateArray = dateFullStr;
+          return dateFullStr
       }
    }
 }
