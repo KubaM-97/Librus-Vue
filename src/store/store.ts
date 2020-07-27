@@ -16,8 +16,8 @@ export const store = new Vuex.Store({
     newStudentGrades:{
         grades: "",
         weights: "",
-        descriptions: [],
-        dates: []
+        descriptions: "",
+        dates: ""
     }
   },
   getters:{
@@ -80,7 +80,6 @@ export const store = new Vuex.Store({
 
     },
     addNewDescriptionToArray(state, payload){
-
       if(state.newStudentGrades.descriptions == ""){
             //splits string into array
             //e.g    "Kartkówka" => ["Kartkówka"]
@@ -91,6 +90,12 @@ export const store = new Vuex.Store({
       state.newStudentGrades.descriptions[payload.placeInArray] = payload.description;
     },
     addNewDateToArray(state, payload){
+      if(state.newStudentGrades.dates == ""){
+            //splits string into array
+            //e.g    23.08.2020 14:00:00" => [23.08.2020 14:00:00]
+            state.newStudentGrades.dates = state.newStudentGrades.dates.split("");
+      }
+
       //places new grade's date in appropriate place according to the provided index
       //e.g    for second component Grade.vue:   newStudentGrades.date[1] = "23.08.2020 14:00:00"        newStudentGrades.description=["Kartkówka", "Praca domowa"]
       state.newStudentGrades.dates[payload.placeInArray] = payload.date;
@@ -99,6 +104,7 @@ export const store = new Vuex.Store({
     addNewStudentToClass(state, payload){
       const allStudents = state.students;
       allStudents[allStudents.length] = payload
+      console.log(payload)
       payload.id = allStudents.length;
       state.students = allStudents;
     }

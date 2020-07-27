@@ -37,7 +37,7 @@
 
                                <div class="form-group">
                                  <label for="pesel">PESEL:</label>
-                                 <input type="text" id="Pesel" placeholder="PESEL" @keyup="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
+                                 <input type="text" v-model="add.pesel" id="Pesel" placeholder="PESEL" @keyup="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
                                  <span class="wrongAdditionalInfo" id="wrongPesel"></span>
                                </div>
 
@@ -45,33 +45,33 @@
 
                                  <label>Adres:</label>
 
-                                 <input type="text" id="Street" placeholder="ulica" @keyup="validatorData('Street', '^[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]*$', 'Bez znaków specjalnych.')">
+                                 <input type="text" v-model="add.street.streetName" id="Street" placeholder="ulica" @keyup="validatorData('Street', '^[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]*$', 'Bez znaków specjalnych.')">
                                  <span class="wrongAdditionalInfo" id="wrongStreet"></span>
 
-                                 <input type="text" id="HouseNr" placeholder="nr_domu" @keyup="validatorData('HouseNr', '^[0-9]+[a-zA-Z]?(/?[0-9]*[a-zA-Z]?)?$', 'Nr, Nr/Nr, Nr Litera <br /> np. 11 11/13 11A 11A/13B')">
+                                 <input type="text" v-model="add.street.streetNr" id="HouseNr" placeholder="nr_domu" @keyup="validatorData('HouseNr', '^[0-9]+[a-zA-Z]?(/?[0-9]*[a-zA-Z]?)?$', 'Nr, Nr/Nr, Nr Litera <br /> np. 11 11/13 11A 11A/13B')">
                                  <span class="wrongAdditionalInfo" id="wrongHouseNr"></span>
 
-                                 <input type="text" id="FlatNr" placeholder="nr_mieszkania" @keyup="validatorData('FlatNr', '^[0-9]+[a-zA-Z]?$', 'Liczba + ew.litera np.116F')">
+                                 <input type="text" v-model="add.street.streetFlat" id="FlatNr" placeholder="nr_mieszkania" @keyup="validatorData('FlatNr', '^[0-9]+[a-zA-Z]?$', 'Liczba + ew.litera np.116F')">
                                  <span class="wrongAdditionalInfo" id="wrongFlatNr"></span>
 
-                                 <input type="text" id="PostCode" placeholder="kod pocztowy" @blur="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
+                                 <input type="text" v-model="add.street.streetPostCode" id="PostCode" placeholder="kod pocztowy" @blur="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
                                  <span class="wrongAdditionalInfo" id="wrongPostCode"></span>
 
-                                 <input type="text" id="City" placeholder="miasto" @keyup="validatorData('City', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( (- )?[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)*$', 'Brak Cyfr i znaków specjalnych. <br />')">
+                                 <input type="text" v-model="add.street.streetCity" id="City" placeholder="miasto" @keyup="validatorData('City', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( (- )?[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)*$', 'Brak Cyfr i znaków specjalnych. <br />')">
                                  <span class="wrongAdditionalInfo" id="wrongCity"></span>
 
                                </div>
 
                                <div class="form-group">
                                  <label for="Tel">Telefon:</label>
-                                 <input type="text" id="Tel" placeholder="Telefon" @blur="validatorData('Tel', '^([0-9]{7}|[0-9]{9})$', 'Dokładnie 7 lub 9 cyfr.')">
+                                 <input type="text" v-model="add.phone" id="Tel" placeholder="Telefon" @blur="validatorData('Tel', '^([0-9]{7}|[0-9]{9})$', 'Dokładnie 7 lub 9 cyfr.')">
                                  <span class="wrongAdditionalInfo" id="wrongTel"></span>
                                </div>
 
                                <div class="form-group">
 
                                  <label for="Email">Email:</label>
-                                 <input type="text" id="Email" placeholder="adres e-mail" @blur="validatorData('Email', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                                 <input type="text" v-model="add.email" id="Email" placeholder="adres e-mail" @blur="validatorData('Email', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
                                  <span class="wrongAdditionalInfo" id="wrongEmail"></span>
 
                                </div>
@@ -82,16 +82,16 @@
                                <div class="form-group">
                                  <label>Matka:</label>
 
-                                   <input type="text" id="MothersFirstName" placeholder="Imię matki" @keyup="validatorData('MothersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-zząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')"/>
+                                   <input type="text" v-model="add.mother.mothersFirstName" id="MothersFirstName" placeholder="Imię matki" @keyup="validatorData('MothersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-zząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')"/>
                                    <span class="wrongAdditionalInfo" id="wrongMothersFirstName"></span>
 
-                                   <input type="text" id="MothersLastName" placeholder="Nazwisko matki" @keyup="validatorData('MothersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
+                                   <input type="text" v-model="add.mother.mothersLastName" id="MothersLastName" placeholder="Nazwisko matki" @keyup="validatorData('MothersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
                                    <span class="wrongAdditionalInfo" id="wrongMothersLastName"></span>
 
-                                   <input type="text" id="MothersTelephone" placeholder="numer telefonu matki" @blur="validatorData('MothersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
+                                   <input type="text" v-model="add.mother.mothersTelephone" id="MothersTelephone" placeholder="numer telefonu matki" @blur="validatorData('MothersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
                                    <span class="wrongAdditionalInfo" id="wrongMothersTelephone"></span>
 
-                                   <input type="text" id="MothersEmail" placeholder="email matki" @blur="validatorData('MothersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                                   <input type="text" v-model="add.mother.mothersEmail" id="MothersEmail" placeholder="email matki" @blur="validatorData('MothersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
                                    <span class="wrongAdditionalInfo" id="wrongMothersEmail"></span>
 
 
@@ -103,16 +103,16 @@
 
                                  <label>Ojciec:</label>
 
-                                 <input type="text" id="FathersFirstName" placeholder="Imię ojca" @keyup="validatorData('FathersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')"/>
+                                 <input type="text" v-model="add.father.fathersFirstName" id="FathersFirstName" placeholder="Imię ojca" @keyup="validatorData('FathersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')"/>
                                  <span class="wrongAdditionalInfo" id="wrongFathersFirstName"></span>
 
-                                 <input type="text" id="FathersLastName" placeholder="Nazwisko ojca" @keyup="validatorData('FathersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
+                                 <input type="text" v-model="add.father.fathersLastName" id="FathersLastName" placeholder="Nazwisko ojca" @keyup="validatorData('FathersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
                                  <span class="wrongAdditionalInfo" id="wrongFathersLastName"></span>
 
-                                 <input type="text" id="FathersTelephone" placeholder="numer telefonu ojca" @blur="validatorData('FathersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
+                                 <input type="text" v-model="add.father.fathersTelephone" id="FathersTelephone" placeholder="numer telefonu ojca" @blur="validatorData('FathersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
                                  <span class="wrongAdditionalInfo" id="wrongFathersTelephone"></span>
 
-                                 <input type="text" id="FathersEmail" placeholder="email ojca" @blur="validatorData('FathersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                                 <input type="text" v-model="add.father.fathersEmail" id="FathersEmail" placeholder="email ojca" @blur="validatorData('FathersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
                                  <span class="wrongAdditionalInfo" id="wrongFathersEmail"></span>
 
                                </div>
@@ -141,7 +141,7 @@
                    </div>
 
 
-                 </div>
+                  </div>
 
                   <div class="addStudentPanelGradesContentButton">
                     <button @click="addNewGrade()">  +  </button>
@@ -214,7 +214,7 @@
         </div>
 
         <div class="confirm" v-show="confirm">
-          <p>Na pewno chcesz wyjść? Nie zapisano zmian...</p>
+          <p>Na pewno? Nie zapisano zmian...</p>
           <button @click="showConfirmWindow('quit')">Wychodzę</button>
           <button @click="showConfirmWindow('stay')">Racja, zostaję!</button>
         </div>
@@ -238,10 +238,10 @@ export default {
              id: "",
              lastName: "",
              firstName: "",
-             grades: this.$store.state.newStudentGrades.grades,
-             weights: this.$store.state.newStudentGrades.weights,
-             descriptions: this.$store.state.newStudentGrades.descriptions,
-             date: "",
+             grades: "",
+             weights: "",
+             descriptions: "",
+             dates: "",
              pesel: "",
              street: {
                  streetName: "",
@@ -253,16 +253,16 @@ export default {
              phone: "",
              email: "",
              mother: {
-                 "firstName": "",
-                 "lastName": "",
-                 "phone": "",
-                 "email": ""
+                 firstName: "",
+                 lastName: "",
+                 phone: "",
+                 email: ""
              },
              father: {
-                 "firstName": "",
-                 "lastName": "",
-                 "phone": "",
-                 "email": ""
+                 firstName: "",
+                 lastName: "",
+                 phone: "",
+                 email: ""
              }
         },
         name: "",
@@ -298,6 +298,7 @@ export default {
       // alert(this.exitPath)
       if(to.path == "/LoggedOut"){
         next()
+        this.addStudentCancel()
       }
       else if (this.exitPath == ""){
         setTimeout(()=>{
@@ -310,46 +311,26 @@ export default {
     }
     else{
       next()
+      this.addStudentCancel()
     }
 
   },
-  beforeUpdate() {
-    let addAvgRounded = '';
-      if (this.add.avg !== '') {
-          const arr1 = [];
-          const arr2 = [];
-          arr1.push(this.add.grades);
-          arr2.push(this.add.weight);
-          addAvgRounded = Math.round(arr1[0] * arr2[0] / arr2[0]).toFixed(2);
-      }
-      return this.add.avg = addAvgRounded;
-  },
+  // beforeUpdate() {
+  //   let addAvgRounded = '';
+  //     if (this.add.avg !== '') {
+  //         const arr1 = [];
+  //         const arr2 = [];
+  //         arr1.push(this.add.grades);
+  //         arr2.push(this.add.weight);
+  //         addAvgRounded = Math.round(arr1[0] * arr2[0] / arr2[0]).toFixed(2);
+  //     }
+  //     return this.add.avg = addAvgRounded;
+  // },
   updated(){
-    // alert("UUU")
     if(this.name!=""){
-      const arr = this.name.split(" ");
-      this.add.firstName = arr[0];
-      this.add.lastName = arr[1];
-      console.log(this.add)
-      // const array = [];
-      // const name=this.name
-      // //splits name into firstName and lastName
-      // //e.g jan kowalski => ["jan", "kowalski"]
-      // const nameArray = name.split(" ");
-      // nameArray[0].toLowerCase();
-      //
-      // //splits firstName and lastName into single letters
-      // //e.g jan => ["j", "a", "n"]
-      // const singleLetter = nameArray[0].split("");
-      //
-      // //makes the first letter bigger
-      // //e.g jan[0] => ["j"] => ["J"]
-      // const bigFirstLetter = singleLetter[0].toUpperCase();
-      //
-      // //replaces firts small letter of firstName to Big letter
-      // //e.g jan => Jan
-      // array.push(nameArray[0].replace(singleLetter[0], bigFirstLetter));
-      // console.log(array)
+      const arrName = this.name.split(" ");
+      this.add.firstName = arrName[0];
+      this.add.lastName = arrName[1];
     }
   },
   filters: {
@@ -503,11 +484,14 @@ export default {
               // else {
               //   aaa +=  `<div class="gradeWeightColor">${this.$store.state.newStudentGrades.grades[i]}</div>`
               // }
+              if((this.$store.state.newStudentGrades.grades[i]!="")&&(this.$store.state.newStudentGrades.weights[i]!="")&&(this.$store.state.newStudentGrades.descriptions[i]!="")&&(this.$store.state.newStudentGrades.dates[i]!="")){
+                this.showTooltip();
+              }
           }
 
-          // console.log(aaa)
-          this.showTooltip();
-        return aaa
+
+
+          return aaa
 
 
       },
@@ -629,9 +613,10 @@ export default {
 
       //resets addStudent Panel
       addStudentCancel: function() {
-          this.add.name = ""
+          this.name = ""
           this.$store.state.newStudentGrades.grades = "";
           this.$store.state.newStudentGrades.weights = "";
+          this.$store.state.newStudentGrades.descriptions = "";
           this.gradesLength = 0;
           setTimeout(()=>{
             this.gradesLength = 1;
@@ -640,10 +625,32 @@ export default {
 
       //adds a new student to the class table
       addStudent: function() {
-        this.$store.commit("addNewStudentToClass", this.add);
-        console.log(this.$store.state.students)
-        this.$store.commit("setFullClass", this.$store.state.students)
-        this.$router.push({name: "FullClass"})
+
+        //this is inserted by user (by teacher) name for a new student
+        const addedStudentName = this.name;
+        //splits name into firstname and lastname
+        const addedStudentNameArray = addedStudentName.split(" ");
+        //if we've got both firstname and lastname
+           if (addedStudentNameArray.length >= 2) {
+
+                this.add.grades = this.$store.state.newStudentGrades.grades;
+                this.add.weights = this.$store.state.newStudentGrades.weights;
+                this.add.descriptions = this.$store.state.newStudentGrades.descriptions;
+                this.add.dates = this.$store.state.newStudentGrades.dates;
+
+                this.$store.commit("addNewStudentToClass", this.add);
+                this.$store.commit("setFullClass", this.$store.state.students)
+                this.$router.push({name: "FullClass"});
+          }
+          else{
+              this.showError = true;
+              if(this.showError==true){
+                this.showError = false;
+                setTimeout(()=>{
+                  this.showError = true
+                },10)
+              }
+          }
 
           // const gradeInDiv = document.querySelectorAll("table.summary .gradeWeightColor");
           // //these arrays contain grades and weigths of a new student
@@ -657,7 +664,7 @@ export default {
           // const addedStudentName = this.add.name;
           // //splits name into firstname and lastname
           // const addedStudentNameArray = addedStudentName.split(" ");
-          // //if we've got both firstname and lastname
+          // // if we've got both firstname and lastname
           // if (addedStudentNameArray.length >= 2) {
           //     //adds a new row to the end of table and connects new cells with a new row
           //     const table = document.querySelector(".students");
@@ -702,51 +709,52 @@ export default {
           // //if we've got both grade, weigth and description
       },
 
-      //returns current Date in an Array
-      whatsTheDatePlease: function() {
-          const today = new Date();
-          const currentYear = today.getFullYear();
-          let currentMonth = today.getMonth();
-          let currentDay = today.getDate();
-          let currentHours = today.getHours();
-          let currentMinutes = today.getMinutes();
-          let currentSeconds = today.getSeconds();
-          if (currentMonth < 10) {
-              currentMonth = `0${currentMonth}`;
-          }
-          if (currentDay < 10) {
-              currentDay = `0${currentDay}`;
-          }
-          if (currentHours < 10) {
-              currentHours = `0${currentHours}`;
-          }
-          if (currentMinutes < 10) {
-              currentMinutes = `0${currentMinutes}`;
-          }
-          if (currentSeconds < 10) {
-              currentSeconds = `0${currentSeconds}`;
-          }
+      // //returns current Date in an Array
+      // whatsTheDatePlease: function() {
+      //     const today = new Date();
+      //     const currentYear = today.getFullYear();
+      //     let currentMonth = today.getMonth();
+      //     let currentDay = today.getDate();
+      //     let currentHours = today.getHours();
+      //     let currentMinutes = today.getMinutes();
+      //     let currentSeconds = today.getSeconds();
+      //     if (currentMonth < 10) {
+      //         currentMonth = `0${currentMonth}`;
+      //     }
+      //     if (currentDay < 10) {
+      //         currentDay = `0${currentDay}`;
+      //     }
+      //     if (currentHours < 10) {
+      //         currentHours = `0${currentHours}`;
+      //     }
+      //     if (currentMinutes < 10) {
+      //         currentMinutes = `0${currentMinutes}`;
+      //     }
+      //     if (currentSeconds < 10) {
+      //         currentSeconds = `0${currentSeconds}`;
+      //     }
+      //
+      //     // [DD.MM.YYYY]
+      //     const dateSubArrayDDMMYYYY = [currentDay, currentMonth, currentYear].join(".");
+      //
+      //     // [HH:MM:SS]
+      //     const dateSubArrayHHMMSS = [currentHours, currentMinutes, currentSeconds].join(":");
+      //
+      //     // [["DD.MM.YYYY"] ["HH:MM:SS"]]
+      //     const dateFull = [];
+      //     dateFull.push(dateSubArrayDDMMYYYY, dateSubArrayHHMMSS)
+      //
+      //     // DD.MM.YYYY HH:MM:SS
+      //     const dateFullStr = dateFull.join(" ")
+      //
+      //     // // [DD.MM.YYYY HH:MM:SS]
+      //     // const dateFullArray = [];
+      //     // dateFullArray.push(dateFullStr);
+      //     // let dateArray;
+      //     // return dateArray = dateFullStr;
+      //     return dateFullStr
+      // }
 
-          // [DD.MM.YYYY]
-          const dateSubArrayDDMMYYYY = [currentDay, currentMonth, currentYear].join(".");
-
-          // [HH:MM:SS]
-          const dateSubArrayHHMMSS = [currentHours, currentMinutes, currentSeconds].join(":");
-
-          // [["DD.MM.YYYY"] ["HH:MM:SS"]]
-          const dateFull = [];
-          dateFull.push(dateSubArrayDDMMYYYY, dateSubArrayHHMMSS)
-
-          // DD.MM.YYYY HH:MM:SS
-          const dateFullStr = dateFull.join(" ")
-
-          // // [DD.MM.YYYY HH:MM:SS]
-          // const dateFullArray = [];
-          // dateFullArray.push(dateFullStr);
-          // let dateArray;
-          // return dateArray = dateFullStr;
-          return dateFullStr
-      }
    }
 }
 </script>

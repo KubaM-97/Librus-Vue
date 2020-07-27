@@ -132,6 +132,7 @@ export default {
    beforeRouteEnter (to, from, next) {
       next(vm => { // alert(4434)
 
+
         vm.gradeWeightColor();
         vm.showTooltip();
         vm.sortMyStudents();
@@ -210,6 +211,7 @@ export default {
         //show tooltip after hovering on every grade
         showTooltip: function() {
 
+
             const gradeInDiv = document.querySelectorAll("tbody .gradeWeightColor");
 
             const gradesSuperArray = [];
@@ -218,13 +220,14 @@ export default {
             const dateSuperArray = [];
 
 
-
             for (let i = 0; i < this.students.length; i++) {
                 for (let j = 0; j < this.students[i].grades.length; j++) {
                     gradesSuperArray.push(this.students[i].grades[j]);
                     weightSuperArray.push(this.students[i].weights[j]);
-                    descriptionSuperArray.push(this.students[i].description[j]);
-                    dateSuperArray.push(this.students[i].date[j]);
+                      console.log(i)
+                      console.log(j)
+                    descriptionSuperArray.push(this.students[i].descriptions[j]);
+                    dateSuperArray.push(this.students[i].dates[j]);
                 }
             }
             // if (this.add.grades !== '') {
@@ -305,15 +308,17 @@ export default {
 
             //round avg to 2 decimal places
             const average = gradesSuperValue / weightSum;
-            const averageRounded = (Math.round(average * 100) / 100).toFixed(2);
-
+            let averageRounded = (Math.round(average * 100) / 100).toFixed(2);
+            if(isNaN(averageRounded)){
+              averageRounded = ""
+            }
             return averageRounded;
 
         },
 
         //decides if student is threated
         threatness: function(myAVG) {
-            if (myAVG < 2) {
+            if ((myAVG < 2) && (myAVG != "")) {
                 return "<span class='fire'>ZAGROŻENIE</span>"
             } else {
                 return ""
