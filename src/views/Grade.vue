@@ -96,35 +96,8 @@ export default {
             default:
                 descriptionCount.innerHTML = `Pozostało: ${counter} znaków.`;
         }
-
-        // return this.characters--
       },
       deep:true
-      // handler(newValue, oldValue){
-      //   alert(newValue)
-      //   const inputGradeDescription = document.querySelector(".description").value;
-      //   const descriptionCount = document.querySelector("span.descriptionCount");
-      //   console.log(inputGradeDescription.length)
-      //   const counter = (30 - (inputGradeDescription.length));
-      //   switch (counter) {
-      //       case 2:
-      //       case 3:
-      //       case 4:
-      //       case 22:
-      //       case 23:
-      //       case 24:
-      //           descriptionCount.innerHTML = `Pozostały: ${counter} znaki.`;
-      //           break;
-      //       case 1:
-      //           descriptionCount.innerHTML = `Pozostał: ${counter} znak.`;
-      //           break;
-      //       default:
-      //           descriptionCount.innerHTML = `Pozostało: ${counter} znaków.`;
-      //   }
-      //
-      //   return this.characters--
-      // },
-      // deep: true
     }
   },
   data(){
@@ -149,9 +122,6 @@ export default {
     }
   },
   props:["n"],
-  // updated(){
-  //   this.gradeWeightColor
-  // },
   updated(){
     // if we've got both: grade, weight and description
     if((this.payloadGrade.grade!=="")&&(this.payloadWeight.weight!=="")&&(this.payloadDescription.description!=="")){

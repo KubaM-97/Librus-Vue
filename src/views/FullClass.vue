@@ -66,7 +66,7 @@
                   }">
                 <td></td>
                 <td>{{ student.lastName.toUpperCase() }} {{ student.firstName }}</td>
-                <td v-html="wrapMyGradesIntoDiv(student.grades)"></td>
+                <td v-html="gradeWeightColor(student.grades, student.weights)"></td>
                 <td>{{ avg(student.grades, student.weights) }}</td>
                 <td v-html="threatness(avg(student.grades, student.weights))"></td>
             </router-link>
@@ -84,8 +84,6 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 
-// import Student from './Student.vue'
-
 export default {
    name: 'FullClass',
    data(){
@@ -99,43 +97,15 @@ export default {
      }
    },
    created(){
-       // this.$store.dispatch("initFullClass")
-       // console.log(this.$store.state.students)
        this.$store.commit("setFullClass", this.$store.state.students);
-       // this.gradeWeightColor();
-       // this.sortMyStudents();
    },
-   // updated(){
-   //   this.gradeWeightColor();
-   //   this.sortMyStudents();
-   // },
-   // beforeRouteEnter(){
-   // // console.log(this)
-   //   // //gets table
-   //   // const table = document.getElementById("tableStudents");
-   //   //
-   //   // //adds Nr (first <td> in every <tr>) in table
-   //   // const rowsNr = table.rows;
-   //   // for (let j = 1; j < rowsNr.length+1; j++) {
-   //   //     rowsNr[j-1].getElementsByTagName("TD")[0].innerHTML = j+".";
-   //   // }
-   //     //
-   //     //
-   //     // //colors grades
-   //     // this.gradeWeightColor();
-   //     //
-   //     // //show tooltip after hovering on every grade
-   //     // this.showTooltip();
-   //
-   //
-   // },
    beforeRouteEnter (to, from, next) {
-      next(vm => { // alert(4434)
+      next(vm => {
+        // console.log(this.$store.state.students)
+        // vm.gradeWeightColor(this.$store.state.students.grades, this.$store.state.students);
+        // vm.showTooltip();
+        // vm.sortMyStudents();
 
-
-        vm.gradeWeightColor();
-        vm.showTooltip();
-        vm.sortMyStudents();
         //gets table
         const table = document.getElementById("tableStudents");
 
@@ -147,65 +117,41 @@ export default {
       })
    },
    updated() {
+
     this.sortMyStudents();
-     // alert(4434)
+
      //gets table
      const table = document.getElementById("tableStudents");
 
      //adds Nr (first <td> in every <tr>) in table
      const rowsNr = table.rows;
+
      for (let j = 1; j < rowsNr.length+1; j++) {
          rowsNr[j-1].getElementsByTagName("TD")[0].innerHTML = j+".";
      }
-     this.gradeWeightColor();
+     // this.gradeWeightColor(this.$store.state.students, this.$store.state.students);
      this.showTooltip();
 
    },
    methods:{
 
-        //wraps grades in div, I need an array with one student's grades
-        wrapMyGradesIntoDiv: function(anotherStudentGradesArray) {
-
-
-            this.wrappedGrades = "";
-
-            //wraps every single grade of one single student in div.gradeWeightColor, as a result we get one super big variable full of few divs
-            for (let j = 0; j < anotherStudentGradesArray.length; j++) {
-                this.wrappedGrades += `<div class="gradeWeightColor">${anotherStudentGradesArray[j]}</div>`
-            }
-
-            this.gradeInDiv = "";
-            return this.gradeInDiv = this.wrappedGrades;
-        },
-
         //colors grades
-        gradeWeightColor: function() {
-
-            //all weights in one array
-            const weightSuperArray = [];
-
-            for (let i = 0; i < this.students.length; i++) {
-                weightSuperArray.push(this.students[i].weights)
-            }
-
-            //this is a super big array with every single weight
-            const weightSuperArrayFlatted = weightSuperArray.flat(1);
+        gradeWeightColor: function(grades, weights) {
 
 
             //adds new classes to divs with grades, what causes coloring them on green, yellow or red
-            const allDivsWithGrades = document.querySelectorAll("tbody .gradeWeightColor");
-            // console.log(allDivsWithGrades.length)
-            for (let i = 0; i < allDivsWithGrades.length; i++) {
-                if (weightSuperArrayFlatted[i] == 1) {
-                    allDivsWithGrades[i].classList.add("gradeWeightGreen")
-                } else if (weightSuperArrayFlatted[i] == 2) {
-                    allDivsWithGrades[i].classList.add("gradeWeightYellow")
-                } else if (weightSuperArrayFlatted[i] == 3) {
-                    allDivsWithGrades[i].classList.add("gradeWeightRed")
+            let content = "";
+            for (let i = 0; i < grades.length; i++) {
+                if (weights[i] == 1) {
+                    content += `<div class="gradeWeightColor gradeWeightGreen">${grades[i]}</div>`
+                } else if (weights[i] == 2) {
+                    content += `<div class="gradeWeightColor gradeWeightYellow">${grades[i]}</div>`
+                } else if (weights[i] == 3) {
+                    content += `<div class="gradeWeightColor gradeWeightRed">${grades[i]}</div>`
                 }
             }
 
-
+            return content
         },
 
         //show tooltip after hovering on every grade
@@ -224,22 +170,10 @@ export default {
                 for (let j = 0; j < this.students[i].grades.length; j++) {
                     gradesSuperArray.push(this.students[i].grades[j]);
                     weightSuperArray.push(this.students[i].weights[j]);
-                      console.log(i)
-                      console.log(j)
                     descriptionSuperArray.push(this.students[i].descriptions[j]);
                     dateSuperArray.push(this.students[i].dates[j]);
                 }
             }
-            // if (this.add.grades !== '') {
-            //     this.whatsTheDatePlease();
-            //     //                        for (let i = 0; i < this.add.grades.length;) {
-            //     gradesSuperArray.push(this.add.grades);
-            //     weightSuperArray.push(this.add.weight);
-            //     descriptionSuperArray.push(this.add.description);
-            //     // dateSuperArray.push(dateArray);
-            //     console.log(dateSuperArray);
-            //     //                        }
-            // }
 
             for (let i = 0; i < gradeInDiv.length; i++) {
 
