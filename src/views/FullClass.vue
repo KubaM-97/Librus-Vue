@@ -56,6 +56,8 @@
                     firstName: student.firstName,
                     grades: student.grades,
                     weights: student.weights,
+                    descriptions: student.descriptions,
+                    dates: student.dates,
                     pesel: student.pesel,
                     street: student.street,
                     phone: student.phone,
@@ -115,6 +117,17 @@ export default {
             rowsNr[j-1].getElementsByTagName("TD")[0].innerHTML = j+".";
         }
       })
+   },
+   mounted(){
+     //gets table
+     const table = document.getElementById("tableStudents");
+
+     //adds Nr (first <td> in every <tr>) in table
+     const rowsNr = table.rows;
+     for (let j = 1; j < rowsNr.length+1; j++) {
+         rowsNr[j-1].getElementsByTagName("TD")[0].innerHTML = j+".";
+     }
+   
    },
    updated() {
 
