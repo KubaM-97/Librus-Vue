@@ -18,7 +18,7 @@
                            </span>
                        </label>
 
-                       <input type="text" v-model="name" id="name" maxlength="30">
+                       <input type="text" v-model.trim="name" id="name" maxlength="30">
                       <span class="required">
                            <transition name="bounce">
                               <span class="required" v-if="showError">Uzupełnij imię i nazwisko</span>
@@ -37,7 +37,7 @@
 
                                <div class="form-group">
                                  <label for="pesel">PESEL:</label>
-                                 <input type="text" v-model="add.pesel" id="Pesel" placeholder="PESEL" @keyup="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
+                                 <input type="text" v-model.trim="add.pesel" id="Pesel" placeholder="PESEL" @keyup="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
                                  <span class="wrongAdditionalInfo" id="wrongPesel"></span>
                                </div>
 
@@ -45,33 +45,33 @@
 
                                  <label>Adres:</label>
 
-                                 <input type="text" v-model="add.street.streetName" id="Street" placeholder="ulica" @keyup="validatorData('Street', '^[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]*$', 'Bez znaków specjalnych.')">
+                                 <input type="text" v-model.trim="add.street.streetName" id="Street" placeholder="ulica" @keyup="validatorData('Street', '^[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]*$', 'Bez znaków specjalnych.')">
                                  <span class="wrongAdditionalInfo" id="wrongStreet"></span>
 
-                                 <input type="text" v-model="add.street.streetNr" id="HouseNr" placeholder="nr_domu" @keyup="validatorData('HouseNr', '^[0-9]+[a-zA-Z]?(/?[0-9]*[a-zA-Z]?)?$', 'Nr, Nr/Nr, Nr Litera <br /> np. 11 11/13 11A 11A/13B')">
+                                 <input type="text" v-model.trim="add.street.streetNr" id="HouseNr" placeholder="nr_domu" @keyup="validatorData('HouseNr', '^[0-9]+[a-zA-Z]?(/?[0-9]*[a-zA-Z]?)?$', 'Nr, Nr/Nr, Nr Litera <br /> np. 11 11/13 11A 11A/13B')">
                                  <span class="wrongAdditionalInfo" id="wrongHouseNr"></span>
 
-                                 <input type="text" v-model="add.street.streetFlat" id="FlatNr" placeholder="nr_mieszkania" @keyup="validatorData('FlatNr', '^[0-9]+[a-zA-Z]?$', 'Liczba + ew.litera np.116F')">
+                                 <input type="text" v-model.trim="add.street.streetFlat" id="FlatNr" placeholder="nr_mieszkania" @keyup="validatorData('FlatNr', '^[0-9]+[a-zA-Z]?$', 'Liczba + ew.litera np.116F')">
                                  <span class="wrongAdditionalInfo" id="wrongFlatNr"></span>
 
-                                 <input type="text" v-model="add.street.streetPostCode" id="PostCode" placeholder="kod pocztowy" @blur="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
+                                 <input type="text" v-model.trim="add.street.streetPostCode" id="PostCode" placeholder="kod pocztowy" @blur="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
                                  <span class="wrongAdditionalInfo" id="wrongPostCode"></span>
 
-                                 <input type="text" v-model="add.street.streetCity" id="City" placeholder="miasto" @keyup="validatorData('City', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( (- )?[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)*$', 'Brak Cyfr i znaków specjalnych. <br />')">
+                                 <input type="text" v-model.trim="add.street.streetCity" id="City" placeholder="miasto" @keyup="validatorData('City', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( (- )?[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)*$', 'Brak Cyfr i znaków specjalnych. <br />')">
                                  <span class="wrongAdditionalInfo" id="wrongCity"></span>
 
                                </div>
 
                                <div class="form-group">
-                                 <label for="Tel">Telefon:</label>
-                                 <input type="text" v-model="add.phone" id="Tel" placeholder="Telefon" @blur="validatorData('Tel', '^([0-9]{7}|[0-9]{9})$', 'Dokładnie 7 lub 9 cyfr.')">
-                                 <span class="wrongAdditionalInfo" id="wrongTel"></span>
+                                 <label for="Phone">Telefon:</label>
+                                 <input type="text" v-model.trim="add.phone" id="Phone" placeholder="Telefon" @blur="validatorData('Phone', '^([0-9]{7}|[0-9]{9})$', 'Dokładnie 7 lub 9 cyfr.')">
+                                 <span class="wrongAdditionalInfo" id="wrongPhone"></span>
                                </div>
 
                                <div class="form-group">
 
                                  <label for="Email">Email:</label>
-                                 <input type="text" v-model="add.email" id="Email" placeholder="adres e-mail" @blur="validatorData('Email', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                                 <input type="text" v-model.trim="add.email" id="Email" placeholder="adres e-mail" @blur="validatorData('Email', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
                                  <span class="wrongAdditionalInfo" id="wrongEmail"></span>
 
                                </div>
@@ -82,16 +82,16 @@
                                <div class="form-group">
                                  <label>Matka:</label>
 
-                                   <input type="text" v-model="add.mother.mothersFirstName" id="MothersFirstName" placeholder="Imię matki" @keyup="validatorData('MothersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-zząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')"/>
+                                   <input type="text" v-model.trim="add.mother.mothersFirstName" id="MothersFirstName" placeholder="Imię matki" @keyup="validatorData('MothersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-zząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')"/>
                                    <span class="wrongAdditionalInfo" id="wrongMothersFirstName"></span>
 
-                                   <input type="text" v-model="add.mother.mothersLastName" id="MothersLastName" placeholder="Nazwisko matki" @keyup="validatorData('MothersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
+                                   <input type="text" v-model.trim="add.mother.mothersLastName" id="MothersLastName" placeholder="Nazwisko matki" @keyup="validatorData('MothersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
                                    <span class="wrongAdditionalInfo" id="wrongMothersLastName"></span>
 
-                                   <input type="text" v-model="add.mother.mothersTelephone" id="MothersTelephone" placeholder="numer telefonu matki" @blur="validatorData('MothersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
+                                   <input type="text" v-model.trim="add.mother.mothersTelephone" id="MothersTelephone" placeholder="numer telefonu matki" @blur="validatorData('MothersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
                                    <span class="wrongAdditionalInfo" id="wrongMothersTelephone"></span>
 
-                                   <input type="text" v-model="add.mother.mothersEmail" id="MothersEmail" placeholder="email matki" @blur="validatorData('MothersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                                   <input type="text" v-model.trim="add.mother.mothersEmail" id="MothersEmail" placeholder="email matki" @blur="validatorData('MothersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
                                    <span class="wrongAdditionalInfo" id="wrongMothersEmail"></span>
 
 
@@ -103,16 +103,16 @@
 
                                  <label>Ojciec:</label>
 
-                                 <input type="text" v-model="add.father.fathersFirstName" id="FathersFirstName" placeholder="Imię ojca" @keyup="validatorData('FathersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')"/>
+                                 <input type="text" v-model.trim="add.father.fathersFirstName" id="FathersFirstName" placeholder="Imię ojca" @keyup="validatorData('FathersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Jan Maria')"/>
                                  <span class="wrongAdditionalInfo" id="wrongFathersFirstName"></span>
 
-                                 <input type="text" v-model="add.father.fathersLastName" id="FathersLastName" placeholder="Nazwisko ojca" @keyup="validatorData('FathersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
+                                 <input type="text" v-model.trim="add.father.fathersLastName" id="FathersLastName" placeholder="Nazwisko ojca" @keyup="validatorData('FathersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
                                  <span class="wrongAdditionalInfo" id="wrongFathersLastName"></span>
 
-                                 <input type="text" v-model="add.father.fathersTelephone" id="FathersTelephone" placeholder="numer telefonu ojca" @blur="validatorData('FathersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
+                                 <input type="text" v-model.trim="add.father.fathersTelephone" id="FathersTelephone" placeholder="numer telefonu ojca" @blur="validatorData('FathersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
                                  <span class="wrongAdditionalInfo" id="wrongFathersTelephone"></span>
 
-                                 <input type="text" v-model="add.father.fathersEmail" id="FathersEmail" placeholder="email ojca" @blur="validatorData('FathersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                                 <input type="text" v-model.trim="add.father.fathersEmail" id="FathersEmail" placeholder="email ojca" @blur="validatorData('FathersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
                                  <span class="wrongAdditionalInfo" id="wrongFathersEmail"></span>
 
                                </div>

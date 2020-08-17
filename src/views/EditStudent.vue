@@ -6,15 +6,16 @@
       <div class="row">
         <div class="col-md-5 col-md-offset-1">
           <label for="firstName">Imię</label>
-          <input type="text" id="firstName" v-model.lazy="this.editStudent.firstName" @blur="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
+          <input type="text" id="firstName" v-model.lazy="editStudent.firstName" @keyup="validatorData('FirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')">
+          <span class="wrongAdditionalInfo" id="wrongFirstName"></span>
         </div>
         <div class="col-md-5">
           {{editStudent.firstName}}
         </div>
-        <div class="col-md-1">
+        <div class="col-md-1" v-if="showGreenCheckMarkFirstName">
           <transition>
-            <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="">
-            <div class="blackLayer" if="hideCheckMarkWithLayer">
+            <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
+            <div class="blackLayer" if="hideCheckMarkWithLayerFirstName">
 
             </div>
           </transition>
@@ -25,15 +26,16 @@
       <div class="row">
         <div class="col-md-5 col-md-offset-1">
           <label for="lastName">Nazwisko</label>
-          <input type="text" id="lastName" v-model.lazy="editStudent.lastName" value="editStudent.lastName" @blur="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
+          <input type="text" id="lastName" v-model.lazy="editStudent.lastName" @keyup="validatorData('LastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')">
+          <span class="wrongAdditionalInfo" id="wrongLastName"></span>
         </div>
         <div class="col-md-5">
           {{editStudent.lastName}}
         </div>
-        <div class="col-md-1">
+        <div class="col-md-1" v-if="showGreenCheckMarkLastName">
           <transition>
-            <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="">
-            <div class="blackLayer" if="hideCheckMarkWithLayer">
+            <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
+            <div class="blackLayer" if="hideCheckMarkWithLayerLastName">
 
             </div>
           </transition>
@@ -44,15 +46,16 @@
       <div class="row">
         <div class="col-md-5 col-md-offset-1">
           <label for="pesel">PESEL</label>
-          <input type="text" id="pesel" v-model.lazy="this.editStudent.pesel" @blur="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
+          <input type="text" id="pesel" v-model.lazy="editStudent.pesel" @keyup="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
+          <span class="wrongAdditionalInfo" id="wrongPesel"></span>
         </div>
         <div class="col-md-5">
           {{editStudent.pesel}}
         </div>
-        <div class="col-md-1">
+        <div class="col-md-1" v-if="showGreenCheckMarkPesel">
           <transition>
-            <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="">
-            <div class="blackLayer" if="hideCheckMarkWithLayer">
+            <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
+            <div class="blackLayer" if="hideCheckMarkWithLayerPesel">
 
             </div>
           </transition>
@@ -73,19 +76,19 @@
           <input type="text" v-model="editStudent.street.streetFlat" id="FlatNr" placeholder="nr_mieszkania" @keyup="validatorData('FlatNr', '^[0-9]+[a-zA-Z]?$', 'Liczba + ew.litera np.116F')">
           <span class="wrongAdditionalInfo" id="wrongFlatNr"></span>
 
-          <input type="text" v-model="editStudent.street.streetPostCode" id="PostCode" placeholder="kod pocztowy" @blur="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
+          <input type="text" v-model="editStudent.street.streetPostCode" id="PostCode" placeholder="kod pocztowy" @keyup="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
           <span class="wrongAdditionalInfo" id="wrongPostCode"></span>
 
           <input type="text" v-model="editStudent.street.streetCity" id="City" placeholder="miasto" @keyup="validatorData('City', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( (- )?[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)*$', 'Brak Cyfr i znaków specjalnych. <br />')">
           <span class="wrongAdditionalInfo" id="wrongCity"></span>
-    </div>
-        <div class="col-md-5">
-          {{editStudent.firstName}}
         </div>
-        <div class="col-md-1">
+        <div class="col-md-5">
+          ul.{{editStudent.street.streetName}} {{editStudent.street.streetNr}} m.{{editStudent.street.streetFlat}} <br />  {{editStudent.street.streetPostCode}} {{editStudent.street.streetCity}}
+        </div>
+        <div class="col-md-1" v-if="showGreenCheckMarkStreet">
           <transition>
-            <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="">
-            <div class="blackLayer" if="hideCheckMarkWithLayer">
+            <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
+            <div class="blackLayer" if="hideCheckMarkWithLayerStreet">
 
             </div>
           </transition>
@@ -95,16 +98,17 @@
     <div class="form-group">
       <div class="row">
         <div class="col-md-5 col-md-offset-1">
-          <label for="phone">phone</label>
-          <input type="text" id="phone" v-model.lazy="this.editStudent.phone" @blur="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
+          <label for="phone">Telefon</label>
+          <input type="text" id="phone" v-model.lazy="editStudent.phone" @keyup="validatorData('Phone', '^([0-9]{7}|[0-9]{9})$', 'Dokładnie 7 lub 9 cyfr.')">
+          <span class="wrongAdditionalInfo" id="wrongPhone"></span>
         </div>
         <div class="col-md-5">
           {{editStudent.phone}}
         </div>
-        <div class="col-md-1">
+        <div class="col-md-1" v-if="showGreenCheckMarkPhone">
           <transition>
-            <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="">
-            <div class="blackLayer" if="hideCheckMarkWithLayer">
+            <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
+            <div class="blackLayer" if="hideCheckMarkWithLayerPhone">
 
             </div>
           </transition>
@@ -115,15 +119,16 @@
       <div class="row">
         <div class="col-md-5 col-md-offset-1">
           <label for="email">Email</label>
-          <input type="text" id="email" v-model.lazy="this.editStudent.email" @blur="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
+          <input type="text" id="email" v-model.lazy="editStudent.email" @keyup="validatorData('Email', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+          <span class="wrongAdditionalInfo" id="wrongEmail"></span>
         </div>
         <div class="col-md-5">
           {{editStudent.email}}
         </div>
-        <div class="col-md-1">
+        <div class="col-md-1" v-if="showGreenCheckMarkEmail">
           <transition>
-            <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="">
-            <div class="blackLayer" if="hideCheckMarkWithLayer">
+            <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
+            <div class="blackLayer" if="hideCheckMarkWithLayerEmail">
 
             </div>
           </transition>
@@ -134,18 +139,26 @@
       <div class="row">
         <div class="col-md-5 col-md-offset-1">
           <label>Matka</label>
-          <input type="text" v-model.lazy="this.editStudent.mother.firstName" @blur="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
-          <input type="text" v-model.lazy="this.editStudent.mother.lastName" @blur="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
-          <input type="text" v-model.lazy="this.editStudent.mother.phone" @blur="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
-          <input type="text" v-model.lazy="this.editStudent.mother.email" @blur="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
+          <input type="text" v-model.lazy="editStudent.mother.firstName" @keyup="validatorData('MothersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')">
+          <span class="wrongAdditionalInfo" id="wrongMothersFirstName"></span>
+
+          <input type="text" v-model.lazy="editStudent.mother.lastName" @keyup="validatorData('MothersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')">
+          <span class="wrongAdditionalInfo" id="wrongMothersLastName"></span>
+
+          <input type="text" v-model.lazy="editStudent.mother.phone" @keyup="validatorData('MothersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
+          <span class="wrongAdditionalInfo" id="wrongMothersTelephone"></span>
+
+          <input type="text" v-model.lazy="editStudent.mother.email" @keyup="validatorData('MothersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+          <span class="wrongAdditionalInfo" id="wrongMothersEmail"></span>
+
         </div>
         <div class="col-md-5">
           {{editStudent.mother.firstName}}<br />{{editStudent.mother.lastName}}<br />{{editStudent.mother.phone}}<br />{{editStudent.mother.email}}<br />
         </div>
-        <div class="col-md-1">
+        <div class="col-md-1" v-if="showGreenCheckMarkMother">
           <transition>
-            <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="">
-            <div class="blackLayer" if="hideCheckMarkWithLayer">
+            <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
+            <div class="blackLayer" if="hideCheckMarkWithLayerMother">
 
             </div>
           </transition>
@@ -155,29 +168,37 @@
     <div class="form-group">
       <div class="row">
         <div class="col-md-5 col-md-offset-1">
-          <label>Matka</label>
-          <input type="text" v-model.lazy="this.editStudent.father.firstName" @blur="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
-          <input type="text" v-model.lazy="this.editStudent.father.lastName" @blur="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
-          <input type="text" v-model.lazy="this.editStudent.father.phone" @blur="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
-          <input type="text" v-model.lazy="this.editStudent.father.email" @blur="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
+          <label>Ojciec</label>
+          <input type="text" v-model.lazy="editStudent.father.firstName" @keyup="validatorData('FathersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Jan Maria')">
+          <span class="wrongAdditionalInfo" id="wrongFathersFirstName"></span>
+
+          <input type="text" v-model.lazy="editStudent.father.lastName" @keyup="validatorData('FathersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')">
+          <span class="wrongAdditionalInfo" id="wrongFathersLastName"></span>
+
+          <input type="text" v-model.lazy="editStudent.father.phone" @keyup="validatorData('FathersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
+          <span class="wrongAdditionalInfo" id="wrongFathersTelephone"></span>
+
+          <input type="text" v-model.lazy="editStudent.father.email" @keyup="validatorData('FathersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+          <span class="wrongAdditionalInfo" id="wrongFathersEmail"></span>
+
         </div>
         <div class="col-md-5">
           {{editStudent.father.firstName}}<br />{{editStudent.father.lastName}}<br />{{editStudent.father.phone}}<br />{{editStudent.father.email}}<br />
         </div>
-        <div class="col-md-1">
-          <transition>
-            <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="">
-            <div class="blackLayer" if="hideCheckMarkWithLayer">
+        <div class="col-md-1" v-if="showGreenCheckMarkFather">
+          <transition name="showCheckMark">
+            <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
+            <div class="blackLayer" if="hideCheckMarkWithLayerFather">
 
             </div>
           </transition>
         </div>
       </div>
     </div>
-
+    <button v-if="possibleSave" @click="saveChanges()" class="btn btn-success btn-lg save">Zapisz zmiany</button>
+    <button v-else class="btn btn-success btn-lg save" disabled>Zapisz zmiany</button>
   </div>
-  <button v-if="possibleSave" @click="saveChanges()" class="btn btn-success btn-lg">Zapisz zmiany</button>
-  <button v-else class="btn btn-success btn-lg" disabled>Zapisz zmiany</button>
+
 
   <button @click="closeThePanel()"><img class="closeThePanel" src="../assets/eXit.png"/></button>
 </div>
@@ -199,7 +220,7 @@ export default {
             streetCity: this.$route.params.street.streetCity,
         },
         phone: this.$route.params.phone,
-        email: this.$route.params.phone,
+        email: this.$route.params.email,
         mother: {
             firstName: this.$route.params.mother.firstName,
             lastName: this.$route.params.mother.lastName,
@@ -213,6 +234,24 @@ export default {
             email: this.$route.params.father.email
         }
       },
+
+      showGreenCheckMarkFirstName: false,
+      showGreenCheckMarkLastName: false,
+      showGreenCheckMarkPesel: false,
+      showGreenCheckMarkStreet: false,
+      showGreenCheckMarkPhone: false,
+      showGreenCheckMarkEmail: false,
+      showGreenCheckMarkMother: false,
+      showGreenCheckMarkFather: false,
+
+      hideCheckMarkWithLayerFirstName: false,
+      hideCheckMarkWithLayerLastName: false,
+      hideCheckMarkWithLayerPesel: false,
+      hideCheckMarkWithLayerStreet: false,
+      hideCheckMarkWithLayerPhone: false,
+      hideCheckMarkWithLayerEmail: false,
+      hideCheckMarkWithLayerMother: false,
+      hideCheckMarkWithLayerFather: false,
       possibleSave: true
       // possibleDataEditionRouter: false;
     }
@@ -235,7 +274,17 @@ export default {
       }
     },
     saveChanges(){
-      this.possibleSave = false
+
+      const old = this.$route.params;
+
+      if(old.firstName!=this.editStudent.firstName){
+
+        old.firstName = this.editStudent.firstName;
+        this.showGreenCheckMarkFirstName = true;
+        setTimeout(()=>{this.hideCheckMarkWithLayerFirstName = false},1)
+      }
+
+      this.possibleSave = false;
     }
   }
 }
@@ -249,12 +298,16 @@ div.EditStudentPanel{
   -webkit-box-shadow: 3px 3px 30px 5px #00c3ff;
   -moz-box-shadow: 3px 3px 30px 5px #00c3ff;
   box-shadow: 3px 3px 30px 5px #00c3ff;
-  background-color: rgba(0, 0, 0, .55);
+  background-color: rgba(0, 0, 0, 1);
   text-align: center;
   font-size: 13px;
   position: absolute;
   top: 50%;
-  align-items:center;
+
+}
+.col-md-5{
+  display: grid;
+  align-content: center
 }
 label {
     display: block;
@@ -292,5 +345,16 @@ img.closeThePanel{
   -webkit-box-shadow: 2px 2px 10px 2px #d54545;
   -moz-box-shadow: 2px 2px 10px 2px #d54545;
   box-shadow: 2px 2px 10px 2px #d54545;
+  border-radius: 50px;
+}
+button.save{
+  font-size: 15px;
+  position: absolute;
+  right: 10px;
+  padding: 8px 12px;
+  opacity: 1;
+}
+div.hideCheckMarkWithLayerFirstName{
+  background-color: black;
 }
 </style>
