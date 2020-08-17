@@ -30,14 +30,14 @@ export default new Router({
       name: 'Student',
       component: Student,
       props: true,
-      // children: [
-      //   {
-      //     path: "edit",
-      //     name: EditStudent,
-      //     component: EditStudent,
-      //     props: true
-      //   }
-      // ]
+      children: [
+        {
+          path: "edit",
+          name: 'Student',
+          component: EditStudent,
+          props: true
+        }
+      ]
     },{
       path: '/AddStudent',
       name: 'AddStudent',

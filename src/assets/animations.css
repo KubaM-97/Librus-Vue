@@ -32,3 +32,14 @@ backface-visibility: hidden;
   /* 50%{opacity:0.5; transform: translateY(-20px)} */
   100%{ opacity: 1; transform: translateY(0px)}
 }
+
+.EditStudentPanel-enter-active{
+  animation: edit 2s linear;
+}
+@keyframes edit{
+  0%{width: 0px; heigth: 0px}
+  10%{width: 15%; heigth: 30%}
+  25%{width: 15%; heigth: 100%}
+  60%{width: 80%; heigth: 100%}
+  100%{width: 100%; heigth: 100%}
+}

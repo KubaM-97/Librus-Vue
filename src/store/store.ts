@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import module from "./modules/module.ts"
+import module from "./modules/module"
 
 //load Vuex
 Vue.use(Vuex)

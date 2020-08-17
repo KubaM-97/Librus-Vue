@@ -21,7 +21,7 @@
 
               <div class="form-group">
                   <span class="title">Adres:</span>
-                  <span class="data">ul.{{$route.params.street.street_Name}} {{$route.params.street.street_Nr}} m.{{$route.params.street.street_Flat}} <br />{{$route.params.street.street_PostCode}} {{$route.params.street.street_City}}</span>
+                  <span class="data">ul.{{$route.params.street.streetName}} {{$route.params.street.streetNr}} m.{{$route.params.street.streetFlat}} <br />{{$route.params.street.streetPostCode}} {{$route.params.street.streetCity}}</span>
               </div>
 
               <div class="form-group">
@@ -47,8 +47,10 @@
 
             </div>
 
-            <div class="editStudentPanelNameButtons">
-                <button>Edytuj Dane</button>
+            <div class="editStudentPanelNameButtons" @click="showEditStudentPanel()">
+              <router-link :to='{path: "edit"}' tag="button">
+                  Edytuj Dane
+              </router-link>
             </div>
 
             <div class="editStudentPanelGrades">
@@ -87,6 +89,9 @@
             </div>
 
         </div>
+        <transition name="EditStudentPanel" mode="out-in">
+          <router-view v-if="showDataEditionRouter"/>
+        </transition>
 </div>
 </template>
 
@@ -101,7 +106,8 @@ Vue.use(VueAxios, axios)
 export default {
   data(){
     return{
-      student: ''
+      student: '',
+      showDataEditionRouter: false
     }
   },
   created(){
@@ -111,19 +117,22 @@ export default {
         data => data.id == this.$route.params.id)[0];
     });
   },
-  updated(){
-
-    this.gradeWeightColor();
-    this.showTooltip();
-
-  },
+  // updated(){
+  //
+  //   this.gradeWeightColor();
+  //   this.showTooltip();
+  //
+  // },
   beforeRouteEnter (to, from, next) {
      next(vm => {
        vm.showTooltip();
      })
   },
   methods:{
-
+    showEditStudentPanel(){
+      this.showDataEditionRouter = true;
+      // alert(this.showDataEditionRouter)
+    },
     //colors grades
     gradeWeightColor: function(grades, weights) {
 
