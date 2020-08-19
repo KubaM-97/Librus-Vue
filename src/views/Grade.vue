@@ -121,7 +121,7 @@ export default {
       }
     }
   },
-  props:["n"],
+  props:["n", "a"],
   updated(){
     // if we've got both: grade, weight and description
     if((this.payloadGrade.grade!=="")&&(this.payloadWeight.weight!=="")&&(this.payloadDescription.description!=="")){
@@ -132,16 +132,19 @@ export default {
   methods:{
     usun(){
       document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].innerHTML = ""
-      // this.$emit("bbbb", false)
+      this.$emit("update:a", this.a+1)
     },
     addNewGrade(){
         this.$store.commit("addNewGradeToArray", this.payloadGrade);
+        this.$emit("update:a", this.a+1);
     },
     addNewWeight(){
-        this.$store.commit("addNewWeightToArray", this.payloadWeight)
+        this.$store.commit("addNewWeightToArray", this.payloadWeight);
+        this.$emit("update:a", this.a+1);
     },
     addNewDescription(){
-        this.$store.commit("addNewDescriptionToArray", this.payloadDescription)
+        this.$store.commit("addNewDescriptionToArray", this.payloadDescription);
+        this.$emit("update:a", this.a+1);
     },
     addNewDate(){
         this.$store.commit("addNewDateToArray", this.payloadDate)

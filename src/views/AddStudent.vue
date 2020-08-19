@@ -136,7 +136,7 @@
 
                    <div class="addStudentPanelGradesContent" v-for="n in gradesLength" :key="n">
 
-                     <grade-component :n="n-1"></grade-component>
+                     <grade-component :n="n-1" :a.sync="a"></grade-component>
 
                    </div>
 
@@ -172,7 +172,7 @@
                                     <span v-else-if="this.$store.state.newStudentGrades.grades!=='' && this.$store.state.newStudentGrades.weights===3" v-html="gradeWeightColor(3)">
 
                                     </span> -->
-                                    {{newGrades}}
+
                                     <span v-html="gradeWeightColor(this.$store.state.newStudentGrades.grades)">
 
                                     </span>
@@ -180,12 +180,12 @@
 
                                 <td>
                                     <span>
-                                      {{avg(this.$store.state.newStudentGrades.grades,this.$store.state.newStudentGrades.weights)}}
+                                      {{avg(this.$store.state.newStudentGrades.grades, this.$store.state.newStudentGrades.weights)}}
                                     </span>
                                 </td>
 
                                 <td>
-                                  <span v-html="threatness(avg(this.$store.state.newStudentGrades.grades,this.$store.state.newStudentGrades.weights))">
+                                  <span v-html="threatness(avg(this.$store.state.newStudentGrades.grades, this.$store.state.newStudentGrades.weights))">
 
                                   </span>
                                 </td>
@@ -273,12 +273,14 @@ export default {
         stay: false,
         showError: false,
         gradesLength: 1,
+        a: 1,
         color: ""
       }
   },
   components: {
     "grade-component": Grade
   },
+  // created(){console.log(this.$store.state.newStudentGrades)},
   computed:{
     newGrades(){
         return this.$store.getters.newGrades
@@ -442,16 +444,15 @@ export default {
       //colors grades
       gradeWeightColor: function(newStudentGrades) {
 
+        // alert(1)
         let limit = this.$store.state.newStudentGrades.grades.length;
         if(this.$store.state.newStudentGrades.weights.length>this.$store.state.newStudentGrades.grades.length){
           limit = this.$store.state.newStudentGrades.weights.length
         }
 
         let aaa = "";
-        // console.log("HEHEHEHE")
-        // alert(11)
+
           for (let i = 0; i < limit; i++) {
-            // console.log("Próbka nr: " + i + ". Ocena:" + this.$store.state.newStudentGrades.grades[i])
               if(this.$store.state.newStudentGrades.grades[i]!==undefined){
                     if (this.$store.state.newStudentGrades.weights[i] == 1) {
                         aaa += `<div class="gradeWeightColor gradeWeightGreen">${this.$store.state.newStudentGrades.grades[i]}</div>`
@@ -461,7 +462,6 @@ export default {
                         aaa +=  `<div class="gradeWeightColor gradeWeightRed">${this.$store.state.newStudentGrades.grades[i]}</div>`
                     }
                     else if(this.$store.state.newStudentGrades.weights[i]==undefined){
-                      // alert(this.$store.state.newStudentGrades.weights[i]===undefined)
                       aaa +=  `<div class="gradeWeightColor">${this.$store.state.newStudentGrades.grades[i]}</div>`
                     }
 

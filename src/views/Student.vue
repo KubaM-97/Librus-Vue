@@ -47,8 +47,8 @@
 
             </div>
 
-            <div class="editStudentPanelNameButtons" @click="showEditStudentPanel()">
-              <router-link :to='{path: "edit"}' tag="button">
+            <div class="editStudentPanelNameButtons" @click="showEditStudentDataPanel()">
+              <router-link :to='{path: "editData"}' tag="button">
                   Edytuj Dane
               </router-link>
             </div>
@@ -61,15 +61,11 @@
 
             </div>
 
-            <div class="editStudentPanelGradesButtons">
+            <div class="editStudentPanelGradesButtons" @click="showEditStudentGradesPanel()">
 
-                <button>
-                    Edytuj
-                </button>
-
-                <button class="add">
-                    Dodaj
-                </button>
+                <router-link :to='{path: "editGrades"}' tag="button">
+                    Edytuj / Dodaj ocenę
+                </router-link>
 
             </div>
 
@@ -89,9 +85,13 @@
             </div>
 
         </div>
-        <transition name="EditStudentPanel" mode="out-in">
-          <router-view v-if="showDataEditionRouter"/>
+        <transition name="EditStudentDataPanel" mode="out-in">
+          <router-view v-if="showDataEditionRouterView" :showDataEditionRouterView.sync="showDataEditionRouterView"/>
+          <router-view v-if="showGradesEditionRouterView"/>
         </transition>
+        <!-- <transition name="EditStudentGradesPanel" mode="out-in">
+
+        </transition> -->
 </div>
 </template>
 
@@ -107,7 +107,8 @@ export default {
   data(){
     return{
       student: '',
-      showDataEditionRouter: false
+      showDataEditionRouterView: false,
+      showGradesEditionRouterView: false
     }
   },
   created(){
@@ -129,9 +130,11 @@ export default {
      })
   },
   methods:{
-    showEditStudentPanel(){
-      this.showDataEditionRouter = true;
-      // alert(this.showDataEditionRouter)
+    showEditStudentDataPanel(){
+      this.showDataEditionRouterView = true;
+    },
+    showEditStudentGradesPanel(){
+      this.showGradesEditionRouterView = true;
     },
     //colors grades
     gradeWeightColor: function(grades, weights) {
@@ -271,6 +274,7 @@ export default {
     box-shadow: 3px 3px 30px 5px #00c3ff;
     background-color: rgba(0, 0, 0, .55);
     text-align: center;
+    position: relative;
 
     font-size: 15px;
 }

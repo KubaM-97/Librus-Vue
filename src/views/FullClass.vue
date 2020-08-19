@@ -105,8 +105,8 @@ export default {
       next(vm => {
         // console.log(this.$store.state.students)
         // vm.gradeWeightColor(this.$store.state.students.grades, this.$store.state.students);
-        // vm.showTooltip();
-        // vm.sortMyStudents();
+        vm.showTooltip();
+        vm.sortMyStudents();
 
         //gets table
         const table = document.getElementById("tableStudents");
@@ -127,7 +127,7 @@ export default {
      for (let j = 1; j < rowsNr.length+1; j++) {
          rowsNr[j-1].getElementsByTagName("TD")[0].innerHTML = j+".";
      }
-   
+
    },
    updated() {
 

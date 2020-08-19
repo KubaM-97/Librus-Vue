@@ -4,7 +4,8 @@ import Router from 'vue-router'
 // import Start from '../views/Start.vue'
 import FullClass from '../views/FullClass.vue'
 import Student from '../views/Student.vue'
-import EditStudent from '../views/EditStudent.vue'
+import EditStudentData from '../views/EditStudentData.vue'
+import EditStudentGrades from '../views/EditStudentGrades.vue'
 import AddStudent from '../views/AddStudent.vue'
 import LoggedOut from '../views/LoggedOut.vue'
 import Error404 from '../views/Error404.vue'
@@ -32,9 +33,15 @@ export default new Router({
       props: true,
       children: [
         {
-          path: "edit",
+          path: "editData",
           name: 'Student',
-          component: EditStudent,
+          component: EditStudentData,
+          props: true
+        },
+        {
+          path: "editGrades",
+          name: 'Student',
+          component: EditStudentGrades,
           props: true
         }
       ]
