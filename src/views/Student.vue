@@ -47,8 +47,8 @@
 
             </div>
 
-            <div class="editStudentPanelNameButtons" @click="showEditStudentDataPanel()">
-              <router-link :to='{path: "editData"}' tag="button">
+            <div class="editStudentPanelGradesButtons" @click="showEditStudentGradesPanel()">
+              <router-link :to='{path: "editGrades"}' tag="button">
                   Edytuj Dane
               </router-link>
             </div>
@@ -86,9 +86,13 @@
 
         </div>
         <transition name="EditStudentDataPanel" mode="out-in">
-          <router-view v-if="showDataEditionRouterView" :showDataEditionRouterView.sync="showDataEditionRouterView"/>
-          <router-view v-if="showGradesEditionRouterView"/>
+          <!-- <router-view v-if="showDataEditionRouterView" :showDataEditionRouterView.sync="showDataEditionRouterView"/> -->
+          <router-view v-if="showGradesEditionRouterView" :showGradesEditionRouterView.sync="showGradesEditionRouterView"/>
         </transition>
+        <!-- <transition name="EditStudentGradesPanel" mode="out-in">
+          <router-view v-if="showDataEditionRouterView" :showDataEditionRouterView.sync="showDataEditionRouterView"/>
+          <router-view v-if="showGradesEditionRouterView" :showGradesEditionRouterView.sync="showGradesEditionRouterView"/>
+        </transition> -->
         <!-- <transition name="EditStudentGradesPanel" mode="out-in">
 
         </transition> -->

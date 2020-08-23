@@ -52,6 +52,7 @@
             <router-link tag="tr"
             :to="{ name: 'Student',
                    params: {
+                    id: student.id,
                     lastName: student.lastName,
                     firstName: student.firstName,
                     grades: student.grades,
@@ -362,7 +363,7 @@ table.students * {
 
 table.students thead th:first-child,
 table.students td {
-    padding: 12px 25px;
+    padding: 12px 15px;
 }
 
 table.students tr {

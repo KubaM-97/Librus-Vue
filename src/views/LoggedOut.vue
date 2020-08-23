@@ -77,6 +77,7 @@ export default {
               this.$store.commit("changeNavpanel");
             },1200);
 
+            this.$router.push({name: "/"})
           }
 
           //if inserted login or password are incorrect
@@ -98,7 +99,7 @@ export default {
 <style scoped>
 
 .mainLogPanel {
-    margin: 100px auto;
+    margin: 200px auto;
     background-image: url(../assets/Logo.png);
     background-position: center;
     background-size: cover;

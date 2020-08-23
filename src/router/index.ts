@@ -33,16 +33,16 @@ export default new Router({
       props: true,
       children: [
         {
-          path: "editData",
-          name: 'Student',
-          component: EditStudentData,
-          props: true
-        },
-        {
           path: "editGrades",
           name: 'Student',
           component: EditStudentGrades,
           props: true
+        // },
+        // {
+        //   path: "editGrades",
+        //   name: 'Student',
+        //   component: EditStudentGrades,
+        //   props: true
         }
       ]
     },{

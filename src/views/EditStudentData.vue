@@ -273,6 +273,7 @@ export default {
     //regular expressions
     validatorData: function(Data, RegularExpression, Format) {
 
+
       //gets inserted value
       const insertedData = this.$refs.editDataPanel.querySelector("#"+Data).value;
       //gets regular expression
@@ -281,53 +282,63 @@ export default {
       if((insertedData !== '') && (reg.test(insertedData)==false)){
         span.innerHTML = `Podaj prawidłowy format :
         <br /> ${Format}`;
+        // this.possibleSave = false;
       }
       else{
         span.innerHTML = ``;
+        // this.possibleSave = true;
       }
-      this.possibleSave = true;
     },
     saveChanges(){
 
       const old = this.$route.params;
+      const store = this.$store.state.students[this.$route.params.id-1];
 
       if(old.firstName!=this.editStudent.firstName){
         old.firstName = this.editStudent.firstName;
+        store.firstName = this.editStudent.firstName;
         this.showGreenCheckMarkFirstName = true;
         setTimeout(()=>{this.hideCheckMarkWithLayerFirstName = false},1)
       }
       if(old.lastName!=this.editStudent.lastName){
         old.lastName = this.editStudent.lastName;
+        store.lastName = this.editStudent.lastName;
         this.showGreenCheckMarkLastName = true;
         setTimeout(()=>{this.hideCheckMarkWithLayerLastName = false},1)
       }
       if(old.pesel!=this.editStudent.pesel){
         old.pesel = this.editStudent.pesel;
+        store.pesel = this.editStudent.pesel;
         this.showGreenCheckMarkPesel = true;
         setTimeout(()=>{this.hideCheckMarkWithLayerPesel = false},1)
       }
       if((old.street.streetName!=this.editStudent.street.streetName)||(old.street.streetNr!=this.editStudent.street.streetNr)||(old.street.streetFlat!=this.editStudent.street.streetFlat)||(old.street.streetPostCode!=this.editStudent.street.streetPostCode)||(old.street.streetCity!=this.editStudent.street.streetCity)){
         old.street = this.editStudent.street;
+        store.street = this.editStudent.street;
         this.showGreenCheckMarkStreet = true;
         setTimeout(()=>{this.hideCheckMarkWithLayerStreet = false},1)
       }
       if(old.email!=this.editStudent.email){
         old.email = this.editStudent.email;
+        store.email = this.editStudent.email;
         this.showGreenCheckMarkEmail = true;
         setTimeout(()=>{this.hideCheckMarkWithLayerEmail = false},1)
       }
       if(old.telephone!=this.editStudent.telephone){
         old.telephone = this.editStudent.telephone;
+        store.telephone = this.editStudent.telephone;
         this.showGreenCheckMarkTelephone = true;
         setTimeout(()=>{this.hideCheckMarkWithLayerTelephonee = false},1)
       }
       if((old.mother.firstName!=this.editStudent.mother.firstName)||(old.mother.lastName!=this.editStudent.mother.lastName)||(old.mother.phone!=this.editStudent.mother.phone)||(old.mother.email!=this.editStudent.mother.email)){
         old.mother = this.editStudent.mother;
+        store.mother = this.editStudent.mother;
         this.showGreenCheckMarkMother = true;
         setTimeout(()=>{this.hideCheckMarkWithLayerMother = false},1)
       }
       if((old.father.firstName!=this.editStudent.father.firstName)||(old.father.lastName!=this.editStudent.father.lastName)||(old.father.phone!=this.editStudent.father.phone)||(old.father.email!=this.editStudent.father.email)){
         old.father = this.editStudent.father;
+        store.father = this.editStudent.father;
         this.showGreenCheckMarkFather = true;
         setTimeout(()=>{this.hideCheckMarkWithLayerFather = false},1)
       }

@@ -126,9 +126,9 @@
 
                    </div>
 
-                  </div>
+                 </div>
 
-                  <div class="col-md-7">
+                 <div class="col-md-7">
 
                    <div class="addStudentPanelGradesTitle">
                         <span class="addStudentGradeSubpanelTitle">Dotychczasowe oceny:</span>
@@ -141,7 +141,7 @@
                    </div>
 
 
-                  </div>
+                </div>
 
                   <div class="addStudentPanelGradesContentButton">
                     <button @click="addNewGrade()">  +  </button>
@@ -160,32 +160,32 @@
                                   <span v-if="name!==''">{{name | formatName}}</span>
                                 </td>
 
-                                <td ref="allNewStudentGrades">
-                                    <!-- <span v-if="this.$store.state.newStudentGrades.grades!=='' && this.$store.state.newStudentGrades.weights[0]===1" v-html="gradeWeightColor(1)">
+                                <td ref="allnewGrades">
+                                    <!-- <span v-if="this.$store.state.newGrades.grades!=='' && this.$store.state.newGrades.weights[0]===1" v-html="gradeWeightColor(1)">
 
                                     </span>
 
-                                    <span v-else-if="this.$store.state.newStudentGrades.grades!=='' && this.$store.state.newStudentGrades.weights===2" v-html="gradeWeightColor(2)">
+                                    <span v-else-if="this.$store.state.newGrades.grades!=='' && this.$store.state.newGrades.weights===2" v-html="gradeWeightColor(2)">
 
                                     </span>
 
-                                    <span v-else-if="this.$store.state.newStudentGrades.grades!=='' && this.$store.state.newStudentGrades.weights===3" v-html="gradeWeightColor(3)">
+                                    <span v-else-if="this.$store.state.newGrades.grades!=='' && this.$store.state.newGrades.weights===3" v-html="gradeWeightColor(3)">
 
                                     </span> -->
 
-                                    <span v-html="gradeWeightColor(this.$store.state.newStudentGrades.grades)">
+                                    <span class="grades" v-html="gradeWeightColor(this.$store.state.newGrades.grades)">
 
                                     </span>
                                 </td>
 
                                 <td>
                                     <span>
-                                      {{avg(this.$store.state.newStudentGrades.grades, this.$store.state.newStudentGrades.weights)}}
+                                      {{avg(this.$store.state.newGrades.grades, this.$store.state.newGrades.weights)}}
                                     </span>
                                 </td>
 
                                 <td>
-                                  <span v-html="threatness(avg(this.$store.state.newStudentGrades.grades, this.$store.state.newStudentGrades.weights))">
+                                  <span v-html="threatness(avg(this.$store.state.newGrades.grades, this.$store.state.newGrades.weights))">
 
                                   </span>
                                 </td>
@@ -280,16 +280,16 @@ export default {
   components: {
     "grade-component": Grade
   },
-  // created(){console.log(this.$store.state.newStudentGrades)},
+  // created(){console.log(this.$store.state.newGrades)},
   computed:{
     newGrades(){
         return this.$store.getters.newGrades
     }
   },
   beforeRouteLeave(to,from,next){
-    const grades = this.$store.state.newStudentGrades.grades
-    const weights = this.$store.state.newStudentGrades.weights
-    const descriptions = this.$store.state.newStudentGrades.descriptions
+    const grades = this.$store.state.newGrades.grades
+    const weights = this.$store.state.newGrades.weights
+    const descriptions = this.$store.state.newGrades.descriptions
 
 
     if((this.confirm==false) && (
@@ -333,6 +333,11 @@ export default {
       const arrName = this.name.split(" ");
       this.add.firstName = arrName[0];
       this.add.lastName = arrName[1];
+    }
+    console.log(this.$store.state.newGrades.grades)
+    if(this.$store.state.newGrades.grades.includes("")){
+      console.log(document.querySelectorAll("div.gradeWeightColor"));
+      // document.querySelectorAll("div.gradeWeightColor").removeAttribute("class")
     }
   },
   filters: {
@@ -442,49 +447,49 @@ export default {
       },
 
       //colors grades
-      gradeWeightColor: function(newStudentGrades) {
+      gradeWeightColor: function(newGrades) {
 
         // alert(1)
-        let limit = this.$store.state.newStudentGrades.grades.length;
-        if(this.$store.state.newStudentGrades.weights.length>this.$store.state.newStudentGrades.grades.length){
-          limit = this.$store.state.newStudentGrades.weights.length
+        let limit = this.$store.state.newGrades.grades.length;
+        if(this.$store.state.newGrades.weights.length>this.$store.state.newGrades.grades.length){
+          limit = this.$store.state.newGrades.weights.length
         }
 
         let aaa = "";
 
           for (let i = 0; i < limit; i++) {
-              if(this.$store.state.newStudentGrades.grades[i]!==undefined){
-                    if (this.$store.state.newStudentGrades.weights[i] == 1) {
-                        aaa += `<div class="gradeWeightColor gradeWeightGreen">${this.$store.state.newStudentGrades.grades[i]}</div>`
-                    } else if (this.$store.state.newStudentGrades.weights[i] == 2) {
-                        aaa +=  `<div class="gradeWeightColor gradeWeightYellow">${this.$store.state.newStudentGrades.grades[i]}</div>`
-                    } else if (this.$store.state.newStudentGrades.weights[i] == 3) {
-                        aaa +=  `<div class="gradeWeightColor gradeWeightRed">${this.$store.state.newStudentGrades.grades[i]}</div>`
+              if(this.$store.state.newGrades.grades[i]!==undefined){
+                    if (this.$store.state.newGrades.weights[i] == 1) {
+                        aaa += `<div class="gradeWeightColor gradeWeightGreen">${this.$store.state.newGrades.grades[i]}</div>`
+                    } else if (this.$store.state.newGrades.weights[i] == 2) {
+                        aaa +=  `<div class="gradeWeightColor gradeWeightYellow">${this.$store.state.newGrades.grades[i]}</div>`
+                    } else if (this.$store.state.newGrades.weights[i] == 3) {
+                        aaa +=  `<div class="gradeWeightColor gradeWeightRed">${this.$store.state.newGrades.grades[i]}</div>`
                     }
-                    else if(this.$store.state.newStudentGrades.weights[i]==undefined){
-                      aaa +=  `<div class="gradeWeightColor">${this.$store.state.newStudentGrades.grades[i]}</div>`
+                    else if(this.$store.state.newGrades.weights[i]==undefined){
+                      aaa +=  `<div class="gradeWeightColor">${this.$store.state.newGrades.grades[i]}</div>`
                     }
 
               }
-              else if(this.$store.state.newStudentGrades.grades[i]==undefined){
-                if(this.$store.state.newStudentGrades.weights[i]===1){
+              else if(this.$store.state.newGrades.grades[i]==undefined){
+                if(this.$store.state.newGrades.weights[i]===1){
                   aaa +=  `<div class="gradeWeightColor gradeWeightGreen" style="height:32px;"> </div>`
                 }
-                else if(this.$store.state.newStudentGrades.weights[i]===2){
+                else if(this.$store.state.newGrades.weights[i]===2){
                   aaa +=  `<div class="gradeWeightColor gradeWeightYellow" style="height:32px;"> </div>`
                 }
-                else if(this.$store.state.newStudentGrades.weights[i]===3){
+                else if(this.$store.state.newGrades.weights[i]===3){
                   aaa +=  `<div class="gradeWeightColor gradeWeightRed" style="height:32px;"> </div>`
                 }
 
               }
-              // else if((this.$store.state.newStudentGrades.grades[i]!=="")&&(this.$store.state.newStudentGrades.weights[i]==="")) {
+              // else if((this.$store.state.newGrades.grades[i]!=="")&&(this.$store.state.newGrades.weights[i]==="")) {
               // alert(222)
               // }
               // else {
-              //   aaa +=  `<div class="gradeWeightColor">${this.$store.state.newStudentGrades.grades[i]}</div>`
+              //   aaa +=  `<div class="gradeWeightColor">${this.$store.state.newGrades.grades[i]}</div>`
               // }
-              if((this.$store.state.newStudentGrades.grades[i]!="")&&(this.$store.state.newStudentGrades.weights[i]!="")&&(this.$store.state.newStudentGrades.descriptions[i]!="")&&(this.$store.state.newStudentGrades.dates[i]!="")){
+              if((this.$store.state.newGrades.grades[i]!="")&&(this.$store.state.newGrades.weights[i]!="")&&(this.$store.state.newGrades.descriptions[i]!="")&&(this.$store.state.newGrades.dates[i]!="")){
                 this.showTooltip();
               }
           }
@@ -537,13 +542,13 @@ export default {
       showTooltip: function() {
         const gradesWrappedInDiv = document.getElementsByClassName("gradeWeightColor");
 
-        // console.log(this.$refs.allNewStudentGrades.querySelectorAll("span"))
+        // console.log(this.$refs.allnewGrades.querySelectorAll("span"))
           // const gradeInDiv = this.$el.querySelectorAll("div");
           if(gradesWrappedInDiv.length>0){
               for(let i=0; i<gradesWrappedInDiv.length;i++){
                 //  draws tooltip after hovering
                   gradesWrappedInDiv[i].addEventListener("mouseenter", function() {
-                      this.canvas(this.$store.state.newStudentGrades.grades, this.$store.state.newStudentGrades.weights, this.$store.state.newStudentGrades.descriptions, this.$store.state.newStudentGrades.dates, gradesWrappedInDiv[i], i)
+                      this.canvas(this.$store.state.newGrades.grades, this.$store.state.newGrades.weights, this.$store.state.newGrades.descriptions, this.$store.state.newGrades.dates, gradesWrappedInDiv[i], i)
                   }.bind(this), false);
 
                   //destroyes tooltip after leaving
@@ -553,7 +558,7 @@ export default {
                   });
               }
           }
-        // if((this.$store.state.newStudentGrades.grades!=="")&&(this.$store.state.newStudentGrades.weights!=="")){
+        // if((this.$store.state.newGrades.grades!=="")&&(this.$store.state.newGrades.weights!=="")){
 
 
           // const gradeInDiv = this.$el.querySelectorAll("div");
@@ -562,7 +567,7 @@ export default {
           // for(let i=0; i<=gradeInDiv.length;i++){
           // //  draws tooltip after hovering
           //   gradeInDiv[i].addEventListener("mouseenter", function() {
-          //       this.canvas(this.$store.state.newStudentGrades.grades, this.$store.state.newStudentGrades.weights, this.$store.state.newStudentGrades.descriptions, 330, gradeInDiv[i], i)
+          //       this.canvas(this.$store.state.newGrades.grades, this.$store.state.newGrades.weights, this.$store.state.newGrades.descriptions, 330, gradeInDiv[i], i)
           //   }.bind(this), false);
           //
           //
@@ -614,9 +619,9 @@ export default {
       //resets addStudent Panel
       addStudentCancel: function() {
           this.name = ""
-          this.$store.state.newStudentGrades.grades = "";
-          this.$store.state.newStudentGrades.weights = "";
-          this.$store.state.newStudentGrades.descriptions = "";
+          this.$store.state.newGrades.grades = "";
+          this.$store.state.newGrades.weights = "";
+          this.$store.state.newGrades.descriptions = "";
           this.gradesLength = 0;
           setTimeout(()=>{
             this.gradesLength = 1;
@@ -633,10 +638,10 @@ export default {
         //if we've got both firstname and lastname
            if (addedStudentNameArray.length >= 2) {
 
-                this.add.grades = this.$store.state.newStudentGrades.grades;
-                this.add.weights = this.$store.state.newStudentGrades.weights;
-                this.add.descriptions = this.$store.state.newStudentGrades.descriptions;
-                this.add.dates = this.$store.state.newStudentGrades.dates;
+                this.add.grades = this.$store.state.newGrades.grades;
+                this.add.weights = this.$store.state.newGrades.weights;
+                this.add.descriptions = this.$store.state.newGrades.descriptions;
+                this.add.dates = this.$store.state.newGrades.dates;
 
                 this.$store.commit("addNewStudentToClass", this.add);
                 this.$store.commit("setFullClass", this.$store.state.students)
@@ -850,6 +855,7 @@ export default {
   text-shadow: none;
   font-size: 11px;
 }
+
 .addStudentPanelNameInfo span[class^="wrong"]{
   font-size: 9px;
   display: block;
@@ -916,11 +922,14 @@ table td {
 }
 table td:nth-child(1),
 table td:nth-child(4) {
-    width: 33%;
+    width: 25%;
 }
 table td:nth-child(2),
 table td:nth-child(3) {
     width: 16%;
+}
+span.grades{
+  width: 100%
 }
 .addStudentPanelButtons {
     width: 90%;

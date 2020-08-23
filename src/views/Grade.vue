@@ -14,7 +14,7 @@
 
                   <div class="select">
 
-                    <select v-model.number="payloadGrade.grade" @change="addNewGrade" id="grades">
+                    <select v-model.number="payload.grade" @change="addNewGrade" id="grades">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -36,7 +36,7 @@
                   <label for="weight">Waga oceny:</label>
 
                   <div class="select">
-                      <select v-model.number="payloadWeight.weight" @change="addNewWeight" id="weight">
+                      <select v-model.number="payload.weight" @change="addNewWeight" id="weight">
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -47,7 +47,7 @@
 
             </div>
 
-            <div class="col-md-5">
+            <div class="col-md-4">
 
                 <div class="addStudentPanelGradesContentSingleDescription">
 
@@ -55,7 +55,7 @@
 
                  <label>Opis oceny:
 
-                     <input type="text" v-model="payloadDescription.description" @change="addNewDescription" class="description" maxlength="30">
+                     <input type="text" v-model="payload.description" @change="addNewDescription" class="description" maxlength="30">
 
                  </label>
 
@@ -63,11 +63,15 @@
 
             </div>
 
+            <div class="col-md-1">
+                <span @click="remove()" class="remove"><em>Usuń</em></span>
+            </div>
+
           </div>
 
        </div>
 
-       <span @click="usun"><em>Usuń</em></span>
+
 
   </div>
 </template>
@@ -76,7 +80,7 @@
 export default {
   name: "Grade",
   watch: {
-    "payloadDescription.description": {
+    "payload.description": {
       handler: function(newVal,oldVal){
         const inputGradeDescription = document.querySelectorAll(".description")[this.n].value;
         const descriptionCount = document.querySelectorAll("span.descriptionCount")[this.n];
@@ -103,19 +107,10 @@ export default {
   data(){
     return{
       characters: 30,
-      payloadGrade:{
+      payload: {
         grade: "",
-        placeInArray: this.n
-      },
-      payloadWeight:{
         weight: "",
-        placeInArray: this.n
-      },
-      payloadDescription:{
         description: "",
-        placeInArray: this.n
-      },
-      payloadDate: {
         date: "",
         placeInArray: this.n
       }
@@ -124,30 +119,36 @@ export default {
   props:["n", "a"],
   updated(){
     // if we've got both: grade, weight and description
-    if((this.payloadGrade.grade!=="")&&(this.payloadWeight.weight!=="")&&(this.payloadDescription.description!=="")){
-      this.payloadDate.date = this.whatsTheDatePlease();
+    if((this.payload.grade!=="")&&(this.payload.weight!=="")&&(this.payload.description!=="")){
+      this.payload.date = this.whatsTheDatePlease();
       this.addNewDate();
     }
   },
   methods:{
-    usun(){
-      document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].innerHTML = ""
+    remove(){
+      console.log(this.$store.state.newGrades)
+      document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].innerHTML = "";
+      document.querySelectorAll(".addStudentPanelGradesContent")[this.n].style.marginTop = "0px"
+      document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].style.marginBottom ="0px";
+      this.$store.commit("removeGrade", this.payload);
+      // document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].removeAttribute("class");
       this.$emit("update:a", this.a+1)
+      console.log(this.$store.state.newGrades)
     },
     addNewGrade(){
-        this.$store.commit("addNewGradeToArray", this.payloadGrade);
+        this.$store.commit("addNewGradeToArray", this.payload);
         this.$emit("update:a", this.a+1);
     },
     addNewWeight(){
-        this.$store.commit("addNewWeightToArray", this.payloadWeight);
+        this.$store.commit("addNewWeightToArray", this.payload);
         this.$emit("update:a", this.a+1);
     },
     addNewDescription(){
-        this.$store.commit("addNewDescriptionToArray", this.payloadDescription);
+        this.$store.commit("addNewDescriptionToArray", this.payload);
         this.$emit("update:a", this.a+1);
     },
     addNewDate(){
-        this.$store.commit("addNewDateToArray", this.payloadDate)
+        this.$store.commit("addNewDateToArray", this.payload)
     },
 
     //returns current Date in an Array
@@ -190,29 +191,30 @@ export default {
         return dateArray = dateFullStr;
     }
 
-  },
+   },
   // beforeDestroy(){
   //
   // },
   destroy(){
-    let limit = this.$store.state.newStudentGrades.grades.length;
-    if(this.$store.state.newStudentGrades.weights.length>this.$store.state.newStudentGrades.grades.length){
-      limit = this.$store.state.newStudentGrades.weights.length
+    let limit = this.$store.state.newGrades.grades.length;
+    if(this.$store.state.newGrades.weights.length>this.$store.state.newGrades.grades.length){
+      limit = this.$store.state.newGrades.weights.length
     }
     for(let i = 0; i<=limit; i++){
       if(i>this.n){
-        this.$store.state.newStudentGrades.grades[i]=this.$store.state.newStudentGrades.grades[i-1]
+        this.$store.state.newGrades.grades[i]=this.$store.state.newGrades.grades[i-1]
       }
     }
-    this.$store.state.newStudentGrades.grades.pop()
-    this.$store.state.newStudentGrades.weights.pop()
-    this.$store.state.newStudentGrades.descriptions.pop()
-    this.$store.state.newStudentGrades.dates.pop()
+    this.$store.state.newGrades.grades.pop()
+    this.$store.state.newGrades.weights.pop()
+    this.$store.state.newGrades.descriptions.pop()
+    this.$store.state.newGrades.dates.pop()
   }
 }
 </script>
 
 <style>
+
 .addStudentPanelMain select {
   line-height: 1.7em;
    font-size: 15px;
@@ -298,7 +300,17 @@ export default {
     font-size: 9px;
 }
 
+.row div[class^="col-md"]{
+  display: grid;
+  align-content: flex-end;
+}
 
-
+span.remove{
+  font-size: 12px;
+  text-decoration: underline;
+}
+span.remove:hover{
+  cursor: pointer;
+}
 
 </style>
