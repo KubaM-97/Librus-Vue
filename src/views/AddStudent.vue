@@ -140,12 +140,13 @@
 
                    </div>
 
+                   <div class="addStudentPanelGradesContentButton">
+                     <button @click="addNewGrade()">  +  </button>
+                   </div>
 
-                </div>
+                 </div>
 
-                  <div class="addStudentPanelGradesContentButton">
-                    <button @click="addNewGrade()">  +  </button>
-                  </div>
+
 
               </div>
 
@@ -153,7 +154,7 @@
 
                 <div class="addStudentPanelSummary">
 
-                  <table>
+                  <table class="summary">
 
                             <tr>
                                 <td>
@@ -229,6 +230,8 @@
 //CSS
 require("../assets/animations.css");
 
+//css-table
+require("../assets/table.css");
 import Grade from "./Grade.vue"
 export default {
   name: "AddStudent",
@@ -293,9 +296,11 @@ export default {
 
 
     if((this.confirm==false) && (
-      (this.add.name == "") || (grades.length!=weights.length) || (grades.length!=descriptions.length) || (weights.length!=descriptions.length)
-      || (grades.includes(undefined))||(weights.includes(undefined))||(descriptions.includes(undefined))
-    )){
+      (this.add.name == "") ||
+      (grades.length!=weights.length) || (grades.length!=descriptions.length) || (weights.length!=descriptions.length)
+      || (grades.includes(undefined)) || (weights.includes(undefined)) || (descriptions.includes(undefined))
+      || (descriptions.includes("")))
+    ){
       // this.exitPath = to.path;
       // alert(this.exitPath)
       if(to.path == "/LoggedOut"){
@@ -311,6 +316,9 @@ export default {
         next(false)
       }
     }
+    // else if(this.confirm == true){
+    //   next(false)
+    // }
     else{
       next()
       this.addStudentCancel()
@@ -780,6 +788,7 @@ export default {
 }
 .addStudentPanelMain{
     padding: 40px;
+    position: relative;
 }
 .addStudentPanelMain label {
     display: block;
@@ -886,6 +895,11 @@ export default {
     margin-top: 10px;
     font-size: 11px;
 }
+.addStudentPanelGradesContentButton{
+  position: absolute;
+  top: 20px;
+  right: 10px
+}
 .addStudentPanelGradesContentButton button {
   background-color: #00c3ff;
   color: white;
@@ -907,26 +921,10 @@ export default {
     color: black;
     border: 1px solid white !important;
 }
+
 .addStudentPanelSummary{
   width: 80%;
-  margin: 50px 70px 0;
-}
-table {
-    width: 100%;
-}
-table td {
-    height: 50px;
-    padding: 15px 50px;
-    border: 1px solid white;
-    text-align: center;
-}
-table td:nth-child(1),
-table td:nth-child(4) {
-    width: 25%;
-}
-table td:nth-child(2),
-table td:nth-child(3) {
-    width: 16%;
+  margin: 100px 70px 0;
 }
 span.grades{
   width: 100%
@@ -968,5 +966,43 @@ span.grades{
 }
 .confirm button:last-of-type{
   background-color: green
+}
+
+@media (max-width: 768px){
+  .addStudentPanelMain{
+      padding: 40px 10px;
+  }
+
+  span.required{
+    height: 40px;
+  }
+
+  .addStudentPanelNameInfo input{
+    margin-right: 0px;
+    width: 150px;
+  }
+  .addStudentPanelNameInfo span[class^="wrong"]{
+    margin-right: 0px;
+  }
+  .addStudentPanelGradesTitle {
+    margin-top: 70px;
+  }
+  .addStudentPanelGradesContentButton{
+    top: 35px;
+    /* bottom: 20px; */
+    right: 10px
+  }
+  .addStudentPanelGradesContentButton button{
+    font-size: 19px;
+    padding: 1px 9px;
+    font-weight: 300;
+  }
+  .addStudentPanelSummary{
+    width: 100%;
+    margin: 100px 0;
+  }
+  .confirm button{
+    margin: 0 20px;
+  }
 }
 </style>

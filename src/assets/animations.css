@@ -9,6 +9,20 @@ span.required{
   text-shadow: 5px 0px 5px #f0351d, -5px 0px 5px #f0351d, 0px 5px 5px #f0351d, 0px -5px 5px #f0351d;
 }
 
+.router-enter-active, .router-leave-active{
+  transition: opacity .5s ease-out;
+}
+.router-enter, .router-leave-to{
+  opacity: 0;
+}
+
+.show-logOutGif-enter-active, .show-logOutGif-leave-active{
+  transition: opacity .15s ease-out;
+}
+.show-logOutGif-enter, .show-logOutGif-leave-to{
+  opacity: 0;
+}
+
 .bounce-enter-active {
   /* transition: all .3s ease; */
 animation: shake .73s ease;

@@ -47,8 +47,8 @@
 
             </div>
 
-            <div class="editStudentPanelGradesButtons" @click="showEditStudentGradesPanel()">
-              <router-link :to='{path: "editGrades"}' tag="button">
+            <div class="editStudentPanelNameButtons" @click="showEditStudentDataPanel()">
+              <router-link :to='{path: "editData"}' tag="button">
                   Edytuj Dane
               </router-link>
             </div>
@@ -85,9 +85,9 @@
             </div>
 
         </div>
-        <transition name="EditStudentDataPanel" mode="out-in">
-          <!-- <router-view v-if="showDataEditionRouterView" :showDataEditionRouterView.sync="showDataEditionRouterView"/> -->
-          <router-view v-if="showGradesEditionRouterView" :showGradesEditionRouterView.sync="showGradesEditionRouterView"/>
+       <transition name="EditStudentDataPanel" mode="out-in">
+          <router-view v-if="showDataEditionRouterView" :showDataEditionRouterView.sync="showDataEditionRouterView"/>
+             <!--<router-view v-if="showGradesEditionRouterView" :showGradesEditionRouterView.sync="showGradesEditionRouterView"/>-->
         </transition>
         <!-- <transition name="EditStudentGradesPanel" mode="out-in">
           <router-view v-if="showDataEditionRouterView" :showDataEditionRouterView.sync="showDataEditionRouterView"/>
@@ -222,7 +222,7 @@ export default {
         ctx.fillStyle = "#ffeab0";
         ctx.fill();
         ctx.fillStyle = "black";
-        ctx.font = "bold 15px Arial";
+        ctx.font = "bold 10px Arial";
 
         ctx.fillText(`Ocena: ${arrayWithAllGrades[i]}`, 40, 50);
         ctx.fillText(`Waga: ${arrayWithAllWeights[i] } `, 40, 70);
@@ -325,10 +325,11 @@ div[class^="editStudentPanelGrades"] {
 
 .editStudentPanelGradesStudent {
     grid-row: startStudentData / startStudentDetailData;
+    margin: auto;
 }
 
 .editStudentPanelGradesButtons{
-    grid-row: startStudentDetailData / startStudentDetailDataButton;
+    grid-row: startStudentDetailDataButton;
 }
 
 
@@ -398,9 +399,36 @@ div[class^="editStudentPanelThreatness"] {
     margin: 0 15px;
 }
 
-.editStudentPanelGradesButtons button.add{
-  background-color: green;
+
+
+
+@media (max-width: 768px){
+  .editStudentPanel {
+      width: 95%;
+  }
+  .editStudentPanelMain{
+    font-size: 11px;
+  }
+  .editStudentPanelMain{
+      padding:  3px;
+      /* display: grid; */
+      grid-template-rows:[startTitle]50px [startStudentData]50px [startStudentDetailData]auto [startStudentDetailDataButton]50px;
+      /* align-items: center; */
+  }
+  .editStudentPanelNameDetailData {
+    margin-bottom: 0
+  }
+  .editStudentPanelNameDetailData .form-group{
+    padding-left: 3px;
+    font-size: 8px;
+  }
+  .editStudentPanelMain button{
+    font-size: 9px;
+    padding: 5px;
+  }
+  /* .editStudentPanelGradesButtons button{
+    font-size: 7.7px;
+    padding: 7px 5px;
+  } */
 }
-
-
 </style>

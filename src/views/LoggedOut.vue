@@ -149,7 +149,32 @@ export default {
 
 .mainLogPanel span.wrongLoginPassword,
 .form-group span.required {
+  margin-top: 10px;
+  display: block;
     font-size: 14px;
 }
 
+@media (max-width: 768px){
+  .mainLogPanel {
+    width: 90%;
+    /* height: %; */
+  }
+
+  .mainLogPanel .form-group {
+    /* height: 30px; */
+    /* width: 80%; */
+    font-size: 16px;
+  }
+  .mainLogPanel .form-group label span.mainLogPanelTooltip {
+    /* height: 30px; */
+    /* width: 80%; */
+    font-size: 14px;
+  }
+  .mainLogPanel .form-group label + input {
+      height: 28px;
+      width: 75%;
+      /* max-width: 360px; */
+      color: black;
+  }
+}
 </style>

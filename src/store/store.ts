@@ -92,6 +92,11 @@ export const store = new Vuex.Store({
         //places new grade's description in appropriate place according to the provided index
         //e.g    for second component Grade.vue:   newGrades.description[1] = "Praca domowa"        newGrades.description=["Kartkówka", "Praca domowa"]
         state.newGrades.descriptions[payload.placeInArray] = payload.description;
+        // alert(state.newGrades.descriptions[payload.placeInArray])
+        if((state.newGrades.descriptions[payload.placeInArray] == "")||(state.newGrades.descriptions[payload.placeInArray] == undefined)){
+          // alert(55)
+          state.newGrades.descriptions[payload.placeInArray] = "BRAK OPISU"
+        }
       },
       addNewDateToArray(state, payload){
         if(state.newGrades.dates == ""){

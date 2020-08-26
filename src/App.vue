@@ -10,8 +10,12 @@
             </div>
 
             <div class="logo">
-                Nauczyciel: <span v-html="teacher"></span>
-                Klasa: <span v-style-me:class="'italic'">{{Class}}</span>
+              <div class="logo_info">
+                  Nauczyciel: <span v-html="teacher"></span>
+              </div>
+              <div class="logo_info">
+                  Klasa: <span v-style-me:class="'italic'">{{Class}}</span>
+              </div>
             </div>
 
         </header>
@@ -34,7 +38,7 @@
 
     </header>
 
-    <transition name="fade-logOut" mode="out-in">
+    <transition name="show-logOutGif" mode="out-in">
         <div class="loader" v-show="showLoaderGif">
             <img src="@/assets/gifloader.gif" alt="loaderLogo">
         </div>
@@ -42,7 +46,7 @@
 
     <log-out v-if="showMainLogPanel" :showNavpanel.sync="showNavpanel" :showLoaderGif.sync="showLoaderGif" :showMainLogPanel.sync="showMainLogPanel"></log-out>
 
-    <transition name="fade" mode="out-in">
+    <transition name="router" mode="out-in">
       <router-view/>
     </transition>
 
@@ -65,6 +69,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 //CSS
 require("./assets/style.css");
+require("./assets/animations.css");
 
 import LoggedOut from "./views/LoggedOut.vue"
 
@@ -150,30 +155,27 @@ header.main-header {
     -webkit-box-shadow: 3px 3px 30px 5px #00c3ff;
     -moz-box-shadow: 3px 3px 30px 5px #00c3ff;
     box-shadow: 3px 3px 30px 5px #00c3ff;
-    padding: 20px 0 40px;
+    padding: 20px 0 25px;
     font-size: 11px;
 }
 
 header, .logo, nav {
     display: inline-block;
-    vertical-align: bottom
 }
 
 header > header {
     width: 50%;
 }
 
-header .logo {
-    display: inline-block;
-}
-
 header .logo img {
     border-radius: 6px;
     height: 120px;
     vertical-align: -200%;
-    margin: 5px 65px 0 30px
+    margin: 5px 65px 20px 30px
 }
-
+header .logo_info{
+  display: inline-block;
+}
 header span {
     margin-right: 30px;
 }
@@ -212,17 +214,40 @@ button{
 .loader img{
     width: 100%;
 }
-.fade-enter-active, .fade-leave-active{
-  transition: opacity .5s ease-out;
-}
-.fade-enter, .fade-leave-to{
-  opacity: 0;
-}
 
-.fade-logOut-enter-active, .fade-logOut-leave-active{
-  transition: opacity .15s ease-out;
-}
-.fade-logOut-enter, .fade-logOut-leave-to{
-  opacity: 0;
+
+@media (max-width: 768px){
+  header{
+    width: 55%;
+  }
+
+  header .logo img{
+    height: 100px;
+  }
+
+  header .logo_info{
+    display: inline-block;
+    margin-left: 20px;
+  }
+
+  nav{
+    width: 44%;
+  }
+
+  nav button.btn{
+    display: inline-block;
+    /* margin-right: 10px; */
+    /* text-align: right; */
+    /* float: right; */
+      font-size: 11px;
+      padding: 7px 11px
+  }
+  nav button.btn.with-logout-icon{
+      padding-left: 10px;
+  }
+  nav img{
+    height: 18px;
+    /* padding-left: 0px; */
+  }
 }
 </style>

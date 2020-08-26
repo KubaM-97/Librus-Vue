@@ -1,5 +1,4 @@
 <template>
-
 <div class="fullClass">
 
     <div class="tableColorsLegend">
@@ -38,44 +37,47 @@
 
     </div>
 
-    <table class="students" id="tableStudents">
+    <div class="students">
+      <table id="tableStudents">
 
-        <thead>
-            <th>Nr.</th>
-            <th>Uczeń:</th>
-            <th>Oceny:</th>
-            <th>Średnia ocen:</th>
-            <th>Zagrożenia:</th>
-        </thead>
+          <thead>
+              <th>Nr.</th>
+              <th>Uczeń:</th>
+              <th>Oceny:</th>
+              <th>Średnia ocen:</th>
+              <th>Zagrożenia:</th>
+          </thead>
 
-        <tbody v-for="student in students" :key="student.id">
-            <router-link tag="tr"
-            :to="{ name: 'Student',
-                   params: {
-                    id: student.id,
-                    lastName: student.lastName,
-                    firstName: student.firstName,
-                    grades: student.grades,
-                    weights: student.weights,
-                    descriptions: student.descriptions,
-                    dates: student.dates,
-                    pesel: student.pesel,
-                    street: student.street,
-                    phone: student.phone,
-                    email: student.email,
-                    mother: student.mother,
-                    father: student.father
-                   }
-                  }">
-                <td></td>
-                <td>{{ student.lastName.toUpperCase() }} {{ student.firstName }}</td>
-                <td v-html="gradeWeightColor(student.grades, student.weights)"></td>
-                <td>{{ avg(student.grades, student.weights) }}</td>
-                <td v-html="threatness(avg(student.grades, student.weights))"></td>
-            </router-link>
-        </tbody>
+          <tbody v-for="student in students" :key="student.id">
+              <router-link tag="tr"
+              :to="{ name: 'Student',
+                     params: {
+                      id: student.id,
+                      lastName: student.lastName,
+                      firstName: student.firstName,
+                      grades: student.grades,
+                      weights: student.weights,
+                      descriptions: student.descriptions,
+                      dates: student.dates,
+                      pesel: student.pesel,
+                      street: student.street,
+                      phone: student.phone,
+                      email: student.email,
+                      mother: student.mother,
+                      father: student.father
+                     }
+                    }">
+                  <td></td>
+                  <td>{{ student.lastName.toUpperCase() }} {{ student.firstName }}</td>
+                  <td v-html="gradeWeightColor(student.grades, student.weights)"></td>
+                  <td>{{ avg(student.grades, student.weights) }}</td>
+                  <td v-html="threatness(avg(student.grades, student.weights))"></td>
+              </router-link>
+          </tbody>
 
-    </table>
+      </table>
+    </div>
+
 </div>
 </template>
 
@@ -86,6 +88,9 @@ import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
+
+//css-table
+require("../assets/table.css");
 
 export default {
    name: 'FullClass',
@@ -350,37 +355,28 @@ export default {
     vertical-align: bottom;
 }
 
-table {
-  width:90%;
+div.tableColorsLegend div.gradeWeightColor {
+  width: 32px;
+}
+
+div.students{
+  width: 90%;
   margin: 50px auto;
 }
 
-table.students * {
-    border: 1px solid white;
-    padding: 15px 50px;
-    text-align: center;
+@media (max-width: 768px){
+  .tableColorsLegend .tableColorsLegendTitle {
+      font-size: 11px;
+      margin: 20px 0;
+  }
+  .tableColorsLegend .tableColorsLegendContent .tableColorsLegendSingleContent {
+    font-size: 10px;
+  }
+
+  div.tableColorsLegend div.gradeWeightColor {
+    width: 25px;
+  }
 }
-
-table.students thead th:first-child,
-table.students td {
-    padding: 12px 15px;
-}
-
-table.students tr {
-    height: 77px;
-}
-
-table.students tbody tr:hover {
-    background-color: darkgoldenrod;
-    cursor: pointer;
-}
-
-table.students td:first-child{
-  width: 15px;
-}
-
-
-
 
 
 

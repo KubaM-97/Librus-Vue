@@ -3,11 +3,12 @@
     Edycja ocen:
     <div class="container">
       <div class="row">
-        <div class="col-md-11">
+        <div class="col-11">
           <div v-for="k in $route.params.grades.length" :key="k">
-            <div class="container">
+            <div class="container gainedGrades">
               <div class="row">
-                <div class="col-md-3">
+
+                <div class="col-3">
                     <div class="addStudentPanelGradesContentSingleGrade">
                       <label for="grades">Ocena:</label>
                       <div class="select">
@@ -23,7 +24,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-3">
                     <div class="addStudentPanelGradesContentSingleWeight">
                       <label for="weight">Waga oceny:</label>
                       <div class="select">
@@ -36,14 +37,18 @@
                   </div>
                 </div>
 
-                <div class="col-md-5">
-                <div class="addStudentPanelGradesContentSingleDescription">
-                <span class="descriptionCount">Pozostało: {{characters}} znaków.</span>
-                 <label>Opis oceny:
-                     <input type="text" v-model="$route.params.descriptions[k-1]" @change="changeDescription(k-1, $route.params.id)" class="description" maxlength="30">
-                 </label>
-             </div>
-            </div>
+                <div class="col-5">
+                    <div class="addStudentPanelGradesContentSingleDescription">
+                        <span class="descriptionCount">Pozostało: {{characters}} znaków.</span>
+                     <label>Opis oceny:
+                         <input type="text" v-model="startPack.description[k-1]" @change="changeDescription(k-1, $route.params.id)" class="description" maxlength="30">
+                     </label>
+                    </div>
+                </div>
+
+                <div class="col-1">
+                    <span @click="remove()" class="remove"><em>Usuń</em></span>
+                </div>
               </div>
             </div>
           </div>
@@ -70,7 +75,7 @@
         </div> -->
 
        </div>
-       <div class="col-md-1 showAnotherGrade">
+       <div class="col-1 showAnotherGrade">
          <button @click="addNewGrade()">  +  </button>
        </div>
       </div>
@@ -78,14 +83,14 @@
 
         <div class="studentPanelSummary">
 
-          <table>
+          <table class="summary">
 
                     <tr>
                         <td>
                           <span>{{this.$route.params.lastName.toUpperCase()}} {{this.$route.params.firstName}}</span>
                         </td>
 
-                        <td ref="allnewGrades">{{pickedItem}}
+                        <td ref="allnewGrades">
                             <span v-html="gradeWeightColor(this.$route.params.grades)">
 
                             </span>
@@ -110,11 +115,13 @@
 
       </div>
     </div>
-
+    <button @click="closeThePanel()"><img class="closeThePanel" src="../assets/eXit.png"/></button>
   </div>
 </template>
 
 <script>
+//css-table
+require("../assets/table.css");
 // import Grade from "./Grade.vue"
 export default {
   computed: {
@@ -122,10 +129,39 @@ export default {
       return this.$route.params.grades[0];
     }
   },
+  watch: {
+    "startPack.description": {
+      handler: function(newVal,oldVal){
+        // alert(33)
+        const inputGradeDescription = document.querySelectorAll(".description")[this.n].value;
+        const descriptionCount = document.querySelectorAll("span.descriptionCount")[this.n];
+        const counter = (30 - (inputGradeDescription.length));
+        switch (counter) {
+            case 2:
+            case 3:
+            case 4:
+            case 22:
+            case 23:
+            case 24:
+                descriptionCount.innerHTML = `Pozostały: ${counter} znaki.`;
+                break;
+            case 1:
+                descriptionCount.innerHTML = `Pozostał: ${counter} znak.`;
+                break;
+            default:
+                descriptionCount.innerHTML = `Pozostało: ${counter} znaków.`;
+        }
+      },
+      deep:true
+    }
+  },
   name:"EditGrades",
   // components:{"grade-component": Grade},
   data(){
     return{
+      startPack: {
+        description: this.$route.params.descriptions
+      },
       characters: 30,
       gradesLength: 1,
       payload:{
@@ -135,12 +171,22 @@ export default {
       }
     }
   },
-  beforeUpdate(){alert(222)},
+  // beforeUpdate(){alert(222)},
   props: ["showDataEditionRouterView"],
   // created(){
   //   alert(this.$route.params.grades[0])
   // },
   methods:{
+    remove(){
+      console.log(this.$store.state.newGrades)
+      document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].innerHTML = "";
+      document.querySelectorAll(".addStudentPanelGradesContent")[this.n].style.marginTop = "0px"
+      document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].style.marginBottom ="0px";
+      this.$store.commit("removeGrade", this.payload);
+      // document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].removeAttribute("class");
+      this.$emit("update:a", this.a+1)
+      console.log(this.$store.state.newGrades)
+    },
     changeGrade(placeInArray, StudentID, newVal){
       this.payload.placeInArray = placeInArray;
       this.payload.StudentID = StudentID;
@@ -254,6 +300,9 @@ export default {
         }
     },
 
+    closeThePanel(){
+      this.$emit("update:showGradesEditionRouterView", false)
+    }
   }
 }
 </script>
@@ -276,7 +325,11 @@ div.EditStudentGrades{
   transform: translate(-50%, -47%);
   padding: 70px 0 40px;
 }
+div.gainedGrades{
+  margin: 10px;
+}
 select {
+  margin-top: 5px;
   line-height: 1.7em;
    font-size: 15px;
      text-shadow: none;
@@ -327,25 +380,14 @@ input {
     box-sizing: border-box;
     text-shadow: none;
 }
-.studentPanelSummary{width: 100%;}
-.studentPanelSummary table {
-    width: 80%;
-    margin: auto;
-    margin-top: 100px;
-}
-.studentPanelSummary table td {
-    height: 50px;
-    padding: 12px 15px;
-    border: 1px solid white;
-    text-align: center;
-}
-.studentPanelSummary table td:nth-child(1),
-.studentPanelSummary table td:nth-child(4) {
-    width: 33%;
-}
-.studentPanelSummary table td:nth-child(2),
-.studentPanelSummary table td:nth-child(3) {
-    width: 16%;
+
+.studentPanelSummary{width: 80%; margin: auto; margin-top: 100px;}
+
+
+.showAnotherGrade{
+  position: absolute;
+  top: 50px;
+  right: 20px
 }
 .showAnotherGrade  button {
   background-color: #00c3ff;
@@ -367,5 +409,31 @@ input {
     box-shadow: inset 0px 0px 15px 2px #00c3ff ,  0px 0px 15px 3px #00c3ff;
     color: black;
     border: 1px solid white !important;
+}
+img.closeThePanel{
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 40px;
+  height: 40px;
+  -webkit-box-shadow: 2px 2px 10px 2px #d54545;
+  -moz-box-shadow: 2px 2px 10px 2px #d54545;
+  box-shadow: 2px 2px 10px 2px #d54545;
+  border-radius: 50px;
+}
+span.remove{
+  font-size: 12px;
+  text-decoration: underline;
+}
+span.remove:hover{
+  cursor: pointer;
+}
+@media (max-width: 768px){
+  .showAnotherGrade button{
+    font-size: 19px;
+    padding: 1px 9px;
+    font-weight: 300;
+  }
+
 }
 </style>

@@ -6,7 +6,7 @@
 
           <div class="row">
 
-            <div class="col-md-3">
+            <div class="col-3">
 
                 <div class="addStudentPanelGradesContentSingleGrade">
 
@@ -29,7 +29,7 @@
 
             </div>
 
-            <div class="col-md-3">
+            <div class="col-3">
 
                 <div class="addStudentPanelGradesContentSingleWeight">
 
@@ -47,13 +47,13 @@
 
             </div>
 
-            <div class="col-md-4">
+            <div class="col-5">
 
                 <div class="addStudentPanelGradesContentSingleDescription">
 
                  <span class="descriptionCount">Pozostało: {{characters}} znaków.</span>
 
-                 <label>Opis oceny:
+                 <label class="description">Opis oceny:
 
                      <input type="text" v-model="payload.description" @change="addNewDescription" class="description" maxlength="30">
 
@@ -63,7 +63,7 @@
 
             </div>
 
-            <div class="col-md-1">
+            <div class="col-1">
                 <span @click="remove()" class="remove"><em>Usuń</em></span>
             </div>
 
@@ -290,6 +290,9 @@ export default {
     margin-top: 12px;
 }
 
+.addStudentPanelGradesContentSingleDescription label.description{
+  margin-bottom: 0;
+}
 
 .addStudentPanelGradesContentSingleDescription input{
   width: 100%;
@@ -300,9 +303,10 @@ export default {
     font-size: 9px;
 }
 
-.row div[class^="col-md"]{
+.row div[class^="col"]{
   display: grid;
   align-content: flex-end;
+  padding: 0;
 }
 
 span.remove{
@@ -313,4 +317,23 @@ span.remove:hover{
   cursor: pointer;
 }
 
+@media (max-width: 768px){
+  .row{
+    margin-right: 0;
+  }
+
+  div[class^=col-]{
+    padding: 0;
+    /* margin: 0 */
+  }
+
+  .addStudentPanelGradesContentSingle{
+    width: 100%;
+  }
+
+  span.remove{
+    margin-left: 20px;
+  }
+
+}
 </style>
