@@ -1,9 +1,9 @@
 
-# Licrus Diary
+# Dzienniczek Elektroniczny - Librus: The School Diary
 
 An application that allows you to manage the class and its students (actions such as editing their profiles or adding new students to the class).
 
-![Logo](/src/assets/Logo.png "Logo")
+![Logo](/src/assets/Logo.png "Logo" =200x)
 
 ## Installation
 
