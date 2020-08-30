@@ -1,5 +1,6 @@
 <template>
-<div class="editStudentPanel" ref="aaa">
+
+  <div class="editStudentPanel" ref="editStudentPanel">
 
         <div class="editStudentPanelMain">
 
@@ -48,7 +49,7 @@
             </div>
 
             <div class="editStudentPanelNameButtons" @click="showEditStudentDataPanel()">
-              <router-link :to='{path: "editData"}' tag="button">
+              <router-link to="editData" tag="button">
                   Edytuj Dane
               </router-link>
             </div>
@@ -63,7 +64,7 @@
 
             <div class="editStudentPanelGradesButtons" @click="showEditStudentGradesPanel()">
 
-                <router-link :to='{path: "editGrades"}' tag="button">
+                <router-link to="editGrades" tag="button">
                     Edytuj / Dodaj ocenę
                 </router-link>
 
@@ -86,17 +87,11 @@
 
         </div>
        <transition name="EditStudentDataPanel" mode="out-in">
-          <router-view v-if="showDataEditionRouterView" :showDataEditionRouterView.sync="showDataEditionRouterView"/>
-             <!--<router-view v-if="showGradesEditionRouterView" :showGradesEditionRouterView.sync="showGradesEditionRouterView"/>-->
+         <router-view></router-view>
+          <!-- <router-view v-if="showDataEditionRouterView" :showDataEditionRouterView.sync="showDataEditionRouterView"/>
+          <router-view v-if="showGradesEditionRouterView" :showGradesEditionRouterView.sync="showGradesEditionRouterView"/> -->
         </transition>
-        <!-- <transition name="EditStudentGradesPanel" mode="out-in">
-          <router-view v-if="showDataEditionRouterView" :showDataEditionRouterView.sync="showDataEditionRouterView"/>
-          <router-view v-if="showGradesEditionRouterView" :showGradesEditionRouterView.sync="showGradesEditionRouterView"/>
-        </transition> -->
-        <!-- <transition name="EditStudentGradesPanel" mode="out-in">
-
-        </transition> -->
-</div>
+    </div>
 </template>
 
 <script>
@@ -106,6 +101,8 @@ import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
+
+import GradesService from "../assets/mixins.js"
 
 export default {
   data(){
@@ -122,17 +119,12 @@ export default {
         data => data.id == this.$route.params.id)[0];
     });
   },
-  // updated(){
-  //
-  //   this.gradeWeightColor();
-  //   this.showTooltip();
-  //
-  // },
   beforeRouteEnter (to, from, next) {
      next(vm => {
-       vm.showTooltip();
+       vm.showTooltip(vm.$refs.editStudentPanel, vm.$route.params);
      })
   },
+  mixins: [GradesService],
   methods:{
     showEditStudentDataPanel(){
       this.showDataEditionRouterView = true;
@@ -140,31 +132,12 @@ export default {
     showEditStudentGradesPanel(){
       this.showGradesEditionRouterView = true;
     },
-    //colors grades
-    gradeWeightColor: function(grades, weights) {
-
-
-        //adds new classes to divs with grades, what causes coloring them on green, yellow or red
-        let content = "";
-        for (let i = 0; i < grades.length; i++) {
-            if (weights[i] == 1) {
-                content += `<div class="gradeWeightColor gradeWeightGreen">${grades[i]}</div>`
-            } else if (weights[i] == 2) {
-                content += `<div class="gradeWeightColor gradeWeightYellow">${grades[i]}</div>`
-            } else if (weights[i] == 3) {
-                content += `<div class="gradeWeightColor gradeWeightRed">${grades[i]}</div>`
-            }
-        }
-
-        return content
-    },
-
 
     //show tooltip after hovering on every grade
     showTooltip: function() {
 
 
-        const gradeInDiv = this.$refs.aaa.querySelectorAll(".gradeWeightColor");
+        const gradeInDiv = this.$refs.editStudentPanel.querySelectorAll(".gradeWeightColor");
 
         const gradesSuperArray = [];
         const weightSuperArray = [];
@@ -195,71 +168,11 @@ export default {
         }
     },
 
-    //draws tooltip
-    canvas: function(arrayWithAllGrades, arrayWithAllWeights, arrayWithAllDescriptions, arrayWithAllDates, anotherGradeWeightColorDiv, i) {
 
 
-        const canvas = document.createElement("CANVAS");
-        anotherGradeWeightColorDiv.appendChild(canvas);
-
-        const canv = document.querySelector("canvas");
-        const ctx = canv.getContext("2d");
-
-        canvas.style['z-index'] = 2;
-        canvas.style.position = 'absolute';
-        canvas.style.padding = 0;
-        canvas.style.border = 0;
-
-        ctx.beginPath();
-        ctx.moveTo(0, 10);
-        ctx.lineTo(25, 15);
-        ctx.lineTo(255, 15);
-        ctx.lineTo(255, 135);
-        ctx.lineTo(25, 135);
-        ctx.lineTo(25, 40);
-        ctx.lineTo(0, 10);
-        ctx.stroke();
-        ctx.fillStyle = "#ffeab0";
-        ctx.fill();
-        ctx.fillStyle = "black";
-        ctx.font = "bold 10px Arial";
-
-        ctx.fillText(`Ocena: ${arrayWithAllGrades[i]}`, 40, 50);
-        ctx.fillText(`Waga: ${arrayWithAllWeights[i] } `, 40, 70);
-        ctx.fillText(`Opis: ${arrayWithAllDescriptions[i]}`, 40, 90);
-        ctx.fillText(`Data: ${arrayWithAllDates[i]}`, 40, 110);
-
-    },
 
 
-    //returns grades' average
-    avg: function(gradesSmallArray, weightSmallArray) {
 
-        let gradesSuperValue = 0;
-        let weightSum = 0;
-
-
-        for (let i = 0; i < gradesSmallArray.length; i++) {
-            gradesSuperValue += gradesSmallArray[i] * weightSmallArray[i];
-            weightSum += weightSmallArray[i]
-        }
-
-        //round avg to 2 decimal places
-        const average = gradesSuperValue / weightSum;
-        const averageRounded = (Math.round(average * 100) / 100).toFixed(2);
-
-        return averageRounded;
-
-    },
-
-    //decides if student is threated
-    threatness: function(myAVG) {
-        if (myAVG < 2) {
-            return "<span class='fire'>ZAGROŻENIE</span>"
-        } else {
-            return ""
-        }
-    },
   }
 }
 
@@ -279,7 +192,6 @@ export default {
     background-color: rgba(0, 0, 0, .55);
     text-align: center;
     position: relative;
-
     font-size: 15px;
 }
 
@@ -361,30 +273,30 @@ div[class^="editStudentPanelThreatness"] {
 
 
 .editStudentPanelNameDetailData{
-  margin: 20px 0;
-  font-size: 15px;
-  float: left;
+    margin: 20px 0;
+    font-size: 15px;
+    float: left;
 }
 
 .editStudentPanelNameDetailData .form-group{
-  display: block;
-  margin: auto;
-  margin-bottom: 25px;
-  padding-left: 45px;
-  font-size: 12px;
+    display: block;
+    margin: auto;
+    margin-bottom: 25px;
+    padding-left: 45px;
+    font-size: 12px;
 }
 
 .editStudentPanelNameDetailData .form-group span.title{
-  float: left;
-  display: inline-block;
-  width: 30%;
-  text-align: left;
+    float: left;
+    display: inline-block;
+    width: 30%;
+    text-align: left;
 }
 
 .editStudentPanelNameDetailData .form-group span.data{
-  text-align: left;
-  display: inline-block;
-  width: 60%;
+    text-align: left;
+    display: inline-block;
+    width: 60%;
 }
 
 
@@ -407,28 +319,22 @@ div[class^="editStudentPanelThreatness"] {
       width: 95%;
   }
   .editStudentPanelMain{
-    font-size: 11px;
+      font-size: 11px;
   }
   .editStudentPanelMain{
       padding:  3px;
-      /* display: grid; */
       grid-template-rows:[startTitle]50px [startStudentData]50px [startStudentDetailData]auto [startStudentDetailDataButton]50px;
-      /* align-items: center; */
   }
   .editStudentPanelNameDetailData {
-    margin-bottom: 0
+      margin-bottom: 0
   }
   .editStudentPanelNameDetailData .form-group{
-    padding-left: 3px;
-    font-size: 8px;
+      padding-left: 3px;
+      font-size: 8px;
   }
   .editStudentPanelMain button{
-    font-size: 9px;
-    padding: 5px;
+      font-size: 9px;
+      padding: 5px;
   }
-  /* .editStudentPanelGradesButtons button{
-    font-size: 7.7px;
-    padding: 7px 5px;
-  } */
 }
 </style>

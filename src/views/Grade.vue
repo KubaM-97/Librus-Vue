@@ -74,6 +74,7 @@
 
 
   </div>
+
 </template>
 
 <script>
@@ -81,8 +82,8 @@ export default {
   name: "Grade",
   watch: {
     "payload.description": {
-      handler: function(newVal,oldVal){
-        const inputGradeDescription = document.querySelectorAll(".description")[this.n].value;
+      handler: function(){
+        const inputGradeDescription = document.querySelectorAll("input.description")[this.n].value;
         const descriptionCount = document.querySelectorAll("span.descriptionCount")[this.n];
         const counter = (30 - (inputGradeDescription.length));
         switch (counter) {
@@ -118,22 +119,21 @@ export default {
   },
   props:["n", "a"],
   updated(){
+
     // if we've got both: grade, weight and description
     if((this.payload.grade!=="")&&(this.payload.weight!=="")&&(this.payload.description!=="")){
       this.payload.date = this.whatsTheDatePlease();
       this.addNewDate();
     }
+
   },
   methods:{
     remove(){
-      console.log(this.$store.state.newGrades)
       document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].innerHTML = "";
       document.querySelectorAll(".addStudentPanelGradesContent")[this.n].style.marginTop = "0px"
       document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].style.marginBottom ="0px";
       this.$store.commit("removeGrade", this.payload);
-      // document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].removeAttribute("class");
       this.$emit("update:a", this.a+1)
-      console.log(this.$store.state.newGrades)
     },
     addNewGrade(){
         this.$store.commit("addNewGradeToArray", this.payload);
@@ -175,40 +175,28 @@ export default {
         if (currentSeconds < 10) {
             currentSeconds = `0${currentSeconds}`;
         }
+
         // [DD.MM.YYYY]
         const dateSubArrayDDMMYYYY = [currentDay, currentMonth, currentYear].join(".");
+
         // [HH:MM:SS]
         const dateSubArrayHHMMSS = [currentHours, currentMinutes, currentSeconds].join(":");
+
         // [["DD.MM.YYYY"] ["HH:MM:SS"]]
         const dateFull = [];
         dateFull.push(dateSubArrayDDMMYYYY, dateSubArrayHHMMSS)
+
         // DD.MM.YYYY HH:MM:SS
         const dateFullStr = dateFull.join(" ")
+
         // [DD.MM.YYYY HH:MM:SS]
         const dateFullArray = [];
         dateFullArray.push(dateFullStr);
+
         let dateArray;
         return dateArray = dateFullStr;
-    }
 
-   },
-  // beforeDestroy(){
-  //
-  // },
-  destroy(){
-    let limit = this.$store.state.newGrades.grades.length;
-    if(this.$store.state.newGrades.weights.length>this.$store.state.newGrades.grades.length){
-      limit = this.$store.state.newGrades.weights.length
     }
-    for(let i = 0; i<=limit; i++){
-      if(i>this.n){
-        this.$store.state.newGrades.grades[i]=this.$store.state.newGrades.grades[i-1]
-      }
-    }
-    this.$store.state.newGrades.grades.pop()
-    this.$store.state.newGrades.weights.pop()
-    this.$store.state.newGrades.descriptions.pop()
-    this.$store.state.newGrades.dates.pop()
   }
 }
 </script>
@@ -216,8 +204,8 @@ export default {
 <style>
 
 .addStudentPanelMain select {
-  line-height: 1.7em;
-   font-size: 15px;
+     line-height: 1.7em;
+     font-size: 15px;
      text-shadow: none;
      padding-left: 6px;
      border-radius: 2px;
@@ -229,18 +217,6 @@ export default {
      background-position: right .3em top 50%, 0 0 ;
      background-size: .55em auto, 130%
 }
- /* .addStudentPanelMain select:after{
-  content: "▼";
-  padding: 12px 8px;
-  position: absolute;
-  right: 10px;
-  top: 0;
-  z-index: 1;
-  text-align: center;
-  width: 10%;
-  height: 100%;
-  pointer-events: none;
-} */
 .addStudentPanelMain select option {
     color: #00c3ff;
     text-align: center;
@@ -264,22 +240,21 @@ export default {
 .addStudentPanelMain input:focus {
     border: 2px solid #a5cda5;
     color: white;
-    /* text-shadow: .2px 0px 1px #00c3ff, -.2px 0px 1px #00c3ff, 0px .2px 1px #00c3ff, 0px -.2px 1px #00c3ff; */
     -webkit-box-shadow: 0px 0px 10px 2px rgba(204, 204, 204, 0.9);
     -moz-box-shadow: 0px 0px 10px 2px rgba(204, 204, 204, 0.9);
     box-shadow: 0px 0px 10px 2px rgba(204, 204, 204, 0.9)
 }
 
 .addStudentPanelGradesContent {
-  margin-top: 19px;
+    margin-top: 19px;
 }
 
 
 .addStudentPanelGradesContentSingle {
-  display: inline-block;
-  width: 90%;
-  float: left;
-  margin-bottom: 20px;
+    display: inline-block;
+    width: 90%;
+    float: left;
+    margin-bottom: 20px;
 }
 
 .addStudentPanelGradesContentSingleGrade {
@@ -291,12 +266,12 @@ export default {
 }
 
 .addStudentPanelGradesContentSingleDescription label.description{
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .addStudentPanelGradesContentSingleDescription input{
-  width: 100%;
-  height: 25px;
+    width: 100%;
+    height: 25px;
 }
 
 .addStudentPanelGradesContentSingleDescription span.descriptionCount {
@@ -304,36 +279,34 @@ export default {
 }
 
 .row div[class^="col"]{
-  display: grid;
-  align-content: flex-end;
-  padding: 0;
+    display: grid;
+    align-content: flex-end;
+    padding: 0;
 }
 
 span.remove{
-  font-size: 12px;
-  text-decoration: underline;
+    font-size: 12px;
+    text-decoration: underline;
 }
 span.remove:hover{
-  cursor: pointer;
+    cursor: pointer;
 }
 
 @media (max-width: 768px){
-  .row{
-    margin-right: 0;
-  }
+    .row{
+        margin-right: 0;
+    }
 
-  div[class^=col-]{
-    padding: 0;
-    /* margin: 0 */
-  }
+    div[class^=col-]{
+        padding: 0;
+    }
 
-  .addStudentPanelGradesContentSingle{
-    width: 100%;
-  }
+    .addStudentPanelGradesContentSingle{
+        width: 100%;
+    }
 
-  span.remove{
-    margin-left: 20px;
-  }
-
+    span.remove{
+        margin-left: 20px;
+    }
 }
 </style>

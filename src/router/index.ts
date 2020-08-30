@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Home from '../views/Home.vue'
-// import Start from '../views/Start.vue'
 import FullClass from '../views/FullClass.vue'
 import Student from '../views/Student.vue'
 import EditStudentData from '../views/EditStudentData.vue'
@@ -33,16 +31,16 @@ export default new Router({
       props: true,
       children: [
         {
-          path: "editData",
+          path: 'editData',
           name: 'Student',
           component: EditStudentData,
           props: true
-        // },
-        // {
-        //   path: "editGrades",
-        //   name: 'Student',
-        //   component: EditStudentGrades,
-        //   props: true
+        },
+        {
+          path: 'editGrades',
+          name: 'EditGrades',
+          component: EditStudentGrades,
+          props: true
         }
       ]
     },{
@@ -61,33 +59,10 @@ export default new Router({
       name: 'Error404',
       component: Error404,
       props: false
-    },
-     {
-      path: '*',
-      redirect: "/Error404"
+    // },
+    //  {
+    //   path: '*',
+    //   redirect: "/Error404"
     }
   ]
 })
-  // const routes: Array<RouteConfig> = [
-//   {
-//     path: '/',
-//     name: 'Home',
-//     component: Home
-//   },
-//   {
-//     path: '/about',
-//     name: 'About',
-//     // route level code-splitting
-//     // this generates a separate chunk (about.[hash].js) for this route
-//     // which is lazy-loaded when the route is visited.
-//     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-//   }
-// ]
-
-// const router = new VueRouter({
-//   mode: 'history',
-//   base: process.env.BASE_URL,
-//   routes
-// })
-//
-// export default router

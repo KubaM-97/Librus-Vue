@@ -52,31 +52,9 @@
               </div>
             </div>
           </div>
-          <!-- <div class="addStudentPanelGradesContent" v-for="n in gradesLength" :key="n">
-
-            <grade-component :n="n-1"></grade-component>
-
-          </div> -->
-
-          <!-- <div v-for="n in $route.params.grades.length" :key="n">
-            <div v-if="$route.params.weights[n-1]==1" class="gradeWeightColor gradeWeightGreen" v-html="$route.params.grades[n-1]">
-              $route.params.grades[n-1]
-            </div>
-            <div v-else-if="$route.params.weights[n-1]==2" class="gradeWeightColor gradeWeightYellow" v-html="$route.params.grades[n-1]">
-
-            </div>
-            <div v-else-if="$route.params.weights[n-1]==3" class="gradeWeightColor gradeWeightRed" v-html="$route.params.grades[n-1]">
-              $route.params.grades[n-1]
-            </div>
-          </div> -->
-
-        <!-- <div v-for="n in $route.params.grades.length" :key="n">
-          <grade-component></grade-component>
-        </div> -->
-
        </div>
        <div class="col-1 showAnotherGrade">
-         <button @click="addNewGrade()">  +  </button>
+         <button @click="moreGrades()">  +  </button>
        </div>
       </div>
       <div class="row">
@@ -91,7 +69,7 @@
                         </td>
 
                         <td ref="allnewGrades">
-                            <span v-html="gradeWeightColor(this.$route.params.grades)">
+                            <span v-html="gradeWeightColor($route.params.grades, $route.params.weights)">
 
                             </span>
                         </td>
@@ -115,14 +93,19 @@
 
       </div>
     </div>
+
     <button @click="closeThePanel()"><img class="closeThePanel" src="../assets/eXit.png"/></button>
+
   </div>
 </template>
 
 <script>
+
+import GradesService from "../assets/mixins.js"
+
 //css-table
 require("../assets/table.css");
-// import Grade from "./Grade.vue"
+
 export default {
   computed: {
     pickedItem() {
@@ -131,9 +114,9 @@ export default {
   },
   watch: {
     "startPack.description": {
-      handler: function(newVal,oldVal){
+      handler: function(){
         // alert(33)
-        const inputGradeDescription = document.querySelectorAll(".description")[this.n].value;
+        const inputGradeDescription = document.querySelectorAll("input.description")[this.n].value;
         const descriptionCount = document.querySelectorAll("span.descriptionCount")[this.n];
         const counter = (30 - (inputGradeDescription.length));
         switch (counter) {
@@ -156,7 +139,6 @@ export default {
     }
   },
   name:"EditGrades",
-  // components:{"grade-component": Grade},
   data(){
     return{
       startPack: {
@@ -171,12 +153,10 @@ export default {
       }
     }
   },
-  // beforeUpdate(){alert(222)},
   props: ["showDataEditionRouterView"],
-  // created(){
-  //   alert(this.$route.params.grades[0])
-  // },
+  mixins: [GradesService],
   methods:{
+
     remove(){
       console.log(this.$store.state.newGrades)
       document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].innerHTML = "";
@@ -187,174 +167,71 @@ export default {
       this.$emit("update:a", this.a+1)
       console.log(this.$store.state.newGrades)
     },
+
     changeGrade(placeInArray, StudentID, newVal){
       this.payload.placeInArray = placeInArray;
       this.payload.StudentID = StudentID;
       this.payload.newValue = newVal;
-      this.$store.commit("changeStudentGrade", this.payload);
-      console.log(this.$store.state.students)
+      this.$store.commit("editStudentGrade", this.payload);
     },
     changeWeight(placeInArray, StudentID){
-      this.$store.commit("changeStudentWeight", this.changeWeighta);
+      this.$store.commit("editStudentWeight", this.changeWeighta);
     },
     changeDescription(placeInArray, StudentID){
-      this.$store.commit("changeStudentDescription", this.changeDescriptiona);
+      this.$store.commit("editStudentDescription", this.changeDescriptiona);
     },
+
     //adds a new grade to the new student
-    addNewGrade: function() {
+    moreGrades: function() {
       this.gradesLength++;
     },
 
-    // addNewGrade(){
-    //   alert(222)
-    //     this.$store.commit("addNewGradeToArray", this.payload);
-    // },
-
-    //colors grades
-    gradeWeightColor: function(newGrades) {
-
-      // alert(1)
-      let limit = this.$route.params.grades.length;
-      if(this.$route.params.weights.length>this.$route.params.grades.length){
-        limit = this.$route.params.weights.length
-      }
-
-      let aaa = "";
-
-        for (let i = 0; i < limit; i++) {
-            if(this.$route.params.grades[i]!==undefined){
-                  if (this.$route.params.weights[i] == 1) {
-                      aaa += `<div class="gradeWeightColor gradeWeightGreen">${this.$route.params.grades[i]}</div>`
-                  } else if (this.$route.params.weights[i] == 2) {
-                      aaa +=  `<div class="gradeWeightColor gradeWeightYellow">${this.$route.params.grades[i]}</div>`
-                  } else if (this.$route.params.weights[i] == 3) {
-                      aaa +=  `<div class="gradeWeightColor gradeWeightRed">${this.$route.params.grades[i]}</div>`
-                  }
-                  else if(this.$route.params.weights[i]==undefined){
-                    aaa +=  `<div class="gradeWeightColor">${this.$route.params.grades[i]}</div>`
-                  }
-
-            }
-            // else if(this.$store.state.newGrades.grades[i]==undefined){
-            //   if(this.$store.state.newGrades.weights[i]===1){
-            //     aaa +=  `<div class="gradeWeightColor gradeWeightGreen" style="height:32px;"> </div>`
-            //   }
-            //   else if(this.$store.state.newGrades.weights[i]===2){
-            //     aaa +=  `<div class="gradeWeightColor gradeWeightYellow" style="height:32px;"> </div>`
-            //   }
-            //   else if(this.$store.state.newGrades.weights[i]===3){
-            //     aaa +=  `<div class="gradeWeightColor gradeWeightRed" style="height:32px;"> </div>`
-            //   }
-
-            // }
-            // else if((this.$store.state.newGrades.grades[i]!=="")&&(this.$store.state.newGrades.weights[i]==="")) {
-            // alert(222)
-            // }
-            // else {
-            //   aaa +=  `<div class="gradeWeightColor">${this.$store.state.newGrades.grades[i]}</div>`
-            // }
 
 
-
-            // if((this.$route.params.grades[i]!="")&&(this.$route.params.weights[i]!="")&&(this.$route.params.descriptions[i]!="")&&(this.$route.params.dates[i]!="")){
-            //   this.showTooltip();
-            // }
-        }
-
-
-
-        return aaa
-
-
-    },
-
-    //returns grades' average
-    avg: function(gradesArray, weightArray) {
-
-        let gradesSuperValue = 0;
-        let weightSum = 0;
-
-
-        for (let i = 0; i < gradesArray.length; i++) {
-            gradesSuperValue += gradesArray[i] * weightArray[i];
-            weightSum += weightArray[i]
-        }
-
-        //round avg to 2 decimal places
-        const average = gradesSuperValue / weightSum;
-        let averageRounded = (Math.round(average * 100) / 100).toFixed(2);
-        if(isNaN(averageRounded)){
-          averageRounded = ""
-        }
-        return averageRounded;
-
-
-    },
-
-    //decides if student is threated
-    threatness: function(myAVG) {
-        if ((myAVG < 2) && (myAVG != "")) {
-            return "<span class='fire'>ZAGROŻENIE</span>"
-        } else {
-            return ""
-        }
-    },
 
     closeThePanel(){
       this.$emit("update:showGradesEditionRouterView", false)
     }
+
   }
 }
 </script>
 
 <style lang="css" scoped>
 div.EditStudentGrades{
-  width: 90%;
-  max-width: 1400px;
-  /* height: 1000px; */
-  margin: 100px auto;
-  -webkit-box-shadow: 3px 3px 30px 5px #00c3ff;
-  -moz-box-shadow: 3px 3px 30px 5px #00c3ff;
-  box-shadow: 3px 3px 30px 5px #00c3ff;
-  background-color: rgba(0, 0, 0, 1);
-  text-align: center;
-  font-size: 15px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -47%);
-  padding: 70px 0 40px;
+    width: 90%;
+    max-width: 1400px;
+    margin: 100px auto;
+    -webkit-box-shadow: 3px 3px 30px 5px #00c3ff;
+    -moz-box-shadow: 3px 3px 30px 5px #00c3ff;
+    box-shadow: 3px 3px 30px 5px #00c3ff;
+    background-color: rgba(0, 0, 0, 1);
+    text-align: center;
+    font-size: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -47%);
+    padding: 70px 0 40px;
 }
 div.gainedGrades{
-  margin: 10px;
+    margin: 10px;
 }
 select {
-  margin-top: 5px;
-  line-height: 1.7em;
-   font-size: 15px;
-     text-shadow: none;
-     padding-left: 6px;
-     border-radius: 2px;
-     background-color: black;
-     appearance: none;
-     width: 35px;
-     background-image: url("./../assets/arrow_down.png");
-     background-repeat: no-repeat, repeat;
-     background-position: right .3em top 50%, 0 0 ;
-     background-size: .55em auto, 130%
+    margin-top: 5px;
+    line-height: 1.7em;
+    font-size: 15px;
+    text-shadow: none;
+    padding-left: 6px;
+    border-radius: 2px;
+    background-color: black;
+    appearance: none;
+    width: 35px;
+    background-image: url("./../assets/arrow_down.png");
+    background-repeat: no-repeat, repeat;
+    background-position: right .3em top 50%, 0 0 ;
+    background-size: .55em auto, 130%
 }
- /* .addStudentPanelMain select:after{
-  content: "▼";
-  padding: 12px 8px;
-  position: absolute;
-  right: 10px;
-  top: 0;
-  z-index: 1;
-  text-align: center;
-  width: 10%;
-  height: 100%;
-  pointer-events: none;
-} */
 select option {
     color: #00c3ff;
     text-align: center;
@@ -381,26 +258,30 @@ input {
     text-shadow: none;
 }
 
-.studentPanelSummary{width: 80%; margin: auto; margin-top: 100px;}
+.studentPanelSummary{
+    width: 80%;
+    margin: auto;
+    margin-top: 100px;
+}
 
 
 .showAnotherGrade{
-  position: absolute;
-  top: 50px;
-  right: 20px
+    position: absolute;
+    top: 50px;
+    right: 20px
 }
 .showAnotherGrade  button {
-  background-color: #00c3ff;
-  color: white;
-  text-shadow: -1px 0 #00c3ff, 0 1px #00c3ff, 1px 0 #00c3ff, 0 -1px #00c3ff;
-  -webkit-box-shadow: inset 0px 0px 20px 12px black,  0px 0px 20px 3px black;
-  -moz-box-shadow: inset 0px 0px 20px 12px black,  0px 0px 20px 3px black;
-  box-shadow: inset 0px 0px 20px 12px black,  0px 0px 20px 3px black;
-  border: 1px solid #00c3ff !important;
-  border-radius: 50%;
-  margin-top: 20px;
-  padding: 0 12px;
-  font-size: 29px;
+    background-color: #00c3ff;
+    color: white;
+    text-shadow: -1px 0 #00c3ff, 0 1px #00c3ff, 1px 0 #00c3ff, 0 -1px #00c3ff;
+    -webkit-box-shadow: inset 0px 0px 20px 12px black,  0px 0px 20px 3px black;
+    -moz-box-shadow: inset 0px 0px 20px 12px black,  0px 0px 20px 3px black;
+    box-shadow: inset 0px 0px 20px 12px black,  0px 0px 20px 3px black;
+    border: 1px solid #00c3ff !important;
+    border-radius: 50%;
+    margin-top: 20px;
+    padding: 0 12px;
+    font-size: 29px;
 }
 .showAnotherGrade  button:hover {
     background-color: black;
@@ -411,29 +292,28 @@ input {
     border: 1px solid white !important;
 }
 img.closeThePanel{
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  width: 40px;
-  height: 40px;
-  -webkit-box-shadow: 2px 2px 10px 2px #d54545;
-  -moz-box-shadow: 2px 2px 10px 2px #d54545;
-  box-shadow: 2px 2px 10px 2px #d54545;
-  border-radius: 50px;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 40px;
+    height: 40px;
+    -webkit-box-shadow: 2px 2px 10px 2px #d54545;
+    -moz-box-shadow: 2px 2px 10px 2px #d54545;
+    box-shadow: 2px 2px 10px 2px #d54545;
+    border-radius: 50px;
 }
 span.remove{
-  font-size: 12px;
-  text-decoration: underline;
+    font-size: 12px;
+    text-decoration: underline;
 }
 span.remove:hover{
-  cursor: pointer;
+    cursor: pointer;
 }
 @media (max-width: 768px){
-  .showAnotherGrade button{
-    font-size: 19px;
-    padding: 1px 9px;
-    font-weight: 300;
-  }
-
+    .showAnotherGrade button{
+        font-size: 19px;
+        padding: 1px 9px;
+        font-weight: 300;
+    }
 }
 </style>

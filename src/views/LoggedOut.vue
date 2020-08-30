@@ -1,52 +1,52 @@
 <template>
-<div>
+  <div>
 
-  <div class="mainLogPanel" v-show="showMainLogPanel">
+    <div class="mainLogPanel" v-show="showMainLogPanel">
 
-    <div class="form-group">
+      <div class="form-group">
 
-      <label for="login">
-        Login<span class="mainLogPanelTooltip">(Proszę wpisać: Login1)</span>
-      </label>
-
-      <input type="text" id="login">
-
-      <span class="wrongLoginPassword"></span>
-
-    </div>
-
-    <div class="form-group">
-
-        <label for="password">
-          Hasło<span class="mainLogPanelTooltip">(Proszę wpisać: Hasło1)</span>
+        <label for="login">
+          Login<span class="mainLogPanelTooltip">(Proszę wpisać: Login1)</span>
         </label>
 
-        <input type="password" id="password">
+        <input type="text" id="login">
 
         <span class="wrongLoginPassword"></span>
 
+      </div>
+
+      <div class="form-group">
+
+          <label for="password">
+            Hasło<span class="mainLogPanelTooltip">(Proszę wpisać: Hasło1)</span>
+          </label>
+
+          <input type="password" id="password">
+
+          <span class="wrongLoginPassword"></span>
+
+      </div>
+
+      <div class="form-group">
+
+
+        <log-in-button>
+            <button @click="logMeIn()" slot="logIn">
+                Zaloguj się
+            </button>
+        </log-in-button>
+
+      </div>
+
     </div>
 
-    <div class="form-group">
-
-
-      <log-in-button>
-          <button @click="logMeIn()" slot="logIn">
-              Zaloguj się
-          </button>
-      </log-in-button>
-
-    </div>
+    <transition name="fade-logOut" mode="out-in">
+        <div class="loader" v-show="showLoaderGif">
+            <img src="@/assets/gifloader.gif" alt="loaderLogo">
+        </div>
+    </transition>
 
   </div>
-
-  <transition name="fade-logOut" mode="out-in">
-      <div class="loader" v-show="showLoaderGif">
-          <img src="@/assets/gifloader.gif" alt="loaderLogo">
-      </div>
-  </transition>
-
-</div>
 </template>
 
 <script>
@@ -149,31 +149,25 @@ export default {
 
 .mainLogPanel span.wrongLoginPassword,
 .form-group span.required {
-  margin-top: 10px;
-  display: block;
+    margin-top: 10px;
+    display: block;
     font-size: 14px;
 }
 
 @media (max-width: 768px){
   .mainLogPanel {
-    width: 90%;
-    /* height: %; */
+      width: 90%;
   }
 
   .mainLogPanel .form-group {
-    /* height: 30px; */
-    /* width: 80%; */
-    font-size: 16px;
+      font-size: 16px;
   }
   .mainLogPanel .form-group label span.mainLogPanelTooltip {
-    /* height: 30px; */
-    /* width: 80%; */
-    font-size: 14px;
+      font-size: 14px;
   }
   .mainLogPanel .form-group label + input {
       height: 28px;
       width: 75%;
-      /* max-width: 360px; */
       color: black;
   }
 }

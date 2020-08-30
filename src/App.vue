@@ -1,57 +1,58 @@
 <template>
+
     <div id="app">
 
-    <header class="main-header" v-show="showNavpanel">
+      <header class="main-header" v-show="showNavpanel">
 
-        <header>
+          <header>
 
-            <div class="logo">
-                <img src="./assets/Logo.png"/>
-            </div>
-
-            <div class="logo">
-              <div class="logo_info">
-                  Nauczyciel: <span v-html="teacher"></span>
+              <div class="logo">
+                  <img src="./assets/Logo.png"/>
               </div>
-              <div class="logo_info">
-                  Klasa: <span v-style-me:class="'italic'">{{Class}}</span>
+
+              <div class="logo">
+                <div class="logo_info">
+                    Nauczyciel: <span v-html="teacher"></span>
+                </div>
+                <div class="logo_info">
+                    Klasa: <span v-style-me:class="'italic'">{{Class}}</span>
+                </div>
               </div>
-            </div>
 
-        </header>
+          </header>
 
-        <nav>
+          <nav>
 
-          <router-link :to="{name: 'FullClass'}" tag="button" active-class="active" class="btn btn-primary btn-lg">
-              Klasa
-          </router-link>
+            <router-link :to="{name: 'FullClass'}" tag="button" active-class="active" class="btn btn-primary btn-lg">
+                Klasa
+            </router-link>
 
-          <router-link :to="{name: 'AddStudent'}" tag="button" active-class="active" class="btn btn-primary btn-lg">
-              Dodaj ucznia
-          </router-link>
+            <router-link :to="{name: 'AddStudent'}" tag="button" active-class="active" class="btn btn-primary btn-lg">
+                Dodaj ucznia
+            </router-link>
 
-          <log-out-button>
-             Wyloguj się
-          </log-out-button>
+            <log-out-button>
+               Wyloguj się
+            </log-out-button>
 
-        </nav>
+          </nav>
 
-    </header>
+      </header>
 
-    <transition name="show-logOutGif" mode="out-in">
-        <div class="loader" v-show="showLoaderGif">
-            <img src="@/assets/gifloader.gif" alt="loaderLogo">
-        </div>
-    </transition>
+      <transition name="show-logOutGif" mode="out-in">
+          <div class="loader" v-show="showLoaderGif">
+              <img src="@/assets/gifloader.gif" alt="loaderLogo">
+          </div>
+      </transition>
 
-    <log-out v-if="showMainLogPanel" :showNavpanel.sync="showNavpanel" :showLoaderGif.sync="showLoaderGif" :showMainLogPanel.sync="showMainLogPanel"></log-out>
+      <log-out v-if="showMainLogPanel" :showNavpanel.sync="showNavpanel" :showLoaderGif.sync="showLoaderGif" :showMainLogPanel.sync="showMainLogPanel"></log-out>
 
-    <transition name="router" mode="out-in">
-      <router-view/>
-    </transition>
+      <transition name="router" mode="out-in">
+        <router-view/>
+      </transition>
 
 
-  </div>
+    </div>
 
 </template>
 
@@ -171,7 +172,7 @@ header .logo img {
     border-radius: 6px;
     height: 120px;
     vertical-align: -200%;
-    margin: 5px 65px 20px 30px
+    margin: 5px 65px 20px 30px;
 }
 header .logo_info{
   display: inline-block;
@@ -190,7 +191,7 @@ nav button.btn{
     margin-right: 10px;
     margin-top: 10px;
     font-size: 16px;
-    padding: 10px 20px
+    padding: 10px 20px;
 }
 
 nav button.btn.with-logout-icon{
@@ -198,7 +199,8 @@ nav button.btn.with-logout-icon{
 }
 
 nav button.btn.active{
-background-color: rgba(15, 88, 223, 0.55);}
+    background-color: rgba(15, 88, 223, 0.55);
+  }
 
 button{
     border: none !important
@@ -236,18 +238,14 @@ button{
 
   nav button.btn{
     display: inline-block;
-    /* margin-right: 10px; */
-    /* text-align: right; */
-    /* float: right; */
-      font-size: 11px;
-      padding: 7px 11px
+    font-size: 11px;
+    padding: 7px 11px
   }
   nav button.btn.with-logout-icon{
-      padding-left: 10px;
+    padding-left: 10px;
   }
   nav img{
     height: 18px;
-    /* padding-left: 0px; */
   }
 }
 </style>
