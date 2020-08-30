@@ -1,34 +1,31 @@
-# librusdziennik
 
-## Project setup
-```
-npm install
-```
+# Licrus Diary
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+An application that allows you to manage the class and its students (actions such as editing their profiles or adding new students to the class).
 
-### Compiles and minifies for production
-```
-npm run build
-```
+![Logo](/src/assets/Logo.png "Logo")
 
-### Run your unit tests
-```
+## Installation
+
++   Open your terminal
++   Change your directory
++   Run: git clone https://github.com/KubaM-97/Dziennik-Elektroniczny.git
++   Run: npm run serve
++   Run: set your URL to the given address (by default it's: localhost:8080)
+
+## Technologies
++   Vue.js 2.0
++   Typescript
++   BootstrapVue v2.16.0
+
+## Run Unit tests
 npm run test:unit
-```
 
-### Run your end-to-end tests
-```
+## Run End-to-end tests
 npm run test:e2e
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Customize configuration
+See Configuration Reference.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
