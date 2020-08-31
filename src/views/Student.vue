@@ -49,10 +49,22 @@
             </div>
 
             <div class="editStudentPanelNameButtons" @click="showEditStudentDataPanel()">
-              <router-link to="editData" tag="button">
-                  Edytuj Dane
-              </router-link>
+              <router-link tag="button" :to="{ name: 'EditData', params: {id: student.id,
+              lastName: student.lastName,
+              firstName: student.firstName,
+              grades: student.grades,
+              weights: student.weights,
+              descriptions: student.descriptions,
+              dates: student.dates,
+              pesel: student.pesel,
+              street: student.street,
+              phone: student.phone,
+              email: student.email,
+              mother: student.mother,
+              father: student.father} }">Edytuj Dane</router-link>
             </div>
+
+
 
             <div class="editStudentPanelGrades">
                 <span>Oceny</span>
@@ -64,9 +76,19 @@
 
             <div class="editStudentPanelGradesButtons" @click="showEditStudentGradesPanel()">
 
-                <router-link to="editGrades" tag="button">
-                    Edytuj / Dodaj ocenę
-                </router-link>
+              <router-link tag="button" :to="{ name: 'EditGrades', params: {id: student.id,
+              lastName: student.lastName,
+              firstName: student.firstName,
+              grades: student.grades,
+              weights: student.weights,
+              descriptions: student.descriptions,
+              dates: student.dates,
+              pesel: student.pesel,
+              street: student.street,
+              phone: student.phone,
+              email: student.email,
+              mother: student.mother,
+              father: student.father} }">  Edytuj / Dodaj ocenę</router-link>
 
             </div>
 
@@ -87,7 +109,8 @@
 
         </div>
        <transition name="EditStudentDataPanel" mode="out-in">
-         <router-view></router-view>
+         <router-view v-if="showDataEditionRouterView" :showDataEditionRouterView.sync="showDataEditionRouterView"></router-view>
+         <router-view v-if="showGradesEditionRouterView" :showGradesEditionRouterView.sync="showGradesEditionRouterView"></router-view>
           <!-- <router-view v-if="showDataEditionRouterView" :showDataEditionRouterView.sync="showDataEditionRouterView"/>
           <router-view v-if="showGradesEditionRouterView" :showGradesEditionRouterView.sync="showGradesEditionRouterView"/> -->
         </transition>
@@ -127,9 +150,11 @@ export default {
   mixins: [GradesService],
   methods:{
     showEditStudentDataPanel(){
+      this.$router.push({name: "EditData"})
       this.showDataEditionRouterView = true;
     },
     showEditStudentGradesPanel(){
+      this.$router.push({name: "EditGrades"})
       this.showGradesEditionRouterView = true;
     },
 

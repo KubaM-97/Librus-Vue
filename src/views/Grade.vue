@@ -117,9 +117,12 @@ export default {
       }
     }
   },
-  props:["n", "a"],
+  props:["n", "a", "b", "gradesLength"],
+  mounted(){
+  //   this.b = this.b-this.n
+    // alert(this.n)
+  },
   updated(){
-
     // if we've got both: grade, weight and description
     if((this.payload.grade!=="")&&(this.payload.weight!=="")&&(this.payload.description!=="")){
       this.payload.date = this.whatsTheDatePlease();
@@ -127,13 +130,18 @@ export default {
     }
 
   },
+  // destroyed(){alert(44)},
   methods:{
     remove(){
-      document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].innerHTML = "";
-      document.querySelectorAll(".addStudentPanelGradesContent")[this.n].style.marginTop = "0px"
-      document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].style.marginBottom ="0px";
-      this.$store.commit("removeGrade", this.payload);
+      // document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].innerHTML = "";
+      // document.querySelectorAll(".addStudentPanelGradesContent")[this.n].style.marginTop = "0px"
+      // document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].style.marginBottom ="0px";
+      // this.$store.commit("removeGrade", this.payload);
+      // this.$emit("update:n", this.n-this.n);
+
       this.$emit("update:a", this.a+1)
+      this.$emit("update:gradesLength", this.gradesLength-1)
+
     },
     addNewGrade(){
         this.$store.commit("addNewGradeToArray", this.payload);

@@ -18,7 +18,7 @@
                            </span>
                        </label>
 
-                       <input type="text" v-model.trim="name" id="name" maxlength="30">
+                       <input type="text" v-model.lazy.trim="name" id="name" maxlength="30">
                       <span class="required">
                            <transition name="bounce">
                               <span class="required" v-if="showError">Uzupełnij imię i nazwisko</span>
@@ -141,7 +141,7 @@
 
                    <div class="addStudentPanelGradesContent" v-for="n in gradesLength" :key="n">
 
-                     <grade-component :n="n-1" :a.sync="a"></grade-component>
+                     <grade-component v-if="b" :n.sync="n" :gradesLength.sync="gradesLength" :a.sync="a"></grade-component>
 
                    </div>
 
@@ -231,6 +231,7 @@ export default {
   name: "AddStudent",
   data(){
        return{
+         b: 1,
          add: {
              id: "",
              lastName: "",
@@ -322,7 +323,7 @@ export default {
       this.add.firstName = arrName[0];
       this.add.lastName = arrName[1];
     }
-
+    // alert(this.n)
   },
   filters: {
     //converts student's full name to correct form
@@ -480,6 +481,8 @@ export default {
       //adds a new grade to the new student
       moreGrades: function() {
         this.gradesLength++;
+        this.b++;
+        // alert(this.b)
       },
 
       //returns grades' average

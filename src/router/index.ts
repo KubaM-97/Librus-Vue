@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import VueRouter, { RouteConfig } from 'vue-router'
 import Router from 'vue-router'
 import FullClass from '../views/FullClass.vue'
 import Student from '../views/Student.vue'
@@ -31,8 +32,8 @@ export default new Router({
       props: true,
       children: [
         {
-          path: 'editData',
-          name: 'Student',
+          path: 'EditData',
+          name: 'EditData',
           component: EditStudentData,
           props: true
         },
