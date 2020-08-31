@@ -3,8 +3,7 @@
 
 An application that allows you to manage the class and its students (actions such as editing their profiles or adding new students to the class).
 
-<img src="/src/assets/Logo.png" alt="Logo" width="200"/>
-<!-- ![Logo](/src/assets/Logo.png "Logo" =200x) -->
+<img src="src/assets/Logo.png" alt="Logo" title="Logo" width="200px" />
 
 ## Installation
 
