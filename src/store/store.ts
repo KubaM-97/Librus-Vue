@@ -112,7 +112,9 @@ export const store = new Vuex.Store({
     },
 
     editStudentGrade(state, payload){
+      console.log(state.students[payload.StudentID-1])
       state.students[payload.StudentID-1].grades[payload.placeInArray] = payload.newValue;
+      console.log(state.students[payload.StudentID-1])
     },
     editStudentWeight(state, payload){
       state.students[payload.StudentID-1].weights[payload.placeInArray] = payload.newValue;
@@ -122,7 +124,9 @@ export const store = new Vuex.Store({
     },
 
     removeGrade(state, payload){
-      state.newGrades.grades[payload.placeInArray] = "";
+      state.students[payload.StudentID-1].grades.splice(payload.placeInArray,1);
+      state.students[payload.StudentID-1].weights.splice(payload.placeInArray,1);
+      state.students[payload.StudentID-1].descriptions.splice(payload.placeInArray,1);
     },
 
     addNewStudentToClass(state, payload){

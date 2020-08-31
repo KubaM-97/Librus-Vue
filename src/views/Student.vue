@@ -49,19 +49,23 @@
             </div>
 
             <div class="editStudentPanelNameButtons" @click="showEditStudentDataPanel()">
-              <router-link tag="button" :to="{ name: 'EditData', params: {id: student.id,
-              lastName: student.lastName,
-              firstName: student.firstName,
-              grades: student.grades,
-              weights: student.weights,
-              descriptions: student.descriptions,
-              dates: student.dates,
-              pesel: student.pesel,
-              street: student.street,
-              phone: student.phone,
-              email: student.email,
-              mother: student.mother,
-              father: student.father} }">Edytuj Dane</router-link>
+              <router-link tag="button" :to="{ name: 'EditData',
+              params: {
+                id: $route.params.id,
+                lastName: $route.params.lastName,
+                firstName: $route.params.firstName,
+                grades: $route.params.grades,
+                weights: $route.params.weights,
+                descriptions: $route.params.descriptions,
+                dates: $route.params.dates,
+                pesel: $route.params.pesel,
+                street: $route.params.street,
+                phone: $route.params.phone,
+                email: $route.params.email,
+                mother: $route.params.mother,
+                father: $route.params.father
+                } 
+              }">Edytuj Dane</router-link>
             </div>
 
 
@@ -76,19 +80,23 @@
 
             <div class="editStudentPanelGradesButtons" @click="showEditStudentGradesPanel()">
 
-              <router-link tag="button" :to="{ name: 'EditGrades', params: {id: student.id,
-              lastName: student.lastName,
-              firstName: student.firstName,
-              grades: student.grades,
-              weights: student.weights,
-              descriptions: student.descriptions,
-              dates: student.dates,
-              pesel: student.pesel,
-              street: student.street,
-              phone: student.phone,
-              email: student.email,
-              mother: student.mother,
-              father: student.father} }">  Edytuj / Dodaj ocenę</router-link>
+              <router-link tag="button" :to="{ name: 'EditGrades',
+               params: {
+                  id: $route.params.id,
+                  lastName: $route.params.lastName,
+                  firstName: $route.params.firstName,
+                  grades: $route.params.grades,
+                  weights: $route.params.weights,
+                  descriptions: $route.params.descriptions,
+                  dates: $route.params.dates,
+                  pesel: $route.params.pesel,
+                  street: $route.params.street,
+                  phone: $route.params.phone,
+                  email: $route.params.email,
+                  mother: $route.params.mother,
+                  father: $route.params.father
+                }
+              }">Edytuj / Dodaj ocenę</router-link>
 
             </div>
 

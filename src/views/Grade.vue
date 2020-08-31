@@ -80,31 +80,6 @@
 <script>
 export default {
   name: "Grade",
-  watch: {
-    "payload.description": {
-      handler: function(){
-        const inputGradeDescription = document.querySelectorAll("input.description")[this.n].value;
-        const descriptionCount = document.querySelectorAll("span.descriptionCount")[this.n];
-        const counter = (30 - (inputGradeDescription.length));
-        switch (counter) {
-            case 2:
-            case 3:
-            case 4:
-            case 22:
-            case 23:
-            case 24:
-                descriptionCount.innerHTML = `Pozostały: ${counter} znaki.`;
-                break;
-            case 1:
-                descriptionCount.innerHTML = `Pozostał: ${counter} znak.`;
-                break;
-            default:
-                descriptionCount.innerHTML = `Pozostało: ${counter} znaków.`;
-        }
-      },
-      deep:true
-    }
-  },
   data(){
     return{
       characters: 30,
@@ -117,11 +92,32 @@ export default {
       }
     }
   },
-  props:["n", "a", "b", "gradesLength"],
-  mounted(){
-  //   this.b = this.b-this.n
-    // alert(this.n)
+  watch: {
+      "payload.description": {
+        handler: function(){
+          const inputGradeDescription = document.querySelectorAll("input.description")[this.n].value;
+          const descriptionCount = document.querySelectorAll("span.descriptionCount")[this.n];
+          const counter = (30 - (inputGradeDescription.length));
+          switch (counter) {
+              case 2:
+              case 3:
+              case 4:
+              case 22:
+              case 23:
+              case 24:
+                  descriptionCount.innerHTML = `Pozostały: ${counter} znaki.`;
+                  break;
+              case 1:
+                  descriptionCount.innerHTML = `Pozostał: ${counter} znak.`;
+                  break;
+              default:
+                  descriptionCount.innerHTML = `Pozostało: ${counter} znaków.`;
+          }
+        },
+        deep:true
+      }
   },
+  props:["n", "a", "b", "gradesLength"],
   updated(){
     // if we've got both: grade, weight and description
     if((this.payload.grade!=="")&&(this.payload.weight!=="")&&(this.payload.description!=="")){
@@ -132,17 +128,13 @@ export default {
   },
   // destroyed(){alert(44)},
   methods:{
-    remove(){
-      // document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].innerHTML = "";
-      // document.querySelectorAll(".addStudentPanelGradesContent")[this.n].style.marginTop = "0px"
-      // document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].style.marginBottom ="0px";
-      // this.$store.commit("removeGrade", this.payload);
-      // this.$emit("update:n", this.n-this.n);
 
-      this.$emit("update:a", this.a+1)
-      this.$emit("update:gradesLength", this.gradesLength-1)
+      remove(placeInArray, StudentID){
+        this.payload.placeInArray = placeInArray;
+        this.payload.StudentID = StudentID;
+        this.$store.commit("removeGrade", this.payload);
+      },
 
-    },
     addNewGrade(){
         this.$store.commit("addNewGradeToArray", this.payload);
         this.$emit("update:a", this.a+1);
@@ -288,8 +280,10 @@ export default {
 
 .row div[class^="col"]{
     display: grid;
-    align-content: flex-end;
-    padding: 0;
+    align-content: flex-start;
+}
+.col-md-7 *{
+  vertical-align: bottom
 }
 
 span.remove{
@@ -299,7 +293,46 @@ span.remove{
 span.remove:hover{
     cursor: pointer;
 }
-
+select {
+    margin-top: 5px;
+    line-height: 1.7em;
+    font-size: 15px;
+    text-shadow: none;
+    padding-left: 6px;
+    border-radius: 2px;
+    background-color: black;
+    appearance: none;
+    width: 35px;
+    background-image: url("./../assets/arrow_down.png");
+    background-repeat: no-repeat, repeat;
+    background-position: right .3em top 50%, 0 0 ;
+    background-size: .55em auto, 130%
+}
+select option {
+    color: #00c3ff;
+    text-align: center;
+    border-bottom: 1px solid blue;
+}
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 0;
+}
+input {
+    outline: none;
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+    width: 65%;
+    height: 23px;
+    font-size: 14px;
+    text-align: center;
+    background-color: black;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    text-shadow: none;
+}
 @media (max-width: 768px){
     .row{
         margin-right: 0;

@@ -12,7 +12,7 @@
                     <div class="addStudentPanelGradesContentSingleGrade">
                       <label for="grades">Ocena:</label>
                       <div class="select">
-                        <select v-model.number="$route.params.grades[k-1]" @change="changeGrade(k-1, $route.params.id, $route.params.grades[k-1])">
+                        <select v-model.number="student.grades[k-1]" @change="changeGrade(k-1, $route.params.id, $route.params.grades[k-1])">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -28,7 +28,7 @@
                     <div class="addStudentPanelGradesContentSingleWeight">
                       <label for="weight">Waga oceny:</label>
                       <div class="select">
-                          <select v-model.number="$route.params.weights[k-1]" @change="changeWeight(k-1, $route.params.id)">
+                          <select v-model.number="student.weights[k-1]" @change="changeWeight(k-1, $route.params.id, $route.params.weights[k-1])">
                               <option value="1">1</option>
                               <option value="2">2</option>
                               <option value="3">3</option>
@@ -39,20 +39,27 @@
 
                 <div class="col-5">
                     <div class="addStudentPanelGradesContentSingleDescription">
-                        <span class="descriptionCount">Pozostało: {{characters}} znaków.</span>
+                        <span class="descriptionCount">Pozostało: {{characters-student.descriptions[k-1].length}} znaków.</span>
                      <label>Opis oceny:
-                         <input type="text" v-model="startPack.description[k-1]" @change="changeDescription(k-1, $route.params.id)" class="description" maxlength="30">
+                         <input type="text" v-model="student.descriptions[k-1]" @change="changeDescription(k-1, $route.params.id, $route.params.descriptions[k-1])" class="description" maxlength="30">
                      </label>
                     </div>
                 </div>
 
                 <div class="col-1">
-                    <span @click="remove()" class="remove"><em>Usuń</em></span>
+                    <span @click="remove(k-1, $route.params.id)" class="remove"><em>Usuń</em></span>
                 </div>
               </div>
             </div>
           </div>
        </div>
+
+       <div class="col-md-12" style="margin: auto" v-for="(n,index) in gradesLength" :key="index">
+
+         <grade-component :n.sync="n" :gradesLength.sync="gradesLength" :a.sync="a"></grade-component>
+
+       </div>
+
        <div class="col-1 showAnotherGrade">
          <button @click="moreGrades()">  +  </button>
        </div>
@@ -102,18 +109,21 @@
 <script>
 
 import GradesService from "../assets/mixins.js"
-
+import Grade from "./Grade.vue"
 //css-table
 require("../assets/table.css");
 
 export default {
+  components: {
+    "grade-component": Grade
+  },
   computed: {
     pickedItem() {
       return this.$route.params.grades[0];
     }
   },
   watch: {
-    "startPack.description": {
+    "student.description": {
       handler: function(){
         // alert(33)
         const inputGradeDescription = document.querySelectorAll("input.description")[this.n].value;
@@ -141,11 +151,13 @@ export default {
   name:"EditGrades",
   data(){
     return{
-      startPack: {
-        description: this.$route.params.descriptions
+      student:{
+        grades: this.$route.params.grades,
+        weights: this.$route.params.weights,
+        descriptions: this.$route.params.descriptions,
       },
       characters: 30,
-      gradesLength: 1,
+      gradesLength: 0,
       payload:{
         placeInArray: "",
         StudentID: "",
@@ -153,19 +165,15 @@ export default {
       }
     }
   },
+  created(){console.log(this.student.descriptions[3].length)},
   props: ["showDataEditionRouterView"],
   mixins: [GradesService],
   methods:{
 
-    remove(){
-      console.log(this.$store.state.newGrades)
-      document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].innerHTML = "";
-      document.querySelectorAll(".addStudentPanelGradesContent")[this.n].style.marginTop = "0px"
-      document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].style.marginBottom ="0px";
+    remove(placeInArray, StudentID){
+      this.payload.placeInArray = placeInArray;
+      this.payload.StudentID = StudentID;
       this.$store.commit("removeGrade", this.payload);
-      // document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.n].removeAttribute("class");
-      this.$emit("update:a", this.a+1)
-      console.log(this.$store.state.newGrades)
     },
 
     changeGrade(placeInArray, StudentID, newVal){
@@ -174,12 +182,24 @@ export default {
       this.payload.newValue = newVal;
       this.$store.commit("editStudentGrade", this.payload);
     },
-    changeWeight(placeInArray, StudentID){
-      this.$store.commit("editStudentWeight", this.changeWeighta);
+    changeWeight(placeInArray, StudentID, newVal){
+      this.payload.placeInArray = placeInArray;
+      this.payload.StudentID = StudentID;
+      this.payload.newValue = newVal;
+      this.$store.commit("editStudentWeight", this.payload);
     },
-    changeDescription(placeInArray, StudentID){
-      this.$store.commit("editStudentDescription", this.changeDescriptiona);
+    changeDescription(placeInArray, StudentID, newVal){
+      this.payload.placeInArray = placeInArray;
+      this.payload.StudentID = StudentID;
+      this.payload.newValue = newVal;
+      this.$store.commit("editStudentDescription", this.payload);
     },
+    // changeWeight(placeInArray, StudentID){
+    //   this.$store.commit("editStudentWeight", this.changeWeighta);
+    // },
+    // changeDescription(placeInArray, StudentID){
+    //   this.$store.commit("editStudentDescription", this.changeDescriptiona);
+    // },
 
     //adds a new grade to the new student
     moreGrades: function() {
