@@ -64,7 +64,7 @@
                 email: $route.params.email,
                 mother: $route.params.mother,
                 father: $route.params.father
-                } 
+                }
               }">Edytuj Dane</router-link>
             </div>
 

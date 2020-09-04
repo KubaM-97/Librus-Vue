@@ -61,6 +61,10 @@
 
 import Vue from 'vue'
 
+import { mapState } from "vuex"
+import { mapMutations } from "vuex"
+import { mapActions } from 'vuex'
+
 //Bootstrap
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 Vue.use(BootstrapVue)
@@ -84,15 +88,20 @@ export default {
     }
   },
   computed: {
-    showNavpanel(){
-      return this.$store.getters.visibleNavpanel
-    },
-    showLoaderGif(){
-      return this.$store.getters.visibleLoaderGif
-    },
-    showMainLogPanel(){
-      return this.$store.getters.visibleMainLogPanel
-    }
+    ...mapState([
+      "showNavpanel",
+      "showLoaderGif",
+      "showMainLogPanel"
+    ])
+    // showNavpanel(){
+    //   return this.$store.getters.visibleNavpanel
+    // },
+    // showLoaderGif(){
+    //   return this.$store.getters.visibleLoaderGif
+    // },
+    // showMainLogPanel(){
+    //   return this.$store.getters.visibleMainLogPanel
+    // }
   },
 
 };
@@ -128,16 +137,27 @@ Vue.component('log-out-button', {
     )
   },
   created(){
-      this.$store.dispatch("initFullClass")
+    this.initFullClass();
   },
   methods:{
+
+    ...mapMutations([
+      "changeMainLogPanel",
+      "changeLoaderGif",
+      "changeNavpanel"
+    ]),
+
+    ...mapActions([
+      'initFullClass'
+    ]),
+
     logMeOut(){
       this.$router.push({name: 'LoggedOut'});
-      this.$store.commit("changeNavpanel");
-      this.$store.commit("changeLoaderGif");
+      this.changeNavpanel();
+      this.changeLoaderGif();
       setTimeout(()=>{
-        this.$store.commit("changeLoaderGif");
-        this.$store.commit("changeMainLogPanel");
+        this.changeLoaderGif();
+        this.changeMainLogPanel();
       }, 1000)
     }
   }

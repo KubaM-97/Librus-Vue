@@ -51,14 +51,21 @@
 
 <script>
 import LogInButton from './LogInButton.vue'
+import { mapMutations } from "vuex"
 export default {
   name: "LoggedOut",
   components: {'log-in-button': LogInButton},
   props:["showNavpanel", "showLoaderGif", "showMainLogPanel"],
   methods: {
 
+        ...mapMutations([
+          "changeMainLogPanel",
+          "changeLoaderGif",
+          "changeNavpanel"
+        ]),
+
         //Main Log Panel
-        logMeIn: function() {
+        logMeIn() {
 
           //gets inserted login
           const userLogin = document.querySelector(".mainLogPanel input[type=text]").value;
@@ -69,12 +76,12 @@ export default {
           //if inserted login and password are correct
           if ((userLogin === "Login1") && (userPassword === "Hasło1")) {
 
-            this.$store.commit("changeMainLogPanel");
-            this.$store.commit("changeLoaderGif");
+            this.changeMainLogPanel();
+            this.changeLoaderGif();
 
             setTimeout(()=>{
-              this.$store.commit("changeLoaderGif");
-              this.$store.commit("changeNavpanel");
+              this.changeLoaderGif();
+              this.changeNavpanel();
             },1200);
 
             this.$router.push({name: "/"})

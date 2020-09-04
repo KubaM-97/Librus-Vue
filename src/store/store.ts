@@ -24,20 +24,23 @@ export const store = new Vuex.Store({
     }
   },
   getters: {
-    newGrades(state){
-      return state.newGrades.grades
-    },
-    visibleNavpanel(state){
-      return state.showNavpanel;
-    },
-    visibleLoaderGif(state){
-      return state.showLoaderGif;
-    },
-    visibleMainLogPanel(state){
-      return state.showMainLogPanel;
-    },
-    students(state){
-      return state.students
+    // newGrades(state){
+    //   return state.newGrades.grades
+    // },
+    // visibleNavpanel(state){
+    //   return state.showNavpanel;
+    // },
+    // visibleLoaderGif(state){
+    //   return state.showLoaderGif;
+    // },
+    // visibleMainLogPanel(state){
+    //   return state.showMainLogPanel;
+    // },
+    // students(state){
+    //   return state.students
+    // }
+    specificStudent(state){
+      return state.students[this.$route.params.id-1];
     }
   },
   mutations: {

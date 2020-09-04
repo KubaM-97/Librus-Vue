@@ -265,6 +265,8 @@
 //CSS
 require("../assets/animations.css");
 
+import { mapGetters } from "vuex";
+
 export default {
   name: 'EditData',
   data(){
@@ -318,12 +320,15 @@ export default {
     }
   },
   props:["showDataEditionRouterView"],
+  computed: {
+    ...mapGetters([
+      "specificStudent"
+    ])
+  },
   methods:{
 
     //regular expressions
     validatorData: function(Data, RegularExpression, Format) {
-// alert(11)
-      // this.possibleSave = true;
 
       //gets inserted value
       const insertedData = this.$refs.editDataPanel.querySelector("#"+Data).value;
@@ -334,23 +339,19 @@ export default {
       if((insertedData !== '') && (reg.test(insertedData)==false)){
         span.innerHTML = `Podaj prawidłowy format :
         <br /> ${Format}`;
-        // alert(22)
         this.possibleSave = false;
-        // alert(33)
       }
       else{
-        // alert(44)
         span.innerHTML = ``;
         this.possibleSave = true;
-// alert(55)
       }
-      // alert(this.editStudent.lastName)
     },
 
     saveChanges(){
 
       const old = this.$route.params;
-      const store = this.$store.state.students[this.$route.params.id-1];
+      const store = this.specificStudent();
+      // const store = this.$store.state.students[this.$route.params.id-1];
 
       if(old.firstName!=this.editStudent.firstName){
         old.firstName = this.editStudent.firstName;

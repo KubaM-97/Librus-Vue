@@ -93,6 +93,8 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 
+import { mapState } from 'vuex'
+
 import GradesService from "../assets/mixins.js"
 
 //css-table
@@ -106,12 +108,9 @@ export default {
        }
    },
    computed:{
-     students(){
-       return this.$store.getters.students
-     }
-   },
-   created(){
-       this.$store.commit("setFullClass", this.$store.state.students);
+     ...mapState([
+       'students'
+     ])
    },
    beforeRouteEnter (to, from, next) {
       next(vm => {

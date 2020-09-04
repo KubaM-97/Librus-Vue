@@ -167,19 +167,19 @@
                                 </td>
 
                                 <td ref="allnewGrades">
-                                    <span class="grades" v-html="gradeWeightColor(this.$store.state.newGrades.grades)">
+                                    <span class="grades" v-html="gradeWeightColor(this.grades)">
 
                                     </span>
                                 </td>
 
                                 <td>
                                     <span>
-                                      {{avg(this.$store.state.newGrades.grades, this.$store.state.newGrades.weights)}}
+                                      {{avg(this.grades, this.weights)}}
                                     </span>
                                 </td>
 
                                 <td>
-                                  <span v-html="threatness(avg(this.$store.state.newGrades.grades, this.$store.state.newGrades.weights))">
+                                  <span v-html="threatness(avg(this.grades, this.weights))">
 
                                   </span>
                                 </td>
@@ -227,6 +227,10 @@ require("../assets/animations.css");
 //css-table
 require("../assets/table.css");
 import Grade from "./Grade.vue"
+
+import { mapState } from "vuex"
+import { mapMutations } from "vuex"
+
 export default {
   name: "AddStudent",
   data(){
@@ -278,15 +282,10 @@ export default {
   components: {
     "grade-component": Grade
   },
-  computed:{
-    newGrades(){
-        return this.$store.getters.newGrades
-    }
-  },
   beforeRouteLeave(to,from,next){
-    const grades = this.$store.state.newGrades.grades
-    const weights = this.$store.state.newGrades.weights
-    const descriptions = this.$store.state.newGrades.descriptions
+    const grades = this.grades
+    const weights = this.weights
+    const descriptions = this.descriptions
 
 
     if((this.confirm==false) && (
@@ -316,6 +315,15 @@ export default {
     }
 
   },
+  computed:{
+    ...mapState({
+        student: state => state.student,
+        grades: state => state.newGrades.grades,
+        weights: state => state.newGrades.weights,
+        descriptions: state => state.newGrades.descriptions,
+        dates: state => state.newGrades.dates,
+    })
+  },
   updated(){
 
     if(this.name!=""){
@@ -323,7 +331,7 @@ export default {
       this.add.firstName = arrName[0];
       this.add.lastName = arrName[1];
     }
-    // alert(this.n)
+
   },
   filters: {
     //converts student's full name to correct form
@@ -436,40 +444,44 @@ export default {
       //colors grades
       gradeWeightColor: function(newGrades) {
 
-        let limit = this.$store.state.newGrades.grades.length;
-        if(this.$store.state.newGrades.weights.length>this.$store.state.newGrades.grades.length){
-          limit = this.$store.state.newGrades.weights.length
+        let limit = this.grades.length;
+        if(this.weights.length>limit){
+          limit = this.weights.length
         }
 
+        const allGrades = this.grades;
+        const allWeights = this.weights;
+        const allDescriptions = this.descriptions;
+        const allDates = this.dates;
         let content = "";
 
           for (let i = 0; i < limit; i++) {
-              if(this.$store.state.newGrades.grades[i]!==undefined){
-                    if (this.$store.state.newGrades.weights[i] == 1) {
-                        content += `<div class="gradeWeightColor gradeWeightGreen">${this.$store.state.newGrades.grades[i]}</div>`
-                    } else if (this.$store.state.newGrades.weights[i] == 2) {
-                        content +=  `<div class="gradeWeightColor gradeWeightYellow">${this.$store.state.newGrades.grades[i]}</div>`
-                    } else if (this.$store.state.newGrades.weights[i] == 3) {
-                        content +=  `<div class="gradeWeightColor gradeWeightRed">${this.$store.state.newGrades.grades[i]}</div>`
+              if(allGrades[i]!==undefined){
+                    if (allWeights[i] == 1) {
+                        content += `<div class="gradeWeightColor gradeWeightGreen">${allGrades[i]}</div>`
+                    } else if (allWeights[i] == 2) {
+                        content +=  `<div class="gradeWeightColor gradeWeightYellow">${allGrades[i]}</div>`
+                    } else if (allWeights[i] == 3) {
+                        content +=  `<div class="gradeWeightColor gradeWeightRed">${allGrades[i]}</div>`
                     }
-                    else if(this.$store.state.newGrades.weights[i]==undefined){
-                      content +=  `<div class="gradeWeightColor">${this.$store.state.newGrades.grades[i]}</div>`
+                    else if(allWeights[i]==undefined){
+                      content +=  `<div class="gradeWeightColor">${allGrades[i]}</div>`
                     }
 
               }
-              else if(this.$store.state.newGrades.grades[i]==undefined){
-                if(this.$store.state.newGrades.weights[i]===1){
+              else if(allGrades[i]==undefined){
+                if(allWeights[i]===1){
                   content +=  `<div class="gradeWeightColor gradeWeightGreen" style="height:32px;"> </div>`
                 }
-                else if(this.$store.state.newGrades.weights[i]===2){
+                else if(allWeights[i]===2){
                   content +=  `<div class="gradeWeightColor gradeWeightYellow" style="height:32px;"> </div>`
                 }
-                else if(this.$store.state.newGrades.weights[i]===3){
+                else if(allWeights[i]===3){
                   content +=  `<div class="gradeWeightColor gradeWeightRed" style="height:32px;"> </div>`
                 }
 
               }
-              if((this.$store.state.newGrades.grades[i]!="")&&(this.$store.state.newGrades.weights[i]!="")&&(this.$store.state.newGrades.descriptions[i]!="")&&(this.$store.state.newGrades.dates[i]!="")){
+              if((allGrades[i]!="")&&(allWeights[i]!="")&&(allDescriptions[i]!="")&&(allDates[i]!="")){
                 this.showTooltip();
               }
           }
@@ -482,7 +494,6 @@ export default {
       moreGrades: function() {
         this.gradesLength++;
         this.b++;
-        // alert(this.b)
       },
 
       //returns grades' average
@@ -525,7 +536,7 @@ export default {
               for(let i=0; i<gradesWrappedInDiv.length;i++){
                 //draws tooltip after hovering
                   gradesWrappedInDiv[i].addEventListener("mouseenter", function() {
-                      this.canvas(this.$store.state.newGrades.grades, this.$store.state.newGrades.weights, this.$store.state.newGrades.descriptions, this.$store.state.newGrades.dates, gradesWrappedInDiv[i], i)
+                      this.canvas(this.grades, this.weights, this.descriptions, this.dates, gradesWrappedInDiv[i], i)
                   }.bind(this), false);
 
                   //destroyes tooltip after leaving
@@ -535,16 +546,15 @@ export default {
                   });
               }
           }
-        if((this.$store.state.newGrades.grades!=="")&&(this.$store.state.newGrades.weights!=="")){
+        if((this.grades!=="")&&(this.weights!=="")){
 
 
           const gradeInDiv = this.$el.querySelectorAll("div");
-          console.log(this.$refs);
 
           for(let i=0; i<=gradeInDiv.length;i++){
           //  draws tooltip after hovering
             gradeInDiv[i].addEventListener("mouseenter", function() {
-                this.canvas(this.$store.state.newGrades.grades, this.$store.state.newGrades.weights, this.$store.state.newGrades.descriptions, 330, gradeInDiv[i], i)
+                this.canvas(this.grades, this.weights, this.descriptions, 330, gradeInDiv[i], i)
             }.bind(this), false);
 
 
@@ -596,9 +606,9 @@ export default {
       //resets addStudent Panel
       addStudentCancel: function() {
           this.name = ""
-          this.$store.state.newGrades.grades = "";
-          this.$store.state.newGrades.weights = "";
-          this.$store.state.newGrades.descriptions = "";
+          this.grades = "";
+          this.weights = "";
+          this.descriptions = "";
           this.gradesLength = 0;
           setTimeout(()=>{
             this.gradesLength = 1;
@@ -617,13 +627,15 @@ export default {
         //if we've got both firstname and lastname
            if (addedStudentNameArray.length >= 2) {
 
-                this.add.grades = this.$store.state.newGrades.grades;
-                this.add.weights = this.$store.state.newGrades.weights;
-                this.add.descriptions = this.$store.state.newGrades.descriptions;
-                this.add.dates = this.$store.state.newGrades.dates;
+                this.add.grades = this.grades;
+                this.add.weights = this.weights;
+                this.add.descriptions = this.descriptions;
+                this.add.dates = this.dates;
 
-                this.$store.commit("addNewStudentToClass", this.add);
-                this.$store.commit("setFullClass", this.$store.state.students)
+
+
+                this.addNewStudentToClass(this.add);
+                this.setFullClass(this.students);
                 this.$router.push({name: "FullClass"});
           }
           else{
@@ -636,7 +648,12 @@ export default {
               }
           }
 
-      }
+      },
+
+      ...mapMutations([
+        "addNewStudentToClass",
+        "setFullClass"
+      ])
 
    }
 }

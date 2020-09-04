@@ -110,17 +110,13 @@
 
 import GradesService from "../assets/mixins.js"
 import Grade from "./Grade.vue"
+import { mapMutations } from "vuex"
 //css-table
 require("../assets/table.css");
 
 export default {
   components: {
     "grade-component": Grade
-  },
-  computed: {
-    pickedItem() {
-      return this.$route.params.grades[0];
-    }
   },
   watch: {
     "student.description": {
@@ -169,37 +165,39 @@ export default {
   props: ["showDataEditionRouterView"],
   mixins: [GradesService],
   methods:{
+    
+    ...mapMutations([
+      "removeGrade",
+      "editStudentGrade",
+      "editStudentWeight",
+      "editStudentDescription",
+      "editStudentGrade",
+    ]),
 
     remove(placeInArray, StudentID){
       this.payload.placeInArray = placeInArray;
       this.payload.StudentID = StudentID;
-      this.$store.commit("removeGrade", this.payload);
+      this.removeGrade(this.payload);
     },
 
     changeGrade(placeInArray, StudentID, newVal){
       this.payload.placeInArray = placeInArray;
       this.payload.StudentID = StudentID;
       this.payload.newValue = newVal;
-      this.$store.commit("editStudentGrade", this.payload);
+      this.editStudentGrade(this.payload);
     },
     changeWeight(placeInArray, StudentID, newVal){
       this.payload.placeInArray = placeInArray;
       this.payload.StudentID = StudentID;
       this.payload.newValue = newVal;
-      this.$store.commit("editStudentWeight", this.payload);
+      this.editStudentWeight(this.payload);
     },
     changeDescription(placeInArray, StudentID, newVal){
       this.payload.placeInArray = placeInArray;
       this.payload.StudentID = StudentID;
       this.payload.newValue = newVal;
-      this.$store.commit("editStudentDescription", this.payload);
+      this.editStudentDescription(this.payload);
     },
-    // changeWeight(placeInArray, StudentID){
-    //   this.$store.commit("editStudentWeight", this.changeWeighta);
-    // },
-    // changeDescription(placeInArray, StudentID){
-    //   this.$store.commit("editStudentDescription", this.changeDescriptiona);
-    // },
 
     //adds a new grade to the new student
     moreGrades: function() {

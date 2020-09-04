@@ -78,6 +78,7 @@
 </template>
 
 <script>
+import {mapMutations} from "vuex"
 export default {
   name: "Grade",
   data(){
@@ -126,29 +127,39 @@ export default {
     }
 
   },
-  // destroyed(){alert(44)},
+  destroyed(placeInArray, StudentID){
+    this.payload.placeInArray = placeInArray;
+    this.payload.StudentID = StudentID;
+    this.removeGrade(this.payload);
+  },
   methods:{
 
+    ...mapMutations([
+      "addNewGradeToArray",
+      "addNewWeightToArray",
+      "addNewDescriptionToArray",
+      "addNewDateToArray",
+      "removeGrade",
+    ]),
+
       remove(placeInArray, StudentID){
-        this.payload.placeInArray = placeInArray;
-        this.payload.StudentID = StudentID;
-        this.$store.commit("removeGrade", this.payload);
+        this.$destroy(placeInArray, StudentID);
       },
 
     addNewGrade(){
-        this.$store.commit("addNewGradeToArray", this.payload);
+        this.addNewGradeToArray(this.payload);
         this.$emit("update:a", this.a+1);
     },
     addNewWeight(){
-        this.$store.commit("addNewWeightToArray", this.payload);
+        this.addNewWeightToArray(this.payload);
         this.$emit("update:a", this.a+1);
     },
     addNewDescription(){
-        this.$store.commit("addNewDescriptionToArray", this.payload);
+        this.addNewDescriptionToArray(this.payload);
         this.$emit("update:a", this.a+1);
     },
     addNewDate(){
-        this.$store.commit("addNewDateToArray", this.payload)
+        this.addNewDateToArray(this.payload);
     },
 
     //returns current Date in an Array
