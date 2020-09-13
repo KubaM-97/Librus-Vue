@@ -1,10 +1,10 @@
 <template lang="html">
-  <div class="EditStudentGrades">
+  <div class="EditStudentGrades" ref="EditStudentGrades">
     Edycja ocen:
     <div class="container">
       <div class="row">
         <div class="col-11">
-          <div v-for="k in $route.params.grades.length" :key="k">
+          <div v-for="k in ourStudent.grades.length" :key="k">
             <div class="container gainedGrades">
               <div class="row">
 
@@ -12,7 +12,7 @@
                     <div class="addStudentPanelGradesContentSingleGrade">
                       <label for="grades">Ocena:</label>
                       <div class="select">
-                        <select v-model.number="student.grades[k-1]" @change="changeGrade(k-1, $route.params.id, $route.params.grades[k-1])">
+                        <select v-model.number="ourStudent.grades[k-1]" @change="changeGrade(k-1, ourStudent.grades[k-1])">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -28,7 +28,7 @@
                     <div class="addStudentPanelGradesContentSingleWeight">
                       <label for="weight">Waga oceny:</label>
                       <div class="select">
-                          <select v-model.number="student.weights[k-1]" @change="changeWeight(k-1, $route.params.id, $route.params.weights[k-1])">
+                          <select v-model.number="ourStudent.weights[k-1]" @change="changeWeight(k-1, ourStudent.weights[k-1])">
                               <option value="1">1</option>
                               <option value="2">2</option>
                               <option value="3">3</option>
@@ -39,29 +39,30 @@
 
                 <div class="col-5">
                     <div class="addStudentPanelGradesContentSingleDescription">
-                        <span class="descriptionCount">Pozostało: {{characters-student.descriptions[k-1].length}} znaków.</span>
+                        <span class="descriptionCount">Pozostało: {{characters-ourStudent.descriptions[k-1].length}} znaków.</span>
                      <label>Opis oceny:
-                         <input type="text" v-model="student.descriptions[k-1]" @change="changeDescription(k-1, $route.params.id, $route.params.descriptions[k-1])" class="description" maxlength="30">
+                         <input type="text" v-model="ourStudent.descriptions[k-1]" @change="changeDescriptions(k-1, ourStudent.descriptions[k-1])" class="description" maxlength="30">
                      </label>
                     </div>
                 </div>
 
                 <div class="col-1">
-                    <span @click="remove(k-1, $route.params.id)" class="remove"><em>Usuń</em></span>
+                    <span @click="remove(k-1)" class="remove"><em>Usuń</em></span>
                 </div>
+
               </div>
             </div>
           </div>
        </div>
 
-       <div class="col-md-12" style="margin: auto" v-for="(n,index) in gradesLength" :key="index">
+       <div class="col-11" v-for="(n,index) in gradesLength" :key="index">
 
-         <grade-component :n.sync="n" :gradesLength.sync="gradesLength" :a.sync="a"></grade-component>
+         <grade-component :n.sync="n+ourStudent.grades.length" :gradesLength.sync="gradesLength" :a.sync="a"></grade-component>
 
        </div>
 
-       <div class="col-1 showAnotherGrade">
-         <button @click="moreGrades()">  +  </button>
+       <div class="showAnotherGrade">
+         <button name="moreGradesEditGrades" @click="moreGrades()">  +  </button>
        </div>
       </div>
       <div class="row">
@@ -76,19 +77,19 @@
                         </td>
 
                         <td ref="allnewGrades">
-                            <span v-html="gradeWeightColor($route.params.grades, $route.params.weights)">
+                            <span v-html="gradeWeightColor(ourStudent.grades, ourStudent.weights)">
 
                             </span>
                         </td>
 
                         <td>
                             <span>
-                              {{avg(this.$route.params.grades, this.$route.params.weights)}}
+                              {{avg(ourStudent.grades, ourStudent.weights)}}
                             </span>
                         </td>
 
                         <td>
-                          <span v-html="threatness(avg(this.$route.params.grades, this.$route.params.weights))">
+                          <span v-html="threatness(avg(ourStudent.grades, ourStudent.weights))">
 
                           </span>
                         </td>
@@ -99,9 +100,11 @@
         </div>
 
       </div>
+      <button name="possibleSaveGrades" v-if="possibleSave" @click="saveChanges()" class="btn btn-success btn-lg save">Zapisz zmiany</button>
+      <button name="impossibleSaveGrades" v-else class="btn btn-success btn-lg save" disabled>Zapisz zmiany</button>
     </div>
 
-    <button @click="closeThePanel()"><img class="closeThePanel" src="../assets/eXit.png"/></button>
+    <button name="closeTheGradesPanel" @click="closeThePanel()"><img class="closeThePanel" src="../assets/eXit.png"/></button>
 
   </div>
 </template>
@@ -119,7 +122,7 @@ export default {
     "grade-component": Grade
   },
   watch: {
-    "student.description": {
+    "ourStudent.description": {
       handler: function(){
         // alert(33)
         const inputGradeDescription = document.querySelectorAll("input.description")[this.n].value;
@@ -147,56 +150,124 @@ export default {
   name:"EditGrades",
   data(){
     return{
-      student:{
-        grades: this.$route.params.grades,
-        weights: this.$route.params.weights,
-        descriptions: this.$route.params.descriptions,
+      ourStudent:{
+        grades: [...this.$route.params.grades],
+        weights: [...this.$route.params.weights],
+        descriptions: [...this.$route.params.descriptions],
+        dates: [...this.$route.params.dates],
+        itemsToChange: "",
+        placeInArray: ""
       },
       characters: 30,
       gradesLength: 0,
+      a: 1,
+      b: 2,
       payload:{
         placeInArray: "",
-        StudentID: "",
-        newValue: ""
-      }
+        newValue: "",
+        date: ""
+      },
+        possibleSave: true
     }
   },
-  created(){console.log(this.student.descriptions[3].length)},
+  beforeMount(){
+    //...mapState
+    this.$store.state.newGrades.grades = this.ourStudent.grades;
+    this.$store.state.newGrades.weights = this.ourStudent.weights;
+    this.$store.state.newGrades.descriptions = this.ourStudent.descriptions;
+    this.$store.state.newGrades.dates = this.ourStudent.dates;
+    console.log(this.$store.state.newGrades);
+    // this.b = this.ourStudent.grades.length;
+  },
+  mounted(){
+    this.b = this.ourStudent.grades.length;
+  },
+  beforeUpdate(){
+
+    // alert(this.$route.params.grades.length)
+    // for(let i=0; i<.length; i++)
+    // if(this.$store.state.newGrades.descriptions[this.n]==""){
+    //   this.$store.state.newGrades.descriptions[this.n]=="BRAK OPISU"
+    // }
+  },
+  beforeRouteEnter (to, from, next) {
+     next(vm => {
+       vm.showTooltip(vm.$refs.EditStudentGrades, vm.$store.state.newGrades);
+     })
+  },
+  destroyed(placeInArray){
+    this.$store.state.newGrades.grades = "";
+    this.$store.state.newGrades.weights = "";
+    this.$store.state.newGrades.descriptions = "";
+    this.$store.state.newGrades.dates = "";
+  },
+  updated(){
+    this.showTooltip(this.$refs.EditStudentGrades, this.$store.state.newGrades);
+  },
   props: ["showDataEditionRouterView"],
   mixins: [GradesService],
   methods:{
-    
+
     ...mapMutations([
-      "removeGrade",
+      "editStudent",
       "editStudentGrade",
       "editStudentWeight",
       "editStudentDescription",
-      "editStudentGrade",
+      "editStudentDate",
+      "removeGrade"
     ]),
 
-    remove(placeInArray, StudentID){
-      this.payload.placeInArray = placeInArray;
-      this.payload.StudentID = StudentID;
-      this.removeGrade(this.payload);
+    remove(placeInArray){
+      // this.$destroy(placeInArray);
+      alert(this.ourStudent.grades.length)
+      this.removeGrade(placeInArray);
+      alert(this.ourStudent.grades.length)
+      // this.ourStudent.grades.length--;
+        // this.$store.state.newGrades.grades = "";
+        // this.$store.state.newGrades.weights = "";
+        // this.$store.state.newGrades.descriptions = "";
+        // this.$store.state.newGrades.dates = "";
     },
 
-    changeGrade(placeInArray, StudentID, newVal){
+    // changeStudent(placeInArray, newValue, itemsToChange){
+    //   this.ourStudent.dates[placeInArray] = this.whatsTheDatePlease();
+    //   this.ourStudent.itemsToChange = itemsToChange;
+    //   this.editStudent(this.ourStudent)
+    // },
+
+    changeGrade(placeInArray, newVal){
+
+      // this.ourStudent.dates[placeInArray] = this.whatsTheDatePlease();
       this.payload.placeInArray = placeInArray;
-      this.payload.StudentID = StudentID;
-      this.payload.newValue = newVal;
+      this.payload.newVal = newVal;
+      this.payload.date = this.whatsTheDatePlease();
+
       this.editStudentGrade(this.payload);
+      // alert(this.ourStudent.grades.length)
+      this.editStudentDate(this.payload);
+
+
+      this.possibleSave = true;
     },
     changeWeight(placeInArray, StudentID, newVal){
       this.payload.placeInArray = placeInArray;
-      this.payload.StudentID = StudentID;
-      this.payload.newValue = newVal;
-      this.editStudentWeight(this.payload);
+      this.payload.newVal = newVal;
+      this.payload.date = this.whatsTheDatePlease();
+      this.editStudentGrade(this.payload);
+      this.editStudentDate(this.payload);
+
+
+      this.possibleSave = true;
     },
     changeDescription(placeInArray, StudentID, newVal){
       this.payload.placeInArray = placeInArray;
-      this.payload.StudentID = StudentID;
-      this.payload.newValue = newVal;
-      this.editStudentDescription(this.payload);
+      this.payload.newVal = newVal;
+      this.payload.date = this.whatsTheDatePlease();
+      this.editStudentGrade(this.payload);
+      this.editStudentDate(this.payload);
+
+
+      this.possibleSave = true;
     },
 
     //adds a new grade to the new student
@@ -204,8 +275,72 @@ export default {
       this.gradesLength++;
     },
 
+    //returns current Date in an Array
+    whatsTheDatePlease: function() {
+        const today = new Date();
+        const currentYear = today.getFullYear();
+        let currentMonth = today.getMonth();
+        let currentDay = today.getDate();
+        let currentHours = today.getHours();
+        let currentMinutes = today.getMinutes();
+        let currentSeconds = today.getSeconds();
+        if (currentMonth < 10) {
+            currentMonth = `0${currentMonth}`;
+        }
+        if (currentDay < 10) {
+            currentDay = `0${currentDay}`;
+        }
+        if (currentHours < 10) {
+            currentHours = `0${currentHours}`;
+        }
+        if (currentMinutes < 10) {
+            currentMinutes = `0${currentMinutes}`;
+        }
+        if (currentSeconds < 10) {
+            currentSeconds = `0${currentSeconds}`;
+        }
 
+        // [DD.MM.YYYY]
+        const dateSubArrayDDMMYYYY = [currentDay, currentMonth, currentYear].join(".");
 
+        // [HH:MM:SS]
+        const dateSubArrayHHMMSS = [currentHours, currentMinutes, currentSeconds].join(":");
+
+        // [["DD.MM.YYYY"] ["HH:MM:SS"]]
+        const dateFull = [];
+        dateFull.push(dateSubArrayDDMMYYYY, dateSubArrayHHMMSS)
+
+        // DD.MM.YYYY HH:MM:SS
+        const dateFullStr = dateFull.join(" ")
+
+        // [DD.MM.YYYY HH:MM:SS]
+        const dateFullArray = [];
+        dateFullArray.push(dateFullStr);
+
+        let dateArray;
+        return dateArray = dateFullStr;
+
+    },
+
+    saveChanges(){
+
+      const old = this.$route.params;
+      const store = this.$store.state.students[this.$route.params.id-1];
+      const ourStudent = this.ourStudent;
+
+      old.grades = ourStudent.grades;
+      old.weights = ourStudent.weights;
+      old.descriptions = ourStudent.descriptions;
+      old.dates = ourStudent.dates;
+
+      store.grades = ourStudent.grades;
+      store.weights = ourStudent.weights;
+      store.descriptions = ourStudent.descriptions;
+      store.dates = ourStudent.dates;
+
+      this.possibleSave = false;
+
+    },
 
     closeThePanel(){
       this.$emit("update:showGradesEditionRouterView", false)
@@ -227,13 +362,17 @@ div.EditStudentGrades{
     text-align: center;
     font-size: 15px;
     position: absolute;
-    top: 50%;
+    top: -20%;
     left: 50%;
-    transform: translate(-50%, -47%);
+    transform: translateX(-50%);
     padding: 70px 0 40px;
 }
 div.gainedGrades{
-    margin: 10px;
+    margin: 15px;
+}
+div.gainedGrades .row>div{
+  align-content: flex-end;
+  display: grid;
 }
 select {
     margin-top: 5px;
@@ -278,11 +417,18 @@ input {
 
 .studentPanelSummary{
     width: 80%;
-    margin: auto;
-    margin-top: 100px;
+    margin: 200px auto 100px;
 }
-
-
+button.save{
+  font-size: 15px;
+  padding: 8px 12px;
+  opacity: 1;
+  float: right;
+}
+button.save[disabled]{
+  background-color: red;
+  cursor: not-allowed;
+}
 .showAnotherGrade{
     position: absolute;
     top: 50px;

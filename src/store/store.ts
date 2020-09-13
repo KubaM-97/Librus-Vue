@@ -1,13 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-// load Vuex
-Vue.use(Vuex)
-
 //Vuex
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
+// load Vuex
+Vue.use(Vuex)
+
+
 
 // Create store
 export const store = new Vuex.Store({
@@ -17,31 +18,21 @@ export const store = new Vuex.Store({
     showLoaderGif: false,
     showMainLogPanel: false,
     newGrades:{
-        grades: "",
-        weights: "",
-        descriptions: "",
-        dates: ""
+        grades: [],
+        weights: [],
+        descriptions: [],
+        dates: []
     }
   },
   getters: {
-    // newGrades(state){
-    //   return state.newGrades.grades
-    // },
-    // visibleNavpanel(state){
-    //   return state.showNavpanel;
-    // },
-    // visibleLoaderGif(state){
-    //   return state.showLoaderGif;
-    // },
-    // visibleMainLogPanel(state){
-    //   return state.showMainLogPanel;
-    // },
-    // students(state){
-    //   return state.students
-    // }
-    specificStudent(state){
-      return state.students[this.$route.params.id-1];
+    fullName(){
+      return
     }
+    // specificStudent(state){
+    //   // console.log(this)
+    //   // return state.students[payload];
+    //   return 2
+    // }
   },
   mutations: {
     changeNavpanel(state){
@@ -60,11 +51,13 @@ export const store = new Vuex.Store({
 
     addNewGradeToArray(state, payload){
 
-      if(state.newGrades.grades == ""){
-            //splits string into array
-            //e.g    3 => [3]
-            state.newGrades.grades = state.newGrades.grades.split("");
-      }
+      // if(state.newGrades.grades == ""){  alert("TTT")
+      //       //splits string into array
+      //       //e.g    3 => [3]
+      //       state.newGrades.grades = state.newGrades.grades.split("");
+      //       alert("TTT")
+      // }
+
 
       //places new grade in appropriate place according to the provided index
       //e.g    for second component Grade.vue:   newGrades.grades[1] = 5        newGrades.grades=[3,5]
@@ -73,12 +66,12 @@ export const store = new Vuex.Store({
     },
     addNewWeightToArray(state, payload){
 
-      if(state.newGrades.weights == ""){
-            //splits string into array
-            //e.g    2 => [2]
-            state.newGrades.weights = state.newGrades.weights.split("");
-      }
-
+      // if(state.newGrades.weights == ""){
+      //       //splits string into array
+      //       //e.g    2 => [2]
+      //       state.newGrades.weights = state.newGrades.weights.split("");
+      // }
+      //
       //places new grade's weight in appropriate place according to the provided index
       //e.g    for second component Grade.vue:   newGrades.weights[1] = 5        newGrades.weights=[3,5]
       state.newGrades.weights[payload.placeInArray]=payload.weight;
@@ -86,57 +79,81 @@ export const store = new Vuex.Store({
     },
     addNewDescriptionToArray(state, payload){
 
-      if(state.newGrades.descriptions == ""){
-            //splits string into array
-            //e.g    "Kartkówka" => ["Kartkówka"]
-            state.newGrades.descriptions = state.newGrades.descriptions.split("");
-      }
+      // if(state.newGrades.descriptions == ""){
+      //       //splits string into array
+      //       //e.g    "Kartkówka" => ["Kartkówka"]
+      //       state.newGrades.descriptions = state.newGrades.descriptions.split("");
+      // }
 
       //places new grade's description in appropriate place according to the provided index
       //e.g    for second component Grade.vue:   newGrades.descriptions[1] = "Praca domowa"        newGrades.descriptions=["Kartkówka", "Praca domowa"]
+
       state.newGrades.descriptions[payload.placeInArray] = payload.description;
 
       //alternative description
-      if((state.newGrades.descriptions[payload.placeInArray] == undefined)||(state.newGrades.descriptions[payload.placeInArray] == "")){
+      if(state.newGrades.descriptions[payload.placeInArray] == ""){
         state.newGrades.descriptions[payload.placeInArray] = "BRAK OPISU"
       }
     },
     addNewDateToArray(state, payload){
 
-      if(state.newGrades.dates == ""){
-            //splits string into array
-            //e.g    23.08.2020 14:00:00" => [23.08.2020 14:00:00]
-            state.newGrades.dates = state.newGrades.dates.split("");
-      }
+      // if(state.newGrades.dates == ""){
+      //       //splits string into array
+      //       //e.g    23.08.2020 14:00:00" => [23.08.2020 14:00:00]
+      //       state.newGrades.dates = state.newGrades.dates.split("");
+      // }
 
       //places new grade's date in appropriate place according to the provided index
       //e.g    for second component Grade.vue:   newGrades.date[1] = "23.08.2020 14:00:00"        newGrades.date=["21.08.2020 11:30:00", "23.08.2020 14:00:00"]
       state.newGrades.dates[payload.placeInArray] = payload.date;
     },
 
-    editStudentGrade(state, payload){
-      console.log(state.students[payload.StudentID-1])
-      state.students[payload.StudentID-1].grades[payload.placeInArray] = payload.newValue;
-      console.log(state.students[payload.StudentID-1])
-    },
-    editStudentWeight(state, payload){
-      state.students[payload.StudentID-1].weights[payload.placeInArray] = payload.newValue;
-    },
-    editStudentDescription(state, payload){
-      state.students[payload.StudentID-1].descriptions[payload.placeInArray] = payload.newValue;
+    editStudent(state, payload){
+      console.log(payload)
+      const ww = payload.itemsToChange;
+      // alert(eval(payload.itemsToChange))
+
+        state.newGrades.ww = 336;
+        console.log(state.newGrades)
     },
 
-    removeGrade(state, payload){
-      state.students[payload.StudentID-1].grades.splice(payload.placeInArray,1);
-      state.students[payload.StudentID-1].weights.splice(payload.placeInArray,1);
-      state.students[payload.StudentID-1].descriptions.splice(payload.placeInArray,1);
+    editStudentGrade(state, payload){
+      // alert(this.ourStudent.grades.length)
+      state.newGrades.grades[payload.placeInArray] = payload.newVal;
+    },
+    editStudentWeight(state, payload){
+      state.newGrades.weights[payload.placeInArray] = payload.newVal;
+    },
+    editStudentDescription(state, payload){
+      state.newGrades.descriptions[payload.placeInArray] = payload.newVal;
+    },
+    editStudentDate(state, payload){
+      state.newGrades.dates[payload.placeInArray] = payload.date;
+    },
+
+    removeGrade(state, placeInArray){
+      // alert(state.newGrades.grades)
+      if(state.newGrades.grades != ""){
+        state.newGrades.grades.splice(placeInArray,1);
+      }
+      if(state.newGrades.weights != ""){
+        state.newGrades.weights.splice(placeInArray,1);
+      }
+      if(state.newGrades.descriptions != ""){
+        state.newGrades.descriptions.splice(placeInArray,1);
+      }
+      if(state.newGrades.dates != ""){
+        state.newGrades.dates.splice(placeInArray,1);
+      }
     },
 
     addNewStudentToClass(state, payload){
       const allStudents = state.students;
-      allStudents[allStudents.length] = payload
-      payload.id = allStudents.length;
-      state.students = allStudents;
+      if (!(_.isEmpty(allStudents))){
+        allStudents[allStudents.length] = payload
+        payload.id = allStudents.length;
+        state.students = allStudents;
+      }
     }
   },
   actions: {

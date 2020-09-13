@@ -22,7 +22,7 @@
           <div class="col-1" v-if="showGreenCheckMarkFirstName">
             <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
             <transition name="showGreenMark">
-              <div class="blackLayer" v-if="hideCheckMarkWithLayerFirstName" key=1>
+              <div class="blackLayer" v-if="hideCheckMarkWithLayerFirstName" key="1">
 
               </div>
             </transition>
@@ -49,7 +49,7 @@
 
               <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
               <transition name="showGreenMark">
-                <div class="blackLayer" v-if="hideCheckMarkWithLayerLastName">
+                <div class="blackLayer" v-if="hideCheckMarkWithLayerLastName" key="2">
 
                 </div>
               </transition>
@@ -63,7 +63,7 @@
               <div class="row">
                 <div class="col-md-6 offset-md-1">
                   <label for="Pesel">PESEL</label>
-                  <input type="text" id="Pesel" v-model="editStudent.pesel" @keyup="validatorData('Pesel', '^[0-9]{9}$', 'Dokładnie 9 cyfr')">
+                  <input type="text" id="Pesel" v-model="editStudent.pesel" @keyup="validatorData('Pesel', '^[0-9]{11}$', 'Dokładnie 11 cyfr')">
                   <span class="wrongAdditionalInfo" id="wrongPesel"></span>
                 </div>
                 <div class="col-md-5">
@@ -76,7 +76,7 @@
 
               <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
               <transition name="showGreenMark">
-                <div class="blackLayer" v-if="hideCheckMarkWithLayerPesel">
+                <div class="blackLayer" v-if="hideCheckMarkWithLayerPesel" key="3">
 
                 </div>
               </transition>
@@ -116,7 +116,7 @@
 
               <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
               <transition name="showGreenMark">
-                <div class="blackLayer" v-if="hideCheckMarkWithLayerStreet">
+                <div class="blackLayer" v-if="hideCheckMarkWithLayerStreet" key="4">
 
                 </div>
               </transition>
@@ -143,7 +143,7 @@
 
               <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
               <transition name="showGreenMark">
-                <div class="blackLayer" v-if="hideCheckMarkWithLayerTelephone">
+                <div class="blackLayer" v-if="hideCheckMarkWithLayerTelephone" key="5">
 
                 </div>
               </transition>
@@ -170,7 +170,7 @@
 
               <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
               <transition name="showGreenMark">
-                <div class="blackLayer" v-if="hideCheckMarkWithLayerEmail">
+                <div class="blackLayer" v-if="hideCheckMarkWithLayerEmail" key="6">
 
                 </div>
               </transition>
@@ -207,7 +207,7 @@
 
               <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
               <transition name="showGreenMark">
-                <div class="blackLayer" v-if="hideCheckMarkWithLayerMother">
+                <div class="blackLayer" v-if="hideCheckMarkWithLayerMother" key="7">
 
                 </div>
               </transition>
@@ -244,18 +244,18 @@
 
               <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
               <transition name="showGreenMark">
-                <div class="blackLayer" v-if="hideCheckMarkWithLayerFather">
+                <div class="blackLayer" v-if="hideCheckMarkWithLayerFather" key="8">
 
                 </div>
               </transition>
           </div>
         </div>
       </div>
-      <button v-if="possibleSave" @click="saveChanges()" class="btn btn-success btn-lg save">Zapisz zmiany</button>
-      <button v-else class="btn btn-success btn-lg save" disabled>Zapisz zmiany</button>
+      <button name="possibleSaveData" v-if="possibleSave" @click="saveChanges()" class="btn btn-success btn-lg save">Zapisz zmiany</button>
+      <button name="impossibleSaveData" v-else class="btn btn-success btn-lg save" disabled>Zapisz zmiany</button>
     </div>
 
-    <button @click="closeThePanel()"><img class="closeThePanel" src="../assets/eXit.png"/></button>
+    <button name="closeTheDataPanel" @click="closeThePanel()"><img class="closeThePanel" src="../assets/eXit.png"/></button>
 
   </div>
 
@@ -321,9 +321,11 @@ export default {
   },
   props:["showDataEditionRouterView"],
   computed: {
-    ...mapGetters([
-      "specificStudent"
-    ])
+    ...mapGetters(
+      {
+        aa: "specificStudent"
+      }
+    )
   },
   methods:{
 
@@ -350,8 +352,9 @@ export default {
     saveChanges(){
 
       const old = this.$route.params;
-      const store = this.specificStudent();
-      // const store = this.$store.state.students[this.$route.params.id-1];
+      // const store = this.aa('hello');
+      console.log(this.aa)
+      const store = this.$store.state.students[this.$route.params.id-1];
 
       if(old.firstName!=this.editStudent.firstName){
         old.firstName = this.editStudent.firstName;

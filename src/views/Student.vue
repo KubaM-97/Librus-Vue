@@ -9,8 +9,7 @@
             </div>
 
             <div class="editStudentPanelNameStudent">
-                {{$route.params.lastName.toUpperCase()}}
-                {{$route.params.firstName}}
+              {{fullName}}
             </div>
 
             <div class="editStudentPanelNameDetailData">
@@ -48,24 +47,10 @@
 
             </div>
 
-            <div class="editStudentPanelNameButtons" @click="showEditStudentDataPanel()">
-              <router-link tag="button" :to="{ name: 'EditData',
-              params: {
-                id: $route.params.id,
-                lastName: $route.params.lastName,
-                firstName: $route.params.firstName,
-                grades: $route.params.grades,
-                weights: $route.params.weights,
-                descriptions: $route.params.descriptions,
-                dates: $route.params.dates,
-                pesel: $route.params.pesel,
-                street: $route.params.street,
-                phone: $route.params.phone,
-                email: $route.params.email,
-                mother: $route.params.mother,
-                father: $route.params.father
-                }
-              }">Edytuj Dane</router-link>
+            <div class="editStudentPanelNameButtons">
+
+              <button name="showEditStudentDataPanel" @click="showEditStudentDataPanel()"> Edytuj Dane </button>
+
             </div>
 
 
@@ -78,25 +63,9 @@
 
             </div>
 
-            <div class="editStudentPanelGradesButtons" @click="showEditStudentGradesPanel()">
+            <div class="editStudentPanelGradesButtons">
 
-              <router-link tag="button" :to="{ name: 'EditGrades',
-               params: {
-                  id: $route.params.id,
-                  lastName: $route.params.lastName,
-                  firstName: $route.params.firstName,
-                  grades: $route.params.grades,
-                  weights: $route.params.weights,
-                  descriptions: $route.params.descriptions,
-                  dates: $route.params.dates,
-                  pesel: $route.params.pesel,
-                  street: $route.params.street,
-                  phone: $route.params.phone,
-                  email: $route.params.email,
-                  mother: $route.params.mother,
-                  father: $route.params.father
-                }
-              }">Edytuj / Dodaj ocenę</router-link>
+              <button name="showEditStudentGradesPanel" @click="showEditStudentGradesPanel()"> Edytuj / Dodaj ocenę </button>
 
             </div>
 
@@ -133,6 +102,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 
+import { mapGetters } from "vuex"
 import GradesService from "../assets/mixins.js"
 
 export default {
@@ -142,6 +112,17 @@ export default {
       showDataEditionRouterView: false,
       showGradesEditionRouterView: false
     }
+  },
+  computed:{
+    ...mapGetters([
+      "fullName"
+    ]),
+    fullName(){
+      return `${this.$route.params.lastName.toUpperCase()} ${this.$route.params.firstName}`
+    }
+  },
+  updated(){
+     this.showTooltip(this.$refs.editStudentPanel, this.$route.params);
   },
   created(){
     axios.get("/static/students.json")
@@ -158,11 +139,39 @@ export default {
   mixins: [GradesService],
   methods:{
     showEditStudentDataPanel(){
-      this.$router.push({name: "EditData"})
+      this.$router.push({name: "EditData", params: {
+        id: this.$route.params.id,
+        lastName: this.$route.params.lastName,
+        firstName: this.$route.params.firstName,
+        grades: this.$route.params.grades,
+        weights: this.$route.params.weights,
+        descriptions: this.$route.params.descriptions,
+        dates: this.$route.params.dates,
+        pesel: this.$route.params.pesel,
+        street: this.$route.params.street,
+        phone: this.$route.params.phone,
+        email: this.$route.params.email,
+        mother: this.$route.params.mother,
+        father: this.$route.params.father
+       }})
       this.showDataEditionRouterView = true;
     },
     showEditStudentGradesPanel(){
-      this.$router.push({name: "EditGrades"})
+      this.$router.push({name: "EditGrades", params: {
+        id: this.$route.params.id,
+        lastName: this.$route.params.lastName,
+        firstName: this.$route.params.firstName,
+        grades: this.$route.params.grades,
+        weights: this.$route.params.weights,
+        descriptions: this.$route.params.descriptions,
+        dates: this.$route.params.dates,
+        pesel: this.$route.params.pesel,
+        street: this.$route.params.street,
+        phone: this.$route.params.phone,
+        email: this.$route.params.email,
+        mother: this.$route.params.mother,
+        father: this.$route.params.father
+       }})
       this.showGradesEditionRouterView = true;
     },
 

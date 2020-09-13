@@ -141,16 +141,21 @@
 
                    <div class="addStudentPanelGradesContent" v-for="n in gradesLength" :key="n">
 
-                     <grade-component v-if="b" :n.sync="n" :gradesLength.sync="gradesLength" :a.sync="a"></grade-component>
+                     <grade-component :b.sync="b[n-1]" :n.sync="n" :gradesLength.sync="gradesLength" :a.sync="a"></grade-component>
 
                    </div>
 
-                   <div class="addStudentPanelGradesContentButton">
-                     <button @click="moreGrades()">  +  </button>
-                   </div>
+
 
                  </div>
 
+                <div class="col-md-1">
+
+                     <div class="addStudentPanelGradesContentButton">
+                       <button name="moreGradesAddStudent" @click="moreGrades()">  +  </button>
+                     </div>
+
+                 </div>
 
 
               </div>
@@ -167,19 +172,19 @@
                                 </td>
 
                                 <td ref="allnewGrades">
-                                    <span class="grades" v-html="gradeWeightColor(this.grades)">
+                                    <span class="grades" v-html="gradeWeightColor($store.state.newGrades.grades, $store.state.newGrades.weights)">
 
                                     </span>
                                 </td>
 
                                 <td>
                                     <span>
-                                      {{avg(this.grades, this.weights)}}
+                                      {{avg($store.state.newGrades.grades, $store.state.newGrades.weights)}}
                                     </span>
                                 </td>
 
                                 <td>
-                                  <span v-html="threatness(avg(this.grades, this.weights))">
+                                  <span v-html="threatness(avg($store.state.newGrades.grades, $store.state.newGrades.weights))">
 
                                   </span>
                                 </td>
@@ -195,9 +200,9 @@
 
                 <div class="addStudentPanelButtons">
 
-                  <button class="btn btn-danger btn-lg" @click="addStudentCancel()">Anuluj</button>
+                  <button name="addStudentCancel" class="btn btn-danger btn-lg" @click="addStudentCancel()">Anuluj</button>
 
-                  <button class="btn btn-primary btn-lg" @click="addStudent()">Dodaj ucznia</button>
+                  <button name="addStudent" class="btn btn-primary btn-lg" @click="addStudent()">Dodaj ucznia</button>
 
                 </div>
 
@@ -209,8 +214,8 @@
 
         <div class="confirm" v-show="confirm">
           <p>Na pewno? Nie zapisano zmian...</p>
-          <button @click="showConfirmWindow('quit')">Wychodzę</button>
-          <button @click="showConfirmWindow('stay')">Racja, zostaję!</button>
+          <button name="showConfirmQuit" @click="showConfirmWindow('quit')">Wychodzę</button>
+          <button name="showConfirmStay" @click="showConfirmWindow('stay')">Racja, zostaję!</button>
         </div>
 
     </div>
@@ -228,14 +233,15 @@ require("../assets/animations.css");
 require("../assets/table.css");
 import Grade from "./Grade.vue"
 
-import { mapState } from "vuex"
-import { mapMutations } from "vuex"
+import { mapState, mapMutations } from "vuex"
 
 export default {
   name: "AddStudent",
   data(){
        return{
-         b: 1,
+         b: {
+
+         },
          add: {
              id: "",
              lastName: "",
@@ -279,13 +285,17 @@ export default {
         color: ""
       }
   },
+  mounted(){
+    this.b[0] = true;
+    // console.log(this.b)
+  },
   components: {
     "grade-component": Grade
   },
   beforeRouteLeave(to,from,next){
-    const grades = this.grades
-    const weights = this.weights
-    const descriptions = this.descriptions
+    const grades = this.$store.state.newGrades.grades
+    const weights = this.$store.state.newGrades.weights
+    const descriptions = this.$store.state.newGrades.descriptions
 
 
     if((this.confirm==false) && (
@@ -322,16 +332,39 @@ export default {
         weights: state => state.newGrades.weights,
         descriptions: state => state.newGrades.descriptions,
         dates: state => state.newGrades.dates,
-    })
+    }),
   },
+  // beforeUpdate(){
+  //   if(){}
+  // },
   updated(){
-
     if(this.name!=""){
       const arrName = this.name.split(" ");
       this.add.firstName = arrName[0];
       this.add.lastName = arrName[1];
     }
+    // this.showTooltip();
+    //
+    let limit = this.$store.state.newGrades.grades.length;
+    if(this.$store.state.newGrades.weights.length > limit){
+      limit = this.$store.state.newGrades.weights.length
+    }
 
+    for(let i=0; i<limit; i++){
+
+      if((this.$store.state.newGrades.grades[i]!="")&&(this.$store.state.newGrades.weights[i]!="")){
+        this.showTooltip();
+      }
+    //
+    }
+
+    // alert(this.b[0])
+  },
+  beforeDestroy(){
+    this.$store.state.newGrades.grades = "";
+    this.$store.state.newGrades.weights = "";
+    this.$store.state.newGrades.descriptions = "";
+    this.$store.state.newGrades.dates = "";
   },
   filters: {
     //converts student's full name to correct form
@@ -378,7 +411,7 @@ export default {
   methods: {
 
       //starts animation
-      enter: function(el, done){
+      enter(el, done){
         el.addEventListener("animationend", function(){
           el.style="";
           done();
@@ -388,7 +421,7 @@ export default {
       },
 
       //ends animation
-      leave: function(el, done){
+      leave(el, done){
         el.addEventListener("animationend", function(){
           el.style="";
           done();
@@ -399,7 +432,7 @@ export default {
       },
 
       //shows confirm window
-      showConfirmWindow: function(action){
+      showConfirmWindow(action){
         if(action=="quit"){
           this.$router.push({path: this.exitPath})
           this.confirm = false;
@@ -412,7 +445,7 @@ export default {
       },
 
       //shows additional information
-      additionalInfoSwitcher: function() {
+      additionalInfoSwitcher() {
         const spanInfoSwitcher = document.querySelector(".addStudentPanelName span.showInfo");
         this.info = !this.info;
         if(spanInfoSwitcher.innerHTML == "Rozwiń") {
@@ -424,7 +457,7 @@ export default {
       },
 
       //regular expressions
-      validatorData: function(Data, RegularExpression, Format) {
+      validatorData(Data, RegularExpression, Format) {
 
         //gets inserted value
         const insertedData = document.querySelector("#"+Data).value;
@@ -442,21 +475,23 @@ export default {
       },
 
       //colors grades
-      gradeWeightColor: function(newGrades) {
+      gradeWeightColor(grades, weights) {
 
-        let limit = this.grades.length;
-        if(this.weights.length>limit){
-          limit = this.weights.length
+
+        let limit = grades.length;
+        if(weights.length > limit){
+          limit = weights.length
         }
-
-        const allGrades = this.grades;
-        const allWeights = this.weights;
-        const allDescriptions = this.descriptions;
-        const allDates = this.dates;
+        // alert(limit)
+        const allGrades = this.$store.state.newGrades.grades;
+        const allWeights = this.$store.state.newGrades.weights;
+        const allDescriptions = this.$store.state.newGrades.descriptions;
+        const allDates = this.$store.state.newGrades.dates;
         let content = "";
 
           for (let i = 0; i < limit; i++) {
-              if(allGrades[i]!==undefined){
+              if(allGrades[i]!==""){
+                // alert(allWeights[i])
                     if (allWeights[i] == 1) {
                         content += `<div class="gradeWeightColor gradeWeightGreen">${allGrades[i]}</div>`
                     } else if (allWeights[i] == 2) {
@@ -464,52 +499,55 @@ export default {
                     } else if (allWeights[i] == 3) {
                         content +=  `<div class="gradeWeightColor gradeWeightRed">${allGrades[i]}</div>`
                     }
-                    else if(allWeights[i]==undefined){
+                    else if(allWeights[i]==""){
                       content +=  `<div class="gradeWeightColor">${allGrades[i]}</div>`
                     }
-
+                    // alert(44)
               }
-              else if(allGrades[i]==undefined){
+              else if(allGrades[i]==""){
                 if(allWeights[i]===1){
-                  content +=  `<div class="gradeWeightColor gradeWeightGreen" style="height:32px;"> </div>`
+                  content +=  `<div class="gradeWeightColor gradeWeightGreen"> </div>`
                 }
                 else if(allWeights[i]===2){
-                  content +=  `<div class="gradeWeightColor gradeWeightYellow" style="height:32px;"> </div>`
+                  content +=  `<div class="gradeWeightColor gradeWeightYellow"> </div>`
                 }
                 else if(allWeights[i]===3){
-                  content +=  `<div class="gradeWeightColor gradeWeightRed" style="height:32px;"> </div>`
+                  content +=  `<div class="gradeWeightColor gradeWeightRed"> </div>`
                 }
+                // alert(55)
+              }
 
-              }
-              if((allGrades[i]!="")&&(allWeights[i]!="")&&(allDescriptions[i]!="")&&(allDates[i]!="")){
-                this.showTooltip();
-              }
+              // if((allGrades[i]!=="")&&(allWeights[i]!=="")){
+              //   alert(33)
+              //   this.showTooltip(allGrades, allWeights)
+              // }
           }
-
           return content
 
       },
 
       //adds a new grade to the new student
-      moreGrades: function() {
+      moreGrades() {
         this.gradesLength++;
         this.b++;
       },
 
       //returns grades' average
-      avg: function(gradesArray, weightArray) {
+      avg(gradesArray, weightsArray) {
 
           let gradesSuperValue = 0;
-          let weightSum = 0;
+          let weightsSum = 0;
 
 
           for (let i = 0; i < gradesArray.length; i++) {
-              gradesSuperValue += gradesArray[i] * weightArray[i];
-              weightSum += weightArray[i]
+            if( (gradesArray[i]!=="") && (weightsArray[i]!=="") ){
+              gradesSuperValue += gradesArray[i] * weightsArray[i];
+              weightsSum += weightsArray[i]
+            }
           }
 
           //round avg to 2 decimal places
-          const average = gradesSuperValue / weightSum;
+          const average = gradesSuperValue / weightsSum;
           let averageRounded = (Math.round(average * 100) / 100).toFixed(2);
           if(isNaN(averageRounded)){
             averageRounded = ""
@@ -520,7 +558,7 @@ export default {
       },
 
       //decides if student is threated
-      threatness: function(myAVG) {
+      threatness(myAVG) {
           if ((myAVG < 2) && (myAVG != "")) {
               return "<span class='fire'>ZAGROŻENIE</span>"
           } else {
@@ -530,47 +568,39 @@ export default {
 
       //shows tooltip after hovering on every grade
       showTooltip: function() {
-        const gradesWrappedInDiv = document.getElementsByClassName("gradeWeightColor");
-
-          if(gradesWrappedInDiv.length>0){
-              for(let i=0; i<gradesWrappedInDiv.length;i++){
-                //draws tooltip after hovering
-                  gradesWrappedInDiv[i].addEventListener("mouseenter", function() {
-                      this.canvas(this.grades, this.weights, this.descriptions, this.dates, gradesWrappedInDiv[i], i)
-                  }.bind(this), false);
-
-                  //destroyes tooltip after leaving
-                  gradesWrappedInDiv[i].addEventListener("mouseleave", function() {
-                      const canv = document.querySelector("canvas");
-                      canv.parentNode.removeChild(canv);
-                  });
-              }
-          }
-        if((this.grades!=="")&&(this.weights!=="")){
-
-
-          const gradeInDiv = this.$el.querySelectorAll("div");
+        // const gradesWrappedInDiv = document.getElementsByClassName("gradeWeightColor");
+        //   if(gradesWrappedInDiv.length>0){
+        //       for(let i=0; i<gradesWrappedInDiv.length;i++){
+        //         //draws tooltip after hovering
+        //           gradesWrappedInDiv[i].addEventListener("mouseenter", function() {
+        //               this.canvas(this.grades, this.weights, this.descriptions, this.dates, gradesWrappedInDiv[i], i)
+        //           }.bind(this), false);
+        //           //destroyes tooltip after leaving
+        //           gradesWrappedInDiv[i].addEventListener("mouseleave", function() {
+        //               const canv = document.querySelector("canvas");
+        //               canv.parentNode.removeChild(canv);
+        //           });
+        //       }
+        //   }
+        if((this.$store.state.newGrades.grades!=="")&&(this.$store.state.newGrades.weights!=="")){
+          const gradeInDiv = document.querySelectorAll("div.gradeWeightColor");
 
           for(let i=0; i<=gradeInDiv.length;i++){
           //  draws tooltip after hovering
             gradeInDiv[i].addEventListener("mouseenter", function() {
                 this.canvas(this.grades, this.weights, this.descriptions, 330, gradeInDiv[i], i)
             }.bind(this), false);
-
-
             //destroyes tooltip after leaving
             gradeInDiv[i].addEventListener("mouseleave", function() {
                 const canv = document.querySelector("canvas");
                 canv.parentNode.removeChild(canv);
             });
-
           }
           }
       },
-
       //draws tooltip
-      canvas: function(arrayWithAllGrades, arrayWithAllWeights, arrayWithAllDescriptions, arrayWithAllDates, anotherGradeWeightColorDiv, i) {
-
+      canvas(arrayWithAllGrades, arrayWithAllWeights, arrayWithAllDescriptions, arrayWithAllDates, anotherGradeWeightColorDiv, i) {
+        // alert("canvas")
           const canvas = document.createElement("CANVAS");
           anotherGradeWeightColorDiv.appendChild(canvas);
 
@@ -604,11 +634,11 @@ export default {
       },
 
       //resets addStudent Panel
-      addStudentCancel: function() {
+      addStudentCancel() {
           this.name = ""
-          this.grades = "";
-          this.weights = "";
-          this.descriptions = "";
+          this.add.grades = "";
+          this.add.weights = "";
+          this.add.descriptions = "";
           this.gradesLength = 0;
           setTimeout(()=>{
             this.gradesLength = 1;
@@ -616,7 +646,7 @@ export default {
       },
 
       //adds a new student to the class table
-      addStudent: function() {
+      addStudent() {
 
         //this is inserted by user (by teacher) name for a new student
         const addedStudentName = this.name;
@@ -791,7 +821,7 @@ export default {
 }
 
 .addStudentPanelSummary{
-  width: 80%;
+  width: 90%;
   margin: 100px 70px 0;
 }
 span.grades{

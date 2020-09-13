@@ -1,13 +1,13 @@
 <template>
 
-    <div id="app">
+    <div>
 
       <header class="main-header" v-show="showNavpanel">
 
           <header>
 
               <div class="logo">
-                  <img src="./assets/Logo.png"/>
+                  <img src="../assets/Logo.png"/>
               </div>
 
               <div class="logo">
@@ -31,9 +31,12 @@
                 Dodaj ucznia
             </router-link>
 
-            <log-out-button>
-               Wyloguj się
-            </log-out-button>
+            <a href="LoggedOut.vue">
+              <log-out-button>
+                 Wyloguj się
+              </log-out-button>
+            </a>
+
 
           </nav>
 
@@ -58,27 +61,32 @@
 
 
 <script>
+
 import Vue from 'vue'
+
 import { mapState } from "vuex"
-import { mapMutations } from "vuex"
-import { mapActions } from 'vuex'
+
 //Bootstrap
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+import LoggedOut from "../components/LoggedOut.vue"
 //CSS
-require("./assets/style.css");
-require("./assets/animations.css");
-import LoggedOut from "./views/LoggedOut.vue"
+require("../assets/style.css");
+require("../assets/animations.css");
+
+
 export default {
-  components: {"log-out": LoggedOut},
+  name: "MainHeader",
+  components:{"log-out": LoggedOut},
   data(){
     return{
       sitename: "Dziennik elektroniczny",
       teacher: "<em>Kuba Preceptor</em>",
-      Class: "3B"
+      Class: "3B",
     }
   },
   computed: {
@@ -87,67 +95,13 @@ export default {
       "showLoaderGif",
       "showMainLogPanel"
     ])
-    // showNavpanel(){
-    //   return this.$store.getters.visibleNavpanel
-    // },
-    // showLoaderGif(){
-    //   return this.$store.getters.visibleLoaderGif
-    // },
-    // showMainLogPanel(){
-    //   return this.$store.getters.visibleMainLogPanel
-    // }
   },
-};
-// Log-Out-Button Component
-Vue.component('log-out-button', {
-  render: function (createElement) {
-    return createElement(
-      'button',   // tag name
-      {
-        "class": "btn btn-primary btn-lg with-logout-icon",
-          on: {
-            click:(e)=>{
-              this.logMeOut()
-            }
-          }
-      },
-      [
-        createElement('img',
-          {
-            attrs: {
-              src: "./img/logout2.png",
-              alt: "logout icon",
-              height: "25"
-            }
-          }
-        ),
-        this.$slots.default // array of children
-      ]
-    )
-  },
-  created(){
-    this.initFullClass();
-  },
-  methods:{
-    ...mapMutations([
-      "changeMainLogPanel",
-      "changeLoaderGif",
-      "changeNavpanel"
-    ]),
-    ...mapActions([
-      'initFullClass'
-    ]),
-    logMeOut(){
-      this.$router.push({name: "LoggedOut"})
-      this.changeNavpanel();
-      this.changeLoaderGif();
-      setTimeout(()=>{
-
-        this.changeLoaderGif();
-      },600)
+  methods: {
+    bbb(){
+      this.showNavpanel = false;
     }
   }
-});
+};
 </script>
 
 
@@ -165,12 +119,15 @@ header.main-header {
     padding: 20px 0 25px;
     font-size: 11px;
 }
+
 header, .logo, nav {
     display: inline-block;
 }
+
 header > header {
     width: 50%;
 }
+
 header .logo img {
     border-radius: 6px;
     height: 120px;
@@ -183,10 +140,12 @@ header .logo_info{
 header span {
     margin-right: 30px;
 }
+
 nav {
     width: 47%;
     text-align: right;
 }
+
 nav button.btn{
     background-color: rgba(0, 162, 255, 0.822);
     margin-right: 10px;
@@ -194,12 +153,15 @@ nav button.btn{
     font-size: 16px;
     padding: 10px 20px;
 }
+
 nav button.btn.with-logout-icon{
     padding-left: 15px;
 }
+
 nav button.btn.active{
     background-color: rgba(15, 88, 223, 0.55);
   }
+
 button{
     border: none !important
 }
@@ -214,20 +176,26 @@ button{
 .loader img{
     width: 100%;
 }
+
+
 @media (max-width: 768px){
   header{
     width: 55%;
   }
+
   header .logo img{
     height: 100px;
   }
+
   header .logo_info{
     display: inline-block;
     margin-left: 20px;
   }
+
   nav{
     width: 44%;
   }
+
   nav button.btn{
     display: inline-block;
     font-size: 11px;

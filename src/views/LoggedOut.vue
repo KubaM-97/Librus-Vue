@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div class="mainLogPanel" v-show="showMainLogPanel">
+    <div class="mainLogPanel">
 
       <div class="form-group">
 
@@ -31,7 +31,7 @@
 
 
         <log-in-button>
-            <button @click="logMeIn()" slot="logIn">
+            <button name="logMeIn" @click="logMeIn()" slot="logIn">
                 Zaloguj się
             </button>
         </log-in-button>
@@ -56,6 +56,11 @@ export default {
   name: "LoggedOut",
   components: {'log-in-button': LogInButton},
   props:["showNavpanel", "showLoaderGif", "showMainLogPanel"],
+  beforeCreate(){
+    // this.showNavpanel = false;
+    // this.$emit("update: showNavpanel", false);
+    this.$store.state.showNavpanel = false;
+  },
   methods: {
 
         ...mapMutations([
@@ -76,7 +81,7 @@ export default {
           //if inserted login and password are correct
           if ((userLogin === "Login1") && (userPassword === "Hasło1")) {
 
-            this.changeMainLogPanel();
+            // this.changeMainLogPanel();
             this.changeLoaderGif();
 
             setTimeout(()=>{
@@ -84,7 +89,7 @@ export default {
               this.changeNavpanel();
             },1200);
 
-            this.$router.push({name: "/"})
+            this.$router.push({name: "FullClass"})
           }
 
           //if inserted login or password are incorrect
@@ -106,13 +111,17 @@ export default {
 <style scoped>
 
 .mainLogPanel {
-    margin: 200px auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+    /* margin: 200px auto; */
     background-image: url(../assets/Logo.png);
     background-position: center;
     background-size: cover;
     padding: 50px 18px 35px;
     text-align: center;
-    max-width: 440px;
+    width: 440px;
     border-left: 2px solid #00c3ff;
     border-right: 2px solid #00c3ff;
 }
@@ -130,7 +139,8 @@ export default {
 }
 
 .mainLogPanel .form-group label {
-    margin-bottom: 16px
+    margin-bottom: 16px;
+    font-size: 18px;
 }
 
 .mainLogPanel .form-group label span.mainLogPanelTooltip {
@@ -142,7 +152,8 @@ export default {
     height: 36px;
     width: 95%;
     max-width: 360px;
-    color: black;
+    text-align: left;
+    padding-left: 15px;
 }
 
 .mainLogPanel .form-group button {

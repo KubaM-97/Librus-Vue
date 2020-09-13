@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import Router from 'vue-router'
+// import Start from '../views/Start.vue'
 import FullClass from '../views/FullClass.vue'
 import Student from '../views/Student.vue'
 import EditStudentData from '../views/EditStudentData.vue'
@@ -49,7 +50,8 @@ export default new Router({
       name: 'AddStudent',
       component: AddStudent,
       props: true
-    },{
+    },
+    {
       path: '/LoggedOut',
       name: 'LoggedOut',
       component: LoggedOut,

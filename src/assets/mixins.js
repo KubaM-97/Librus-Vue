@@ -3,7 +3,7 @@ export default {
   methods:
   {
       //colors grades
-      gradeWeightColor: function(oneStudentGrades, oneStudentsWeights) {
+      gradeWeightColor(oneStudentGrades, oneStudentsWeights) {
 
           //adds new classes to divs with grades, what causes coloring them on green, yellow or red
           let content = "";
@@ -22,8 +22,8 @@ export default {
       },
 
       //show tooltip after hovering on every grade
-      showTooltip: function(RootElement, SingleStudent, StudentsLength = "1") {
-
+      showTooltip(RootElement, SingleStudent, StudentsLength = "1") {
+        // alert(44)
 
           const gradesInDiv = RootElement.querySelectorAll(".gradeWeightColor");
 
@@ -32,13 +32,25 @@ export default {
           const descriptionSuperArray = [];
           const dateSuperArray = [];
 
+          if(StudentsLength.length == 1){ 
+            for (let j = 0; j < SingleStudent.grades.length; j++) {
+               gradesSuperArray.push(SingleStudent.grades[j]);
+               weightSuperArray.push(SingleStudent.weights[j]);
+               descriptionSuperArray.push(SingleStudent.descriptions[j]);
+               dateSuperArray.push(SingleStudent.dates[j]);
+           }
+           // console.log("To jest tablica: "+gradesSuperArray)
+           // console.log(gradesInDiv.length)
+          }
+          else{
+              for (let i = 0; i < StudentsLength.length; i++) {
 
-          for (let i = 0; i < StudentsLength.length; i++) {
-              for (let j = 0; j < SingleStudent[i].grades.length; j++) {
-                  gradesSuperArray.push(SingleStudent[i].grades[j]);
-                  weightSuperArray.push(SingleStudent[i].weights[j]);
-                  descriptionSuperArray.push(SingleStudent[i].descriptions[j]);
-                  dateSuperArray.push(SingleStudent[i].dates[j]);
+                  for (let j = 0; j < SingleStudent[i].grades.length; j++) {
+                      gradesSuperArray.push(SingleStudent[i].grades[j]);
+                      weightSuperArray.push(SingleStudent[i].weights[j]);
+                      descriptionSuperArray.push(SingleStudent[i].descriptions[j]);
+                      dateSuperArray.push(SingleStudent[i].dates[j]);
+                  }
               }
           }
 
@@ -60,7 +72,7 @@ export default {
       },
 
       //draws tooltip
-      canvas: function(arrayWithAllGrades, arrayWithAllWeights, arrayWithAllDescriptions, arrayWithAllDates, anotherGradeWeightColorDiv, i) {
+      canvas(arrayWithAllGrades, arrayWithAllWeights, arrayWithAllDescriptions, arrayWithAllDates, anotherGradeWeightColorDiv, i) {
 
           const canvas = document.createElement("CANVAS");
           anotherGradeWeightColorDiv.appendChild(canvas);
@@ -95,7 +107,7 @@ export default {
       },
 
       //returns grades' average
-      avg: function(oneStudentGradesArray, oneStudentsWeightsArray) {
+      avg(oneStudentGradesArray, oneStudentsWeightsArray) {
 
           let gradesSuperValue = 0;
           let weightSum = 0;
@@ -118,7 +130,7 @@ export default {
       },
 
       //decides if student is threated
-      threatness: function(myAVG) {
+      threatness(myAVG) {
           if (myAVG < 2) {
               return "<span class='fire'>ZAGROŻENIE</span>"
           } else {

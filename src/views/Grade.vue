@@ -2,7 +2,7 @@
 
   <div class="addStudentPanelGradesContentSingle">
 
-       <div class="container">
+       <div class="container gainedGrades">
 
           <div class="row">
 
@@ -64,7 +64,7 @@
             </div>
 
             <div class="col-1">
-                <span @click="remove()" class="remove"><em>Usuń</em></span>
+                <span @click="remove(n-1)" class="remove"><em>Usuń</em></span>
             </div>
 
           </div>
@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import {mapMutations} from "vuex"
+import { mapMutations } from "vuex"
 export default {
   name: "Grade",
   data(){
@@ -89,15 +89,15 @@ export default {
         weight: "",
         description: "",
         date: "",
-        placeInArray: this.n
+        placeInArray: this.n-1
       }
     }
   },
   watch: {
       "payload.description": {
         handler: function(){
-          const inputGradeDescription = document.querySelectorAll("input.description")[this.n].value;
-          const descriptionCount = document.querySelectorAll("span.descriptionCount")[this.n];
+          const inputGradeDescription = document.querySelectorAll("input.description")[this.n-1].value;
+          const descriptionCount = document.querySelectorAll("span.descriptionCount")[this.n-1];
           const counter = (30 - (inputGradeDescription.length));
           switch (counter) {
               case 2:
@@ -119,18 +119,30 @@ export default {
       }
   },
   props:["n", "a", "b", "gradesLength"],
+  created(){
+
+    // console.log(this.$store.state.newGrades);
+    this.$store.state.newGrades.grades[this.payload.placeInArray] = "";
+    this.$store.state.newGrades.weights[this.payload.placeInArray] = "";
+    this.$store.state.newGrades.descriptions[this.payload.placeInArray] = "";
+    this.$store.state.newGrades.dates[this.payload.placeInArray] = "";
+    // console.log(this.$store.state.newGrades);
+  },
   updated(){
     // if we've got both: grade, weight and description
-    if((this.payload.grade!=="")&&(this.payload.weight!=="")&&(this.payload.description!=="")){
+    // if((this.payload.grade!=="")&&(this.payload.weight!=="")&&(this.payload.description!=="")){
       this.payload.date = this.whatsTheDatePlease();
-      this.addNewDate();
-    }
-
+    //   this.addNewDate();
+    // }
+this.addNewDate()
   },
-  destroyed(placeInArray, StudentID){
-    this.payload.placeInArray = placeInArray;
-    this.payload.StudentID = StudentID;
-    this.removeGrade(this.payload);
+  mounted(){
+    // alert(this.n)
+  },
+  destroyed(placeInArray){
+    this.$emit("update:a", this.a+1);
+    this.$emit("update:b", false);
+      this.removeGrade(this.payload);
   },
   methods:{
 
@@ -142,8 +154,9 @@ export default {
       "removeGrade",
     ]),
 
-      remove(placeInArray, StudentID){
-        this.$destroy(placeInArray, StudentID);
+      remove(placeInArray){
+      document.querySelector(".addStudentPanelGradesContentSingle").innerHTML = "";
+        this.$destroy(placeInArray);
       },
 
     addNewGrade(){
@@ -214,6 +227,9 @@ export default {
 
 <style>
 
+div.gainedGrades{
+    margin: 0 15px;
+}
 .addStudentPanelMain select {
      line-height: 1.7em;
      font-size: 15px;
@@ -263,7 +279,7 @@ export default {
 
 .addStudentPanelGradesContentSingle {
     display: inline-block;
-    width: 90%;
+    width: 100%;
     float: left;
     margin-bottom: 20px;
 }
@@ -281,20 +297,17 @@ export default {
 }
 
 .addStudentPanelGradesContentSingleDescription input{
-    width: 100%;
-    height: 25px;
+    /* width: 100%; */
+    /* height: 25px; */
 }
 
 .addStudentPanelGradesContentSingleDescription span.descriptionCount {
     font-size: 9px;
 }
 
-.row div[class^="col"]{
-    display: grid;
-    align-content: flex-start;
-}
-.col-md-7 *{
-  vertical-align: bottom
+.addStudentPanelGradesContentSingle .row>div{
+  align-content: flex-end;
+  display: grid;
 }
 
 span.remove{

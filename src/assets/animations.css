@@ -45,17 +45,25 @@ span.required{
 
 
 .EditStudentDataPanel-enter-active{
-  animation: edit 2s linear;
+  animation: edit 1.5s linear;
+}
+.EditStudentDataPanel-leave-active{
+  animation: edit 1.5s linear;
+  animation-direction: reverse;
 }
 .EditStudentGradesPanel-enter-active{
-  animation: edit 2s linear;
+  animation: edit 1.5s linear;
+}
+.EditStudentGradesPanel-leave-active{
+  animation: edit 1.5s linear;
+  animation-direction: reverse;
 }
 @keyframes edit{
-  0%{width: 0px;}
-  100%{width: 90%;}
+  0%{width: 0px; font-size: 0}
+  100%{width: 90%; font-size: 100%}
 }
 
-.showGreenMark-enter-active{
+.showGreenMark-leave-active{
   animation: showCheckMark 1s linear;
 }
 

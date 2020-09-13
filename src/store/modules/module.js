@@ -1,3 +1,11 @@
+import Vue from 'vue'
+
+
+//Vuex
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios, axios)
+
 const state = {
   students: {},
   showNavpanel: true,
@@ -29,6 +37,7 @@ const mutations = {
   },
 
   setFullClass(state, students){
+    console.log(state)
     state.students = students
   },
 
@@ -119,14 +128,14 @@ const actions = {
     axios.get("static/students.json")
     .then((response)=>{
       console.log(response.data.students);
-      commit("setFullClass", response.data.students)
+      commit("setFullClass", response.data.students);
     })
   }
 };
 
-export default ({
+export default {
   state,
   getters,
+  actions,
   mutations,
-  actions
-})
+}
