@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="EditStudentGrades" ref="EditStudentGrades">
-    Edycja ocen:
+    <span id="EditStudentGradesTitle">Edycja ocen:</span>
     <div class="container">
       <div class="row">
         <div class="col-11">
@@ -57,7 +57,7 @@
 
        <div class="col-11" v-for="(n,index) in gradesLength" :key="index">
 
-         <grade-component :n.sync="n+ourStudent.grades.length" :gradesLength.sync="gradesLength" :a.sync="a"></grade-component>
+         <grade-component  :gradesLength.sync="gradesLength" :a.sync="a"></grade-component>
 
        </div>
 
@@ -196,10 +196,10 @@ export default {
      })
   },
   destroyed(placeInArray){
-    this.$store.state.newGrades.grades = "";
-    this.$store.state.newGrades.weights = "";
-    this.$store.state.newGrades.descriptions = "";
-    this.$store.state.newGrades.dates = "";
+    this.$store.state.newGrades.grades = [];
+    this.$store.state.newGrades.weights = [];
+    this.$store.state.newGrades.descriptions = [];
+    this.$store.state.newGrades.dates = [];
   },
   updated(){
     this.showTooltip(this.$refs.EditStudentGrades, this.$store.state.newGrades);
@@ -271,12 +271,13 @@ export default {
     },
 
     //adds a new grade to the new student
-    moreGrades: function() {
+    moreGrades() {
       this.gradesLength++;
+      // alert(this.$route.params.grades.length)
     },
 
     //returns current Date in an Array
-    whatsTheDatePlease: function() {
+    whatsTheDatePlease() {
         const today = new Date();
         const currentYear = today.getFullYear();
         let currentMonth = today.getMonth();

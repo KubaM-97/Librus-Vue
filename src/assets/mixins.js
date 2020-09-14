@@ -26,13 +26,12 @@ export default {
         // alert(44)
 
           const gradesInDiv = RootElement.querySelectorAll(".gradeWeightColor");
-
           const gradesSuperArray = [];
           const weightSuperArray = [];
           const descriptionSuperArray = [];
           const dateSuperArray = [];
 
-          if(StudentsLength.length == 1){ 
+          if(StudentsLength.length == 1){
             for (let j = 0; j < SingleStudent.grades.length; j++) {
                gradesSuperArray.push(SingleStudent.grades[j]);
                weightSuperArray.push(SingleStudent.weights[j]);
@@ -44,16 +43,17 @@ export default {
           }
           else{
               for (let i = 0; i < StudentsLength.length; i++) {
-
-                  for (let j = 0; j < SingleStudent[i].grades.length; j++) {
+                for (let j = 0; j < SingleStudent[i].grades.length; j++) {
+                    if((SingleStudent[i].grades[j]!=="") && (SingleStudent[i].weights[j]!=="") && (SingleStudent[i].descriptions[j]!=="") && (SingleStudent[i].dates[j]!=="")){
                       gradesSuperArray.push(SingleStudent[i].grades[j]);
                       weightSuperArray.push(SingleStudent[i].weights[j]);
                       descriptionSuperArray.push(SingleStudent[i].descriptions[j]);
                       dateSuperArray.push(SingleStudent[i].dates[j]);
                   }
+                }
+
               }
           }
-
           for (let i = 0; i < gradesInDiv.length; i++) {
 
               //draws tooltip after hovering

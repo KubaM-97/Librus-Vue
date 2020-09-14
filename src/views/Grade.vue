@@ -124,7 +124,7 @@ export default {
     // console.log(this.$store.state.newGrades);
     this.$store.state.newGrades.grades[this.payload.placeInArray] = "";
     this.$store.state.newGrades.weights[this.payload.placeInArray] = "";
-    this.$store.state.newGrades.descriptions[this.payload.placeInArray] = "";
+    this.$store.state.newGrades.descriptions[this.payload.placeInArray] = "BRAK OPISU";
     this.$store.state.newGrades.dates[this.payload.placeInArray] = "";
     // console.log(this.$store.state.newGrades);
   },
@@ -134,15 +134,14 @@ export default {
       this.payload.date = this.whatsTheDatePlease();
     //   this.addNewDate();
     // }
-this.addNewDate()
+    this.addNewDate()
   },
   mounted(){
     // alert(this.n)
   },
   destroyed(placeInArray){
     this.$emit("update:a", this.a+1);
-    this.$emit("update:b", false);
-      this.removeGrade(this.payload);
+      this.removeGrade(this.payload.placeInArray);
   },
   methods:{
 
@@ -155,7 +154,8 @@ this.addNewDate()
     ]),
 
       remove(placeInArray){
-      document.querySelector(".addStudentPanelGradesContentSingle").innerHTML = "";
+      document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.payload.placeInArray].innerHTML = "";
+      document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.payload.placeInArray].style.marginBottom = "0px";
         this.$destroy(placeInArray);
       },
 

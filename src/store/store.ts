@@ -134,26 +134,28 @@ export const store = new Vuex.Store({
     removeGrade(state, placeInArray){
       // alert(state.newGrades.grades)
       if(state.newGrades.grades != ""){
-        state.newGrades.grades.splice(placeInArray,1);
+        state.newGrades.grades[placeInArray]="";
+        // state.newGrades.grades.splice(placeInArray,1);
       }
       if(state.newGrades.weights != ""){
-        state.newGrades.weights.splice(placeInArray,1);
+        state.newGrades.weights[placeInArray]="";
+        // state.newGrades.weights.splice(placeInArray,1);
       }
       if(state.newGrades.descriptions != ""){
-        state.newGrades.descriptions.splice(placeInArray,1);
+        state.newGrades.descriptions[placeInArray]="";
+        // state.newGrades.descriptions.splice(placeInArray,1);
       }
       if(state.newGrades.dates != ""){
-        state.newGrades.dates.splice(placeInArray,1);
+        state.newGrades.dates[placeInArray]="";
+        // state.newGrades.dates.splice(placeInArray,1);
       }
     },
 
     addNewStudentToClass(state, payload){
-      const allStudents = state.students;
-      if (!(_.isEmpty(allStudents))){
+        const allStudents = state.students;
         allStudents[allStudents.length] = payload
         payload.id = allStudents.length;
         state.students = allStudents;
-      }
     }
   },
   actions: {
