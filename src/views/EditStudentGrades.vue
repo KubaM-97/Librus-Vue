@@ -4,60 +4,62 @@
     <div class="container">
       <div class="row">
         <div class="col-11">
-          <div v-for="k in ourStudent.grades.length" :key="k">
-            <div class="container gainedGrades">
-              <div class="row">
+          <div v-for="k in $route.params.grades.length" :key="k">
+            <div class="addStudentPanelGradesContentSingle">
+              <div class="container gainedGrades">
+                <div class="row">
 
-                <div class="col-3">
-                    <div class="addStudentPanelGradesContentSingleGrade">
-                      <label for="grades">Ocena:</label>
-                      <div class="select">
-                        <select v-model.number="ourStudent.grades[k-1]" @change="changeGrade(k-1, ourStudent.grades[k-1])">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                        </select>
-                      </div>
-                  </div>
-                </div>
-
-                <div class="col-3">
-                    <div class="addStudentPanelGradesContentSingleWeight">
-                      <label for="weight">Waga oceny:</label>
-                      <div class="select">
-                          <select v-model.number="ourStudent.weights[k-1]" @change="changeWeight(k-1, ourStudent.weights[k-1])">
+                  <div class="col-3">
+                      <div class="addStudentPanelGradesContentSingleGrade">
+                        <label for="grades">Ocena:</label>
+                        <div class="select">
+                          <select v-model.number="$route.params.grades[k-1]" @change="changeGrade(k-1, $route.params.grades[k-1])">
                               <option value="1">1</option>
                               <option value="2">2</option>
                               <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                              <option value="6">6</option>
                           </select>
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="col-3">
+                      <div class="addStudentPanelGradesContentSingleWeight">
+                        <label for="weight">Waga oceny:</label>
+                        <div class="select">
+                            <select v-model.number="$route.params.weights[k-1]" @change="changeWeight(k-1, $route.params.weights[k-1])">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="col-5">
+                      <div class="addStudentPanelGradesContentSingleDescription">
+                          <span class="descriptionCount">Pozostało: {{characters-$route.params.descriptions[k-1].length}} znaków.</span>
+                       <label>Opis oceny:
+                           <input type="text" v-model="$route.params.descriptions[k-1]" @change="changeDescription(k-1, $route.params.descriptions[k-1])" class="description" maxlength="30">
+                       </label>
                       </div>
                   </div>
-                </div>
 
-                <div class="col-5">
-                    <div class="addStudentPanelGradesContentSingleDescription">
-                        <span class="descriptionCount">Pozostało: {{characters-ourStudent.descriptions[k-1].length}} znaków.</span>
-                     <label>Opis oceny:
-                         <input type="text" v-model="ourStudent.descriptions[k-1]" @change="changeDescriptions(k-1, ourStudent.descriptions[k-1])" class="description" maxlength="30">
-                     </label>
-                    </div>
-                </div>
+                  <div class="col-1">
+                      <span @click="remove(k-1)" class="remove"><em>Usuń</em></span>
+                  </div>
 
-                <div class="col-1">
-                    <span @click="remove(k-1)" class="remove"><em>Usuń</em></span>
                 </div>
-
               </div>
             </div>
           </div>
        </div>
 
-       <div class="col-11" v-for="(n,index) in gradesLength" :key="index">
-
-         <grade-component  :gradesLength.sync="gradesLength" :a.sync="a"></grade-component>
+       <div class="col-11" v-for="n in gradesLength" :key="n">
+         {{n  }}
+         <grade-component :n="n+$store.state.newGrades.grades.length" :gradesLength="gradesLength" :a.sync="a"></grade-component>
 
        </div>
 
@@ -73,23 +75,23 @@
 
                     <tr>
                         <td>
-                          <span>{{this.$route.params.lastName.toUpperCase()}} {{this.$route.params.firstName}}</span>
+                          <span>{{$route.params.lastName.toUpperCase()}} {{$route.params.firstName}}</span>
                         </td>
 
                         <td ref="allnewGrades">
-                            <span v-html="gradeWeightColor(ourStudent.grades, ourStudent.weights)">
+                            <span v-html="gradeWeightColor($route.params.grades, $route.params.weights)">
 
                             </span>
                         </td>
 
                         <td>
                             <span>
-                              {{avg(ourStudent.grades, ourStudent.weights)}}
+                              {{avg($route.params.grades, $route.params.weights)}}
                             </span>
                         </td>
 
                         <td>
-                          <span v-html="threatness(avg(ourStudent.grades, ourStudent.weights))">
+                          <span v-html="threatness(avg($route.params.grades, $route.params.weights))">
 
                           </span>
                         </td>
@@ -151,58 +153,50 @@ export default {
   data(){
     return{
       ourStudent:{
-        grades: [...this.$route.params.grades],
-        weights: [...this.$route.params.weights],
-        descriptions: [...this.$route.params.descriptions],
-        dates: [...this.$route.params.dates],
+        grades: [].concat(this.$route.params.grades, this.$store.state.newGrades.grades),
+        weights: [].concat(this.$route.params.weights, this.$store.state.newGrades.weights),
+        descriptions: [].concat(this.$route.params.descriptions, this.$store.state.newGrades.descriptions),
+        dates: [].concat(this.$route.params.dates, this.$store.state.newGrades.dates),
         itemsToChange: "",
-        placeInArray: ""
+        placeInArray: "",
+        value: ""
       },
       characters: 30,
       gradesLength: 0,
       a: 1,
-      b: 2,
-      payload:{
-        placeInArray: "",
-        newValue: "",
-        date: ""
-      },
+      // payload:{
+      //   placeInArray: "",
+      //   newValue: "",
+      //   date: ""
+      // },
         possibleSave: true
     }
   },
-  beforeMount(){
-    //...mapState
-    this.$store.state.newGrades.grades = this.ourStudent.grades;
-    this.$store.state.newGrades.weights = this.ourStudent.weights;
-    this.$store.state.newGrades.descriptions = this.ourStudent.descriptions;
-    this.$store.state.newGrades.dates = this.ourStudent.dates;
-    console.log(this.$store.state.newGrades);
-    // this.b = this.ourStudent.grades.length;
-  },
-  mounted(){
-    this.b = this.ourStudent.grades.length;
-  },
-  beforeUpdate(){
-
-    // alert(this.$route.params.grades.length)
-    // for(let i=0; i<.length; i++)
-    // if(this.$store.state.newGrades.descriptions[this.n]==""){
-    //   this.$store.state.newGrades.descriptions[this.n]=="BRAK OPISU"
-    // }
-  },
   beforeRouteEnter (to, from, next) {
      next(vm => {
-       vm.showTooltip(vm.$refs.EditStudentGrades, vm.$store.state.newGrades);
+       vm.showTooltip(vm.$refs.EditStudentGrades, vm.ourStudent);
      })
   },
-  destroyed(placeInArray){
+  beforeMount(){
+    // alert(this.ourStudent.grades)
+    // this.$store.state.newGrades.grades = this.$route.params.grades;
+    // this.$store.state.newGrades.weights = this.$route.params.weights;
+    // this.$store.state.newGrades.descriptions = this.$route.params.descriptions;
+    // this.$store.state.newGrades.dates = this.$route.params.dates;
+  },
+  mounted(){
+    // alert(this.ourStudent.grades)
+  },
+  destroyed(){
     this.$store.state.newGrades.grades = [];
     this.$store.state.newGrades.weights = [];
     this.$store.state.newGrades.descriptions = [];
     this.$store.state.newGrades.dates = [];
   },
   updated(){
-    this.showTooltip(this.$refs.EditStudentGrades, this.$store.state.newGrades);
+    this.showTooltip(this.$refs.EditStudentGrades, this.ourStudent);
+    // alert(this.ourStudent.grades)
+    // this.ourStudent.grades = [].concat(this.$route.params.grades, this.$store.state.newGrades.grades);
   },
   props: ["showDataEditionRouterView"],
   mixins: [GradesService],
@@ -218,10 +212,17 @@ export default {
     ]),
 
     remove(placeInArray){
+      this.$route.params.grades.splice(placeInArray,1);
+      this.$route.params.weights.splice(placeInArray,1);
+      this.$route.params.descriptions.splice(placeInArray,1);
+      this.$route.params.dates.splice(placeInArray,1);
+      this.$forceUpdate();
+      console.log(this.$route.params.grades)
+      console.log(this.$route.params.grades.length)
       // this.$destroy(placeInArray);
-      alert(this.ourStudent.grades.length)
-      this.removeGrade(placeInArray);
-      alert(this.ourStudent.grades.length)
+      // alert(this.ourStudent.grades.length)
+      // this.removeGrade(placeInArray);
+      // alert(this.ourStudent.grades.length)
       // this.ourStudent.grades.length--;
         // this.$store.state.newGrades.grades = "";
         // this.$store.state.newGrades.weights = "";
@@ -235,45 +236,34 @@ export default {
     //   this.editStudent(this.ourStudent)
     // },
 
-    changeGrade(placeInArray, newVal){
+    changeGrade(placeInArray, newVal, what){
 
-      // this.ourStudent.dates[placeInArray] = this.whatsTheDatePlease();
-      this.payload.placeInArray = placeInArray;
-      this.payload.newVal = newVal;
-      this.payload.date = this.whatsTheDatePlease();
-
-      this.editStudentGrade(this.payload);
-      // alert(this.ourStudent.grades.length)
-      this.editStudentDate(this.payload);
-
+      this.ourStudent.grades[placeInArray] = newVal;
+      this.$forceUpdate()
 
       this.possibleSave = true;
+
     },
-    changeWeight(placeInArray, StudentID, newVal){
-      this.payload.placeInArray = placeInArray;
-      this.payload.newVal = newVal;
-      this.payload.date = this.whatsTheDatePlease();
-      this.editStudentGrade(this.payload);
-      this.editStudentDate(this.payload);
+    changeWeight(placeInArray,newVal, what){
 
+      this.ourStudent.weights[placeInArray] = newVal;
+      this.$forceUpdate()
 
       this.possibleSave = true;
+
     },
-    changeDescription(placeInArray, StudentID, newVal){
-      this.payload.placeInArray = placeInArray;
-      this.payload.newVal = newVal;
-      this.payload.date = this.whatsTheDatePlease();
-      this.editStudentGrade(this.payload);
-      this.editStudentDate(this.payload);
+    changeDescription(placeInArray,newVal, what){
 
+      this.ourStudent.descriptions[placeInArray] = newVal;
+      this.$forceUpdate()
 
       this.possibleSave = true;
+
     },
 
     //adds a new grade to the new student
     moreGrades() {
       this.gradesLength++;
-      // alert(this.$route.params.grades.length)
     },
 
     //returns current Date in an Array
@@ -405,7 +395,7 @@ input {
     display: block;
     margin: auto;
     margin-top: 10px;
-    width: 65%;
+    width: 90%;
     height: 23px;
     font-size: 14px;
     text-align: center;

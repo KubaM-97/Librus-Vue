@@ -124,7 +124,7 @@ export default {
     // console.log(this.$store.state.newGrades);
     this.$store.state.newGrades.grades[this.payload.placeInArray] = "";
     this.$store.state.newGrades.weights[this.payload.placeInArray] = "";
-    this.$store.state.newGrades.descriptions[this.payload.placeInArray] = "BRAK OPISU";
+    this.$store.state.newGrades.descriptions[this.payload.placeInArray] = "";
     this.$store.state.newGrades.dates[this.payload.placeInArray] = "";
     // console.log(this.$store.state.newGrades);
   },
@@ -141,7 +141,7 @@ export default {
   },
   destroyed(placeInArray){
     this.$emit("update:a", this.a+1);
-      this.removeGrade(this.payload.placeInArray);
+    this.removeGrade(this.payload.placeInArray);
   },
   methods:{
 
@@ -297,7 +297,7 @@ div.gainedGrades{
 }
 
 .addStudentPanelGradesContentSingleDescription input{
-    /* width: 100%; */
+    width: 90%;
     /* height: 25px; */
 }
 
@@ -347,7 +347,7 @@ input {
     display: block;
     margin: auto;
     margin-top: 10px;
-    width: 65%;
+    width: 90%;
     height: 23px;
     font-size: 14px;
     text-align: center;

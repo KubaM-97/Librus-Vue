@@ -281,7 +281,7 @@ export default {
       }
   },
   mounted(){
-    this.b[0] = true;
+    // this.b[0] = true;
     // console.log(this.b)
   },
   components: {

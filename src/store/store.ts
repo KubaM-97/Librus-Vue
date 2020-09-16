@@ -58,11 +58,11 @@ export const store = new Vuex.Store({
       //       alert("TTT")
       // }
 
-
+      // alert(payload.placeInArray)
       //places new grade in appropriate place according to the provided index
       //e.g    for second component Grade.vue:   newGrades.grades[1] = 5        newGrades.grades=[3,5]
       state.newGrades.grades[payload.placeInArray]=payload.grade;
-
+      // alert(state.newGrades.grades)
     },
     addNewWeightToArray(state, payload){
 
@@ -109,12 +109,12 @@ export const store = new Vuex.Store({
     },
 
     editStudent(state, payload){
-      console.log(payload)
+      // console.log(payload)
       const ww = payload.itemsToChange;
       // alert(eval(payload.itemsToChange))
 
         state.newGrades.ww = 336;
-        console.log(state.newGrades)
+        // console.log(state.newGrades)
     },
 
     editStudentGrade(state, payload){
@@ -132,7 +132,7 @@ export const store = new Vuex.Store({
     },
 
     removeGrade(state, placeInArray){
-      // alert(state.newGrades.grades)
+      // console.log(state.newGrades.grades)
       if(state.newGrades.grades != ""){
         state.newGrades.grades[placeInArray]="";
         // state.newGrades.grades.splice(placeInArray,1);
