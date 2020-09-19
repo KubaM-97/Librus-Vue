@@ -24,7 +24,6 @@ export default {
       //show tooltip after hovering on every grade
       showTooltip(RootElement, SingleStudent, StudentsLength = "1") {
         // alert(44)
-
           const gradesInDiv = RootElement.querySelectorAll(".gradeWeightColor");
           const gradesSuperArray = [];
           const weightSuperArray = [];

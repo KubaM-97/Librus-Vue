@@ -121,7 +121,7 @@ export default {
       return `${this.$route.params.lastName.toUpperCase()} ${this.$route.params.firstName}`
     }
   },
-  updated(){
+  mounted(){
      this.showTooltip(this.$refs.editStudentPanel, this.$route.params);
   },
   created(){
@@ -176,8 +176,7 @@ export default {
     },
 
     //show tooltip after hovering on every grade
-    showTooltip: function() {
-
+    showTooltip() {
 
         const gradeInDiv = this.$refs.editStudentPanel.querySelectorAll(".gradeWeightColor");
 
@@ -185,14 +184,14 @@ export default {
         const weightSuperArray = [];
         const descriptionSuperArray = [];
         const dateSuperArray = [];
-
+// alert(10)
         for (let j = 0; j < gradeInDiv.length; j++) {
             gradesSuperArray.push(this.$route.params.grades[j]);
             weightSuperArray.push(this.$route.params.weights[j]);
             descriptionSuperArray.push(this.$route.params.descriptions[j]);
             dateSuperArray.push(this.$route.params.dates[j]);
         }
-
+        // alert(11)
         for (let i = 0; i < gradeInDiv.length; i++) {
 
             //draws tooltip after hovering

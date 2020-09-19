@@ -58,10 +58,12 @@
 
 
 <script>
+
 import Vue from 'vue'
 import { mapState } from "vuex"
 import { mapMutations } from "vuex"
 import { mapActions } from 'vuex'
+
 //Bootstrap
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 Vue.use(BootstrapVue)
@@ -87,17 +89,10 @@ export default {
       "showLoaderGif",
       "showMainLogPanel"
     ])
-    // showNavpanel(){
-    //   return this.$store.getters.visibleNavpanel
-    // },
-    // showLoaderGif(){
-    //   return this.$store.getters.visibleLoaderGif
-    // },
-    // showMainLogPanel(){
-    //   return this.$store.getters.visibleMainLogPanel
-    // }
   },
 };
+
+
 // Log-Out-Button Component
 Vue.component('log-out-button', {
   render: function (createElement) {
@@ -138,13 +133,15 @@ Vue.component('log-out-button', {
       'initFullClass'
     ]),
     logMeOut(){
-      this.$router.push({name: "LoggedOut"})
+      this.$router.push({name: "LoggedOut"});
+
       this.changeNavpanel();
       this.changeLoaderGif();
-      setTimeout(()=>{
 
+      setTimeout(()=>{
         this.changeLoaderGif();
-      },600)
+      },600);
+
     }
   }
 });

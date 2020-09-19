@@ -118,15 +118,14 @@ export default {
         deep:true
       }
   },
-  props:["n", "a", "b", "gradesLength"],
+  props:["n", "a", "gradesLength", "possibleSave"],
   created(){
 
-    // console.log(this.$store.state.newGrades);
     this.$store.state.newGrades.grades[this.payload.placeInArray] = "";
     this.$store.state.newGrades.weights[this.payload.placeInArray] = "";
     this.$store.state.newGrades.descriptions[this.payload.placeInArray] = "";
     this.$store.state.newGrades.dates[this.payload.placeInArray] = "";
-    // console.log(this.$store.state.newGrades);
+
   },
   updated(){
     // if we've got both: grade, weight and description
@@ -141,6 +140,7 @@ export default {
   },
   destroyed(placeInArray){
     this.$emit("update:a", this.a+1);
+    this.$emit("update:possibleSave", true);
     this.removeGrade(this.payload.placeInArray);
   },
   methods:{
@@ -162,10 +162,12 @@ export default {
     addNewGrade(){
         this.addNewGradeToArray(this.payload);
         this.$emit("update:a", this.a+1);
+        this.$emit("update:possibleSave", true);
     },
     addNewWeight(){
         this.addNewWeightToArray(this.payload);
         this.$emit("update:a", this.a+1);
+        this.$emit("update:possibleSave", true);
     },
     addNewDescription(){
         this.addNewDescriptionToArray(this.payload);
@@ -228,7 +230,7 @@ export default {
 <style>
 
 div.gainedGrades{
-    margin: 0 15px;
+    margin: 15px;
 }
 .addStudentPanelMain select {
      line-height: 1.7em;

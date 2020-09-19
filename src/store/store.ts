@@ -90,10 +90,10 @@ export const store = new Vuex.Store({
 
       state.newGrades.descriptions[payload.placeInArray] = payload.description;
 
-      //alternative description
-      if(state.newGrades.descriptions[payload.placeInArray] == ""){
-        state.newGrades.descriptions[payload.placeInArray] = "BRAK OPISU"
-      }
+      // //alternative description
+      // if(state.newGrades.descriptions[payload.placeInArray] == ""){
+      //   state.newGrades.descriptions[payload.placeInArray] = "BRAK OPISU"
+      // }
     },
     addNewDateToArray(state, payload){
 
