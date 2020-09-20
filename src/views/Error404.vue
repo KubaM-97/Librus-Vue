@@ -16,8 +16,7 @@ export default {
 div#Error404{
   position: absolute;
   left: 40%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   margin: 100px 0
 }
 img{

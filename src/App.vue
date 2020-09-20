@@ -45,7 +45,6 @@
           </div>
       </transition>
 
-      <log-out v-if="showMainLogPanel" :showNavpanel.sync="showNavpanel" :showLoaderGif.sync="showLoaderGif" :showMainLogPanel.sync="showMainLogPanel"></log-out>
 
       <transition name="router" mode="out-in">
         <router-view/>
@@ -60,9 +59,7 @@
 <script>
 
 import Vue from 'vue'
-import { mapState } from "vuex"
-import { mapMutations } from "vuex"
-import { mapActions } from 'vuex'
+import { mapState, mapMutations, mapActions } from "vuex"
 
 //Bootstrap
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
@@ -70,12 +67,12 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 //CSS
 require("./assets/style.css");
 require("./assets/animations.css");
-import LoggedOut from "./views/LoggedOut.vue"
+
 export default {
-  components: {"log-out": LoggedOut},
   data(){
     return{
       sitename: "Dziennik elektroniczny",
@@ -86,10 +83,17 @@ export default {
   computed: {
     ...mapState([
       "showNavpanel",
-      "showLoaderGif",
-      "showMainLogPanel"
+      "showLoaderGif"
     ])
   },
+  created(){
+    this.initFullClass();
+  },
+  methods:{
+    ...mapActions([
+      'initFullClass'
+    ])
+  }
 };
 
 
@@ -120,17 +124,10 @@ Vue.component('log-out-button', {
       ]
     )
   },
-  created(){
-    this.initFullClass();
-  },
   methods:{
     ...mapMutations([
-      "changeMainLogPanel",
-      "changeLoaderGif",
-      "changeNavpanel"
-    ]),
-    ...mapActions([
-      'initFullClass'
+      "changeNavpanel",
+      "changeLoaderGif"
     ]),
     logMeOut(){
       this.$router.push({name: "LoggedOut"});

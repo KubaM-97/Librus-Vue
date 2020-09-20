@@ -10,11 +10,11 @@
 
                 <div class="addStudentPanelGradesContentSingleGrade">
 
-                  <label for="grades">Ocena:</label>
+                  <label for="marks">Ocena:</label>
 
                   <div class="select">
 
-                    <select v-model.number="payload.grade" @change="addNewGrade" id="grades">
+                    <select v-model.number="payload.mark" @change="addNewItem('mark')" id="marks">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -36,7 +36,7 @@
                   <label for="weight">Waga oceny:</label>
 
                   <div class="select">
-                      <select v-model.number="payload.weight" @change="addNewWeight" id="weight">
+                      <select v-model.number="payload.weight" @change="addNewItem('weight')" id="weight">
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -55,7 +55,7 @@
 
                  <label class="description">Opis oceny:
 
-                     <input type="text" v-model="payload.description" @change="addNewDescription" class="description" maxlength="30">
+                     <input type="text" v-model="payload.description" @change="addNewItem('description')" class="description" maxlength="30">
 
                  </label>
 
@@ -78,24 +78,26 @@
 </template>
 
 <script>
+import GradesService from "../assets/mixins.js"
 import { mapMutations } from "vuex"
+
 export default {
   name: "Grade",
   data(){
     return{
       characters: 30,
       payload: {
-        grade: "",
+        mark: "",
         weight: "",
         description: "",
         date: "",
-        placeInArray: this.n-1
+        index: this.n-1
       }
     }
   },
   watch: {
       "payload.description": {
-        handler: function(){
+        handler(){
           const inputGradeDescription = document.querySelectorAll("input.description")[this.n-1].value;
           const descriptionCount = document.querySelectorAll("span.descriptionCount")[this.n-1];
           const counter = (30 - (inputGradeDescription.length));
@@ -118,111 +120,58 @@ export default {
         deep:true
       }
   },
-  props:["n", "a", "gradesLength", "possibleSave"],
+  props:["n", "a", "aaa", "possibleSave"],
   created(){
 
-    this.$store.state.newGrades.grades[this.payload.placeInArray] = "";
-    this.$store.state.newGrades.weights[this.payload.placeInArray] = "";
-    this.$store.state.newGrades.descriptions[this.payload.placeInArray] = "";
-    this.$store.state.newGrades.dates[this.payload.placeInArray] = "";
+    this.marks[this.payload.index] = "";
+    this.weights[this.payload.index] = "";
+    this.descriptions[this.payload.index] = "";
+    this.dates[this.payload.index] = "";
 
   },
   updated(){
-    // if we've got both: grade, weight and description
-    // if((this.payload.grade!=="")&&(this.payload.weight!=="")&&(this.payload.description!=="")){
       this.payload.date = this.whatsTheDatePlease();
-    //   this.addNewDate();
-    // }
-    this.addNewDate()
+      this.addNewItem("date")
   },
-  mounted(){
-    // alert(this.n)
+  beforeDestroy(){
+    document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.payload.index].innerHTML = "";
+    document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.payload.index].style.marginBottom = "0px";
   },
-  destroyed(placeInArray){
+  destroyed(index){
     this.$emit("update:a", this.a+1);
     this.$emit("update:possibleSave", true);
-    this.removeGrade(this.payload.placeInArray);
   },
+  mixins: [GradesService],
   methods:{
 
-    ...mapMutations([
-      "addNewGradeToArray",
-      "addNewWeightToArray",
-      "addNewDescriptionToArray",
-      "addNewDateToArray",
-      "removeGrade",
-    ]),
+    addNewItem(whatToAdd){
 
-      remove(placeInArray){
-      document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.payload.placeInArray].innerHTML = "";
-      document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.payload.placeInArray].style.marginBottom = "0px";
-        this.$destroy(placeInArray);
-      },
+        //places new mark, weight, description or date in appropriate place according to the provided index inside newGrades Array in Vuex
+        //e.g    for second component Grade.vue:   newGrades.grades[1] = 5                           newGrades.grades=[3,5]
+        //e.g    for second component Grade.vue:   newGrades.weights[1] = 5                          newGrades.weights=[3,5]
+        //e.g    for second component Grade.vue:   newGrades.descriptions[1] = "Praca domowa"        newGrades.descriptions=["Kartkówka", "Praca domowa"]
+        //e.g    for second component Grade.vue:   newGrades.dates[1] = "23.08.2020 14:00:00"        newGrades.dates=["21.08.2020 11:30:00", "23.08.2020 14:00:00"]
 
-    addNewGrade(){
-        this.addNewGradeToArray(this.payload);
+        //       this.marks[1] = this.payload[mark]
+        //       this.weights[1] = this.payload[weight]
+        //       this.descriptions[1] = this.payload[description]
+        //       this.dates[1] = this.payload[date]
+        this[whatToAdd+"s"][this.payload.index]=this.payload[whatToAdd];
+
         this.$emit("update:a", this.a+1);
+        this.$on("aaa()")
         this.$emit("update:possibleSave", true);
-    },
-    addNewWeight(){
-        this.addNewWeightToArray(this.payload);
-        this.$emit("update:a", this.a+1);
-        this.$emit("update:possibleSave", true);
-    },
-    addNewDescription(){
-        this.addNewDescriptionToArray(this.payload);
-        this.$emit("update:a", this.a+1);
-    },
-    addNewDate(){
-        this.addNewDateToArray(this.payload);
+
     },
 
-    //returns current Date in an Array
-    whatsTheDatePlease: function() {
-        const today = new Date();
-        const currentYear = today.getFullYear();
-        let currentMonth = today.getMonth();
-        let currentDay = today.getDate();
-        let currentHours = today.getHours();
-        let currentMinutes = today.getMinutes();
-        let currentSeconds = today.getSeconds();
-        if (currentMonth < 10) {
-            currentMonth = `0${currentMonth}`;
-        }
-        if (currentDay < 10) {
-            currentDay = `0${currentDay}`;
-        }
-        if (currentHours < 10) {
-            currentHours = `0${currentHours}`;
-        }
-        if (currentMinutes < 10) {
-            currentMinutes = `0${currentMinutes}`;
-        }
-        if (currentSeconds < 10) {
-            currentSeconds = `0${currentSeconds}`;
-        }
+    remove(index){
+      this.marks[index]="";
+      this.weights[index]="";
+      this.descriptions[index]="";
+      this.dates[index]="";
+      this.$destroy(index);
+    },
 
-        // [DD.MM.YYYY]
-        const dateSubArrayDDMMYYYY = [currentDay, currentMonth, currentYear].join(".");
-
-        // [HH:MM:SS]
-        const dateSubArrayHHMMSS = [currentHours, currentMinutes, currentSeconds].join(":");
-
-        // [["DD.MM.YYYY"] ["HH:MM:SS"]]
-        const dateFull = [];
-        dateFull.push(dateSubArrayDDMMYYYY, dateSubArrayHHMMSS)
-
-        // DD.MM.YYYY HH:MM:SS
-        const dateFullStr = dateFull.join(" ")
-
-        // [DD.MM.YYYY HH:MM:SS]
-        const dateFullArray = [];
-        dateFullArray.push(dateFullStr);
-
-        let dateArray;
-        return dateArray = dateFullStr;
-
-    }
   }
 }
 </script>

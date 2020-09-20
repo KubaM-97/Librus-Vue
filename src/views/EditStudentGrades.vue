@@ -4,16 +4,16 @@
     <div class="container">
       <div class="row">
         <div class="col-11">
-          <div v-for="k in $route.params.grades.length" :key="k">
+          <div v-for="k in $route.params.marks.length" :key="k">
             <div class="addStudentPanelGradesContentSingle">
               <div class="container gainedGrades">
                 <div class="row">
 
                   <div class="col-3">
                       <div class="addStudentPanelGradesContentSingleGrade">
-                        <label for="grades">Ocena:</label>
+                        <label for="marks">Ocena:</label>
                         <div class="select">
-                          <select v-model.number="$store.state.newGrades.grades[k-1]" @change="changeGrade(k-1, $store.state.newGrades.grades[k-1])">
+                          <select id="marks" v-model.number="$store.state.newGrades.marks[k-1]" @change="changeGrade(k-1, $store.state.newGrades.marks[k-1], 'marks')">
                               <option value="1">1</option>
                               <option value="2">2</option>
                               <option value="3">3</option>
@@ -29,7 +29,7 @@
                       <div class="addStudentPanelGradesContentSingleWeight">
                         <label for="weight">Waga oceny:</label>
                         <div class="select">
-                            <select v-model.number="$store.state.newGrades.weights[k-1]" @change="changeWeight(k-1, $store.state.newGrades.weights[k-1])">
+                            <select id="weights" v-model.number="$store.state.newGrades.weights[k-1]" @change="changeWeight(k-1, $store.state.newGrades.weights[k-1], 'weights')">
                                 <option value="1">1</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -56,10 +56,10 @@
             </div>
           </div>
        </div>
-<!-- <hr style="border-top: 11px solid; width: 100%;  "/> -->
+
        <div class="col-11" v-for="n in gradesLength" :key="n">
 
-         <grade-component :n="n+$route.params.grades.length" :gradesLength="gradesLength" :a.sync="a" :possibleSave.sync="possibleSave"></grade-component>
+         <grade-component :n="n+$route.params.marks.length" :gradesLength="gradesLength" :a.sync="a" :possibleSave.sync="possibleSave"></grade-component>
 
        </div>
 
@@ -79,19 +79,19 @@
                         </td>
 
                         <td ref="allnewGrades">
-                            <span v-html="gradeWeightColor($store.state.newGrades.grades, $store.state.newGrades.weights)">
+                            <span v-html="gradeWeightColor($store.state.newGrades.marks, $store.state.newGrades.weights)">
 
                             </span>
                         </td>
 
                         <td>
                             <span>
-                              {{avg($store.state.newGrades.grades, $store.state.newGrades.weights)}}
+                              {{avg($store.state.newGrades.marks, $store.state.newGrades.weights)}}
                             </span>
                         </td>
 
                         <td>
-                          <span v-html="threatness(avg($store.state.newGrades.grades, $store.state.newGrades.weights))">
+                          <span v-html="threatness(avg($store.state.newGrades.marks, $store.state.newGrades.weights))">
 
                           </span>
                         </td>
@@ -116,6 +116,7 @@
 import GradesService from "../assets/mixins.js"
 import Grade from "./Grade.vue"
 import { mapState, mapMutations } from "vuex"
+
 //css-table
 require("../assets/table.css");
 
@@ -124,9 +125,8 @@ export default {
     "grade-component": Grade
   },
   watch: {
-    "ourStudent.description": {
-      handler: function(){
-        // alert(33)
+    "$store.state.newGrades.descriptions": {
+      handler(){
         const inputGradeDescription = document.querySelectorAll("input.description")[this.n].value;
         const descriptionCount = document.querySelectorAll("span.descriptionCount")[this.n];
         const counter = (30 - (inputGradeDescription.length));
@@ -152,72 +152,39 @@ export default {
   name:"EditGrades",
   data(){
     return{
-      ourStudent:{
-        grades: this.$route.params.grades.concat(this.$store.state.newGrades.grades),
-        weights: [].concat(this.$route.params.weights, this.$store.state.newGrades.weights),
-        descriptions: [].concat(this.$route.params.descriptions, this.$store.state.newGrades.descriptions),
-        dates: [].concat(this.$route.params.dates, this.$store.state.newGrades.dates),
-        itemsToChange: "",
-        placeInArray: "",
-        value: ""
-      },
       characters: 30,
       gradesLength: 0,
       a: 1,
-      // payload:{
-      //   placeInArray: "",
-      //   newValue: "",
-      //   date: ""
-      // },
-        possibleSave: true
+      possibleSave: true
     }
   },
-  // beforeRouteEnter (to, from, next) {
-  //    next(vm => {
-  //      alert("beforeRouteEnter")
-  //      vm.showTooltip(vm.$refs.EditStudentGrades, vm.$store.state.newGrades);
-  //    })
-  // },
   beforeCreate(){
-    // alert("beforeCreate")
-    this.$store.state.newGrades.grades = [...this.$route.params.grades];
+    this.$store.state.newGrades.marks = [...this.$route.params.marks];
     this.$store.state.newGrades.weights = [...this.$route.params.weights];
     this.$store.state.newGrades.descriptions = [...this.$route.params.descriptions];
     this.$store.state.newGrades.dates = [...this.$route.params.dates];
   },
-  // created(){
-  // },
   mounted(){
-    this.showTooltip(this.$refs.EditStudentGrades, this.$store.state.newGrades);
-    // this.showTooltip(this.$refs.EditStudentGrades, this.$store.state.newGrades);
-    // alert(this.ourStudent.grades)
+    this.showTooltip(this.$refs.EditStudentGrades, this);
   },
   computed:{
     ...mapState({
-        grades: state => state.newGrades.grades,
+        marks: state => state.newGrades.marks,
         weights: state => state.newGrades.weights,
         descriptions: state => state.newGrades.descriptions,
         dates: state => state.newGrades.dates,
     }),
   },
-  // beforeRouteEnter (to, from, next) {
-  //    next(vm => {
-  //      vm.showTooltip(vm.$refs.editStudentPanel, vm.$route.params);
-  //    })
-  // },
   destroyed(){
-    // alert("Destroyed")
-    this.$store.state.newGrades.grades = [];
+    this.$store.state.newGrades.marks = [];
     this.$store.state.newGrades.weights = [];
     this.$store.state.newGrades.descriptions = [];
     this.$store.state.newGrades.dates = [];
   },
   updated(){
     this.showTooltip(this.$refs.EditStudentGrades, this.$store.state.newGrades);
-    // console.log(this.$route.params.grades)
-    // console.log(this.$store.state.newGrades.grades);
-    for(let i=0; i<this.grades.length; i++){
-      if( ((this.grades[i]!=="") && (this.weights[i]==="")) || ((this.grades[i]==="") && (this.weights[i]!==""))){
+    for(let i=0; i<this.marks.length; i++){
+      if( ((this.marks[i]!=="") && (this.weights[i]==="")) || ((this.marks[i]==="") && (this.weights[i]!==""))){
         this.possibleSave = false;
       }
     }
@@ -235,184 +202,18 @@ export default {
       "removeGrade"
     ]),
 
-    //colors grades
-    gradeWeightColor(grades, weights) {
-
-      const allGrades = this.grades;
-      const allWeights = this.weights;
-      const allDescriptions = this.descriptions;
-      const allDates = this.dates;
-      let content = "";
-
-        for (let i = 0; i < grades.length; i++) {
-          if((allGrades!==undefined) && (allWeights!==undefined) && (allDescriptions!==undefined) && (allDates!==undefined)){
-            if(allGrades[i]!==""){
-                  if (allWeights[i] == 1) {
-                      content += `<div class="gradeWeightColor gradeWeightGreen">${allGrades[i]}</div>`
-                  } else if (allWeights[i] == 2) {
-                      content +=  `<div class="gradeWeightColor gradeWeightYellow">${allGrades[i]}</div>`
-                  } else if (allWeights[i] == 3) {
-                      content +=  `<div class="gradeWeightColor gradeWeightRed">${allGrades[i]}</div>`
-                  }
-                  else if(allWeights[i]==""){
-                    content +=  `<div class="gradeWeightColor">${allGrades[i]}</div>`
-                  }
-            }
-            else if(allGrades[i]==""){
-              if(allWeights[i]===1){
-                content +=  `<div class="gradeWeightColor gradeWeightGreen"> </div>`
-              }
-              else if(allWeights[i]===2){
-                content +=  `<div class="gradeWeightColor gradeWeightYellow"> </div>`
-              }
-              else if(allWeights[i]===3){
-                content +=  `<div class="gradeWeightColor gradeWeightRed"> </div>`
-              }
-            }
-          }
-        }
-        return content
-
-    },
-
-    //returns grades' average
-    avg(gradesArray, weightsArray) {
-
-        let gradesSuperValue = 0;
-        let weightsSum = 0;
-
-
-        for (let i = 0; i < gradesArray.length; i++) {
-          if( (gradesArray[i]!=="") && (weightsArray[i]!=="") ){
-            gradesSuperValue += gradesArray[i] * weightsArray[i];
-            weightsSum += weightsArray[i]
-          }
-        }
-
-        //round avg to 2 decimal places
-        const average = gradesSuperValue / weightsSum;
-        let averageRounded = (Math.round(average * 100) / 100).toFixed(2);
-        if(isNaN(averageRounded)){
-          averageRounded = ""
-        }
-        return averageRounded;
-
-
-    },
-
-    //shows tooltip after hovering on every grade
-    showTooltip(RootElement, SingleStudent) {
-
-        for(let i=0; i<this.grades.length;i++){
-
-
-
-          if((this.grades[i]!=="")&&(this.weights[i]!=="")){
-
-              const gradeInDiv = RootElement.querySelectorAll("div.gradeWeightColor");
-                if(this.descriptions[i]===""){
-                  this.descriptions[i] = "BRAK OPISU"
-                }
-                gradeInDiv[i].addEventListener("mouseenter", function() {
-                    this.canvas(this.grades[i], this.weights[i], this.descriptions[i], this.dates[i], gradeInDiv[i])
-                }.bind(this), false);
-
-                //destroyes tooltip after leaving
-                gradeInDiv[i].addEventListener("mouseleave", function() {
-                    const canv = document.querySelector("canvas");
-                    canv.parentNode.removeChild(canv);
-                });
-              }
-
-      }
-    },
-
-    //draws tooltip
-    canvas(SingleGrade, SingleWeight, SingleDescription, SingleDate, anotherDivWithGrade) {
-
-        const canvas = document.createElement("CANVAS");
-        anotherDivWithGrade.appendChild(canvas);
-
-        const canv = document.querySelector("canvas");
-        const ctx = canv.getContext("2d");
-
-        canvas.style['z-index'] = 2;
-        canvas.style.position = 'absolute';
-        canvas.style.padding = 0;
-        canvas.style.border = 0;
-
-        ctx.beginPath();
-        ctx.moveTo(0, 10);
-        ctx.lineTo(25, 15);
-        ctx.lineTo(255, 15);
-        ctx.lineTo(255, 135);
-        ctx.lineTo(25, 135);
-        ctx.lineTo(25, 40);
-        ctx.lineTo(0, 10);
-        ctx.stroke();
-        ctx.fillStyle = "#ffeab0";
-        ctx.fill();
-        ctx.fillStyle = "black";
-        ctx.font = "bold 14px Arial";
-
-        ctx.fillText(`Ocena: ${SingleGrade}`, 40, 50);
-        ctx.fillText(`Waga: ${SingleWeight} `, 40, 70);
-        ctx.fillText(`Opis: ${SingleDescription}`, 40, 90);
-        ctx.fillText(`Data: ${SingleDate}`, 40, 110);
-
-        console.log(SingleGrade)
-        console.log(SingleWeight)
-        console.log(SingleDescription)
-        console.log(SingleDate)
-
-    },
-    remove(placeInArray){
-      this.grades.splice(placeInArray,1);
-      this.weights.splice(placeInArray,1);
-      this.descriptions.splice(placeInArray,1);
-      this.dates.splice(placeInArray,1);
+    remove(index){
+      this.marks.splice(index,1);
+      this.weights.splice(index,1);
+      this.descriptions.splice(index,1);
+      this.dates.splice(index,1);
       this.$forceUpdate();
-      alert(1111)
       this.possibleSave = true;
-      // console.log(this.ourStudent.grades)
-      // console.log(this.ourStudent.grades.length)
-      // this.$destroy(placeInArray);
-      // alert(this.ourStudent.grades.length)
-      // this.removeGrade(placeInArray);
-      // alert(this.ourStudent.grades.length)
-      // this.ourStudent.grades.length--;
-        // this.$store.state.newGrades.grades = "";
-        // this.$store.state.newGrades.weights = "";
-        // this.$store.state.newGrades.descriptions = "";
-        // this.$store.state.newGrades.dates = "";
     },
 
-    // changeStudent(placeInArray, newValue, itemsToChange){
-    //   this.ourStudent.dates[placeInArray] = this.whatsTheDatePlease();
-    //   this.ourStudent.itemsToChange = itemsToChange;
-    //   this.editStudent(this.ourStudent)
-    // },
-
-    changeGrade(placeInArray, newVal, what){
-
-      this.ourStudent.grades[placeInArray] = newVal;
+    changeGrade(index, newVal, what){
+      this.$route.params[what][index] = newVal;
       this.$forceUpdate();
-
-      this.possibleSave = true;
-
-    },
-    changeWeight(placeInArray,newVal, what){
-
-      this.ourStudent.weights[placeInArray] = newVal;
-      this.$forceUpdate()
-
-      this.possibleSave = true;
-
-    },
-    changeDescription(placeInArray,newVal, what){
-
-      this.ourStudent.descriptions[placeInArray] = newVal;
-      this.$forceUpdate()
 
       this.possibleSave = true;
 
@@ -474,7 +275,7 @@ export default {
 
       const route = this.$route.params;
 
-      route.grades = this.grades;
+      route.marks = this.marks;
       route.weights = this.weights;
       route.descriptions = this.descriptions;
       route.dates = this.dates;
@@ -489,7 +290,7 @@ export default {
         id: this.$route.params.id,
         lastName: this.$route.params.lastName,
         firstName: this.$route.params.firstName,
-        grades: this.$route.params.grades,
+        marks: this.$route.params.marks,
         weights: this.$route.params.weights,
         descriptions: this.$route.params.descriptions,
         dates: this.$route.params.dates,

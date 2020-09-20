@@ -9,7 +9,7 @@
           Login<span class="mainLogPanelTooltip">(Proszę wpisać: Login1)</span>
         </label>
 
-        <input type="text" id="login">
+        <input type="text" id="login" autocomplete="off">
 
         <span class="wrongLoginPassword"></span>
 
@@ -40,11 +40,6 @@
 
     </div>
 
-    <transition name="fade-logOut" mode="out-in">
-        <div class="loader" v-show="showLoaderGif">
-            <img src="@/assets/gifloader.gif" alt="loaderLogo">
-        </div>
-    </transition>
 
   </div>
 </template>
@@ -54,11 +49,7 @@ import LogInButton from './LogInButton.vue'
 import { mapMutations } from "vuex"
 export default {
   name: "LoggedOut",
-  components: {'log-in-button': LogInButton},
-  props:["showNavpanel", "showLoaderGif", "showMainLogPanel"],
   beforeCreate(){
-    // this.showNavpanel = false;
-    // this.$emit("update: showNavpanel", false);
     this.$store.state.showNavpanel = false;
   },
   methods: {
@@ -115,7 +106,6 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-    /* margin: 200px auto; */
     background-image: url(../assets/Logo.png);
     background-position: center;
     background-size: cover;

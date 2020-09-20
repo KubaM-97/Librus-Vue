@@ -330,7 +330,7 @@ export default {
   methods:{
 
     //regular expressions
-    validatorData: function(Data, RegularExpression, Format) {
+    validatorData(Data, RegularExpression, Format) {
 
       //gets inserted value
       const insertedData = this.$refs.editDataPanel.querySelector("#"+Data).value;

@@ -1,19 +1,45 @@
+import { mapState } from "vuex"
 
 export default {
+  computed:{
+    ...mapState({
+        marks: state => state.newGrades.marks,
+        weights: state => state.newGrades.weights,
+        descriptions: state => state.newGrades.descriptions,
+        dates: state => state.newGrades.dates,
+    }),
+  },
   methods:
   {
       //colors grades
-      gradeWeightColor(oneStudentGrades, oneStudentsWeights) {
+      gradeWeightColor(oneStudentMarks, oneStudentsWeights) {
 
           //adds new classes to divs with grades, what causes coloring them on green, yellow or red
           let content = "";
-          for (let i = 0; i < oneStudentGrades.length; i++) {
-              if (oneStudentsWeights[i] == 1) {
-                  content += `<div class="gradeWeightColor gradeWeightGreen">${oneStudentGrades[i]}</div>`
-              } else if (oneStudentsWeights[i] == 2) {
-                  content += `<div class="gradeWeightColor gradeWeightYellow">${oneStudentGrades[i]}</div>`
-              } else if (oneStudentsWeights[i] == 3) {
-                  content += `<div class="gradeWeightColor gradeWeightRed">${oneStudentGrades[i]}</div>`
+
+          for (let i = 0; i < oneStudentMarks.length; i++) {
+              if(oneStudentMarks[i]!==""){
+                    if (oneStudentsWeights[i] == 1) {
+                        content += `<div class="gradeWeightColor gradeWeightGreen">${oneStudentMarks[i]}</div>`
+                    } else if (oneStudentsWeights[i] == 2) {
+                        content +=  `<div class="gradeWeightColor gradeWeightYellow">${oneStudentMarks[i]}</div>`
+                    } else if (oneStudentsWeights[i] == 3) {
+                        content +=  `<div class="gradeWeightColor gradeWeightRed">${oneStudentMarks[i]}</div>`
+                    }
+                    else if(oneStudentsWeights[i]==""){
+                      content +=  `<div class="gradeWeightColor">${oneStudentMarks[i]}</div>`
+                    }
+              }
+              else if(oneStudentMarks[i]==""){
+                if(oneStudentsWeights[i]===1){
+                  content +=  `<div class="gradeWeightColor gradeWeightGreen"> </div>`
+                }
+                else if(oneStudentsWeights[i]===2){
+                  content +=  `<div class="gradeWeightColor gradeWeightYellow"> </div>`
+                }
+                else if(oneStudentsWeights[i]===3){
+                  content +=  `<div class="gradeWeightColor gradeWeightRed"> </div>`
+                }
               }
           }
 
@@ -21,60 +47,42 @@ export default {
 
       },
 
-      //show tooltip after hovering on every grade
-      showTooltip(RootElement, SingleStudent, StudentsLength = "1") {
-        // alert(44)
-          const gradesInDiv = RootElement.querySelectorAll(".gradeWeightColor");
-          const gradesSuperArray = [];
-          const weightSuperArray = [];
-          const descriptionSuperArray = [];
-          const dateSuperArray = [];
+      //shows tooltip after hovering on every grade
+      showTooltip(RootElement, SingleStudent) {
 
-          if(StudentsLength.length == 1){
-            for (let j = 0; j < SingleStudent.grades.length; j++) {
-               gradesSuperArray.push(SingleStudent.grades[j]);
-               weightSuperArray.push(SingleStudent.weights[j]);
-               descriptionSuperArray.push(SingleStudent.descriptions[j]);
-               dateSuperArray.push(SingleStudent.dates[j]);
-           }
-           // console.log("To jest tablica: "+gradesSuperArray)
-           // console.log(gradesInDiv.length)
-          }
-          else{
-              for (let i = 0; i < StudentsLength.length; i++) {
-                for (let j = 0; j < SingleStudent[i].grades.length; j++) {
-                    if((SingleStudent[i].grades[j]!=="") && (SingleStudent[i].weights[j]!=="") && (SingleStudent[i].descriptions[j]!=="") && (SingleStudent[i].dates[j]!=="")){
-                      gradesSuperArray.push(SingleStudent[i].grades[j]);
-                      weightSuperArray.push(SingleStudent[i].weights[j]);
-                      descriptionSuperArray.push(SingleStudent[i].descriptions[j]);
-                      dateSuperArray.push(SingleStudent[i].dates[j]);
-                  }
-                }
+      const gradeInDiv = RootElement.querySelectorAll("div.gradeWeightColor");
 
+      for(let j=0; j<SingleStudent.marks.length;j++){
+
+        if((SingleStudent.marks[j]!=="")&&(SingleStudent.weights[j]!=="")){
+
+
+              if(SingleStudent.descriptions[j]===""){
+                SingleStudent.descriptions[j] = "BRAK OPISU"
               }
-          }
-          for (let i = 0; i < gradesInDiv.length; i++) {
 
-              //draws tooltip after hovering
-              gradesInDiv[i].addEventListener("mouseenter", function() {
-                  this.canvas(gradesSuperArray, weightSuperArray, descriptionSuperArray, dateSuperArray, gradesInDiv[i], i)
+              //gradeInDiv[0], gradeInDiv[1] ,gradeInDiv[2], gradeInDiv[3],
+              gradeInDiv[j].addEventListener("mouseenter", function() {
+                  this.canvas(SingleStudent.marks[j], SingleStudent.weights[j], SingleStudent.descriptions[j], SingleStudent.dates[j], gradeInDiv[j])
               }.bind(this), false);
 
-
               //destroyes tooltip after leaving
-              gradesInDiv[i].addEventListener("mouseleave", function() {
+              gradeInDiv[j].addEventListener("mouseleave", function() {
                   const canv = document.querySelector("canvas");
                   canv.parentNode.removeChild(canv);
               });
 
           }
+
+        }
+
       },
 
       //draws tooltip
-      canvas(arrayWithAllGrades, arrayWithAllWeights, arrayWithAllDescriptions, arrayWithAllDates, anotherGradeWeightColorDiv, i) {
+      canvas(SingleGrade, SingleWeight, SingleDescription, SingleDate, anotherDivWithGrade) {
 
           const canvas = document.createElement("CANVAS");
-          anotherGradeWeightColorDiv.appendChild(canvas);
+          anotherDivWithGrade.appendChild(canvas);
 
           const canv = document.querySelector("canvas");
           const ctx = canv.getContext("2d");
@@ -96,29 +104,41 @@ export default {
           ctx.fillStyle = "#ffeab0";
           ctx.fill();
           ctx.fillStyle = "black";
-          ctx.font = "bold 15px Arial";
+          ctx.font = "normal bold 14px Arial";
 
-          ctx.fillText(`Ocena: ${arrayWithAllGrades[i]}`, 40, 50);
-          ctx.fillText(`Waga: ${arrayWithAllWeights[i] } `, 40, 70);
-          ctx.fillText(`Opis: ${arrayWithAllDescriptions[i]}`, 40, 90);
-          ctx.fillText(`Data: ${arrayWithAllDates[i]}`, 40, 110);
+          ctx.fillText(`Ocena: ${SingleGrade}`, 40, 50);
+          ctx.fillText(`Waga: ${SingleWeight } `, 40, 70);
+
+          if(SingleDescription == "BRAK OPISU"){
+            ctx.fillText(`Opis:`, 40, 90);
+            ctx.font = "italic bold 14px Arial";
+            ctx.fillText(`${SingleDescription}`, 85, 90);
+            ctx.font = "normal bold 14px Arial";
+          }
+          else{
+            ctx.fillText(`Opis: ${SingleDescription } `, 40, 90);
+          }
+
+          ctx.fillText(`Data: ${SingleDate}`, 40, 110);
 
       },
 
       //returns grades' average
-      avg(oneStudentGradesArray, oneStudentsWeightsArray) {
+      avg(oneStudentMarksArray, oneStudentWeightsArray) {
 
-          let gradesSuperValue = 0;
+          let MarksSuperValue = 0;
           let weightSum = 0;
 
 
-          for (let i = 0; i < oneStudentGradesArray.length; i++) {
-              gradesSuperValue += oneStudentGradesArray[i] * oneStudentsWeightsArray[i];
-              weightSum += oneStudentsWeightsArray[i]
+          for (let i = 0; i < oneStudentMarksArray.length; i++) {
+            if((oneStudentMarksArray[i]!=="") && (oneStudentWeightsArray[i])){
+              MarksSuperValue += oneStudentMarksArray[i] * oneStudentWeightsArray[i];
+              weightSum += oneStudentWeightsArray[i]
+            }
           }
 
           //round avg to 2 decimal places
-          const average = gradesSuperValue / weightSum;
+          const average = MarksSuperValue / weightSum;
           let averageRounded = (Math.round(average * 100) / 100).toFixed(2);
           if(isNaN(averageRounded)){
             averageRounded = ""
@@ -130,57 +150,58 @@ export default {
 
       //decides if student is threated
       threatness(myAVG) {
-          if (myAVG < 2) {
+          if ((myAVG < 2) && (myAVG != ""))  {
               return "<span class='fire'>ZAGROŻENIE</span>"
           } else {
               return ""
           }
-      }
+      },
 
+      //returns current Date in an Array
+      whatsTheDatePlease() {
+          const today = new Date();
+          const currentYear = today.getFullYear();
+          let currentMonth = today.getMonth();
+          let currentDay = today.getDate();
+          let currentHours = today.getHours();
+          let currentMinutes = today.getMinutes();
+          let currentSeconds = today.getSeconds();
+          if (currentMonth < 10) {
+              currentMonth = `0${currentMonth}`;
+          }
+          if (currentDay < 10) {
+              currentDay = `0${currentDay}`;
+          }
+          if (currentHours < 10) {
+              currentHours = `0${currentHours}`;
+          }
+          if (currentMinutes < 10) {
+              currentMinutes = `0${currentMinutes}`;
+          }
+          if (currentSeconds < 10) {
+              currentSeconds = `0${currentSeconds}`;
+          }
+
+          // [DD.MM.YYYY]
+          const dateSubArrayDDMMYYYY = [currentDay, currentMonth, currentYear].join(".");
+
+          // [HH:MM:SS]
+          const dateSubArrayHHMMSS = [currentHours, currentMinutes, currentSeconds].join(":");
+
+          // [["DD.MM.YYYY"] ["HH:MM:SS"]]
+          const dateFull = [];
+          dateFull.push(dateSubArrayDDMMYYYY, dateSubArrayHHMMSS)
+
+          // DD.MM.YYYY HH:MM:SS
+          const dateFullStr = dateFull.join(" ")
+
+          // [DD.MM.YYYY HH:MM:SS]
+          const dateFullArray = [];
+          dateFullArray.push(dateFullStr);
+
+          let dateArray;
+          return dateArray = dateFullStr;
+
+      }
     }
   }
-
-
-
-
-
-  // //show tooltip after hovering on every grade
-  // showTooltip: function(RootElement, Students = "1") {
-  //     const gradesInDiv = RootElement.querySelectorAll(".gradeWeightColor");
-  //     const gradesSuperArray = [];
-  //     const weightSuperArray = [];
-  //     const descriptionSuperArray = [];
-  //     const dateSuperArray = [];
-  //
-  //
-  //     for (let i = 0; i < Students.length; i++) {
-  //         for (let j = 0; j < Students[i].grades.length; j++) {
-  //             gradesSuperArray.push(Students[i].grades[j]);
-  //             weightSuperArray.push(Students[i].weights[j]);
-  //             descriptionSuperArray.push(Students[i].descriptions[j]);
-  //             dateSuperArray.push(Students[i].dates[j]);
-  //         }
-  //     }
-  //     for (let j = 0; j < gradesInDiv.length; j++) {
-  //         gradesSuperArray.push(this.$route.params.grades[j]);
-  //         weightSuperArray.push(this.$route.params.weights[j]);
-  //         descriptionSuperArray.push(this.$route.params.descriptions[j]);
-  //         dateSuperArray.push(this.$route.params.dates[j]);
-  //     }
-  //
-  //     for (let i = 0; i < gradesInDiv.length; i++) {
-  //
-  //         //draws tooltip after hovering
-  //         gradesInDiv[i].addEventListener("mouseenter", function() {
-  //             this.canvas(gradesSuperArray, weightSuperArray, descriptionSuperArray, dateSuperArray, gradesInDiv[i], i)
-  //         }.bind(this), false);
-  //
-  //
-  //         //destroyes tooltip after leaving
-  //         gradesInDiv[i].addEventListener("mouseleave", function() {
-  //             const canv = document.querySelector("canvas");
-  //             canv.parentNode.removeChild(canv);
-  //         });
-  //
-  //     }
-  // },

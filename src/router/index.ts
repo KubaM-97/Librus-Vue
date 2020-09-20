@@ -62,10 +62,10 @@ export default new Router({
       name: 'Error404',
       component: Error404,
       props: false
-    // },
-    //  {
-    //   path: '*',
-    //   redirect: "/Error404"
+    },
+     {
+      path: '*',
+      redirect: "/Error404"
     }
   ]
 })

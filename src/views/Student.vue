@@ -59,7 +59,7 @@
                 <span>Oceny</span>
             </div>
 
-            <div class="editStudentPanelGradesStudent" v-html="gradeWeightColor($route.params.grades, $route.params.weights)">
+            <div class="editStudentPanelGradesStudent" v-html="gradeWeightColor($route.params.marks, $route.params.weights)">
 
             </div>
 
@@ -74,14 +74,14 @@
             </div>
 
             <div class="editStudentPanelAvgAvg">
-              {{avg(this.$route.params.grades, this.$route.params.weights)}}
+              {{avg(this.$route.params.marks, this.$route.params.weights)}}
             </div>
 
             <div class="editStudentPanelThreatness">
                 <span>Zagrożenie</span>
             </div>
 
-            <div class="editStudentPanelThreatnessThreatness" v-html="threatness(avg(this.$route.params.grades, this.$route.params.weights))">
+            <div class="editStudentPanelThreatnessThreatness" v-html="threatness(avg(this.$route.params.marks, this.$route.params.weights))">
             </div>
 
         </div>
@@ -121,9 +121,6 @@ export default {
       return `${this.$route.params.lastName.toUpperCase()} ${this.$route.params.firstName}`
     }
   },
-  mounted(){
-     this.showTooltip(this.$refs.editStudentPanel, this.$route.params);
-  },
   created(){
     axios.get("/static/students.json")
     .then((response) => {
@@ -136,14 +133,16 @@ export default {
        vm.showTooltip(vm.$refs.editStudentPanel, vm.$route.params);
      })
   },
+  updated(){
+    this.showTooltip(this.$refs.editStudentPanel, this.$route.params);
+  },
   mixins: [GradesService],
   methods:{
     showEditStudentDataPanel(){
       this.$router.push({name: "EditData", params: {
         id: this.$route.params.id,
         lastName: this.$route.params.lastName,
-        firstName: this.$route.params.firstName,
-        grades: this.$route.params.grades,
+        marks: this.$route.params.marks,
         weights: this.$route.params.weights,
         descriptions: this.$route.params.descriptions,
         dates: this.$route.params.dates,
@@ -161,7 +160,7 @@ export default {
         id: this.$route.params.id,
         lastName: this.$route.params.lastName,
         firstName: this.$route.params.firstName,
-        grades: this.$route.params.grades,
+        marks: this.$route.params.marks,
         weights: this.$route.params.weights,
         descriptions: this.$route.params.descriptions,
         dates: this.$route.params.dates,
@@ -174,46 +173,6 @@ export default {
        }})
       this.showGradesEditionRouterView = true;
     },
-
-    //show tooltip after hovering on every grade
-    showTooltip() {
-
-        const gradeInDiv = this.$refs.editStudentPanel.querySelectorAll(".gradeWeightColor");
-
-        const gradesSuperArray = [];
-        const weightSuperArray = [];
-        const descriptionSuperArray = [];
-        const dateSuperArray = [];
-// alert(10)
-        for (let j = 0; j < gradeInDiv.length; j++) {
-            gradesSuperArray.push(this.$route.params.grades[j]);
-            weightSuperArray.push(this.$route.params.weights[j]);
-            descriptionSuperArray.push(this.$route.params.descriptions[j]);
-            dateSuperArray.push(this.$route.params.dates[j]);
-        }
-        // alert(11)
-        for (let i = 0; i < gradeInDiv.length; i++) {
-
-            //draws tooltip after hovering
-            gradeInDiv[i].addEventListener("mouseenter", function() {
-                this.canvas(gradesSuperArray, weightSuperArray, descriptionSuperArray, dateSuperArray, gradeInDiv[i], i)
-            }.bind(this), false);
-
-
-            //destroyes tooltip after leaving
-            gradeInDiv[i].addEventListener("mouseleave", function() {
-                const canv = document.querySelector("canvas");
-                canv.parentNode.removeChild(canv);
-            });
-
-        }
-    },
-
-
-
-
-
-
   }
 }
 

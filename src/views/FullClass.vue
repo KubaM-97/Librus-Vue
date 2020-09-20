@@ -57,7 +57,7 @@
                         id: student.id,
                         lastName: student.lastName,
                         firstName: student.firstName,
-                        grades: student.grades,
+                        marks: student.marks,
                         weights: student.weights,
                         descriptions: student.descriptions,
                         dates: student.dates,
@@ -71,9 +71,9 @@
                       }">
                     <td></td>
                     <td>{{ student.lastName.toUpperCase() }} {{ student.firstName }}</td>
-                    <td v-html="gradeWeightColor(student.grades, student.weights)"></td>
-                    <td>{{ avg(student.grades, student.weights) }}</td>
-                    <td v-html="threatness(avg(student.grades, student.weights))"></td>
+                    <td v-html="gradeWeightColor(student.marks, student.weights)"></td>
+                    <td>{{ avg(student.marks, student.weights) }}</td>
+                    <td v-html="threatness(avg(student.marks, student.weights))"></td>
                 </router-link>
             </tbody>
 
@@ -102,64 +102,50 @@ require("../assets/table.css");
 
 export default {
    name: 'FullClass',
-   data(){
-       return{
-         idCounter: 0,
-       }
-   },
    computed:{
      ...mapState([
        'students'
      ])
    },
    beforeRouteEnter (to, from, next) {
+
       next(vm => {
-        vm.showTooltip(document, vm.students, vm.students);
+        vm.addNumberingToTheTable();
         vm.sortMyStudents();
-
-        //gets table
-        const table = document.getElementById("tableStudents");
-
-        //adds Nr (first <td> in every <tr>) in table
-        const rowsNr = table.rows;
-        for (let j = 1; j < rowsNr.length+1; j++) {
-            rowsNr[j-1].getElementsByTagName("TD")[0].innerHTML = j+".";
-        }
       })
-   },
-   mounted(){
-     //gets table
-     const table = document.getElementById("tableStudents");
-
-     //adds Nr (first <td> in every <tr>) in table
-     const rowsNr = table.rows;
-     for (let j = 1; j < rowsNr.length+1; j++) {
-         rowsNr[j-1].getElementsByTagName("TD")[0].innerHTML = j+".";
-     }
 
    },
    updated() {
 
-    this.sortMyStudents();
+       for(let i=0; i<this.$store.state.students.length; i++){
+         this.showTooltip(document.querySelectorAll("tr")[i], this.$store.state.students[i]);
+       }
 
-     //gets table
-     const table = document.getElementById("tableStudents");
-
-     //adds Nr (first <td> in every <tr>) in table
-     const rowsNr = table.rows;
-
-     for (let j = 1; j < rowsNr.length+1; j++) {
-         rowsNr[j-1].getElementsByTagName("TD")[0].innerHTML = j+".";
-     }
-
-     this.showTooltip(document, this.students, this.students);
-
+       this.addNumberingToTheTable();
+       this.sortMyStudents();
+       
    },
    mixins: [GradesService],
    methods:{
 
+        //adds Numbering to the first table's cell <td> of every table's row <tr>
+        //e.g   1. 2. 3. 4. 5. .....
+        addNumberingToTheTable(){
+
+          //gets table
+          const table = document.getElementById("tableStudents");
+
+          //adds Nr (first <td> in every <tr>) in table
+          const rowsNr = table.rows;
+
+          for (let j = 1; j < rowsNr.length+1; j++) {
+              rowsNr[j-1].getElementsByTagName("TD")[0].innerHTML = j+".";
+          }
+
+        },
+
         //sorts students in table
-        sortMyStudents: function() {
+        sortMyStudents() {
 
             const table = document.getElementById("tableStudents");
             let switching = true;

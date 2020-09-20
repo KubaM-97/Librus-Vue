@@ -12,7 +12,7 @@ const state = {
   showLoaderGif: false,
   showMainLogPanel: false,
   newGrades:{
-      grades: "",
+      marks: "",
       weights: "",
       descriptions: "",
       dates: ""
@@ -43,15 +43,15 @@ const mutations = {
 
   addNewGradeToArray(state, payload){
 
-    if(state.newGrades.grades == ""){
+    if(state.newGrades.marks == ""){
           //splits string into array
           //e.g    3 => [3]
-          state.newGrades.grades = state.newGrades.grades.split("");
+          state.newGrades.marks = state.newGrades.marks.split("");
     }
 
     //places new grade in appropriate place according to the provided index
-    //e.g    for second component Grade.vue:   newGrades.grades[1] = 5        newGrades.grades=[3,5]
-    state.newGrades.grades[payload.placeInArray]=payload.grade;
+    //e.g    for second component Grade.vue:   newGrades.marks[1] = 5        newGrades.marks=[3,5]
+    state.newGrades.marks[payload.index]=payload.grade;
 
   },
   addNewWeightToArray(state, payload){
@@ -64,7 +64,7 @@ const mutations = {
 
     //places new grade's weight in appropriate place according to the provided index
     //e.g    for second component Grade.vue:   newGrades.weights[1] = 5        newGrades.weights=[3,5]
-    state.newGrades.weights[payload.placeInArray]=payload.weight;
+    state.newGrades.weights[payload.index]=payload.weight;
 
   },
   addNewDescriptionToArray(state, payload){
@@ -77,11 +77,11 @@ const mutations = {
 
     //places new grade's description in appropriate place according to the provided index
     //e.g    for second component Grade.vue:   newGrades.descriptions[1] = "Praca domowa"        newGrades.descriptions=["Kartkówka", "Praca domowa"]
-    state.newGrades.descriptions[payload.placeInArray] = payload.description;
+    state.newGrades.descriptions[payload.index] = payload.description;
 
     //alternative description
-    if((state.newGrades.descriptions[payload.placeInArray] == undefined)||(state.newGrades.descriptions[payload.placeInArray] == "")){
-      state.newGrades.descriptions[payload.placeInArray] = "BRAK OPISU"
+    if((state.newGrades.descriptions[payload.index] == undefined)||(state.newGrades.descriptions[payload.index] == "")){
+      state.newGrades.descriptions[payload.index] = "BRAK OPISU"
     }
   },
   addNewDateToArray(state, payload){
@@ -94,25 +94,25 @@ const mutations = {
 
     //places new grade's date in appropriate place according to the provided index
     //e.g    for second component Grade.vue:   newGrades.date[1] = "23.08.2020 14:00:00"        newGrades.date=["21.08.2020 11:30:00", "23.08.2020 14:00:00"]
-    state.newGrades.dates[payload.placeInArray] = payload.date;
+    state.newGrades.dates[payload.index] = payload.date;
   },
 
   editStudentGrade(state, payload){
     console.log(state.students[payload.StudentID-1])
-    state.students[payload.StudentID-1].grades[payload.placeInArray] = payload.newValue;
+    state.students[payload.StudentID-1].marks[payload.index] = payload.newValue;
     console.log(state.students[payload.StudentID-1])
   },
   editStudentWeight(state, payload){
-    state.students[payload.StudentID-1].weights[payload.placeInArray] = payload.newValue;
+    state.students[payload.StudentID-1].weights[payload.index] = payload.newValue;
   },
   editStudentDescription(state, payload){
-    state.students[payload.StudentID-1].descriptions[payload.placeInArray] = payload.newValue;
+    state.students[payload.StudentID-1].descriptions[payload.index] = payload.newValue;
   },
 
   removeGrade(state, payload){
-    state.students[payload.StudentID-1].grades.splice(payload.placeInArray,1);
-    state.students[payload.StudentID-1].weights.splice(payload.placeInArray,1);
-    state.students[payload.StudentID-1].descriptions.splice(payload.placeInArray,1);
+    state.students[payload.StudentID-1].marks.splice(payload.index,1);
+    state.students[payload.StudentID-1].weights.splice(payload.index,1);
+    state.students[payload.StudentID-1].descriptions.splice(payload.index,1);
   },
 
   addNewStudentToClass(state, payload){
