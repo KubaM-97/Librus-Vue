@@ -123,7 +123,7 @@ export default {
 
        this.addNumberingToTheTable();
        this.sortMyStudents();
-       
+
    },
    mixins: [GradesService],
    methods:{
@@ -198,28 +198,28 @@ export default {
     background-color: rgba(0, 0, 0, .55);
     text-align: center;
 
-    font-size: 17px;
-    padding: 50px 0
+    font-size: 12px;
+    padding: 40px 0
 }
 
 .tableColorsLegend .tableColorsLegendTitle {
-    font-size: 15.5px;
-    margin: 30px 0;
+    font-size: 11.5px;
+    margin: 20px 0;
 }
 
 .tableColorsLegend .tableColorsLegendContent .tableColorsLegendSingleContent {
     display: inline-block;
     margin-left: 10px;
     margin-right: 40px;
-    font-size: 12px;
+    font-size: 10px;
 }
 
 .tableColorsLegend .tableColorsLegendContent .tableColorsLegendSingleContent * {
     vertical-align: bottom;
 }
 
-div.tableColorsLegend div.gradeWeightColor {
-    width: 32px;
+div.tableColorsLegend div.gradeWeightColorLegend {
+    width: 2px;
 }
 
 div.students{

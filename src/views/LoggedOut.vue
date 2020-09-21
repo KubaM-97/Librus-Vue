@@ -109,19 +109,19 @@ export default {
     background-image: url(../assets/Logo.png);
     background-position: center;
     background-size: cover;
-    padding: 50px 18px 35px;
+    padding: 35px 18px;
     text-align: center;
-    width: 440px;
+    width: 340px;
     border-left: 2px solid #00c3ff;
     border-right: 2px solid #00c3ff;
 }
 
 .mainLogPanel .form-group {
-    font-size: 22px;
-    margin-bottom: 55px;
+    font-size: 15px;
+    margin-bottom: 45px;
     filter: blur(0.44px);
     filter: sepia();
-    opacity: 0.7
+    opacity: 0.7;
 }
 
 .mainLogPanel .form-group:hover {
@@ -130,16 +130,16 @@ export default {
 
 .mainLogPanel .form-group label {
     margin-bottom: 16px;
-    font-size: 18px;
+    font-size: 13px;
 }
 
 .mainLogPanel .form-group label span.mainLogPanelTooltip {
-    font-size: 15px;
-    margin-left: 20px
+    font-size: 11px;
+    margin-left: 20px;
 }
 
 .mainLogPanel .form-group label + input {
-    height: 36px;
+    height: 32px;
     width: 95%;
     max-width: 360px;
     text-align: left;
@@ -152,14 +152,14 @@ export default {
     border: 2px solid black;
     border-radius: 7px;
     width: 80%;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .mainLogPanel span.wrongLoginPassword,
 .form-group span.required {
     margin-top: 10px;
     display: block;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 @media (max-width: 768px){

@@ -64,7 +64,7 @@
             </div>
 
             <div class="col-1">
-                <span @click="remove(n-1)" class="remove"><em>Usuń</em></span>
+                <span @click="remove(index)" class="remove"><em>Usuń</em></span>
             </div>
 
           </div>
@@ -79,8 +79,8 @@
 
 <script>
 import GradesService from "../assets/mixins.js"
-import { mapMutations } from "vuex"
-
+//css-table
+require("../assets/table.css");
 export default {
   name: "Grade",
   data(){
@@ -90,16 +90,15 @@ export default {
         mark: "",
         weight: "",
         description: "",
-        date: "",
-        index: this.n-1
+        date: ""
       }
     }
   },
   watch: {
       "payload.description": {
         handler(){
-          const inputGradeDescription = document.querySelectorAll("input.description")[this.n-1].value;
-          const descriptionCount = document.querySelectorAll("span.descriptionCount")[this.n-1];
+          const inputGradeDescription = document.querySelectorAll("input.description")[this.index].value;
+          const descriptionCount = document.querySelectorAll("span.descriptionCount")[this.index];
           const counter = (30 - (inputGradeDescription.length));
           switch (counter) {
               case 2:
@@ -120,13 +119,10 @@ export default {
         deep:true
       }
   },
-  props:["n", "a", "aaa", "possibleSave"],
+  props:["index", "updater", "possibleSave"],
   created(){
 
-    this.marks[this.payload.index] = "";
-    this.weights[this.payload.index] = "";
-    this.descriptions[this.payload.index] = "";
-    this.dates[this.payload.index] = "";
+    this.clearNewGradesArray("", this.index)
 
   },
   updated(){
@@ -134,18 +130,17 @@ export default {
       this.addNewItem("date")
   },
   beforeDestroy(){
-    document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.payload.index].innerHTML = "";
-    document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.payload.index].style.marginBottom = "0px";
+    document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.index].innerHTML = "";
+    document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.index].style.marginBottom = "0px";
   },
-  destroyed(index){
-    this.$emit("update:a", this.a+1);
+  destroyed(){
+    this.$emit("updater");
     this.$emit("update:possibleSave", true);
   },
   mixins: [GradesService],
   methods:{
 
     addNewItem(whatToAdd){
-
         //places new mark, weight, description or date in appropriate place according to the provided index inside newGrades Array in Vuex
         //e.g    for second component Grade.vue:   newGrades.grades[1] = 5                           newGrades.grades=[3,5]
         //e.g    for second component Grade.vue:   newGrades.weights[1] = 5                          newGrades.weights=[3,5]
@@ -156,19 +151,15 @@ export default {
         //       this.weights[1] = this.payload[weight]
         //       this.descriptions[1] = this.payload[description]
         //       this.dates[1] = this.payload[date]
-        this[whatToAdd+"s"][this.payload.index]=this.payload[whatToAdd];
+        this[whatToAdd+"s"][this.index]=this.payload[whatToAdd];
 
-        this.$emit("update:a", this.a+1);
-        this.$on("aaa()")
+        this.$emit("updater")
         this.$emit("update:possibleSave", true);
 
     },
 
     remove(index){
-      this.marks[index]="";
-      this.weights[index]="";
-      this.descriptions[index]="";
-      this.dates[index]="";
+      this.clearNewGradesArray("", index)
       this.$destroy(index);
     },
 
@@ -176,138 +167,21 @@ export default {
 }
 </script>
 
-<style>
-
-div.gainedGrades{
-    margin: 15px;
-}
-.addStudentPanelMain select {
-     line-height: 1.7em;
-     font-size: 15px;
-     text-shadow: none;
-     padding-left: 6px;
-     border-radius: 2px;
-     background-color: black;
-     appearance: none;
-     width: 35px;
-     background-image: url("./../assets/arrow_down.png");
-     background-repeat: no-repeat, repeat;
-     background-position: right .3em top 50%, 0 0 ;
-     background-size: .55em auto, 130%
-}
-.addStudentPanelMain select option {
-    color: #00c3ff;
-    text-align: center;
-    border-bottom: 1px solid blue;
-}
-.addStudentPanelMain input {
-    outline: none;
-    display: block;
-    margin: auto;
-    margin-top: 10px;
-    width: 65%;
-    height: 23px;
-    font-size: 0.40rem;
-    text-align: center;
-    background-color: black;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    box-sizing: border-box;
-    text-shadow: none;
-}
-.addStudentPanelMain input:focus {
-    border: 2px solid #a5cda5;
-    color: white;
-    -webkit-box-shadow: 0px 0px 10px 2px rgba(204, 204, 204, 0.9);
-    -moz-box-shadow: 0px 0px 10px 2px rgba(204, 204, 204, 0.9);
-    box-shadow: 0px 0px 10px 2px rgba(204, 204, 204, 0.9)
-}
-
-.addStudentPanelGradesContent {
-    margin-top: 19px;
-}
-
+<style scoped>
 
 .addStudentPanelGradesContentSingle {
-    display: inline-block;
     width: 100%;
     float: left;
     margin-bottom: 20px;
 }
 
-.addStudentPanelGradesContentSingleGrade {
-    margin-top: 12px;
-}
-
-.addStudentPanelGradesContentSingleWeight {
-    margin-top: 12px;
-}
-
-.addStudentPanelGradesContentSingleDescription label.description{
-    margin-bottom: 0;
-}
-
-.addStudentPanelGradesContentSingleDescription input{
-    width: 90%;
-    /* height: 25px; */
-}
-
-.addStudentPanelGradesContentSingleDescription span.descriptionCount {
-    font-size: 9px;
-}
 
 .addStudentPanelGradesContentSingle .row>div{
-  align-content: flex-end;
   display: grid;
+  align-content: flex-end;
 }
 
-span.remove{
-    font-size: 12px;
-    text-decoration: underline;
-}
-span.remove:hover{
-    cursor: pointer;
-}
-select {
-    margin-top: 5px;
-    line-height: 1.7em;
-    font-size: 15px;
-    text-shadow: none;
-    padding-left: 6px;
-    border-radius: 2px;
-    background-color: black;
-    appearance: none;
-    width: 35px;
-    background-image: url("./../assets/arrow_down.png");
-    background-repeat: no-repeat, repeat;
-    background-position: right .3em top 50%, 0 0 ;
-    background-size: .55em auto, 130%
-}
-select option {
-    color: #00c3ff;
-    text-align: center;
-    border-bottom: 1px solid blue;
-}
-label {
-    display: block;
-    font-size: 14px;
-    margin-bottom: 0;
-}
-input {
-    outline: none;
-    display: block;
-    margin: auto;
-    margin-top: 10px;
-    width: 90%;
-    height: 23px;
-    font-size: 14px;
-    text-align: center;
-    background-color: black;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    box-sizing: border-box;
-    text-shadow: none;
-}
+
 @media (max-width: 768px){
     .row{
         margin-right: 0;

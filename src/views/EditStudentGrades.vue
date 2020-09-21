@@ -115,7 +115,7 @@
 
 import GradesService from "../assets/mixins.js"
 import Grade from "./Grade.vue"
-import { mapState, mapMutations } from "vuex"
+import { mapMutations } from "vuex"
 
 //css-table
 require("../assets/table.css");
@@ -127,9 +127,9 @@ export default {
   watch: {
     "$store.state.newGrades.descriptions": {
       handler(){
-        const inputGradeDescription = document.querySelectorAll("input.description")[this.n].value;
-        const descriptionCount = document.querySelectorAll("span.descriptionCount")[this.n];
-        const counter = (30 - (inputGradeDescription.length));
+        const inputGradeDescription = document.querySelectorAll("input.description")[0].value;
+        const descriptionCount = document.querySelectorAll("span.descriptionCount")[0];
+        const counter = (this.characters - (inputGradeDescription.length));
         switch (counter) {
             case 2:
             case 3:
@@ -154,7 +154,6 @@ export default {
     return{
       characters: 30,
       gradesLength: 0,
-      a: 1,
       possibleSave: true
     }
   },
@@ -167,22 +166,13 @@ export default {
   mounted(){
     this.showTooltip(this.$refs.EditStudentGrades, this);
   },
-  computed:{
-    ...mapState({
-        marks: state => state.newGrades.marks,
-        weights: state => state.newGrades.weights,
-        descriptions: state => state.newGrades.descriptions,
-        dates: state => state.newGrades.dates,
-    }),
-  },
   destroyed(){
-    this.$store.state.newGrades.marks = [];
-    this.$store.state.newGrades.weights = [];
-    this.$store.state.newGrades.descriptions = [];
-    this.$store.state.newGrades.dates = [];
+    this.clearNewGradesArray([])
   },
   updated(){
+    // alert(55)
     this.showTooltip(this.$refs.EditStudentGrades, this.$store.state.newGrades);
+    // alert(66)
     for(let i=0; i<this.marks.length; i++){
       if( ((this.marks[i]!=="") && (this.weights[i]==="")) || ((this.marks[i]==="") && (this.weights[i]!==""))){
         this.possibleSave = false;
@@ -194,21 +184,21 @@ export default {
   methods:{
 
     ...mapMutations([
-      "editStudent",
-      "editStudentGrade",
-      "editStudentWeight",
-      "editStudentDescription",
-      "editStudentDate",
       "removeGrade"
     ]),
 
     remove(index){
-      this.marks.splice(index,1);
-      this.weights.splice(index,1);
-      this.descriptions.splice(index,1);
-      this.dates.splice(index,1);
+      this.marks[index] = ""
+      this.weights[index] = ""
+      this.descriptions[index] = ""
+      this.dates[index] = ""
+      // this.marks="";
+      // this.weights="";
+      // this.descriptions="";
+      // this.dates="";
       this.$forceUpdate();
       this.possibleSave = true;
+      // alert(44)
     },
 
     changeGrade(index, newVal, what){
@@ -224,52 +214,6 @@ export default {
       this.gradesLength++;
     },
 
-    //returns current Date in an Array
-    whatsTheDatePlease() {
-        const today = new Date();
-        const currentYear = today.getFullYear();
-        let currentMonth = today.getMonth();
-        let currentDay = today.getDate();
-        let currentHours = today.getHours();
-        let currentMinutes = today.getMinutes();
-        let currentSeconds = today.getSeconds();
-        if (currentMonth < 10) {
-            currentMonth = `0${currentMonth}`;
-        }
-        if (currentDay < 10) {
-            currentDay = `0${currentDay}`;
-        }
-        if (currentHours < 10) {
-            currentHours = `0${currentHours}`;
-        }
-        if (currentMinutes < 10) {
-            currentMinutes = `0${currentMinutes}`;
-        }
-        if (currentSeconds < 10) {
-            currentSeconds = `0${currentSeconds}`;
-        }
-
-        // [DD.MM.YYYY]
-        const dateSubArrayDDMMYYYY = [currentDay, currentMonth, currentYear].join(".");
-
-        // [HH:MM:SS]
-        const dateSubArrayHHMMSS = [currentHours, currentMinutes, currentSeconds].join(":");
-
-        // [["DD.MM.YYYY"] ["HH:MM:SS"]]
-        const dateFull = [];
-        dateFull.push(dateSubArrayDDMMYYYY, dateSubArrayHHMMSS)
-
-        // DD.MM.YYYY HH:MM:SS
-        const dateFullStr = dateFull.join(" ")
-
-        // [DD.MM.YYYY HH:MM:SS]
-        const dateFullArray = [];
-        dateFullArray.push(dateFullStr);
-
-        let dateArray;
-        return dateArray = dateFullStr;
-
-    },
 
     saveChanges(){
 
@@ -319,53 +263,48 @@ div.EditStudentGrades{
     box-shadow: 3px 3px 30px 5px #00c3ff;
     background-color: rgba(0, 0, 0, 1);
     text-align: center;
-    font-size: 15px;
+    font-size: 13px;
     position: absolute;
     top: -20%;
     left: 50%;
     transform: translateX(-50%);
     padding: 70px 0 40px;
 }
+#EditStudentGradesTitle{
+  display: block;
+  margin-bottom: 40px;
+}
 div.gainedGrades{
     margin: 15px;
+    width: 80%;
+    margin: auto;
 }
 div.gainedGrades .row>div{
   align-content: flex-end;
   display: grid;
+  margin-bottom: 20px;
 }
 select {
-    margin-top: 5px;
-    line-height: 1.7em;
-    font-size: 15px;
-    text-shadow: none;
+    font-size: 12px;
     padding-left: 6px;
     border-radius: 2px;
     background-color: black;
-    appearance: none;
-    width: 35px;
+    width: 30px;
     background-image: url("./../assets/arrow_down.png");
     background-repeat: no-repeat, repeat;
     background-position: right .3em top 50%, 0 0 ;
     background-size: .55em auto, 130%
 }
-select option {
-    color: #00c3ff;
-    text-align: center;
-    border-bottom: 1px solid blue;
-}
 label {
     display: block;
-    font-size: 14px;
+    font-size: 11.5px;
     margin-bottom: 0;
 }
 input {
-    outline: none;
-    display: block;
-    margin: auto;
     margin-top: 10px;
     width: 90%;
     height: 23px;
-    font-size: 14px;
+    font-size: 12px;
     text-align: center;
     background-color: black;
     border-radius: 5px;
@@ -376,7 +315,7 @@ input {
 
 .studentPanelSummary{
     width: 80%;
-    margin: 200px auto 100px;
+    margin: 150px auto 100px;
 }
 button.save{
   font-size: 15px;
@@ -426,7 +365,7 @@ img.closeThePanel{
     border-radius: 50px;
 }
 span.remove{
-    font-size: 12px;
+    font-size: 10px;
     text-decoration: underline;
 }
 span.remove:hover{

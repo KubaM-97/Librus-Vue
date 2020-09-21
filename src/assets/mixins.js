@@ -50,28 +50,30 @@ export default {
       //shows tooltip after hovering on every grade
       showTooltip(RootElement, SingleStudent) {
 
+
       const gradeInDiv = RootElement.querySelectorAll("div.gradeWeightColor");
+      for(let i=0; i<SingleStudent.marks.length;i++){
 
-      for(let j=0; j<SingleStudent.marks.length;j++){
-
-        if((SingleStudent.marks[j]!=="")&&(SingleStudent.weights[j]!=="")){
+        if((SingleStudent.marks[i]!=="")&&(SingleStudent.weights[i]!=="")){
 
 
-              if(SingleStudent.descriptions[j]===""){
-                SingleStudent.descriptions[j] = "BRAK OPISU"
+              if(SingleStudent.descriptions[i]===""){
+                SingleStudent.descriptions[i] = "BRAK OPISU"
               }
 
-              //gradeInDiv[0], gradeInDiv[1] ,gradeInDiv[2], gradeInDiv[3],
-              gradeInDiv[j].addEventListener("mouseenter", function() {
-                  this.canvas(SingleStudent.marks[j], SingleStudent.weights[j], SingleStudent.descriptions[j], SingleStudent.dates[j], gradeInDiv[j])
-              }.bind(this), false);
 
-              //destroyes tooltip after leaving
-              gradeInDiv[j].addEventListener("mouseleave", function() {
-                  const canv = document.querySelector("canvas");
-                  canv.parentNode.removeChild(canv);
-              });
+              for(let j=0; j<gradeInDiv.length;j++){
+                  //gradeInDiv[0], gradeInDiv[1] ,gradeInDiv[2], gradeInDiv[3],
+                  gradeInDiv[j].addEventListener("mouseenter", function() {
+                      this.canvas(SingleStudent.marks[i], SingleStudent.weights[i], SingleStudent.descriptions[i], SingleStudent.dates[i], gradeInDiv[j])
+                  }.bind(this), false);
 
+                  //destroyes tooltip after leaving
+                  gradeInDiv[j].addEventListener("mouseleave", function() {
+                      const canv = document.querySelector("canvas");
+                      canv.parentNode.removeChild(canv);
+                  });
+                }
           }
 
         }
@@ -95,31 +97,31 @@ export default {
           ctx.beginPath();
           ctx.moveTo(0, 10);
           ctx.lineTo(25, 15);
-          ctx.lineTo(255, 15);
-          ctx.lineTo(255, 135);
-          ctx.lineTo(25, 135);
+          ctx.lineTo(220, 15);
+          ctx.lineTo(220, 115);
+          ctx.lineTo(25, 115);
           ctx.lineTo(25, 40);
           ctx.lineTo(0, 10);
           ctx.stroke();
           ctx.fillStyle = "#ffeab0";
           ctx.fill();
           ctx.fillStyle = "black";
-          ctx.font = "normal bold 14px Arial";
+          ctx.font = "700 11px Arial";
 
-          ctx.fillText(`Ocena: ${SingleGrade}`, 40, 50);
-          ctx.fillText(`Waga: ${SingleWeight } `, 40, 70);
+          ctx.fillText(`Ocena: ${SingleGrade}`, 40, 40);
+          ctx.fillText(`Waga: ${SingleWeight } `, 40, 60);
 
           if(SingleDescription == "BRAK OPISU"){
             ctx.fillText(`Opis:`, 40, 90);
-            ctx.font = "italic bold 14px Arial";
-            ctx.fillText(`${SingleDescription}`, 85, 90);
-            ctx.font = "normal bold 14px Arial";
+            ctx.font = "italic 700 11px Arial";
+            ctx.fillText(`${SingleDescription}`, 85, 80);
+            ctx.font = "700 11px Arial";
           }
           else{
-            ctx.fillText(`Opis: ${SingleDescription } `, 40, 90);
+            ctx.fillText(`Opis: ${SingleDescription } `, 40, 80);
           }
 
-          ctx.fillText(`Data: ${SingleDate}`, 40, 110);
+          ctx.fillText(`Data: ${SingleDate}`, 40, 100);
 
       },
 
@@ -202,6 +204,28 @@ export default {
           let dateArray;
           return dateArray = dateFullStr;
 
+      },
+
+      //adds a new grade to the student
+      moreGrades() {
+        this.gradesLength++;
+      },
+
+      //clears newGrades object in Vuex
+      clearNewGradesArray(figure, index){
+
+        const store = this.$store.state.newGrades;
+
+        for(const whatToChange in store){
+          if(index!==undefined){
+            store[whatToChange][index] = figure;
+          }
+          else{
+            store[whatToChange] = figure;
+          }
+        }
+
       }
+
     }
   }

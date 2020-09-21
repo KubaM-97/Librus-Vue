@@ -4,14 +4,15 @@ table {
 table td, div.students table thead th{
   border: 1px solid white;
   text-align: center;
-  padding: 12px 15px;
+  padding: 7px;
 }
 div.students table thead th{
-  font-size: 18px;
+  font-size: 16px;
+  padding: 17px 7px;
 }
 div.students table tbody tr:hover {
-    background-color: darkgoldenrod;
-    cursor: pointer;
+  background-color: darkgoldenrod;
+  cursor: pointer;
 }
 
 table.summary td{
@@ -22,7 +23,7 @@ table.summary td{
 
 
 .gradeWeightColorLegend{
-  padding: 8px 17px;
+  padding: 6px 15px;
   margin: 3px;
   display: inline-block;
   border: 2px solid white;
@@ -30,17 +31,66 @@ table.summary td{
   position: relative;
 }
 .gradeWeightColor{
-    padding: 5px 9px;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 8px;
     margin: 3px;
-    min-width: 32px;
-    min-height: 32px;
     display: inline-block;
     border: 2px solid white;
     margin-right: 10px;
-    vertical-align: middle;
-    position: relative;
+}
+div.gainedGrades{
+    margin: 15px;
+}
+label {
+    display: block;
+    font-size: 11.5px;
+    margin-bottom: 0;
+}
+input {
+    outline: none;
+    display: block;
+    margin: auto;
+    margin-top: 10px;
+    width: 90%;
+    height: 23px;
+    font-size: 14px;
+    text-align: center;
+    background-color: black;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    text-shadow: none;
+}
+select {
+    font-size: 12px;
+    width: 30px;
+    margin-top: 5px;
+    line-height: 1.7em;
+    text-shadow: none;
+    padding-left: 6px;
+    border-radius: 2px;
+    background-color: black;
+    appearance: none;
+    background-image: url("./../assets/arrow_down.png");
+    background-repeat: no-repeat, repeat;
+    background-position: right .3em top 50%, 0 0 ;
+    background-size: .55em auto, 130%
 }
 
+
+
+
+span.remove{
+    font-size: 10px;
+    text-decoration: underline;
+}
+span.remove:hover{
+    cursor: pointer;
+}
+.addStudentPanelGradesContentSingleDescription span.descriptionCount {
+    font-size: 9px;
+}
 .gradeWeightGreen {
     text-shadow: 5px 0px 20px #3be029, -5px 0px 20px #3be029, 0px 5px 20px #3be029, 0px -5px 20px #3be029;
     background-color: #3be029;
@@ -62,7 +112,7 @@ table.summary td{
 
 
 span.fire {
-    padding: 17px 35px;
+    padding: 10px 35px;
     border: 1px solid whitesmoke;
     text-shadow: none;
     background-image: url(./Animated_fire_by_nevit.gif);

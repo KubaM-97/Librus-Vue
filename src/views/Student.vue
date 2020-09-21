@@ -142,6 +142,7 @@ export default {
       this.$router.push({name: "EditData", params: {
         id: this.$route.params.id,
         lastName: this.$route.params.lastName,
+        firstName: this.$route.params.firstName,
         marks: this.$route.params.marks,
         weights: this.$route.params.weights,
         descriptions: this.$route.params.descriptions,
@@ -192,7 +193,7 @@ export default {
     background-color: rgba(0, 0, 0, .55);
     text-align: center;
     position: relative;
-    font-size: 15px;
+    font-size: 13px;
 }
 
 .editStudentPanelMain{
@@ -274,7 +275,6 @@ div[class^="editStudentPanelThreatness"] {
 
 .editStudentPanelNameDetailData{
     margin: 20px 0;
-    font-size: 15px;
     float: left;
 }
 
@@ -283,13 +283,14 @@ div[class^="editStudentPanelThreatness"] {
     margin: auto;
     margin-bottom: 25px;
     padding-left: 45px;
-    font-size: 12px;
+    font-size: 11px;
 }
 
 .editStudentPanelNameDetailData .form-group span.title{
     float: left;
     display: inline-block;
     width: 30%;
+    font-size: 12.5px;
     text-align: left;
 }
 
@@ -303,7 +304,7 @@ div[class^="editStudentPanelThreatness"] {
 .editStudentPanelMain button{
     background-color: blueviolet;
     display: inline-block;
-    font-size: 14px;
+    font-size: 11px;
     color: #fff;
     border-radius: 4px;
     padding: 6px 11px;

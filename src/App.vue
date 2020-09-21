@@ -116,7 +116,7 @@ Vue.component('log-out-button', {
             attrs: {
               src: "./img/logout2.png",
               alt: "logout icon",
-              height: "25"
+              height: "20"
             }
           }
         ),
@@ -156,8 +156,8 @@ header.main-header {
     -webkit-box-shadow: 3px 3px 30px 5px #00c3ff;
     -moz-box-shadow: 3px 3px 30px 5px #00c3ff;
     box-shadow: 3px 3px 30px 5px #00c3ff;
-    padding: 20px 0 25px;
-    font-size: 11px;
+    padding: 10px 0 15px;
+    font-size: 8.5px;
 }
 header, .logo, nav {
     display: inline-block;
@@ -167,15 +167,15 @@ header > header {
 }
 header .logo img {
     border-radius: 6px;
-    height: 120px;
-    vertical-align: -200%;
-    margin: 5px 65px 20px 30px;
+    height: 100px;
+    vertical-align: bottom;
+    margin: 5px 45px 0px 30px;
 }
 header .logo_info{
   display: inline-block;
 }
 header span {
-    margin-right: 30px;
+    margin-right: 25px;
 }
 nav {
     width: 47%;
@@ -184,12 +184,12 @@ nav {
 nav button.btn{
     background-color: rgba(0, 162, 255, 0.822);
     margin-right: 10px;
-    margin-top: 10px;
-    font-size: 16px;
-    padding: 10px 20px;
+    font-size: 13px;
+    padding: 8px 16px;
 }
 nav button.btn.with-logout-icon{
-    padding-left: 15px;
+    padding: 7px 18px 7px 15px;
+    vertical-align: top;
 }
 nav button.btn.active{
     background-color: rgba(15, 88, 223, 0.55);
