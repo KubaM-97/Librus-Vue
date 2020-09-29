@@ -71,7 +71,9 @@
                       }">
                     <td></td>
                     <td>{{ student.lastName.toUpperCase() }} {{ student.firstName }}</td>
-                    <td v-html="gradeWeightColor(student.marks, student.weights)"></td>
+                    <td>
+                      <span class="grades" v-html="gradeWeightColor(student.marks, student.weights)"></span>
+                    </td>
                     <td>{{ avg(student.marks, student.weights) }}</td>
                     <td v-html="threatness(avg(student.marks, student.weights))"></td>
                 </router-link>
@@ -93,25 +95,18 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 
-import { mapState } from 'vuex'
-
 import GradesService from "../assets/mixins.js"
 
 //css-table
-require("../assets/table.css");
+require("../assets/css/table.css");
 
 export default {
    name: 'FullClass',
-   computed:{
-     ...mapState([
-       'students'
-     ])
-   },
    beforeRouteEnter (to, from, next) {
 
       next(vm => {
-        vm.addNumberingToTheTable();
         vm.sortMyStudents();
+        vm.addNumberingToTheTable();
       })
 
    },
@@ -122,7 +117,6 @@ export default {
        }
 
        this.addNumberingToTheTable();
-       this.sortMyStudents();
 
    },
    mixins: [GradesService],
@@ -185,8 +179,7 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
 
 .fullClass {
     width: 90%;
@@ -197,29 +190,8 @@ export default {
     box-shadow: 3px 3px 30px 5px #00c3ff;
     background-color: rgba(0, 0, 0, .55);
     text-align: center;
-
-    font-size: 12px;
+    font-size: 15px;
     padding: 40px 0
-}
-
-.tableColorsLegend .tableColorsLegendTitle {
-    font-size: 11.5px;
-    margin: 20px 0;
-}
-
-.tableColorsLegend .tableColorsLegendContent .tableColorsLegendSingleContent {
-    display: inline-block;
-    margin-left: 10px;
-    margin-right: 40px;
-    font-size: 10px;
-}
-
-.tableColorsLegend .tableColorsLegendContent .tableColorsLegendSingleContent * {
-    vertical-align: bottom;
-}
-
-div.tableColorsLegend div.gradeWeightColorLegend {
-    width: 2px;
 }
 
 div.students{
@@ -227,20 +199,38 @@ div.students{
     margin: 50px auto;
 }
 
-@media (max-width: 768px){
-  .tableColorsLegend .tableColorsLegendTitle {
-      font-size: 11px;
-      margin: 20px 0;
-  }
-  .tableColorsLegend .tableColorsLegendContent .tableColorsLegendSingleContent {
-    font-size: 10px;
-  }
-
-  div.tableColorsLegend div.gradeWeightColor {
-    width: 25px;
-  }
+.tableColorsLegend .tableColorsLegendTitle {
+    font-size: 13.5px;
+    margin: 20px 0;
 }
 
+.tableColorsLegend .tableColorsLegendContent .tableColorsLegendSingleContent {
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 40px;
+    font-size: 12px;
+}
+
+.tableColorsLegend .tableColorsLegendContent .tableColorsLegendSingleContent * {
+    vertical-align: middle;
+}
+
+
+
+@media (max-width: 768px){
+  .tableColorsLegend .tableColorsLegendTitle {
+      font-size: 10px;
+  }
+  .tableColorsLegend .tableColorsLegendContent .tableColorsLegendSingleContent {
+      font-size: 9px;
+      margin: auto;
+      display: block;
+  }
+  .tableColorsLegend .tableColorsLegendContent .tableColorsLegendSingleContent .gradeWeightColorLegend{
+   padding: 5px 12px;
+   margin: 2px 3px;
+ }
+}
 
 
 </style>

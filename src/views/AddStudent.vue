@@ -8,150 +8,151 @@
 
               <div class="row">
 
-                 <div class="col-md-4">
+                 <div class="col-lg-4">
 
-                   <div class="addStudentPanelName">
+                   <!-- <form action="#" enctype="application/x-www-form-urlencoded" method="get"> -->
 
-                       <label for="name">*Imię i Nazwisko:
-                           <span class="nameTooltip">
-                               Podwójne nazwiska przy pomocy myślnika
-                           </span>
-                       </label>
+                     <div class="addStudentPanelName">
 
-                       <input type="text" v-model.lazy.trim="name" id="name" maxlength="30" autocomplete="off">
-                      <span class="required">
-                           <transition name="bounce">
-                              <span class="required" v-if="showError">Uzupełnij imię i nazwisko</span>
-                           </transition>
-                      </span>
-                         Informacje dodatkowe
-                         <span class="showInfo" @click="additionalInfoSwitcher">Rozwiń</span>
+                         <label for="name">*Imię i Nazwisko:
+                             <span class="nameTooltip">
+                                 Podwójne nazwiska przy pomocy myślnika
+                             </span>
+                         </label>
 
-                   </div>
-
-                   <div class="addStudentPanelNameInfo">
-
-                      <transition @enter="enter" @leave="leave" :css="false">
-
-                          <div class="info" v-if="info">
-
-                               <div class="form-group">
-                                 <label for="pesel">PESEL:</label>
-                                 <input type="text" v-model.trim="add.pesel" id="Pesel" autocomplete="off" placeholder="PESEL" @keyup="validatorData('Pesel', '^[0-9]{11}$', 'Dokładnie 11 cyfr')">
-                                 <span class="wrongAdditionalInfo" id="wrongPesel"></span>
-                               </div>
-
-                               <div class="form-group">
-
-                                 <label>Adres:</label>
-
-                                 <input type="text" v-model.trim="add.street.streetName" id="Street" autocomplete="off" placeholder="ulica" @keyup="validatorData('Street', '^[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]*$', 'Bez znaków specjalnych.')">
-                                 <span class="wrongAdditionalInfo" id="wrongStreet"></span>
-
-                                 <input type="text" v-model.trim="add.street.streetNr" id="HouseNr" autocomplete="off" placeholder="nr_domu" @keyup="validatorData('HouseNr', '^[0-9]+[a-zA-Z]?(/?[0-9]*[a-zA-Z]?)?$', 'Nr, Nr/Nr, Nr Litera <br /> np. 11 11/13 11A 11A/13B')">
-                                 <span class="wrongAdditionalInfo" id="wrongHouseNr"></span>
-
-                                 <input type="text" v-model.trim="add.street.streetFlat" id="FlatNr" autocomplete="off" placeholder="nr_mieszkania" @keyup="validatorData('FlatNr', '^[0-9]+[a-zA-Z]?$', 'Liczba + ew.litera np.116F')">
-                                 <span class="wrongAdditionalInfo" id="wrongFlatNr"></span>
-
-                                 <input type="text" v-model.trim="add.street.streetPostCode" id="PostCode" autocomplete="off" placeholder="kod pocztowy" @blur="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
-                                 <span class="wrongAdditionalInfo" id="wrongPostCode"></span>
-
-                                 <input type="text" v-model.trim="add.street.streetCity" id="City" autocomplete="off" placeholder="miasto" @keyup="validatorData('City', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( (- )?[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)*$', 'Brak Cyfr i znaków specjalnych. <br />')">
-                                 <span class="wrongAdditionalInfo" id="wrongCity"></span>
-
-                               </div>
-
-                               <div class="form-group">
-                                 <label for="Phone">Telefon:</label>
-                                 <input type="text" v-model.trim="add.phone" id="Phone" autocomplete="off" placeholder="Telefon" @blur="validatorData('Phone', '^([0-9]{7}|[0-9]{9})$', 'Dokładnie 7 lub 9 cyfr.')">
-                                 <span class="wrongAdditionalInfo" id="wrongPhone"></span>
-                               </div>
-
-                               <div class="form-group">
-
-                                 <label for="Email">Email:</label>
-                                 <input type="text" v-model.trim="add.email" id="Email" autocomplete="off" placeholder="adres e-mail" @blur="validatorData('Email', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
-                                 <span class="wrongAdditionalInfo" id="wrongEmail"></span>
-
-                               </div>
-
-                               <div class="parents">
-
-                             <div class="mother">
-
-                               <div class="form-group">
-
-                                 <label>Matka:</label>
-
-                                   <input type="text" v-model.trim="add.mother.mothersFirstName" id="MothersFirstName" autocomplete="off" placeholder="Imię matki" @keyup="validatorData('MothersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-zząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')"/>
-                                   <span class="wrongAdditionalInfo" id="wrongMothersFirstName"></span>
-
-                                   <input type="text" v-model.trim="add.mother.mothersLastName" id="MothersLastName" autocomplete="off" placeholder="Nazwisko matki" @keyup="validatorData('MothersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
-                                   <span class="wrongAdditionalInfo" id="wrongMothersLastName"></span>
-
-                                   <input type="text" v-model.trim="add.mother.mothersTelephone" id="MothersTelephone" autocomplete="off" placeholder="numer telefonu matki" @blur="validatorData('MothersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
-                                   <span class="wrongAdditionalInfo" id="wrongMothersTelephone"></span>
-
-                                   <input type="text" v-model.trim="add.mother.mothersEmail" id="MothersEmail" autocomplete="off" placeholder="email matki" @blur="validatorData('MothersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
-                                   <span class="wrongAdditionalInfo" id="wrongMothersEmail"></span>
+                         <input name="#" type="text" v-model.lazy.trim="name" id="name" maxlength="30" autocomplete="off">
+                         <span class="required">
+                             <transition name="bounce">
+                                <span class="required" v-if="showError">Uzupełnij imię i nazwisko</span>
+                             </transition>
+                         </span>
 
 
-                               </div>
-
-                             </div>
-
-                             <div class="father">
-
-                               <div class="form-group">
-
-                                 <label>Ojciec:</label>
-
-                                 <input type="text" v-model.trim="add.father.fathersFirstName" id="FathersFirstName" autocomplete="off" placeholder="Imię ojca" @keyup="validatorData('FathersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Jan Maria')"/>
-                                 <span class="wrongAdditionalInfo" id="wrongFathersFirstName"></span>
-
-                                 <input type="text" v-model.trim="add.father.fathersLastName" id="FathersLastName" autocomplete="off" placeholder="Nazwisko ojca" @keyup="validatorData('FathersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
-                                 <span class="wrongAdditionalInfo" id="wrongFathersLastName"></span>
-
-                                 <input type="text" v-model.trim="add.father.fathersTelephone" id="FathersTelephone" autocomplete="off" placeholder="numer telefonu ojca" @blur="validatorData('FathersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
-                                 <span class="wrongAdditionalInfo" id="wrongFathersTelephone"></span>
-
-                                 <input type="text" v-model.trim="add.father.fathersEmail" id="FathersEmail" autocomplete="off" placeholder="email ojca" @blur="validatorData('FathersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
-                                 <span class="wrongAdditionalInfo" id="wrongFathersEmail"></span>
-
-                               </div>
-
-                             </div>
-
-                           </div>
-
-                          </div>
-
-                      </transition>
-
-                   </div>
-
-                 </div>
-
-                 <div class="col-md-7">
-
-                   <div class="addStudentPanelGradesTitle">
-                        <span class="addStudentGradeSubpanelTitle">Dotychczasowe oceny:</span>
-                   </div>
-
-                   <div class="addStudentPanelGradesContent" v-for="(n, index) in gradesLength" :key="n">
-
-                     <grade-component :index="index" :gradesLength.sync="gradesLength"  v-on:updater="updater"></grade-component>
-
-                   </div>
-
-                 </div>
-
-                <div class="col-md-1">
-
-                     <div class="addStudentPanelGradesContentButton">
-                       <button name="moreGradesAddStudent" @click="moreGrades()">  +  </button>
                      </div>
+
+                     <div class="addStudentPanelNameInfo">
+
+                        Informacje dodatkowe
+                        <span class="showInfo" @click="additionalInfoSwitcher">Rozwiń</span>
+
+                        <transition @enter="enter" @leave="leave" :css="false">
+
+                            <div class="info" v-if="info">
+
+                                 <div class="form-group">
+                                   <label for="pesel">PESEL:</label>
+                                   <input name="#" type="text" v-model.trim="add.pesel" id="Pesel" autocomplete="off" placeholder="PESEL" @keyup="validatorData('Pesel', '^[0-9]{11}$', 'Dokładnie 11 cyfr')">
+                                   <span class="wrongAdditionalInfo" id="wrongPesel"></span>
+                                 </div>
+
+                                 <div class="form-group">
+
+                                   <label>Adres:</label>
+
+                                   <input name="#" type="text" v-model.trim="add.street.streetName" id="Street" autocomplete="off" placeholder="ulica" @keyup="validatorData('Street', '^[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]*$', 'Bez znaków specjalnych.')">
+                                   <span class="wrongAdditionalInfo" id="wrongStreet"></span>
+
+                                   <input name="#" type="text" v-model.trim="add.street.streetNr" id="HouseNr" autocomplete="off" placeholder="nr_domu" @keyup="validatorData('HouseNr', '^[0-9]+[a-zA-Z]?(/?[0-9]*[a-zA-Z]?)?$', 'Nr, Nr/Nr, Nr Litera <br /> np. 11 11/13 11A 11A/13B')">
+                                   <span class="wrongAdditionalInfo" id="wrongHouseNr"></span>
+
+                                   <input name="#" type="text" v-model.trim="add.street.streetFlat" id="FlatNr" autocomplete="off" placeholder="nr_mieszkania" @keyup="validatorData('FlatNr', '^[0-9]+[a-zA-Z]?$', 'Liczba + ew.litera np.116F')">
+                                   <span class="wrongAdditionalInfo" id="wrongFlatNr"></span>
+
+                                   <input name="#" type="text" v-model.trim="add.street.streetPostCode" id="PostCode" autocomplete="off" placeholder="kod pocztowy" @blur="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
+                                   <span class="wrongAdditionalInfo" id="wrongPostCode"></span>
+
+                                   <input name="#" type="text" v-model.trim="add.street.streetCity" id="City" autocomplete="off" placeholder="miasto" @keyup="validatorData('City', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( (- )?[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)*$', 'Brak Cyfr i znaków specjalnych. <br />')">
+                                   <span class="wrongAdditionalInfo" id="wrongCity"></span>
+
+                                 </div>
+
+                                 <div class="form-group">
+                                   <label for="Phone">Telefon:</label>
+                                   <input name="#" type="text" v-model.trim="add.phone" id="Phone" autocomplete="off" placeholder="Telefon" @blur="validatorData('Phone', '^([0-9]{7}|[0-9]{9})$', 'Dokładnie 7 lub 9 cyfr.')">
+                                   <span class="wrongAdditionalInfo" id="wrongPhone"></span>
+                                 </div>
+
+                                 <div class="form-group">
+
+                                   <label for="Email">Email:</label>
+                                   <input name="#" type="text" v-model.trim="add.email" id="Email" autocomplete="off" placeholder="adres e-mail" @blur="validatorData('Email', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                                   <span class="wrongAdditionalInfo" id="wrongEmail"></span>
+
+                                 </div>
+
+                                 <div class="parents">
+
+                               <div class="mother">
+
+                                 <div class="form-group">
+
+                                   <label>Matka:</label>
+
+                                     <input name="#" type="text" v-model.trim="add.mother.mothersFirstName" id="MothersFirstName" autocomplete="off" placeholder="Imię matki" @keyup="validatorData('MothersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-zząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')"/>
+                                     <span class="wrongAdditionalInfo" id="wrongMothersFirstName"></span>
+
+                                     <input name="#" type="text" v-model.trim="add.mother.mothersLastName" id="MothersLastName" autocomplete="off" placeholder="Nazwisko matki" @keyup="validatorData('MothersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
+                                     <span class="wrongAdditionalInfo" id="wrongMothersLastName"></span>
+
+                                     <input name="#" type="text" v-model.trim="add.mother.mothersTelephone" id="MothersTelephone" autocomplete="off" placeholder="numer telefonu matki" @blur="validatorData('MothersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
+                                     <span class="wrongAdditionalInfo" id="wrongMothersTelephone"></span>
+
+                                     <input name="#" type="text" v-model.trim="add.mother.mothersEmail" id="MothersEmail" autocomplete="off" placeholder="email matki" @blur="validatorData('MothersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                                     <span class="wrongAdditionalInfo" id="wrongMothersEmail"></span>
+
+
+                                 </div>
+
+                               </div>
+
+                               <div class="father">
+
+                                 <div class="form-group">
+
+                                   <label>Ojciec:</label>
+
+                                   <input name="#" type="text" v-model.trim="add.father.fathersFirstName" id="FathersFirstName" autocomplete="off" placeholder="Imię ojca" @keyup="validatorData('FathersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Jan Maria')"/>
+                                   <span class="wrongAdditionalInfo" id="wrongFathersFirstName"></span>
+
+                                   <input name="#" type="text" v-model.trim="add.father.fathersLastName" id="FathersLastName" autocomplete="off" placeholder="Nazwisko ojca" @keyup="validatorData('FathersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')"/>
+                                   <span class="wrongAdditionalInfo" id="wrongFathersLastName"></span>
+
+                                   <input name="#" type="text" v-model.trim="add.father.fathersTelephone" id="FathersTelephone" autocomplete="off" placeholder="numer telefonu ojca" @blur="validatorData('FathersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
+                                   <span class="wrongAdditionalInfo" id="wrongFathersTelephone"></span>
+
+                                   <input name="#" type="text" v-model.trim="add.father.fathersEmail" id="FathersEmail" autocomplete="off" placeholder="email ojca" @blur="validatorData('FathersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                                   <span class="wrongAdditionalInfo" id="wrongFathersEmail"></span>
+
+                                 </div>
+
+                               </div>
+
+                             </div>
+
+                            </div>
+
+                        </transition>
+
+                     </div>
+
+                   <!-- </form> -->
+
+                 </div>
+
+                 <div class="col-lg-8 addStudentPanelGrades">
+
+                         <div class="addStudentPanelGradesTitle">
+                              <span class="addStudentGradeSubpanelTitle">Dotychczasowe oceny:</span>
+                         </div>
+
+                         <div class="addStudentPanelGradesContent" v-for="(n, index) in gradesLength" :key="n">
+                           <grade-component :index="index" :gradesLength.sync="gradesLength"  v-on:updater="updater"></grade-component>
+                         </div>
+
+
+                         <div class="showAnotherGrade">
+                           <button name="moreGradesAddStudent" @click="moreGrades()">  +  </button>
+                         </div>
 
                  </div>
 
@@ -200,7 +201,7 @@
 
                   <button name="addStudentCancel" class="btn btn-danger btn-lg" @click="addStudentCancel()">Anuluj</button>
 
-                  <button name="addStudent" class="btn btn-primary btn-lg" @click="addStudent()">Dodaj ucznia</button>
+                  <button name="addStudent" class="btn btn-primary btn-lg" @click="addStudentToClass()">Dodaj ucznia</button>
 
                 </div>
 
@@ -225,14 +226,14 @@
 <script>
 
 //CSS
-require("../assets/animations.css");
+require("../assets/css/animations.css");
 
 //css-table
-require("../assets/table.css");
+require("../assets/css/table.css");
 import GradesService from "../assets/mixins.js"
 import Grade from "./Grade.vue"
 
-import { mapState, mapMutations } from "vuex"
+import { mapMutations } from "vuex"
 
 export default {
   name: "AddStudent",
@@ -273,6 +274,7 @@ export default {
         info: false,
         confirm: false,
         exitPath: "",
+        block: true,
         quit: false,
         stay: false,
         showError: false,
@@ -283,41 +285,69 @@ export default {
     "grade-component": Grade
   },
   beforeRouteLeave(to,from,next){
-    const marks = this.marks
-    const weights = this.weights
-    const descriptions = this.descriptions
-
-    const limit = marks.length;
-    let block = false;
-    for(let i=0; i<limit; i++){
-      if( ((marks[i]==="") && (weights[i]!=="")) || (marks[i]!=="") && (weights[i]==="")){
-        block = true;
-        alert(block)
-      }
-    }
-    if((this.confirm==false) && (
-      (this.add.name == "") || (block))){
-      if(to.path == "/LoggedOut"){
-        next()
-        this.addStudentCancel()
-      }
-      else if (this.exitPath == ""){
-        setTimeout(()=>{
-
-          //shows confirm window
-          this.confirm = true;
-
-        },500)
-        this.exitPath = to.path;
-        next(false)
-      }
+    console.log(this.marks)
+    console.log(this.weights)
+    console.log(this.descriptions)
+    if(to.path == "/LoggedOut"){
+      this.addStudentCancel()
+      next()
     }
     else{
-      next()
-      this.addStudentCancel()
+      for(let i=0; i<this.marks.length; i++){
+        if((     ((this.marks[i]!=="")&&(this.weights[i]===""))
+              || ((this.marks[i]==="")&&(this.weights[i]!==""))
+              || ((this.marks[i]!=="")&&(this.weights[i]!==""))
+              || ((this.marks[i]==="")&&(this.weights[i]==="")&&(this.descriptions[i]!=="")))
+              && (this.name==="")
+              && (this.block==true))
+        {
+          this.exitPath = to.path;
+          this.confirm = true;
+          next(false)
+        }
+        else{
+          this.addStudentCancel()
+          next()
+        }
+      }
     }
+
+
+    // const marks = this.marks
+    // const weights = this.weights
+    // // const descriptions = this.descriptions
+    //
+    // const limit = marks.length;
+    // let block = false;
+    // for(let i=0; i<limit; i++){
+    //   if( ((marks[i]==="") && (weights[i]!=="")) || (marks[i]!=="") && (weights[i]==="")){
+    //     block = true;
+    //   }
+    // }
+    // if((
+    //   (this.add.name == "") || (block))){
+    //   if(to.path == "/LoggedOut"){
+    //     next()
+    //     this.addStudentCancel()
+    //   }
+    //   else if (this.exitPath == ""){
+    //     setTimeout(()=>{
+    //
+    //       //shows confirm window
+    //       this.confirm = true;
+    //
+    //     },500)
+    //     this.exitPath = to.path;
+    //     next(false)
+    //   }
+    // }
+    // else{
+    //   this.addStudentCancel()
+    //   next()
+    // }
   },
   updated(){
+
     if(this.name!=""){
       const arrName = this.name.split(" ");
       this.add.firstName = arrName[0];
@@ -326,12 +356,13 @@ export default {
 
     for(let i=0; i<this.marks.length; i++){
 
-      if((this.marks[i]!="")&&(this.weights[i]!="")){
+
         this.showTooltip(document, this);
-      }
+
     }
 
   },
+
   beforeDestroy(){
     this.clearNewGradesArray([]);
   },
@@ -341,7 +372,7 @@ export default {
     formatName(name) {
 
       const wrongName = document.querySelector(".required");
-      const reg = new RegExp("^[A-Z]?[a-z]*( [A-Z]?[a-z]*)+(-[A-Z]?[a-z]+)?$");
+      const reg = new RegExp("^[A-ZĄĆĘŁŃÓŚŹŻ]?[a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ]?[a-ząćęłńóśźż]*)+(-[A-ZĄĆĘŁŃÓŚŹŻ]?[a-ząćęłńóśźż]+)?$");
       if(reg.test(name) == true){
         wrongName.innerHTML = "";
         const array = [];
@@ -368,11 +399,11 @@ export default {
             //e.g kowalski => KOWALSKI
             array.push(nameArray[1].toUpperCase());
         }
-
         //converts array into string
         return array.reverse().join(" ");
       }
       else if(reg.test(name) == false){
+
         wrongName.innerHTML = "Bez cyfr i znaków specjalnych."
       }
     },
@@ -412,7 +443,7 @@ export default {
 
       //shows additional information
       additionalInfoSwitcher() {
-        const spanInfoSwitcher = document.querySelector(".addStudentPanelName span.showInfo");
+        const spanInfoSwitcher = document.querySelector(".addStudentPanelNameInfo span.showInfo");
         this.info = !this.info;
         spanInfoSwitcher.innerHTML=="Rozwiń" ? spanInfoSwitcher.innerHTML="Zwiń" : spanInfoSwitcher.innerHTML="Rozwiń";
       },
@@ -420,13 +451,14 @@ export default {
       //shows confirm window
       showConfirmWindow(action){
         if(action=="quit"){
+          this.block = false;
           this.$router.push({path: this.exitPath})
           this.confirm = false;
         }
         else if(action == "stay"){
           this.confirm = false;
           this.exitPath = "";
-          this.$router.push({path: this.exitPath});
+          // this.$router.push({path: this.exitPath});
         }
       },
 
@@ -451,8 +483,6 @@ export default {
       //resets addStudent Panel
       addStudentCancel() {
 
-        this.clearNewGradesArray("", this.index)
-
         this.name = "";
 
         this.gradesLength = 0;
@@ -462,7 +492,7 @@ export default {
       },
 
       //adds a new student to the class table
-      addStudent() {
+      addStudentToClass() {
 
         //this is inserted by user (by teacher) name for a new student
         const addedStudentName = this.name;
@@ -473,12 +503,13 @@ export default {
         //if we've got both firstname and lastname
            if (addedStudentNameArray.length >= 2) {
 
+             this.add.id = this.students.length + 1;
              this.add.marks = this.marks;
              this.add.weights = this.weights;
              this.add.descriptions = this.descriptions;
              this.add.dates = this.dates;
 
-             this.addNewStudentToClass(this.add);
+             this.students[this.students.length] = this.add;
              this.$router.push({name: "FullClass"});
           }
           else{
@@ -513,19 +544,16 @@ export default {
     font-size: 11px;
 }
 .addStudentPanelMain{
-    padding: 40px;
-    position: relative;
+    padding: 40px 5px;
 }
-.addStudentPanelMain label {
-    display: block;
-    font-size: 12px;
+.addStudentPanelName {
+    margin-top: 80px;
+    height: 160px;
 }
-.addStudentPanelMain input {
+.addStudentPanelName input {
     outline: none;
     display: block;
-    margin: auto;
-    margin-top: 10px;
-    font-size: 0.3rem;
+    margin: 10px auto;
     text-align: center;
     background-color: black;
     border-radius: 5px;
@@ -535,41 +563,32 @@ export default {
     width: 65%;
     font-size: 12px;
 }
-.addStudentPanelMain input:focus {
+.addStudentPanelName input:focus {
     border: 2px solid #a5cda5;
-    color: white;
     -webkit-box-shadow: 0px 0px 10px 2px rgba(204, 204, 204, 0.9);
     -moz-box-shadow: 0px 0px 10px 2px rgba(204, 204, 204, 0.9);
     box-shadow: 0px 0px 10px 2px rgba(204, 204, 204, 0.9)
-}
-.addStudentPanelName {
-    margin-top: 60px
-}
-.addStudentPanelName input{
-  margin-bottom: 10px;
 }
 .addStudentPanelName span.nameTooltip {
     font-size: 9px;
     display: block;
 }
 .addStudentPanelName span.required{
-   height: 80px;
-   display: block;
+    display: block;
+    font-size: 11px;
+    color: white;
+    text-shadow: 5px 0px 5px #f0351d, -5px 0px 5px #f0351d, 0px 5px 5px #f0351d, 0px -5px 5px #f0351d;
 }
-
-span.required{
-  font-size: 11px;
-  color: white;
-  text-shadow: 5px 0px 5px #f0351d, -5px 0px 5px #f0351d, 0px 5px 5px #f0351d, 0px -5px 5px #f0351d;
+.addStudentPanelNameInfo{
+  margin-bottom: 50px;
 }
-.addStudentPanelName span.showInfo {
+.addStudentPanelNameInfo span.showInfo {
   cursor: pointer;
   font-size: 9px;
   margin-left: 25px;
 }
 .addStudentPanelNameInfo div.info{
-  margin-top:50px;
-  width: 100%
+  margin-top: 50px;
 }
 .addStudentPanelNameInfo .form-group{
   width: 100%;
@@ -580,7 +599,7 @@ span.required{
   float: left;
   padding-left: 25px;
   margin-top: 15px;
-  font-size: 11.5px;
+  font-size: 12px;
 }
 .addStudentPanelNameInfo input{
   display: block;
@@ -590,34 +609,36 @@ span.required{
   background-color: black;
   border: 0.2px solid white;
   box-shadow: 2px 2px 0px 0px white;
-  border-top: none;
-  border-left: none;
-  border-right: none;
   text-align: left;
   padding-left: 15px;
   text-shadow: none;
-  font-size: 10px;
+  font-size: 12px;
 }
-
 .addStudentPanelNameInfo span[class^="wrong"]{
-  font-size: 9px;
+  font-size: 13px;
   display: block;
   width: 60%;
   float: right;
   margin-right: 30px;
   margin-top: 11px;
 }
+.addStudentPanelGrades {
+  position: relative;
+}
 .addStudentPanelGradesTitle {
-    margin-top: 10px;
-    margin-bottom: 19px;
+    padding-top: 10px;
+    margin-bottom: 50px;
     font-size: 11px;
 }
-.addStudentPanelGradesContentButton{
-  position: absolute;
-  top: 20px;
-  right: 10px
+.addStudentPanelGradesContent{
+  width: 90%;
 }
-.addStudentPanelGradesContentButton button {
+.showAnotherGrade{
+  position: absolute;
+  top: 10px;
+  right: 15px
+}
+.showAnotherGrade button {
   background-color: #00c3ff;
   color: white;
   text-shadow: -1px 0 #00c3ff, 0 1px #00c3ff, 1px 0 #00c3ff, 0 -1px #00c3ff;
@@ -630,7 +651,7 @@ span.required{
   padding: 0 12px;
   font-size: 29px;
 }
-.addStudentPanelGradesContentButton button:hover {
+.showAnotherGrade button:hover {
     background-color: black;
     -webkit-box-shadow: inset 0px 0px 15px 2px #00c3ff ,  0px 0px 15px 3px #00c3ff;
     -moz-box-shadow: inset 0px 0px 15px 2px #00c3ff ,  0px 0px 15px 3px #00c3ff;
@@ -638,13 +659,9 @@ span.required{
     color: black;
     border: 1px solid white !important;
 }
-
 .addStudentPanelSummary{
   width: 90%;
   margin: 100px 70px 0;
-}
-span.grades{
-  width: 100%
 }
 .addStudentPanelButtons {
     width: 90%;
@@ -689,11 +706,12 @@ span.grades{
   .addStudentPanelMain{
       padding: 40px 10px;
   }
-
-  span.required{
+  .addStudentPanelName {
+      margin-bottom: 0px;
+  }
+  .addStudentPanelName span.required{
     height: 40px;
   }
-
   .addStudentPanelNameInfo input{
     margin-right: 0px;
     width: 150px;
@@ -702,13 +720,13 @@ span.grades{
     margin-right: 0px;
   }
   .addStudentPanelGradesTitle {
-    margin-top: 70px;
+      padding-top: 70px;
   }
-  .addStudentPanelGradesContentButton{
+  .showAnotherGrade{
     top: 35px;
     right: 10px
   }
-  .addStudentPanelGradesContentButton button{
+  .showAnotherGrade button{
     font-size: 19px;
     padding: 1px 9px;
     font-weight: 300;

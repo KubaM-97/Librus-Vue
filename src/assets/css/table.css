@@ -31,65 +31,16 @@ table.summary td{
   position: relative;
 }
 .gradeWeightColor{
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 700;
     padding: 5px 8px;
     margin: 3px;
     display: inline-block;
     border: 2px solid white;
     margin-right: 10px;
-}
-div.gainedGrades{
-    margin: 15px;
-}
-label {
-    display: block;
-    font-size: 11.5px;
-    margin-bottom: 0;
-}
-input {
-    outline: none;
-    display: block;
-    margin: auto;
-    margin-top: 10px;
-    width: 90%;
-    height: 23px;
-    font-size: 14px;
-    text-align: center;
-    background-color: black;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    box-sizing: border-box;
-    text-shadow: none;
-}
-select {
-    font-size: 12px;
-    width: 30px;
-    margin-top: 5px;
-    line-height: 1.7em;
-    text-shadow: none;
-    padding-left: 6px;
-    border-radius: 2px;
-    background-color: black;
-    appearance: none;
-    background-image: url("./../assets/arrow_down.png");
-    background-repeat: no-repeat, repeat;
-    background-position: right .3em top 50%, 0 0 ;
-    background-size: .55em auto, 130%
-}
-
-
-
-
-span.remove{
-    font-size: 10px;
-    text-decoration: underline;
-}
-span.remove:hover{
-    cursor: pointer;
-}
-.addStudentPanelGradesContentSingleDescription span.descriptionCount {
-    font-size: 9px;
+    vertical-align: middle;
+    /* width: 30px;
+    height: 36px; */
 }
 .gradeWeightGreen {
     text-shadow: 5px 0px 20px #3be029, -5px 0px 20px #3be029, 0px 5px 20px #3be029, 0px -5px 20px #3be029;
@@ -106,16 +57,20 @@ span.remove:hover{
 .gradeWeightRed {
     text-shadow: 5px 0px 20px #ff001e, -5px 0px 20px #ff001e, 0px 5px 20px #ff001e, 0px -5px 20px #ff001e;
     background-color: #ff001e;
-    filter: blur(10px;)
 }
 
 
+
+span.grades{
+  display: inline-block;
+  margin: auto;
+}
 
 span.fire {
     padding: 10px 35px;
     border: 1px solid whitesmoke;
     text-shadow: none;
-    background-image: url(./Animated_fire_by_nevit.gif);
+    background-image: url(../Animated_fire_by_nevit.gif);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     -webkit-animation: fire 5s linear infinite;
@@ -135,19 +90,25 @@ span.fire {
 }
 
 @media (max-width: 768px){
-  table td, table th{
-    font-size: 9px !important;
-    padding: 3px 5px !important;
+  table td, table thead th{
+    font-size: 9px;
+    padding: 3px 1px !important;
   }
-  .gradeWeightColor .gradeWeightColorLegend{
-    padding: 3px 4px;
-    margin: 2px 3px;
-    float: left;
+  table thead th{
+    font-size: 12px !important;
+  }
+
+  .gradeWeightColor{
+    font-size: 12px;
+    padding: 4px 6px;
+    margin-right: 5px;
+    max-width: 24px;
+    max-height: 28px;
   }
   tbody .gradeWeightColor{
     margin: 2px 3px;
     padding: 2px 4.5px !important;
-    font-size: 9px;
+    font-size: 11px;
     border: .5px solid white;
     float: left;
   }

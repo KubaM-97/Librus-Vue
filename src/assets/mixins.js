@@ -3,6 +3,7 @@ import { mapState } from "vuex"
 export default {
   computed:{
     ...mapState({
+        students: state => state.students,
         marks: state => state.newGrades.marks,
         weights: state => state.newGrades.weights,
         descriptions: state => state.newGrades.descriptions,
@@ -32,13 +33,13 @@ export default {
               }
               else if(oneStudentMarks[i]==""){
                 if(oneStudentsWeights[i]===1){
-                  content +=  `<div class="gradeWeightColor gradeWeightGreen"> </div>`
+                  content +=  `<div class="gradeWeightColor gradeWeightGreen" style="width: 30px; height: 36px;"> </div>`
                 }
                 else if(oneStudentsWeights[i]===2){
-                  content +=  `<div class="gradeWeightColor gradeWeightYellow"> </div>`
+                  content +=  `<div class="gradeWeightColor gradeWeightYellow" style="width: 30px; height: 36px"> </div>`
                 }
                 else if(oneStudentsWeights[i]===3){
-                  content +=  `<div class="gradeWeightColor gradeWeightRed"> </div>`
+                  content +=  `<div class="gradeWeightColor gradeWeightRed" style="width: 30px; height: 36px;"> </div>`
                 }
               }
           }
@@ -47,38 +48,83 @@ export default {
 
       },
 
-      //shows tooltip after hovering on every grade
-      showTooltip(RootElement, SingleStudent) {
+      //show tooltip after hovering on every grade
+     showTooltip: function(RootElement, SingleStudent) {
+
+         const gradesInDiv = RootElement.querySelectorAll(".gradeWeightColor");
+
+         const marksArrayWithoutEmptyValues = [];
+         const weightsArrayWithoutEmptyValues = [];
+         const descriptionsArrayWithoutEmptyValues = [];
+         const datesArrayWithoutEmptyValues = [];
 
 
-      const gradeInDiv = RootElement.querySelectorAll("div.gradeWeightColor");
-      for(let i=0; i<SingleStudent.marks.length;i++){
-
-        if((SingleStudent.marks[i]!=="")&&(SingleStudent.weights[i]!=="")){
-
-
-              if(SingleStudent.descriptions[i]===""){
-                SingleStudent.descriptions[i] = "BRAK OPISU"
-              }
-
-
-              for(let j=0; j<gradeInDiv.length;j++){
-                  //gradeInDiv[0], gradeInDiv[1] ,gradeInDiv[2], gradeInDiv[3],
-                  gradeInDiv[j].addEventListener("mouseenter", function() {
-                      this.canvas(SingleStudent.marks[i], SingleStudent.weights[i], SingleStudent.descriptions[i], SingleStudent.dates[i], gradeInDiv[j])
-                  }.bind(this), false);
-
-                  //destroyes tooltip after leaving
-                  gradeInDiv[j].addEventListener("mouseleave", function() {
-                      const canv = document.querySelector("canvas");
-                      canv.parentNode.removeChild(canv);
-                  });
-                }
-          }
+         for (let i = 0; i < SingleStudent.marks.length; i++) {
+           if((SingleStudent.marks[i]!=="")&&(SingleStudent.weights[i]!=="")){
+               if(SingleStudent.descriptions[i]===""){
+                 SingleStudent.descriptions[i] = "BRAK OPISU"
+               }
+               marksArrayWithoutEmptyValues.push(SingleStudent.marks[i]);
+               weightsArrayWithoutEmptyValues.push(SingleStudent.weights[i]);
+               descriptionsArrayWithoutEmptyValues.push(SingleStudent.descriptions[i]);
+               datesArrayWithoutEmptyValues.push(SingleStudent.dates[i]);
+           }
 
         }
 
-      },
+         for (let i = 0; i < gradesInDiv.length; i++) {
+           // alert(gradesInDiv.length)
+           if((marksArrayWithoutEmptyValues[i]!==undefined)||(weightsArrayWithoutEmptyValues[i]!==undefined)){
+
+             //draws tooltip after hovering
+             gradesInDiv[i].addEventListener("mouseenter", function() {
+                 this.canvas(marksArrayWithoutEmptyValues[i], weightsArrayWithoutEmptyValues[i], descriptionsArrayWithoutEmptyValues[i], datesArrayWithoutEmptyValues[i], gradesInDiv[i])
+             }.bind(this), false);
+
+
+             //destroyes tooltip after leaving
+             gradesInDiv[i].addEventListener("mouseleave", function() {
+                 const canv = document.querySelector("canvas");
+                 canv.parentNode.removeChild(canv);
+             });
+ }
+         }
+     },
+
+//       //shows tooltip after hovering on every grade
+//       showTooltip(RootElement, SingleStudent) {
+//
+//         console.log("=======================")
+//         console.log("POCZĄTEK")
+//       const gradeInDiv = RootElement.querySelectorAll("div.gradeWeightColor");
+//       for(let i=0; i<SingleStudent.marks.length;i++){
+//         console.log("Która ocena w tablicy: " + i)
+//         if((SingleStudent.marks[i]!=="")&&(SingleStudent.weights[i]!=="")){
+//
+//           console.log("Ocena: " + i + ": " + SingleStudent.marks[i])
+//           console.log("Waga: " + i + ": " + SingleStudent.weights[i])
+// //
+//               if(SingleStudent.descriptions[i]===""){
+//                 SingleStudent.descriptions[i] = "BRAK OPISU"
+//               }
+//
+//               for(let j=0; j<gradeInDiv.length;j++){
+//                   //gradeInDiv[0], gradeInDiv[1] ,gradeInDiv[2], gradeInDiv[3],
+//                   gradeInDiv[j].addEventListener("mouseenter", function() {
+//                       this.canvas(SingleStudent.marks[i], SingleStudent.weights[i], SingleStudent.descriptions[i], SingleStudent.dates[i], gradeInDiv[j])
+//                   }.bind(this), false);
+//
+//                   //destroyes tooltip after leaving
+//                   gradeInDiv[j].addEventListener("mouseleave", function() {
+//                       const canv = document.querySelector("canvas");
+//                       canv.parentNode.removeChild(canv);
+//                   });
+//                 }
+//           }
+//
+//         }
+//
+//       },
 
       //draws tooltip
       canvas(SingleGrade, SingleWeight, SingleDescription, SingleDate, anotherDivWithGrade) {
@@ -106,16 +152,16 @@ export default {
           ctx.fillStyle = "#ffeab0";
           ctx.fill();
           ctx.fillStyle = "black";
-          ctx.font = "700 11px Arial";
+          ctx.font = "700 12px Arial";
 
           ctx.fillText(`Ocena: ${SingleGrade}`, 40, 40);
           ctx.fillText(`Waga: ${SingleWeight } `, 40, 60);
 
           if(SingleDescription == "BRAK OPISU"){
-            ctx.fillText(`Opis:`, 40, 90);
-            ctx.font = "italic 700 11px Arial";
-            ctx.fillText(`${SingleDescription}`, 85, 80);
-            ctx.font = "700 11px Arial";
+            ctx.fillText(`Opis:`, 40, 80);
+            ctx.font = "italic 700 12px Arial";
+            ctx.fillText(`${SingleDescription}`, 77, 80);
+            ctx.font = "700 12px Arial";
           }
           else{
             ctx.fillText(`Opis: ${SingleDescription } `, 40, 80);

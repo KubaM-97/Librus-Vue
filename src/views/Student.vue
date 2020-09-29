@@ -4,11 +4,11 @@
 
         <div class="editStudentPanelMain">
 
-            <div class="editStudentPanelName">
+            <div class="editStudentPanelNameTitle">
                 <span>Imię i Nazwisko ucznia</span>
             </div>
 
-            <div class="editStudentPanelNameStudent">
+            <div class="editStudentPanelNameValue">
               {{fullName}}
             </div>
 
@@ -55,11 +55,11 @@
 
 
 
-            <div class="editStudentPanelGrades">
+            <div class="editStudentPanelGradesTitle">
                 <span>Oceny</span>
             </div>
 
-            <div class="editStudentPanelGradesStudent" v-html="gradeWeightColor($route.params.marks, $route.params.weights)">
+            <div class="editStudentPanelGradesValue" v-html="gradeWeightColor($route.params.marks, $route.params.weights)">
 
             </div>
 
@@ -69,28 +69,26 @@
 
             </div>
 
-            <div class="editStudentPanelAvg">
+            <div class="editStudentPanelAvgTitle">
                 <span>Średnia</span>
             </div>
 
-            <div class="editStudentPanelAvgAvg">
+            <div class="editStudentPanelAvgValue">
               {{avg(this.$route.params.marks, this.$route.params.weights)}}
             </div>
 
-            <div class="editStudentPanelThreatness">
+            <div class="editStudentPanelThreatnessTitle">
                 <span>Zagrożenie</span>
             </div>
 
-            <div class="editStudentPanelThreatnessThreatness" v-html="threatness(avg(this.$route.params.marks, this.$route.params.weights))">
+            <div class="editStudentPanelThreatnessValue" v-html="threatness(avg(this.$route.params.marks, this.$route.params.weights))">
             </div>
 
         </div>
-       <transition name="EditStudentDataPanel" mode="out-in">
-         <router-view v-if="showDataEditionRouterView" :showDataEditionRouterView.sync="showDataEditionRouterView"></router-view>
-         <router-view v-if="showGradesEditionRouterView" :showGradesEditionRouterView.sync="showGradesEditionRouterView"></router-view>
-          <!-- <router-view v-if="showDataEditionRouterView" :showDataEditionRouterView.sync="showDataEditionRouterView"/>
-          <router-view v-if="showGradesEditionRouterView" :showGradesEditionRouterView.sync="showGradesEditionRouterView"/> -->
-        </transition>
+       <transition-group name="EditStudentDataPanel" mode="out-in">
+         <router-view v-if="showDataEditionRouterView" :showDataEditionRouterView.sync="showDataEditionRouterView" key="1"></router-view>
+         <router-view v-if="showGradesEditionRouterView" :showGradesEditionRouterView.sync="showGradesEditionRouterView" key="2"></router-view>
+       </transition-group>
     </div>
 </template>
 
@@ -106,6 +104,7 @@ import { mapGetters } from "vuex"
 import GradesService from "../assets/mixins.js"
 
 export default {
+  name: "Student",
   data(){
     return{
       student: '',
@@ -114,13 +113,14 @@ export default {
     }
   },
   computed:{
-    ...mapGetters([
-      "fullName"
-    ]),
+    ...mapGetters(['fullNameGetters']),
     fullName(){
-      return `${this.$route.params.lastName.toUpperCase()} ${this.$route.params.firstName}`
+      return this.$store.getters.fullNameGetters(this.$route.params)
     }
   },
+//   mounted() {
+//   console.log(this.foo('hello')); // logs "hello"
+// },
   created(){
     axios.get("/static/students.json")
     .then((response) => {
@@ -209,11 +209,11 @@ div[class^="editStudentPanelName"] {
     grid-column: startName / startGrades;
 }
 
-.editStudentPanelName {
+.editStudentPanelNameTitle {
     grid-row: startTitle / startStudentData;
 }
 
-.editStudentPanelNameStudent {
+.editStudentPanelNameValue {
     grid-row: startStudentData / startStudentDetailData;
 }
 
@@ -228,15 +228,11 @@ div[class^="editStudentPanelName"] {
 }
 
 
-div[class^="editStudentPanelGrades"] {
-    grid-column: startGrades / startAvg;
-}
-
-.editStudentPanelGrades {
+.editStudentPanelGradesTitle {
     grid-row: startTitle / startStudentData;
 }
 
-.editStudentPanelGradesStudent {
+.editStudentPanelGradesValue {
     grid-row: startStudentData / startStudentDetailData;
     margin: auto;
 }
@@ -250,11 +246,11 @@ div[class^="editStudentPanelAvg"] {
     grid-column: startAvg / startThreatness;
 }
 
-.editStudentPanelAvg {
+.editStudentPanelAvgTitle {
     grid-row: startTitle / startStudentData;
 }
 
-.editStudentPanelAvgAvg {
+.editStudentPanelAvgValue {
     grid-row: startStudentData / startStudentDetailData;
 }
 
@@ -263,14 +259,18 @@ div[class^="editStudentPanelThreatness"] {
     grid-column: startThreatness;
 }
 
-.editStudentPanelThreatness {
+.editStudentPanelThreatnessTitle {
     grid-row: startTitle / startStudentData;
 }
 
-.editStudentPanelThreatnessThreatness {
+.editStudentPanelThreatnessValue {
     grid-row: startStudentData / startStudentDetailData;
 }
 
+.editStudentPanelGradesButtons{
+  /* background-color: green; */
+  grid-column: startGrades / startThreatness;
+}
 
 
 .editStudentPanelNameDetailData{
@@ -287,24 +287,26 @@ div[class^="editStudentPanelThreatness"] {
 }
 
 .editStudentPanelNameDetailData .form-group span.title{
-    float: left;
     display: inline-block;
     width: 30%;
     font-size: 12.5px;
     text-align: left;
+    vertical-align: middle;
 }
 
 .editStudentPanelNameDetailData .form-group span.data{
     text-align: left;
     display: inline-block;
     width: 60%;
+    margin-left: 5px;
+    vertical-align: middle;
 }
 
 
 .editStudentPanelMain button{
     background-color: blueviolet;
     display: inline-block;
-    font-size: 11px;
+    font-size: 13px;
     color: #fff;
     border-radius: 4px;
     padding: 6px 11px;
@@ -316,22 +318,23 @@ div[class^="editStudentPanelThreatness"] {
 
 
 @media (max-width: 768px){
-  .editStudentPanel {
-      width: 95%;
+  .editStudentPanelMain {
+      /* width: 95%; */
+      text-shadow: 5px 0px 10px #00c3ff, -5px 0px 10px #00c3ff, 0px 5px 10px #00c3ff, 0px -5px 10px #00c3ff;
   }
   .editStudentPanelMain{
-      font-size: 11px;
+      font-size: 10px;
   }
   .editStudentPanelMain{
-      padding:  3px;
+      padding: 3px;
       grid-template-rows:[startTitle]50px [startStudentData]50px [startStudentDetailData]auto [startStudentDetailDataButton]50px;
   }
-  .editStudentPanelNameDetailData {
-      margin-bottom: 0
+  .editStudentPanelNameDetailData .form-group span.title{
+    font-size: 10px;
   }
   .editStudentPanelNameDetailData .form-group{
       padding-left: 3px;
-      font-size: 8px;
+      font-size: 9px;
   }
   .editStudentPanelMain button{
       font-size: 9px;

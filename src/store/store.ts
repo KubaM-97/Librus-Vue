@@ -24,14 +24,11 @@ export const store = new Vuex.Store({
     }
   },
   getters: {
-    fullName(){
-      return
+    fullNameGetters() {
+      return (bar) => {
+        return `${bar.lastName.toUpperCase()} ${bar.firstName}`;
+      }
     }
-    // specificStudent(state){
-    //   // console.log(this)
-    //   // return state.students[payload];
-    //   return 2
-    // }
   },
   mutations: {
     changeNavpanel(state){
@@ -40,19 +37,9 @@ export const store = new Vuex.Store({
     changeLoaderGif(state){
       state.showLoaderGif = !state.showLoaderGif;
     },
-    changeMainLogPanel(state){
-      state.showMainLogPanel = !state.showMainLogPanel;
-    },
 
     setFullClass(state, students){
       state.students = students
-    },
-
-    addNewStudentToClass(state, payload){
-        const allStudents = state.students;
-        allStudents[allStudents.length] = payload
-        payload.id = allStudents.length;
-        state.students = allStudents;
     }
   },
   actions: {

@@ -69,8 +69,8 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 //CSS
-require("./assets/style.css");
-require("./assets/animations.css");
+require("./assets/css/style.css");
+require("./assets/css/animations.css");
 
 export default {
   data(){
@@ -159,8 +159,12 @@ header.main-header {
     padding: 10px 0 15px;
     font-size: 8.5px;
 }
-header, .logo, nav {
+/* header.main-header>*{
+
+} */
+header, nav {
     display: inline-block;
+    vertical-align: bottom;
 }
 header > header {
     width: 50%;
@@ -169,13 +173,11 @@ header .logo img {
     border-radius: 6px;
     height: 100px;
     vertical-align: bottom;
-    margin: 5px 45px 0px 30px;
+    margin: 5px 45px 10px 30px;
 }
 header .logo_info{
   display: inline-block;
-}
-header span {
-    margin-right: 25px;
+  margin-left: 25px;
 }
 nav {
     width: 47%;
@@ -211,6 +213,7 @@ button{
 @media (max-width: 768px){
   header{
     width: 55%;
+    position: relative;
   }
   header .logo img{
     height: 100px;
@@ -221,11 +224,15 @@ button{
   }
   nav{
     width: 44%;
+    float: right;
+    position: absolute;
+    bottom: 0;
   }
   nav button.btn{
     display: inline-block;
     font-size: 11px;
-    padding: 7px 11px
+    padding: 7px 11px;
+    margin: 4px 5px;
   }
   nav button.btn.with-logout-icon{
     padding-left: 10px;

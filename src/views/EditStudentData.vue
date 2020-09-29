@@ -2,245 +2,245 @@
 
   <div class="EditStudentPanel" ref="editDataPanel">
     <div class="container">
+       <form action="#" enctype="application/x-www-form-urlencoded" method="get">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-10">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6 offset-md-2">
+                      <label for="FirstName">Imię</label>
+                      <input name="#" type="text" autocomplete="off" id="FirstName" v-model="editStudent.firstName" @keyup="validatorData('FirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')">
+                      <span class="wrongAdditionalInfo" id="wrongFirstName"></span>
+                    </div>
+                    <div class="col-md-4">
+                      {{editStudent.firstName}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-2" v-if="showGreenCheckMarkFirstName">
+                <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
+                <transition name="showGreenMark">
+                  <div class="blackLayer" v-if="hideCheckMarkWithLayerFirstName" key="1">
 
-      <div class="form-group">
-        <div class="row">
-          <div class="col-11">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-6 offset-md-1">
-                  <label for="FirstName">Imię</label>
-                  <input type="text" autocomplete="off" id="FirstName" v-model="editStudent.firstName" @keyup="validatorData('FirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')">
-                  <span class="wrongAdditionalInfo" id="wrongFirstName"></span>
-                </div>
-                <div class="col-md-5">
-                  {{editStudent.firstName}}
-                </div>
+                  </div>
+                </transition>
               </div>
             </div>
           </div>
-          <div class="col-1" v-if="showGreenCheckMarkFirstName">
-            <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
-            <transition name="showGreenMark">
-              <div class="blackLayer" v-if="hideCheckMarkWithLayerFirstName" key="1">
-
-              </div>
-            </transition>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="row">
-          <div class="col-11">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-6 offset-md-1">
-                  <label for="LastName">Nazwisko</label>
-                  <input type="text" autocomplete="off" id="LastName" v-model="editStudent.lastName" @keyup="validatorData('LastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')">
-                  <span class="wrongAdditionalInfo" id="wrongLastName"></span>
-                </div>
-                <div class="col-md-5">
-                  {{editStudent.lastName}}
+          <div class="form-group">
+            <div class="row">
+              <div class="col-10">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6 offset-md-2">
+                      <label for="LastName">Nazwisko</label>
+                      <input name="#" type="text" autocomplete="off" id="LastName" v-model="editStudent.lastName" @keyup="validatorData('LastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')">
+                      <span class="wrongAdditionalInfo" id="wrongLastName"></span>
+                    </div>
+                    <div class="col-md-4">
+                      {{editStudent.lastName}}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="col-1" v-if="showGreenCheckMarkLastName">
+              <div class="col-2" v-if="showGreenCheckMarkLastName">
 
-              <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
-              <transition name="showGreenMark">
-                <div class="blackLayer" v-if="hideCheckMarkWithLayerLastName" key="2">
+                  <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
+                  <transition name="showGreenMark">
+                    <div class="blackLayer" v-if="hideCheckMarkWithLayerLastName" key="2">
 
-                </div>
-              </transition>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="row">
-          <div class="col-11">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-6 offset-md-1">
-                  <label for="Pesel">PESEL</label>
-                  <input type="text" autocomplete="off" id="Pesel" v-model="editStudent.pesel" @keyup="validatorData('Pesel', '^[0-9]{11}$', 'Dokładnie 11 cyfr')">
-                  <span class="wrongAdditionalInfo" id="wrongPesel"></span>
-                </div>
-                <div class="col-md-5">
-                  {{editStudent.pesel}}
-                </div>
+                    </div>
+                  </transition>
               </div>
             </div>
           </div>
-          <div class="col-1" v-if="showGreenCheckMarkPesel">
-
-              <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
-              <transition name="showGreenMark">
-                <div class="blackLayer" v-if="hideCheckMarkWithLayerPesel" key="3">
-
+          <div class="form-group">
+            <div class="row">
+              <div class="col-10">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6 offset-md-2">
+                      <label for="Pesel">PESEL</label>
+                      <input name="#" type="text" autocomplete="off" id="Pesel" v-model="editStudent.pesel" @keyup="validatorData('Pesel', '^[0-9]{11}$', 'Dokładnie 11 cyfr')">
+                      <span class="wrongAdditionalInfo" id="wrongPesel"></span>
+                    </div>
+                    <div class="col-md-4">
+                      {{editStudent.pesel}}
+                    </div>
+                  </div>
                 </div>
-              </transition>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="row">
-          <div class="col-11">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-6 offset-md-1">
-                  <label>Adres:</label>
+              </div>
+              <div class="col-2" v-if="showGreenCheckMarkPesel">
 
-                  <input type="text" autocomplete="off" v-model="editStudent.street.streetName" id="Street" placeholder="ulica" @keyup="validatorData('Street', '^[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]*$', 'Bez znaków specjalnych.')">
-                  <span class="wrongAdditionalInfo" id="wrongStreet"></span>
+                  <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
+                  <transition name="showGreenMark">
+                    <div class="blackLayer" v-if="hideCheckMarkWithLayerPesel" key="3">
 
-                  <input type="text" autocomplete="off" v-model="editStudent.street.streetNr" id="HouseNr" placeholder="nr_domu" @keyup="validatorData('HouseNr', '^[0-9]+[a-zA-Z]?(/?[0-9]*[a-zA-Z]?)?$', 'Nr, Nr/Nr, Nr Litera <br /> np. 11 11/13 11A 11A/13B')">
-                  <span class="wrongAdditionalInfo" id="wrongHouseNr"></span>
-
-                  <input type="text" autocomplete="off" v-model="editStudent.street.streetFlat" id="FlatNr" placeholder="nr_mieszkania" @keyup="validatorData('FlatNr', '^[0-9]+[a-zA-Z]?$', 'Liczba + ew.litera np.116F')">
-                  <span class="wrongAdditionalInfo" id="wrongFlatNr"></span>
-
-                  <input type="text" autocomplete="off" v-model="editStudent.street.streetPostCode" id="PostCode" placeholder="kod pocztowy" @keyup="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
-                  <span class="wrongAdditionalInfo" id="wrongPostCode"></span>
-
-                  <input type="text" autocomplete="off" v-model="editStudent.street.streetCity" id="City" placeholder="miasto" @keyup="validatorData('City', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( (- )?[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)*$', 'Brak Cyfr i znaków specjalnych. <br />')">
-                  <span class="wrongAdditionalInfo" id="wrongCity"></span>
-                </div>
-                <div class="col-md-5">
-                  ul.{{editStudent.street.streetName}} {{editStudent.street.streetNr}} m.{{editStudent.street.streetFlat}} <br />  {{editStudent.street.streetPostCode}} {{editStudent.street.streetCity}}
-                </div>
+                    </div>
+                  </transition>
               </div>
             </div>
           </div>
-          <div class="col-1" v-if="showGreenCheckMarkStreet">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-10">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6 offset-md-2">
+                      <label>Adres:</label>
 
-              <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
-              <transition name="showGreenMark">
-                <div class="blackLayer" v-if="hideCheckMarkWithLayerStreet" key="4">
+                      <input name="#" type="text" autocomplete="off" v-model="editStudent.street.streetName" id="Street" placeholder="ulica" @keyup="validatorData('Street', '^[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]*$', 'Bez znaków specjalnych.')">
+                      <span class="wrongAdditionalInfo" id="wrongStreet"></span>
 
+                      <input name="#" type="text" autocomplete="off" v-model="editStudent.street.streetNr" id="HouseNr" placeholder="nr_domu" @keyup="validatorData('HouseNr', '^[0-9]+[a-zA-Z]?(/?[0-9]*[a-zA-Z]?)?$', 'Nr, Nr/Nr, Nr Litera <br /> np. 11 11/13 11A')">
+                      <span class="wrongAdditionalInfo" id="wrongHouseNr"></span>
+
+                      <input name="#" type="text" autocomplete="off" v-model="editStudent.street.streetFlat" id="FlatNr" placeholder="nr_mieszkania" @keyup="validatorData('FlatNr', '^[0-9]+[a-zA-Z]?$', 'Liczba + ew.litera np.116F')">
+                      <span class="wrongAdditionalInfo" id="wrongFlatNr"></span>
+
+                      <input name="#" type="text" autocomplete="off" v-model="editStudent.street.streetPostCode" id="PostCode" placeholder="kod pocztowy" @keyup="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
+                      <span class="wrongAdditionalInfo" id="wrongPostCode"></span>
+
+                      <input name="#" type="text" autocomplete="off" v-model="editStudent.street.streetCity" id="City" placeholder="miasto" @keyup="validatorData('City', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( (- )?[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)*$', 'Brak Cyfr i znaków specjalnych. <br />')">
+                      <span class="wrongAdditionalInfo" id="wrongCity"></span>
+                    </div>
+                    <div class="col-md-4">
+                      ul.{{editStudent.street.streetName}} {{editStudent.street.streetNr}} m.{{editStudent.street.streetFlat}} <br />  {{editStudent.street.streetPostCode}} {{editStudent.street.streetCity}}
+                    </div>
+                  </div>
                 </div>
-              </transition>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="row">
-          <div class="col-11">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-6 offset-md-1">
-                  <label for="Telephone">Telefon</label>
-                  <input type="text" autocomplete="off" id="Telephone" v-model="editStudent.phone" @keyup="validatorData('Telephone', '^([0-9]{7}|[0-9]{9})$', 'Dokładnie 7 lub 9 cyfr.')">
-                  <span class="wrongAdditionalInfo" id="wrongTelephone"></span>
-                </div>
-                <div class="col-md-5">
-                  {{editStudent.phone}}
-                </div>
+              </div>
+              <div class="col-2" v-if="showGreenCheckMarkStreet">
+
+                  <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
+                  <transition name="showGreenMark">
+                    <div class="blackLayer" v-if="hideCheckMarkWithLayerStreet" key="4">
+
+                    </div>
+                  </transition>
               </div>
             </div>
           </div>
-          <div class="col-1" v-if="showGreenCheckMarkTelephone">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-10">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6 offset-md-2">
+                      <label for="Telephone">Telefon</label>
+                      <input name="#" type="text" autocomplete="off" id="Telephone" v-model="editStudent.phone" @keyup="validatorData('Telephone', '^([0-9]{7}|[0-9]{9})$', 'Dokładnie 7 lub 9 cyfr.')">
+                      <span class="wrongAdditionalInfo" id="wrongTelephone"></span>
+                    </div>
+                    <div class="col-md-4">
+                      {{editStudent.phone}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-2" v-if="showGreenCheckMarkTelephone">
 
-              <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
-              <transition name="showGreenMark">
-                <div class="blackLayer" v-if="hideCheckMarkWithLayerTelephone" key="5">
+                  <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
+                  <transition name="showGreenMark">
+                    <div class="blackLayer" v-if="hideCheckMarkWithLayerTelephone" key="5">
 
-                </div>
-              </transition>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="row">
-          <div class="col-11">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-6 offset-md-1">
-                  <label for="Email">Email</label>
-                  <input type="text" autocomplete="off" id="Email" v-model="editStudent.email" @keyup="validatorData('Email', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
-                  <span class="wrongAdditionalInfo" id="wrongEmail"></span>
-                </div>
-                <div class="col-md-5">
-                  {{editStudent.email}}
-                </div>
+                    </div>
+                  </transition>
               </div>
             </div>
           </div>
-          <div class="col-1" v-if="showGreenCheckMarkEmail">
-
-              <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
-              <transition name="showGreenMark">
-                <div class="blackLayer" v-if="hideCheckMarkWithLayerEmail" key="6">
-
+          <div class="form-group">
+            <div class="row">
+              <div class="col-10">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6 offset-md-2">
+                      <label for="Email">Email</label>
+                      <input name="#" type="text" autocomplete="off" id="Email" v-model="editStudent.email" @keyup="validatorData('Email', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                      <span class="wrongAdditionalInfo" id="wrongEmail"></span>
+                    </div>
+                    <div class="col-md-4">
+                      {{editStudent.email}}
+                    </div>
+                  </div>
                 </div>
-              </transition>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="row">
-          <div class="col-11">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-6 offset-md-1">
-                  <label>Matka</label>
-                  <input type="text" autocomplete="off" id="MothersFirstName" v-model="editStudent.mother.firstName" @keyup="validatorData('MothersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')">
-                  <span class="wrongAdditionalInfo" id="wrongMothersFirstName"></span>
+              </div>
+              <div class="col-2" v-if="showGreenCheckMarkEmail">
 
-                  <input type="text" autocomplete="off" id="MothersLastName" v-model="editStudent.mother.lastName" @keyup="validatorData('MothersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')">
-                  <span class="wrongAdditionalInfo" id="wrongMothersLastName"></span>
+                  <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
+                  <transition name="showGreenMark">
+                    <div class="blackLayer" v-if="hideCheckMarkWithLayerEmail" key="6">
 
-                  <input type="text" autocomplete="off" id="MothersTelephone" v-model="editStudent.mother.phone" @keyup="validatorData('MothersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
-                  <span class="wrongAdditionalInfo" id="wrongMothersTelephone"></span>
-
-                  <input type="text" autocomplete="off" id="MothersEmail" v-model="editStudent.mother.email" @keyup="validatorData('MothersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
-                  <span class="wrongAdditionalInfo" id="wrongMothersEmail"></span>
-
-                </div>
-                <div class="col-md-5">
-                  {{editStudent.mother.firstName}}<br />{{editStudent.mother.lastName}}<br />{{editStudent.mother.phone}}<br />{{editStudent.mother.email}}<br />
-                </div>
+                    </div>
+                  </transition>
               </div>
             </div>
           </div>
-          <div class="col-1" v-if="showGreenCheckMarkMother">
+          <div class="form-group">
+            <div class="row">
+              <div class="col-10">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md-6 offset-md-2">
+                      <label>Matka</label>
+                      <input name="#" type="text" autocomplete="off" id="MothersFirstName" v-model="editStudent.mother.firstName" @keyup="validatorData('MothersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')">
+                      <span class="wrongAdditionalInfo" id="wrongMothersFirstName"></span>
 
-              <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
-              <transition name="showGreenMark">
-                <div class="blackLayer" v-if="hideCheckMarkWithLayerMother" key="7">
+                      <input name="#" type="text" autocomplete="off" id="MothersLastName" v-model="editStudent.mother.lastName" @keyup="validatorData('MothersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')">
+                      <span class="wrongAdditionalInfo" id="wrongMothersLastName"></span>
 
+                      <input name="#" type="text" autocomplete="off" id="MothersTelephone" v-model="editStudent.mother.phone" @keyup="validatorData('MothersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
+                      <span class="wrongAdditionalInfo" id="wrongMothersTelephone"></span>
+
+                      <input name="#" type="text" autocomplete="off" id="MothersEmail" v-model="editStudent.mother.email" @keyup="validatorData('MothersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                      <span class="wrongAdditionalInfo" id="wrongMothersEmail"></span>
+
+                    </div>
+                    <div class="col-md-4">
+                      {{editStudent.mother.firstName}}<br />{{editStudent.mother.lastName}}<br />{{editStudent.mother.phone}}<br />{{editStudent.mother.email}}<br />
+                    </div>
+                  </div>
                 </div>
-              </transition>
+              </div>
+              <div class="col-2" v-if="showGreenCheckMarkMother">
+
+                  <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
+                  <transition name="showGreenMark">
+                    <div class="blackLayer" v-if="hideCheckMarkWithLayerMother" key="7">
+
+                    </div>
+                  </transition>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="form-group">
+          <div class="form-group">
         <div class="row">
-          <div class="col-11">
+          <div class="col-10">
             <div class="container">
               <div class="row">
-                <div class="col-md-6 offset-md-1">
+                <div class="col-md-6 offset-md-2">
                   <label>Ojciec</label>
-                  <input type="text" autocomplete="off" id="FathersFirstName" v-model="editStudent.father.firstName" @keyup="validatorData('FathersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Jan Maria')">
+                  <input name="#" type="text" autocomplete="off" id="FathersFirstName" v-model="editStudent.father.firstName" @keyup="validatorData('FathersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Jan Maria')">
                   <span class="wrongAdditionalInfo" id="wrongFathersFirstName"></span>
 
-                  <input type="text" autocomplete="off" id="FathersLastName" v-model="editStudent.father.lastName" @keyup="validatorData('FathersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')">
+                  <input name="#" type="text" autocomplete="off" id="FathersLastName" v-model="editStudent.father.lastName" @keyup="validatorData('FathersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')">
                   <span class="wrongAdditionalInfo" id="wrongFathersLastName"></span>
 
-                  <input type="text" autocomplete="off" id="FathersTelephone" v-model="editStudent.father.phone" @keyup="validatorData('FathersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
+                  <input name="#" type="text" autocomplete="off" id="FathersTelephone" v-model="editStudent.father.phone" @keyup="validatorData('FathersTelephone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
                   <span class="wrongAdditionalInfo" id="wrongFathersTelephone"></span>
 
-                  <input type="text" autocomplete="off" id="FathersEmail" v-model="editStudent.father.email" @keyup="validatorData('FathersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                  <input name="#" type="text" autocomplete="off" id="FathersEmail" v-model="editStudent.father.email" @keyup="validatorData('FathersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
                   <span class="wrongAdditionalInfo" id="wrongFathersEmail"></span>
 
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-4">
                   {{editStudent.father.firstName}}<br />{{editStudent.father.lastName}}<br />{{editStudent.father.phone}}<br />{{editStudent.father.email}}<br />
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-1" v-if="showGreenCheckMarkFather">
+          <div class="col-2" v-if="showGreenCheckMarkFather">
 
               <img class="greenCheckMark" src="../assets/greenCheckMark.png" alt="green check mark">
               <transition name="showGreenMark">
@@ -251,6 +251,7 @@
           </div>
         </div>
       </div>
+      </form>
       <button name="possibleSaveData" v-if="possibleSave" @click="saveChanges()" class="btn btn-success btn-lg save">Zapisz zmiany</button>
       <button name="impossibleSaveData" v-else class="btn btn-success btn-lg save" disabled>Zapisz zmiany</button>
     </div>
@@ -263,7 +264,7 @@
 
 <script>
 //CSS
-require("../assets/animations.css");
+require("../assets/css/animations.css");
 
 import { mapGetters } from "vuex";
 
@@ -331,7 +332,6 @@ export default {
 
     //regular expressions
     validatorData(Data, RegularExpression, Format) {
-
       //gets inserted value
       const insertedData = this.$refs.editDataPanel.querySelector("#"+Data).value;
 
@@ -341,12 +341,35 @@ export default {
       if((insertedData !== '') && (reg.test(insertedData)==false)){
         span.innerHTML = `Podaj prawidłowy format :
         <br /> ${Format}`;
+        span.style.marginBottom = "10px";
         this.possibleSave = false;
       }
       else{
         span.innerHTML = ``;
+        span.style.marginBottom = "0";
         this.possibleSave = true;
       }
+      //zapobiega unlocking disabling button
+      const allSpansContainingErrorTooltips =this.$refs.editDataPanel.querySelectorAll("span[class^='wrongAdditionalInfo']")
+      for(let i=0; i<allSpansContainingErrorTooltips.length; i++){
+        if(allSpansContainingErrorTooltips[i].innerHTML !== ""){
+          this.possibleSave = false;
+          break;
+        }
+        else{
+          this.possibleSave = true;
+        }
+        // break;
+      }
+      // // console.log(typeof(allSpansContainingErrorTooltips));
+      // if(allSpansContainingErrorTooltips.some.innerHTML != ""){
+      //   console.log(allSpansContainingErrorTooltips[0])
+      //   console.log(allSpansContainingErrorTooltips[0].innerHTML)
+      //  this.possibleSave = false;
+      // }
+      // else{
+      //   this.possibleSave = true;
+      // }
     },
 
     saveChanges(){
@@ -394,11 +417,11 @@ export default {
         this.showGreenCheckMarkEmail = true;
         setTimeout(()=>{this.hideCheckMarkWithLayerEmail = false},1)
       }
-      if(old.telephone!=this.editStudent.telephone){
-        old.telephone = this.editStudent.telephone;
-        store.telephone = this.editStudent.telephone;
+      if(old.phone!=this.editStudent.phone){
+        old.phone = this.editStudent.phone;
+        store.phone = this.editStudent.phone;
         this.showGreenCheckMarkTelephone = true;
-        setTimeout(()=>{this.hideCheckMarkWithLayerTelephonee = false},1)
+        setTimeout(()=>{this.hideCheckMarkWithLayerTelephone = false},1)
       }
       if((old.mother.firstName!=this.editStudent.mother.firstName)||(old.mother.lastName!=this.editStudent.mother.lastName)||(old.mother.phone!=this.editStudent.mother.phone)||(old.mother.email!=this.editStudent.mother.email)){
         old.mother = this.editStudent.mother;
@@ -417,6 +440,21 @@ export default {
     },
 
     closeThePanel(){
+      this.$router.push({name: "Student", params: {
+        id: this.$route.params.id,
+        lastName: this.$route.params.lastName,
+        firstName: this.$route.params.firstName,
+        marks: this.$route.params.marks,
+        weights: this.$route.params.weights,
+        descriptions: this.$route.params.descriptions,
+        dates: this.$route.params.dates,
+        pesel: this.$route.params.pesel,
+        street: this.$route.params.street,
+        phone: this.$route.params.phone,
+        email: this.$route.params.email,
+        mother: this.$route.params.mother,
+        father: this.$route.params.father
+       }})
       this.$emit("update:showDataEditionRouterView", false)
     }
 
@@ -453,10 +491,9 @@ label {
 input {
     outline: none;
     display: block;
-    margin: auto;
-    margin-top: 10px;
+    margin: 5px auto;
     width: 65%;
-    font-size: 11px;
+    font-size: 12px;
     text-align: center;
     background-color: black;
     border-radius: 5px;
@@ -465,8 +502,9 @@ input {
     text-shadow: none;
 }
 img.greenCheckMark{
-  width: 32px;
-  height: 32px;
+  width: 27px;
+  height: 27px;
+  margin: auto;
   -webkit-box-shadow: 2px 2px 10px 2px #199c05;
   -moz-box-shadow: 2px 2px 10px 2px #199c05;
   box-shadow: 2px 2px 10px 2px #199c05;
@@ -502,17 +540,32 @@ div.blackLayer{
   right: 0;
 }
 @media (max-width: 768px){
+  div.EditStudentPanel{
+    top: 95%;
+  }
   .row div[class^="col"]{
     display: grid;
     align-content: center
+  }
+
+  span.wrongAdditionalInfo{
+    font-size: 10px;
   }
   img.greenCheckMark{
     width: 22px;
     height: 22px;
   }
+  button.save{
+    font-size: 11px;
+  }
   img.closeThePanel{
     width: 30px;
     height: 30px;
+  }
+}
+@media (max-width: 500px){
+  input{
+    width: 100%;
   }
 }
 </style>

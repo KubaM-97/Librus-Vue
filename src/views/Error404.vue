@@ -22,4 +22,13 @@ div#Error404{
 img{
   width: 100%;
 }
+@media (max-width: 768px){
+  div#Error404{
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  img{
+    width: 100vw;
+  }
+}
 </style>

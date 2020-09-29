@@ -2,11 +2,11 @@
 
   <div class="addStudentPanelGradesContentSingle">
 
-       <div class="container gainedGrades">
+       <div class="container">
 
           <div class="row">
 
-            <div class="col-3">
+            <div class="col-2 col-md-3">
 
                 <div class="addStudentPanelGradesContentSingleGrade">
 
@@ -29,7 +29,7 @@
 
             </div>
 
-            <div class="col-3">
+            <div class="col-2 col-md-3">
 
                 <div class="addStudentPanelGradesContentSingleWeight">
 
@@ -47,7 +47,7 @@
 
             </div>
 
-            <div class="col-5">
+            <div class="col-7 col-md-5">
 
                 <div class="addStudentPanelGradesContentSingleDescription">
 
@@ -55,7 +55,7 @@
 
                  <label class="description">Opis oceny:
 
-                     <input type="text" v-model="payload.description" @change="addNewItem('description')" class="description" maxlength="30">
+                     <input name="#" type="text" v-model="payload.description" @change="addNewItem('description')" class="description" maxlength="30">
 
                  </label>
 
@@ -80,7 +80,7 @@
 <script>
 import GradesService from "../assets/mixins.js"
 //css-table
-require("../assets/table.css");
+require("../assets/css/grades.css");
 export default {
   name: "Grade",
   data(){
@@ -129,10 +129,6 @@ export default {
       this.payload.date = this.whatsTheDatePlease();
       this.addNewItem("date")
   },
-  beforeDestroy(){
-    document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.index].innerHTML = "";
-    document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.index].style.marginBottom = "0px";
-  },
   destroyed(){
     this.$emit("updater");
     this.$emit("update:possibleSave", true);
@@ -141,6 +137,12 @@ export default {
   methods:{
 
     addNewItem(whatToAdd){
+      // console.log(whatToAdd)
+      // console.log(this.marks[0])
+      // console.log(this[whatToAdd+"s"])
+      // console.log(this.index)
+      // console.log(this[whatToAdd+"s"][this.index])
+      // console.log(this.payload[whatToAdd])
         //places new mark, weight, description or date in appropriate place according to the provided index inside newGrades Array in Vuex
         //e.g    for second component Grade.vue:   newGrades.grades[1] = 5                           newGrades.grades=[3,5]
         //e.g    for second component Grade.vue:   newGrades.weights[1] = 5                          newGrades.weights=[3,5]
@@ -151,15 +153,19 @@ export default {
         //       this.weights[1] = this.payload[weight]
         //       this.descriptions[1] = this.payload[description]
         //       this.dates[1] = this.payload[date]
-        this[whatToAdd+"s"][this.index]=this.payload[whatToAdd];
-
+        this.$store.state.newGrades[whatToAdd+"s"][this.index]=this.payload[whatToAdd];
         this.$emit("updater")
+
+
         this.$emit("update:possibleSave", true);
 
     },
 
     remove(index){
-      this.clearNewGradesArray("", index)
+      this.clearNewGradesArray("", index);
+      document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.index].style.display = "none";
+      document.querySelectorAll(".addStudentPanelGradesContentSingle")[this.index].style.marginBottom = "0px";
+
       this.$destroy(index);
     },
 
@@ -170,9 +176,7 @@ export default {
 <style scoped>
 
 .addStudentPanelGradesContentSingle {
-    width: 100%;
-    float: left;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 
@@ -181,11 +185,13 @@ export default {
   align-content: flex-end;
 }
 
+input{
+  font-size: 12px;
+  height: 23px;
+  width: 90%;
+}
 
 @media (max-width: 768px){
-    .row{
-        margin-right: 0;
-    }
 
     div[class^=col-]{
         padding: 0;
@@ -194,9 +200,11 @@ export default {
     .addStudentPanelGradesContentSingle{
         width: 100%;
     }
-
-    span.remove{
-        margin-left: 20px;
+    label {
+        font-size: 11px;
+    }
+    span.descriptionCount{
+      font-size: 9.5px;
     }
 }
 </style>

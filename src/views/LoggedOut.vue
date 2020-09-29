@@ -3,40 +3,43 @@
 
     <div class="mainLogPanel">
 
-      <div class="form-group">
+      <!-- <form action="#" enctype="application/x-www-form-urlencoded" method="post"> -->
 
-        <label for="login">
-          Login<span class="mainLogPanelTooltip">(Proszę wpisać: Login1)</span>
-        </label>
+          <div class="form-group">
 
-        <input type="text" id="login" autocomplete="off">
+            <label for="login">
+              Login<span class="mainLogPanelTooltip">(Proszę wpisać: Login1)</span>
+            </label>
 
-        <span class="wrongLoginPassword"></span>
+            <input name="#" type="text" id="login" autocomplete="off">
 
-      </div>
+            <span class="wrongLoginPassword"></span>
 
-      <div class="form-group">
+          </div>
 
-          <label for="password">
-            Hasło<span class="mainLogPanelTooltip">(Proszę wpisać: Hasło1)</span>
-          </label>
+          <div class="form-group">
 
-          <input type="password" id="password">
+              <label for="password">
+                Hasło<span class="mainLogPanelTooltip">(Proszę wpisać: Hasło1)</span>
+              </label>
 
-          <span class="wrongLoginPassword"></span>
+              <input name="#" type="password" id="password">
 
-      </div>
+              <span class="wrongLoginPassword"></span>
 
-      <div class="form-group">
+          </div>
 
+          <div class="form-group">
 
-        <log-in-button>
-            <button name="logMeIn" @click="logMeIn()" slot="logIn">
-                Zaloguj się
-            </button>
-        </log-in-button>
+                <log-in-button>
+                    <button name="logMeIn" @click="logMeIn()" slot="logIn">
+                        Zaloguj się
+                    </button>
+                </log-in-button>
 
-      </div>
+          </div>
+
+      <!-- </form> -->
 
     </div>
 
@@ -49,6 +52,9 @@ import LogInButton from './LogInButton.vue'
 import { mapMutations } from "vuex"
 export default {
   name: "LoggedOut",
+  components:{
+    "log-in-button": LogInButton
+  },
   beforeCreate(){
     this.$store.state.showNavpanel = false;
   },
@@ -78,7 +84,7 @@ export default {
             setTimeout(()=>{
               this.changeLoaderGif();
               this.changeNavpanel();
-            },1200);
+            },800);
 
             this.$router.push({name: "FullClass"})
           }
@@ -164,7 +170,7 @@ export default {
 
 @media (max-width: 768px){
   .mainLogPanel {
-      width: 90%;
+      /* width: 90%; */
   }
 
   .mainLogPanel .form-group {
