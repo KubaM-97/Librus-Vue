@@ -247,7 +247,12 @@ export default {
      route.descriptions = this.descriptions;
      route.dates = this.dates;
 
-           this.possibleSave = false;
+     this.ourStudent.marks = this.marks;
+     this.ourStudent.weights = this.weights;
+     this.ourStudent.descriptions = this.descriptions;
+     this.ourStudent.dates = this.dates;
+
+     this.possibleSave = false;
      this.gradesLength = 0;
 
 
