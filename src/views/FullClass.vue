@@ -103,10 +103,15 @@ require("../assets/css/table.css");
 export default {
    name: 'FullClass',
    beforeRouteEnter (to, from, next) {
-
+     
       next(vm => {
-        vm.sortMyStudents();
-        vm.addNumberingToTheTable();
+
+        for(let i=0; i<vm.$store.state.students.length; i++){
+          vm.showTooltip(document.querySelectorAll("tr")[i], vm.$store.state.students[i]);
+        }
+
+      vm.sortMyStudents();
+      vm.addNumberingToTheTable();
       })
 
    },

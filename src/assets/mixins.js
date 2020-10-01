@@ -49,10 +49,9 @@ export default {
       },
 
       //show tooltip after hovering on every grade
-     showTooltip: function(RootElement, SingleStudent) {
+     showTooltip(RootElement, SingleStudent) {
 
          const gradesInDiv = RootElement.querySelectorAll(".gradeWeightColor");
-
          const marksArrayWithoutEmptyValues = [];
          const weightsArrayWithoutEmptyValues = [];
          const descriptionsArrayWithoutEmptyValues = [];
@@ -84,7 +83,7 @@ export default {
 
              //destroyes tooltip after leaving
              gradesInDiv[i].addEventListener("mouseleave", function() {
-                 const canv = document.querySelector("canvas");
+                 const canv = RootElement.querySelector("canvas");
                  canv.parentNode.removeChild(canv);
              });
  }
@@ -209,7 +208,7 @@ export default {
       whatsTheDatePlease() {
           const today = new Date();
           const currentYear = today.getFullYear();
-          let currentMonth = today.getMonth();
+          let currentMonth = today.getMonth()+1;
           let currentDay = today.getDate();
           let currentHours = today.getHours();
           let currentMinutes = today.getMinutes();
@@ -247,7 +246,7 @@ export default {
           const dateFullArray = [];
           dateFullArray.push(dateFullStr);
 
-          let dateArray;
+          let dateArray = "";
           return dateArray = dateFullStr;
 
       },
@@ -270,8 +269,39 @@ export default {
             store[whatToChange] = figure;
           }
         }
+      },
 
+      //removes grades that have marks but don`t have weights or don`t have marks but have weights
+      getRidOfEmptyGrades(objectWithAllGrades){
+
+        const arrayMarks = [];
+        const arrayWeights = [];
+        const arrayDescriptions = [];
+        const arrayDates = [];
+
+        for(let i=0; i<objectWithAllGrades.marks.length; i++){
+          if(!( ((objectWithAllGrades.marks[i]!=="") && (objectWithAllGrades.weights[i]===""))
+          || ((objectWithAllGrades.marks[i]==="") && (objectWithAllGrades.weights[i]!=="")))){
+            arrayMarks.push(this.$store.state.newGrades.marks[i])
+            arrayWeights.push(this.$store.state.newGrades.weights[i])
+            arrayDescriptions.push(this.$store.state.newGrades.descriptions[i])
+            arrayDates.push(this.$store.state.newGrades.dates[i])
+          }
+        }
+
+        // for(let i=0; i<objectWithAllGrades.marks.length; i++){
+        //   if((objectWithAllGrades.marks[i]!=="")||(objectWithAllGrades.weights[i]!=="")){
+        //     arrayMarks.push(this.$store.state.newGrades.marks[i])
+        //     arrayWeights.push(this.$store.state.newGrades.weights[i])
+        //     arrayDescriptions.push(this.$store.state.newGrades.descriptions[i])
+        //     arrayDates.push(this.$store.state.newGrades.dates[i])
+        //   }
+        // }
+
+        objectWithAllGrades.marks = arrayMarks
+        objectWithAllGrades.weights = arrayWeights
+        objectWithAllGrades.descriptions = arrayDescriptions
+        objectWithAllGrades.dates = arrayDates
       }
-
     }
   }

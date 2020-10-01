@@ -212,7 +212,7 @@
         </div>
 
         <div class="confirm" v-show="confirm">
-          <p>Na pewno? Nie zapisano zmian...</p>
+          <p>Na pewno? Dane zostaną utracone...</p>
           <button name="showConfirmQuit" @click="showConfirmWindow('quit')">Wychodzę</button>
           <button name="showConfirmStay" @click="showConfirmWindow('stay')">Racja, zostaję!</button>
         </div>
@@ -285,20 +285,24 @@ export default {
     "grade-component": Grade
   },
   beforeRouteLeave(to,from,next){
-    console.log(this.marks)
-    console.log(this.weights)
-    console.log(this.descriptions)
     if(to.path == "/LoggedOut"){
       this.addStudentCancel()
       next()
     }
     else{
-      for(let i=0; i<this.marks.length; i++){
+      let i=0;
+      do {
+        //if
+        // 1. a grade has a mark but doesn`t have a weight
+        // 2. a grade doesn`t have a mark but has a weight
+        // 3. there is neither a mark nor a weight but there is a description
+        // 4. there is no name but there is at least one mark, one weight or one description
         if((     ((this.marks[i]!=="")&&(this.weights[i]===""))
               || ((this.marks[i]==="")&&(this.weights[i]!==""))
-              || ((this.marks[i]!=="")&&(this.weights[i]!==""))
-              || ((this.marks[i]==="")&&(this.weights[i]==="")&&(this.descriptions[i]!=="")))
-              && (this.name==="")
+              // || ((this.marks[i]!=="")&&(this.weights[i]!==""))
+              || ((this.marks[i]==="")&&(this.weights[i]==="")&&(this.descriptions[i]!==""))
+              || ((this.name==="")&&((this.marks[i]!=="")||(this.weights[i]!=="")||(this.descriptions[i]!=="")))
+            )
               && (this.block==true))
         {
           this.exitPath = to.path;
@@ -306,10 +310,30 @@ export default {
           next(false)
         }
         else{
+          this.getRidOfEmptyGrades(this.$store.state.newGrades)
           this.addStudentCancel()
+          this.block = true;
           next()
         }
-      }
+        i++;
+      } while (i<=this.marks.length);
+      // for(let i=0; i<this.marks.length; i++){
+      //   if((     ((this.marks[i]!=="")&&(this.weights[i]===""))
+      //         || ((this.marks[i]==="")&&(this.weights[i]!==""))
+      //         || ((this.marks[i]!=="")&&(this.weights[i]!==""))
+      //         || ((this.marks[i]==="")&&(this.weights[i]==="")&&(this.descriptions[i]!==""))
+      //         || (this.name===""))
+      //         && (this.block==true))
+      //   {
+      //     this.exitPath = to.path;
+      //     this.confirm = true;
+      //     next(false)
+      //   }
+      //   else{
+      //     this.addStudentCancel()
+      //     next()
+      //   }
+      // }
     }
 
 
@@ -364,7 +388,10 @@ export default {
   },
 
   beforeDestroy(){
-    this.clearNewGradesArray([]);
+    this.$store.state.newGrades.marks = []
+    this.$store.state.newGrades.weights = []
+    this.$store.state.newGrades.descriptions = []
+    this.$store.state.newGrades.dates = []
   },
   filters: {
     //converts student's full name to correct form
@@ -502,7 +529,9 @@ export default {
 
         //if we've got both firstname and lastname
            if (addedStudentNameArray.length >= 2) {
-
+             // alert(this.$store.state.newGrades.marks)
+             this.getRidOfEmptyGrades(this.$store.state.newGrades)
+             // alert(this.$store.state.newGrades.marks);
              this.add.id = this.students.length + 1;
              this.add.marks = this.marks;
              this.add.weights = this.weights;
@@ -510,6 +539,8 @@ export default {
              this.add.dates = this.dates;
 
              this.students[this.students.length] = this.add;
+
+             this.block = false;
              this.$router.push({name: "FullClass"});
           }
           else{

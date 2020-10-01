@@ -229,6 +229,7 @@ export default {
    },
    changeGrade(index, newVal, what){
      this.$store.state.newGrades[what][index] = newVal;
+     this.$store.state.newGrades.dates[index] = this.whatsTheDatePlease();
      this.$forceUpdate();
 
      this.possibleSave = true;
@@ -242,15 +243,43 @@ export default {
 
      const route = this.$route.params;
 
+     const arrayMarks = [];
+     const arrayWeights = [];
+     const arrayDescriptions = [];
+     const arrayDates = [];
+
+
+     for(let i=0; i<this.$store.state.newGrades.marks.length; i++){
+       if((this.$store.state.newGrades.marks[i]!=="")||(this.$store.state.newGrades.weights[i]!=="")){
+         arrayMarks.push(this.$store.state.newGrades.marks[i])
+         arrayWeights.push(this.$store.state.newGrades.weights[i])
+         arrayDescriptions.push(this.$store.state.newGrades.descriptions[i])
+         arrayDates.push(this.$store.state.newGrades.dates[i])
+       }
+     }
+
+     this.$store.state.newGrades.marks = arrayMarks
+     this.$store.state.newGrades.weights = arrayWeights
+     this.$store.state.newGrades.descriptions = arrayDescriptions
+     this.$store.state.newGrades.dates = arrayDates
+
+     //divs in EditStudentGrades.vue and grades in Student.vue
      route.marks = this.marks;
      route.weights = this.weights;
      route.descriptions = this.descriptions;
      route.dates = this.dates;
 
+     //table in EditStudentGrades.vue (gradeWeightColor())
      this.ourStudent.marks = this.marks;
      this.ourStudent.weights = this.weights;
      this.ourStudent.descriptions = this.descriptions;
      this.ourStudent.dates = this.dates;
+
+     //adds to class in state in Vuex and FullClass.vue
+     this.$store.state.students[route.id-1].marks = this.marks;
+     this.$store.state.students[route.id-1].weights = this.weights;
+     this.$store.state.students[route.id-1].descriptions = this.descriptions;
+     this.$store.state.students[route.id-1].dates = this.dates;
 
      this.possibleSave = false;
      this.gradesLength = 0;

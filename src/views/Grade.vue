@@ -55,7 +55,7 @@
 
                  <label class="description">Opis oceny:
 
-                     <input name="#" type="text" v-model="payload.description" @change="addNewItem('description')" class="description" maxlength="30">
+                     <input autocomplete="off" name="#" type="text" v-model="payload.description" @change="addNewItem('description')" class="description" maxlength="30">
 
                  </label>
 
