@@ -40,8 +40,6 @@ table.summary td{
     border: 2px solid white;
     margin-right: 10px;
     vertical-align: middle;
-    /* width: 30px;
-    height: 36px; */
 }
 .gradeWeightGreen {
     text-shadow: 5px 0px 20px #3be029, -5px 0px 20px #3be029, 0px 5px 20px #3be029, 0px -5px 20px #3be029;
@@ -71,7 +69,7 @@ span.fire {
     padding: 10px 35px;
     border: 1px solid whitesmoke;
     text-shadow: none;
-    background-image: url(../Animated_fire_by_nevit.gif);
+    background-image: url(../images/Animated_fire_by_nevit.gif);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     -webkit-animation: fire 5s linear infinite;
@@ -93,11 +91,12 @@ span.fire {
 @media (max-width: 768px){
   table td, table thead th{
     font-size: 9px;
-    padding: 3px 1px !important;
+    padding: 3px 1px;
   }
   table thead th{
     font-size: 12px !important;
   }
+
   .gradeWeightColor{
     font-size: 12px;
     padding: 4px 6px;
@@ -110,7 +109,6 @@ span.fire {
     padding: 2px 4.5px !important;
     font-size: 11px;
     border: .5px solid white;
-    float: left;
   }
   span.fire{
     padding: 5px 3px !important;

@@ -7,7 +7,7 @@
           <header>
 
               <div class="logo">
-                  <img src="./assets/Logo.png"/>
+                  <img src="./assets/images/Logo.png"/>
               </div>
 
               <div class="logo">
@@ -41,7 +41,7 @@
 
       <transition name="show-logOutGif" mode="out-in">
           <div class="loader" v-show="showLoaderGif">
-              <img src="@/assets/gifloader.gif" alt="loaderLogo">
+              <img src="@/assets/images/gifloader.gif" alt="loaderLogo">
           </div>
       </transition>
 
@@ -59,7 +59,7 @@
 <script>
 
 import Vue from 'vue'
-import { mapState, mapMutations, mapActions } from "vuex"
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex"
 
 //Bootstrap
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
@@ -69,14 +69,17 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 //CSS
-require("./assets/css/style.css");
+require("./assets/css/main-style.css");
+require("./assets/css/table.css");
+require("./assets/css/grades.css");
 require("./assets/css/animations.css");
 
 export default {
+  name: "App",
   data(){
     return{
       sitename: "Dziennik elektroniczny",
-      teacher: "<em>Kuba Preceptor</em>",
+      teacher: "<em>Kuba Modzelik</em>",
       Class: "3B"
     }
   },
@@ -159,9 +162,6 @@ header.main-header {
     padding: 10px 0 15px;
     font-size: 8.5px;
 }
-/* header.main-header>*{
-
-} */
 header, nav {
     display: inline-block;
     vertical-align: bottom;
@@ -196,9 +196,6 @@ nav button.btn.with-logout-icon{
 nav button.btn.active{
     background-color: rgba(15, 88, 223, 0.55);
   }
-button{
-    border: none !important
-}
 .loader{
     display: block;
     position: absolute;

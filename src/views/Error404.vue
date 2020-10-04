@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="Error404">
-      <img src="../assets/Error404.png" alt="Error404">
+      <img src="../assets/images/Error404.png" alt="Error404">
     </div>
   </div>
 </template>

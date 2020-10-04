@@ -8,7 +8,7 @@ Vue.config.productionTip = false
 
 //Custom directives
 Vue.directive("styleMe",{
-  bind(el,binding,vnode){
+  bind(el,binding){
     if((binding.value == 'italic')&&(binding.arg == 'class')){
       el.style.fontStyle = "italic"
     }

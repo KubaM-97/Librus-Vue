@@ -5,9 +5,11 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
+
 // load Vuex
 Vue.use(Vuex)
 
+// import module from "./modules/module"
 
 
 // Create store
@@ -50,5 +52,8 @@ export const store = new Vuex.Store({
         commit("setFullClass", response.data.students)
       })
     }
-  }
+  },
+  // modules: {
+  //   module
+  // }
 })

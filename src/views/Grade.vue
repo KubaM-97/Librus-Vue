@@ -78,9 +78,7 @@
 </template>
 
 <script>
-import GradesService from "../assets/mixins.js"
-//css-table
-require("../assets/css/grades.css");
+import GradesService from "../assets/mixins/gradesMixins.js"
 export default {
   name: "Grade",
   data(){
@@ -94,40 +92,14 @@ export default {
       }
     }
   },
-  watch: {
-      "payload.description": {
-        handler(){
-          const inputGradeDescription = document.querySelectorAll("input.description")[this.index].value;
-          const descriptionCount = document.querySelectorAll("span.descriptionCount")[this.index];
-          const counter = (30 - (inputGradeDescription.length));
-          switch (counter) {
-              case 2:
-              case 3:
-              case 4:
-              case 22:
-              case 23:
-              case 24:
-                  descriptionCount.innerHTML = `Pozostały: ${counter} znaki.`;
-                  break;
-              case 1:
-                  descriptionCount.innerHTML = `Pozostał: ${counter} znak.`;
-                  break;
-              default:
-                  descriptionCount.innerHTML = `Pozostało: ${counter} znaków.`;
-          }
-        },
-        deep:true
-      }
-  },
   props:["index", "updater", "possibleSave"],
-  created(){
-
-    this.clearNewGradesArray("", this.index)
-
+  
+  beforeMount(){
+    this.clearNewGradesArray("", this.index);
   },
-  updated(){
+  beforeUpdate(){
       this.payload.date = this.whatsTheDatePlease();
-      this.addNewItem("date")
+      this.addNewItem("date");
   },
   destroyed(){
     this.$emit("updater");
@@ -137,13 +109,8 @@ export default {
   methods:{
 
     addNewItem(whatToAdd){
-      // console.log(whatToAdd)
-      // console.log(this.marks[0])
-      // console.log(this[whatToAdd+"s"])
-      // console.log(this.index)
-      // console.log(this[whatToAdd+"s"][this.index])
-      // console.log(this.payload[whatToAdd])
-        //places new mark, weight, description or date in appropriate place according to the provided index inside newGrades Array in Vuex
+
+        //places a new mark, weight, description or date in appropriate place according to the provided index inside newGrades Array in Vuex
         //e.g    for second component Grade.vue:   newGrades.grades[1] = 5                           newGrades.grades=[3,5]
         //e.g    for second component Grade.vue:   newGrades.weights[1] = 5                          newGrades.weights=[3,5]
         //e.g    for second component Grade.vue:   newGrades.descriptions[1] = "Praca domowa"        newGrades.descriptions=["Kartkówka", "Praca domowa"]
@@ -153,10 +120,9 @@ export default {
         //       this.weights[1] = this.payload[weight]
         //       this.descriptions[1] = this.payload[description]
         //       this.dates[1] = this.payload[date]
-        this.$store.state.newGrades[whatToAdd+"s"][this.index]=this.payload[whatToAdd];
+        this[whatToAdd+"s"][this.index]=this.payload[whatToAdd];
+
         this.$emit("updater")
-
-
         this.$emit("update:possibleSave", true);
 
     },
@@ -185,26 +151,10 @@ export default {
   align-content: flex-end;
 }
 
-input{
-  font-size: 12px;
-  height: 23px;
-  width: 90%;
-}
 
 @media (max-width: 768px){
-
-    div[class^=col-]{
-        padding: 0;
-    }
-
     .addStudentPanelGradesContentSingle{
         width: 100%;
-    }
-    label {
-        font-size: 11px;
-    }
-    span.descriptionCount{
-      font-size: 9.5px;
     }
 }
 </style>

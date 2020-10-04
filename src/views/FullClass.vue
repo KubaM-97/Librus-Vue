@@ -95,19 +95,16 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 
-import GradesService from "../assets/mixins.js"
-
-//css-table
-require("../assets/css/table.css");
+import GradesService from "../assets/mixins/gradesMixins.js"
 
 export default {
    name: 'FullClass',
    beforeRouteEnter (to, from, next) {
-     
+
       next(vm => {
 
-        for(let i=0; i<vm.$store.state.students.length; i++){
-          vm.showTooltip(document.querySelectorAll("tr")[i], vm.$store.state.students[i]);
+        for(let i=0; i<vm.students.length; i++){
+          vm.showTooltip(document.querySelectorAll("tr")[i], vm.students[i]);
         }
 
       vm.sortMyStudents();
@@ -117,8 +114,8 @@ export default {
    },
    updated() {
 
-       for(let i=0; i<this.$store.state.students.length; i++){
-         this.showTooltip(document.querySelectorAll("tr")[i], this.$store.state.students[i]);
+       for(let i=0; i<this.students.length; i++){
+         this.showTooltip(document.querySelectorAll("tr")[i], this.students[i]);
        }
 
        this.addNumberingToTheTable();

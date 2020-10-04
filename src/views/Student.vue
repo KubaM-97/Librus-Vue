@@ -101,7 +101,8 @@ import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
 
 import { mapGetters } from "vuex"
-import GradesService from "../assets/mixins.js"
+import MainMixins from "../assets/mixins/mixins.js"
+import GradesService from "../assets/mixins/gradesMixins.js"
 
 export default {
   name: "Student",
@@ -118,9 +119,6 @@ export default {
       return this.$store.getters.fullNameGetters(this.$route.params)
     }
   },
-//   mounted() {
-//   console.log(this.foo('hello')); // logs "hello"
-// },
   created(){
     axios.get("/static/students.json")
     .then((response) => {
@@ -136,44 +134,16 @@ export default {
   updated(){
     this.showTooltip(this.$refs.editStudentPanel, this.$route.params);
   },
-  mixins: [GradesService],
+  mixins: [MainMixins, GradesService],
   methods:{
     showEditStudentDataPanel(){
-      this.$router.push({name: "EditData", params: {
-        id: this.$route.params.id,
-        lastName: this.$route.params.lastName,
-        firstName: this.$route.params.firstName,
-        marks: this.$route.params.marks,
-        weights: this.$route.params.weights,
-        descriptions: this.$route.params.descriptions,
-        dates: this.$route.params.dates,
-        pesel: this.$route.params.pesel,
-        street: this.$route.params.street,
-        phone: this.$route.params.phone,
-        email: this.$route.params.email,
-        mother: this.$route.params.mother,
-        father: this.$route.params.father
-       }})
+      this.pushMe("EditData")
       this.showDataEditionRouterView = true;
     },
     showEditStudentGradesPanel(){
-      this.$router.push({name: "EditGrades", params: {
-        id: this.$route.params.id,
-        lastName: this.$route.params.lastName,
-        firstName: this.$route.params.firstName,
-        marks: this.$route.params.marks,
-        weights: this.$route.params.weights,
-        descriptions: this.$route.params.descriptions,
-        dates: this.$route.params.dates,
-        pesel: this.$route.params.pesel,
-        street: this.$route.params.street,
-        phone: this.$route.params.phone,
-        email: this.$route.params.email,
-        mother: this.$route.params.mother,
-        father: this.$route.params.father
-       }})
+      this.pushMe("EditGrades")
       this.showGradesEditionRouterView = true;
-    },
+    }
   }
 }
 

@@ -225,15 +225,10 @@
 
 <script>
 
-//CSS
-require("../assets/css/animations.css");
+import MainMixins from "../assets/mixins/mixins.js"
+import GradesService from "../assets/mixins/gradesMixins.js"
 
-//css-table
-require("../assets/css/table.css");
-import GradesService from "../assets/mixins.js"
 import Grade from "./Grade.vue"
-
-import { mapMutations } from "vuex"
 
 export default {
   name: "AddStudent",
@@ -284,115 +279,6 @@ export default {
   components: {
     "grade-component": Grade
   },
-  beforeRouteLeave(to,from,next){
-    if(to.path == "/LoggedOut"){
-      this.addStudentCancel()
-      next()
-    }
-    else{
-      let i=0;
-      do {
-        //if
-        // 1. a grade has a mark but doesn`t have a weight
-        // 2. a grade doesn`t have a mark but has a weight
-        // 3. there is neither a mark nor a weight but there is a description
-        // 4. there is no name but there is at least one mark, one weight or one description
-        if((     ((this.marks[i]!=="")&&(this.weights[i]===""))
-              || ((this.marks[i]==="")&&(this.weights[i]!==""))
-              // || ((this.marks[i]!=="")&&(this.weights[i]!==""))
-              || ((this.marks[i]==="")&&(this.weights[i]==="")&&(this.descriptions[i]!==""))
-              || ((this.name==="")&&((this.marks[i]!=="")||(this.weights[i]!=="")||(this.descriptions[i]!=="")))
-            )
-              && (this.block==true))
-        {
-          this.exitPath = to.path;
-          this.confirm = true;
-          next(false)
-        }
-        else{
-          this.getRidOfEmptyGrades(this.$store.state.newGrades)
-          this.addStudentCancel()
-          this.block = true;
-          next()
-        }
-        i++;
-      } while (i<=this.marks.length);
-      // for(let i=0; i<this.marks.length; i++){
-      //   if((     ((this.marks[i]!=="")&&(this.weights[i]===""))
-      //         || ((this.marks[i]==="")&&(this.weights[i]!==""))
-      //         || ((this.marks[i]!=="")&&(this.weights[i]!==""))
-      //         || ((this.marks[i]==="")&&(this.weights[i]==="")&&(this.descriptions[i]!==""))
-      //         || (this.name===""))
-      //         && (this.block==true))
-      //   {
-      //     this.exitPath = to.path;
-      //     this.confirm = true;
-      //     next(false)
-      //   }
-      //   else{
-      //     this.addStudentCancel()
-      //     next()
-      //   }
-      // }
-    }
-
-
-    // const marks = this.marks
-    // const weights = this.weights
-    // // const descriptions = this.descriptions
-    //
-    // const limit = marks.length;
-    // let block = false;
-    // for(let i=0; i<limit; i++){
-    //   if( ((marks[i]==="") && (weights[i]!=="")) || (marks[i]!=="") && (weights[i]==="")){
-    //     block = true;
-    //   }
-    // }
-    // if((
-    //   (this.add.name == "") || (block))){
-    //   if(to.path == "/LoggedOut"){
-    //     next()
-    //     this.addStudentCancel()
-    //   }
-    //   else if (this.exitPath == ""){
-    //     setTimeout(()=>{
-    //
-    //       //shows confirm window
-    //       this.confirm = true;
-    //
-    //     },500)
-    //     this.exitPath = to.path;
-    //     next(false)
-    //   }
-    // }
-    // else{
-    //   this.addStudentCancel()
-    //   next()
-    // }
-  },
-  updated(){
-
-    if(this.name!=""){
-      const arrName = this.name.split(" ");
-      this.add.firstName = arrName[0];
-      this.add.lastName = arrName[1];
-    }
-
-    for(let i=0; i<this.marks.length; i++){
-
-
-        this.showTooltip(document, this);
-
-    }
-
-  },
-
-  beforeDestroy(){
-    this.$store.state.newGrades.marks = []
-    this.$store.state.newGrades.weights = []
-    this.$store.state.newGrades.descriptions = []
-    this.$store.state.newGrades.dates = []
-  },
   filters: {
     //converts student's full name to correct form
     //e.g jan kowalski => KOWALSKI Jan
@@ -430,22 +316,67 @@ export default {
         return array.reverse().join(" ");
       }
       else if(reg.test(name) == false){
-
         wrongName.innerHTML = "Bez cyfr i znaków specjalnych."
       }
     },
   },
-  mixins: [GradesService],
+  updated(){
+
+    if(this.name!=""){
+      const arrName = this.name.split(" ");
+      this.add.firstName = arrName[0];
+      this.add.lastName = arrName[1];
+    }
+
+    for(let i=0; i<this.marks.length; i++){
+        this.showTooltip(document, this);
+    }
+
+  },
+  beforeRouteLeave(to,from,next){
+    if(to.path == "/LoggedOut"){
+      this.addStudentCancel()
+      next()
+    }
+    else{
+      let i=0;
+      do {
+        //if
+        // 1. a grade has a mark but doesn`t have a weight
+        // 2. a grade doesn`t have a mark but has a weight
+        // 3. there is neither a mark nor a weight but there is a description
+        // 4. there is no name but there is at least one mark, one weight or one description
+        if((     ((this.marks[i]!=="")&&(this.weights[i]===""))
+              || ((this.marks[i]==="")&&(this.weights[i]!==""))
+              // || ((this.marks[i]!=="")&&(this.weights[i]!==""))
+              || ((this.marks[i]==="")&&(this.weights[i]==="")&&(this.descriptions[i]!==""))
+              || ((this.name==="")&&((this.marks[i]!=="")||(this.weights[i]!=="")||(this.descriptions[i]!=="")))
+            )
+              && (this.block==true))
+        {
+          this.exitPath = to.path;
+          this.confirm = true;
+          next(false)
+        }
+        else{
+          this.getRidOfEmptyGrades()
+          this.addStudentCancel()
+          this.block = true;
+          next()
+        }
+        i++;
+      } while (i<=this.marks.length);
+    }
+  },
+  beforeDestroy(){
+    const store = this.$store.state.newGrades;
+    for(const el in store){
+      store[el] = [];
+    }
+  },
+  mixins: [MainMixins, GradesService],
   methods: {
 
-      ...mapMutations([
-        "addNewStudentToClass"
-      ]),
-
-      //updates component
-      updater(){
-        this.$forceUpdate()
-      },
 
       //starts animation of Student's detail data
       enter(el, done){
@@ -485,25 +416,6 @@ export default {
         else if(action == "stay"){
           this.confirm = false;
           this.exitPath = "";
-          // this.$router.push({path: this.exitPath});
-        }
-      },
-
-      //regular expressions
-      validatorData(Data, RegularExpression, Format) {
-
-        //gets inserted value
-        const insertedData = document.querySelector("#"+Data).value;
-
-        //gets regular expression
-        const reg = new RegExp(RegularExpression);
-        const span = document.querySelector("#wrong"+Data);
-        if((insertedData !== '') && (reg.test(insertedData)==false)){
-          span.innerHTML = `Podaj prawidłowy format :
-          <br /> ${Format}`;
-        }
-        else{
-          span.innerHTML = ``;
         }
       },
 
@@ -529,9 +441,7 @@ export default {
 
         //if we've got both firstname and lastname
            if (addedStudentNameArray.length >= 2) {
-             // alert(this.$store.state.newGrades.marks)
-             this.getRidOfEmptyGrades(this.$store.state.newGrades)
-             // alert(this.$store.state.newGrades.marks);
+             this.getRidOfEmptyGrades()
              this.add.id = this.students.length + 1;
              this.add.marks = this.marks;
              this.add.weights = this.weights;
@@ -639,6 +549,9 @@ export default {
   margin-right: 50px;
   background-color: black;
   border: 0.2px solid white;
+  border-top: none;
+  border-left: none;
+  border-right: none;
   box-shadow: 2px 2px 0px 0px white;
   text-align: left;
   padding-left: 15px;
@@ -646,7 +559,7 @@ export default {
   font-size: 12px;
 }
 .addStudentPanelNameInfo span[class^="wrong"]{
-  font-size: 13px;
+  font-size: 11.5px;
   display: block;
   width: 60%;
   float: right;
@@ -669,27 +582,7 @@ export default {
   top: 10px;
   right: 15px
 }
-.showAnotherGrade button {
-  background-color: #00c3ff;
-  color: white;
-  text-shadow: -1px 0 #00c3ff, 0 1px #00c3ff, 1px 0 #00c3ff, 0 -1px #00c3ff;
-  -webkit-box-shadow: inset 0px 0px 20px 12px black,  0px 0px 20px 3px black;
-  -moz-box-shadow: inset 0px 0px 20px 12px black,  0px 0px 20px 3px black;
-  box-shadow: inset 0px 0px 20px 12px black,  0px 0px 20px 3px black;
-  border: 1px solid #00c3ff !important;
-  border-radius: 50%;
-  margin-top: 20px;
-  padding: 0 12px;
-  font-size: 29px;
-}
-.showAnotherGrade button:hover {
-    background-color: black;
-    -webkit-box-shadow: inset 0px 0px 15px 2px #00c3ff ,  0px 0px 15px 3px #00c3ff;
-    -moz-box-shadow: inset 0px 0px 15px 2px #00c3ff ,  0px 0px 15px 3px #00c3ff;
-    box-shadow: inset 0px 0px 15px 2px #00c3ff ,  0px 0px 15px 3px #00c3ff;
-    color: black;
-    border: 1px solid white !important;
-}
+
 .addStudentPanelSummary{
   width: 90%;
   margin: 100px 70px 0;

@@ -1,6 +1,31 @@
 import { mapState } from "vuex"
 
 export default {
+  watch: {
+      "payload.description": {
+        handler(){
+          const inputGradeDescription = document.querySelectorAll("input.description")[this.index].value;
+          const descriptionCount = document.querySelectorAll("span.descriptionCount")[this.index];
+          const counter = (30 - (inputGradeDescription.length));
+          switch (counter) {
+              case 2:
+              case 3:
+              case 4:
+              case 22:
+              case 23:
+              case 24:
+                  descriptionCount.innerHTML = `Pozostały: ${counter} znaki.`;
+                  break;
+              case 1:
+                  descriptionCount.innerHTML = `Pozostał: ${counter} znak.`;
+                  break;
+              default:
+                  descriptionCount.innerHTML = `Pozostało: ${counter} znaków.`;
+          }
+        },
+        deep:true
+      }
+  },
   computed:{
     ...mapState({
         students: state => state.students,
@@ -49,7 +74,7 @@ export default {
       },
 
       //show tooltip after hovering on every grade
-     showTooltip(RootElement, SingleStudent) {
+      showTooltip(RootElement, SingleStudent) {
 
          const gradesInDiv = RootElement.querySelectorAll(".gradeWeightColor");
          const marksArrayWithoutEmptyValues = [];
@@ -89,41 +114,6 @@ export default {
  }
          }
      },
-
-//       //shows tooltip after hovering on every grade
-//       showTooltip(RootElement, SingleStudent) {
-//
-//         console.log("=======================")
-//         console.log("POCZĄTEK")
-//       const gradeInDiv = RootElement.querySelectorAll("div.gradeWeightColor");
-//       for(let i=0; i<SingleStudent.marks.length;i++){
-//         console.log("Która ocena w tablicy: " + i)
-//         if((SingleStudent.marks[i]!=="")&&(SingleStudent.weights[i]!=="")){
-//
-//           console.log("Ocena: " + i + ": " + SingleStudent.marks[i])
-//           console.log("Waga: " + i + ": " + SingleStudent.weights[i])
-// //
-//               if(SingleStudent.descriptions[i]===""){
-//                 SingleStudent.descriptions[i] = "BRAK OPISU"
-//               }
-//
-//               for(let j=0; j<gradeInDiv.length;j++){
-//                   //gradeInDiv[0], gradeInDiv[1] ,gradeInDiv[2], gradeInDiv[3],
-//                   gradeInDiv[j].addEventListener("mouseenter", function() {
-//                       this.canvas(SingleStudent.marks[i], SingleStudent.weights[i], SingleStudent.descriptions[i], SingleStudent.dates[i], gradeInDiv[j])
-//                   }.bind(this), false);
-//
-//                   //destroyes tooltip after leaving
-//                   gradeInDiv[j].addEventListener("mouseleave", function() {
-//                       const canv = document.querySelector("canvas");
-//                       canv.parentNode.removeChild(canv);
-//                   });
-//                 }
-//           }
-//
-//         }
-//
-//       },
 
       //draws tooltip
       canvas(SingleGrade, SingleWeight, SingleDescription, SingleDate, anotherDivWithGrade) {
@@ -178,7 +168,7 @@ export default {
 
 
           for (let i = 0; i < oneStudentMarksArray.length; i++) {
-            if((oneStudentMarksArray[i]!=="") && (oneStudentWeightsArray[i])){
+            if((oneStudentMarksArray[i]!=="") && (oneStudentWeightsArray[i]!=="")){
               MarksSuperValue += oneStudentMarksArray[i] * oneStudentWeightsArray[i];
               weightSum += oneStudentWeightsArray[i]
             }
@@ -246,8 +236,7 @@ export default {
           const dateFullArray = [];
           dateFullArray.push(dateFullStr);
 
-          let dateArray = "";
-          return dateArray = dateFullStr;
+          return dateFullStr;
 
       },
 
@@ -272,36 +261,31 @@ export default {
       },
 
       //removes grades that have marks but don`t have weights or don`t have marks but have weights
-      getRidOfEmptyGrades(objectWithAllGrades){
+      getRidOfEmptyGrades(){
+        let marks = this.marks;
+        let weights = this.weights;
+        let descriptions = this.descriptions;
+        let dates = this.dates;
 
         const arrayMarks = [];
         const arrayWeights = [];
         const arrayDescriptions = [];
         const arrayDates = [];
 
-        for(let i=0; i<objectWithAllGrades.marks.length; i++){
-          if(!( ((objectWithAllGrades.marks[i]!=="") && (objectWithAllGrades.weights[i]===""))
-          || ((objectWithAllGrades.marks[i]==="") && (objectWithAllGrades.weights[i]!=="")))){
-            arrayMarks.push(this.$store.state.newGrades.marks[i])
-            arrayWeights.push(this.$store.state.newGrades.weights[i])
-            arrayDescriptions.push(this.$store.state.newGrades.descriptions[i])
-            arrayDates.push(this.$store.state.newGrades.dates[i])
+        for(let i=0; i<marks.length; i++){
+          if(!( ((marks[i]!=="") && (weights[i]===""))
+          || ((marks[i]==="") && (weights[i]!=="")))){
+            arrayMarks.push(marks[i])
+            arrayWeights.push(weights[i])
+            arrayDescriptions.push(descriptions[i])
+            arrayDates.push(dates[i])
           }
         }
 
-        // for(let i=0; i<objectWithAllGrades.marks.length; i++){
-        //   if((objectWithAllGrades.marks[i]!=="")||(objectWithAllGrades.weights[i]!=="")){
-        //     arrayMarks.push(this.$store.state.newGrades.marks[i])
-        //     arrayWeights.push(this.$store.state.newGrades.weights[i])
-        //     arrayDescriptions.push(this.$store.state.newGrades.descriptions[i])
-        //     arrayDates.push(this.$store.state.newGrades.dates[i])
-        //   }
-        // }
-
-        objectWithAllGrades.marks = arrayMarks
-        objectWithAllGrades.weights = arrayWeights
-        objectWithAllGrades.descriptions = arrayDescriptions
-        objectWithAllGrades.dates = arrayDates
+        marks = arrayMarks
+        weights = arrayWeights
+        descriptions = arrayDescriptions
+        dates = arrayDates
       }
     }
   }

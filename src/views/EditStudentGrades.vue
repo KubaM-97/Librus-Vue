@@ -97,48 +97,23 @@
          </table>
        </div>
      </div>
-     <button name="possibleSaveGrades" v-if="possibleSave" @click="saveChanges()" class="btn btn-success btn-lg save">Zapisz zmiany</button>
+     <button name="possibleSaveGrades" v-if="possibleSave" @click="saveChanges(ourStudent)" class="btn btn-success btn-lg save">Zapisz zmiany</button>
      <button name="impossibleSaveGrades" v-else class="btn btn-success btn-lg save" disabled>Zapisz zmiany</button>
    </div>
-   <button name="closeTheGradesPanel" @click="closeThePanel()"><img class="closeThePanel" src="../assets/eXit.png"/></button>
+   <button name="closeTheGradesPanel" @click="closeThePanel()"><img class="closeThePanel" src="../assets/images/eXit.png"/></button>
  </div>
 </template>
+
 <script>
-import GradesService from "../assets/mixins.js"
+import MainMixins from "../assets/mixins/mixins.js"
+import GradesService from "../assets/mixins/gradesMixins.js"
+
 import Grade from "./Grade.vue"
-import { mapMutations } from "vuex"
-//css-table
-require("../assets/css/table.css");
 export default {
+ name:"EditGrades",
  components: {
    "grade-component": Grade
  },
- watch: {
-   "$store.state.newGrades.description": {
-     handler: function(){
-       const inputGradeDescription = document.querySelectorAll("input.description")[this.n].value;
-       const descriptionCount = document.querySelectorAll("span.descriptionCount")[this.n];
-       const counter = (30 - (inputGradeDescription.length));
-       switch (counter) {
-           case 2:
-           case 3:
-           case 4:
-           case 22:
-           case 23:
-           case 24:
-               descriptionCount.innerHTML = `Pozostały: ${counter} znaki.`;
-               break;
-           case 1:
-               descriptionCount.innerHTML = `Pozostał: ${counter} znak.`;
-               break;
-           default:
-               descriptionCount.innerHTML = `Pozostało: ${counter} znaków.`;
-       }
-     },
-     deep:true
-   }
- },
- name:"EditGrades",
  data(){
    return{
      ourStudent:{
@@ -146,45 +121,27 @@ export default {
        weights: [...this.$route.params.weights],
        descriptions: [...this.$route.params.descriptions],
        dates: [...this.$route.params.dates],
-       // marks: [].concat(this.$route.params.marks, this.$store.state.newGrades.marks),
-       // weights: [].concat(this.$route.params.weights, this.$store.state.newGrades.weights),
-       // descriptions: [].concat(this.$route.params.descriptions, this.$store.state.newGrades.descriptions),
-       // dates: [].concat(this.$route.params.dates, this.$store.state.newGrades.dates),
-
      },
      characters: 30,
      gradesLength: 0,
-       possibleSave: true
+     possibleSave: true
    }
+ },
+ props: ["showGradesEditionRouterView"],
+ beforeCreate(){
+   const store = this.$store.state.newGrades;
+   const params = this.$route.params;
+   for(const el in store){
+     store[el] = [...params[el]]
+   }
+ },
+ mounted(){
+   this.showTooltip(this.$refs.EditStudentGrades, this);
  },
  beforeRouteEnter (to, from, next) {
     next(vm => {
       vm.showTooltip(vm.$refs.EditStudentGrades, vm.ourStudent);
     })
- },
- beforeCreate(){
-   this.$store.state.newGrades.marks = [...this.$route.params.marks];
-   this.$store.state.newGrades.weights = [...this.$route.params.weights];
-   this.$store.state.newGrades.descriptions = [...this.$route.params.descriptions];
-   this.$store.state.newGrades.dates = [...this.$route.params.dates];
- },
- beforeMount(){
-   // alert(this.ourStudent.marks)
-   // this.$store.state.newGrades.marks = this.$route.params.marks;
-   // this.$store.state.newGrades.weights = this.$route.params.weights;
-   // this.$store.state.newGrades.descriptions = this.$route.params.descriptions;
-   // this.$store.state.newGrades.dates = this.$route.params.dates;
- },
- mounted(){
-   this.showTooltip(this.$refs.EditStudentGrades, this);
-   // alert(this.ourStudent.marks)
- },
- destroyed(){
-   this.$store.state.newGrades.marks = [];
-   this.$store.state.newGrades.weights = [];
-   this.$store.state.newGrades.descriptions = [];
-   this.$store.state.newGrades.dates = [];
-   // this.clearNewGradesArray([])
  },
  updated(){
    this.showTooltip(this.$refs.EditStudentGrades, this.$store.state.newGrades);
@@ -193,117 +150,104 @@ export default {
        this.possibleSave = false;
      }
    }
-   // alert(this.ourStudent.marks)
-   // this.ourStudent.marks = [].concat(this.$route.params.marks, this.$store.state.newGrades.marks);
  },
- props: ["showGradesEditionRouterView"],
- mixins: [GradesService],
+ destroyed(){
+   this.$store.state.newGrades.marks = [];
+   this.$store.state.newGrades.weights = [];
+   this.$store.state.newGrades.descriptions = [];
+   this.$store.state.newGrades.dates = [];
+ },
+ mixins: [MainMixins, GradesService],
  methods:{
 
-   updater(){
-     this.$forceUpdate();
-   },
    remove(index){
+     const sourcesArray = [this.$store.state.newGrades, this.ourStudent];
 
-     // alert(this.$store.state.newGrades.marks)
-     // alert(this.ourStudent.marks)
+     for(let i=0; i<sourcesArray.length; i++){
+       for(const el in sourcesArray[i]){
+         sourcesArray[i][el].splice(index,1)
+       }
+     }
 
-     //clears table gradeWeightColor
-     this.$store.state.newGrades.marks.splice(index,1);
-     this.$store.state.newGrades.weights.splice(index,1);
-     this.$store.state.newGrades.descriptions.splice(index,1);
-     this.$store.state.newGrades.dates.splice(index,1);
-
-     // alert(this.$store.state.newGrades.marks)
-     // alert(this.ourStudent.marks)
-
-     this.ourStudent.marks.splice(index,1);
-     this.ourStudent.weights.splice(index,1);
-     this.ourStudent.descriptions.splice(index,1);
-     this.ourStudent.dates.splice(index,1);
-
-     // alert(this.$store.state.newGrades.marks)
-     // alert(this.ourStudent.marks)
-
-      this.$forceUpdate();
-   },
-   changeGrade(index, newVal, what){
-     this.$store.state.newGrades[what][index] = newVal;
-     this.$store.state.newGrades.dates[index] = this.whatsTheDatePlease();
-     this.$forceUpdate();
-
+     this.updater();
      this.possibleSave = true;
 
    },
-   //adds a new grade to the new student
-   moreGrades() {
-     this.gradesLength++;
-   },
-   saveChanges(){
 
+   changeGrade(index, newVal, what){
+     this[what][index] = newVal;
+     this.dates[index] = this.whatsTheDatePlease();
+     this.updater();
+     this.possibleSave = true;
+   },
+
+   saveChanges(ourStudent){
      const route = this.$route.params;
+     const store = this.$store.state.students[route.id-1];
+     const storeGrades = this.$store.state.newGrades;
 
      const arrayMarks = [];
      const arrayWeights = [];
      const arrayDescriptions = [];
      const arrayDates = [];
 
-
-     for(let i=0; i<this.$store.state.newGrades.marks.length; i++){
-       if((this.$store.state.newGrades.marks[i]!=="")||(this.$store.state.newGrades.weights[i]!=="")){
-         arrayMarks.push(this.$store.state.newGrades.marks[i])
-         arrayWeights.push(this.$store.state.newGrades.weights[i])
-         arrayDescriptions.push(this.$store.state.newGrades.descriptions[i])
-         arrayDates.push(this.$store.state.newGrades.dates[i])
+     for(let i=0; i<storeGrades.marks.length; i++){
+       if((storeGrades.marks[i]!=="")||(storeGrades.weights[i]!=="")){
+         arrayMarks.push(storeGrades.marks[i])
+         arrayWeights.push(storeGrades.weights[i])
+         arrayDescriptions.push(storeGrades.descriptions[i])
+         arrayDates.push(storeGrades.dates[i])
        }
      }
 
-     this.$store.state.newGrades.marks = arrayMarks
-     this.$store.state.newGrades.weights = arrayWeights
-     this.$store.state.newGrades.descriptions = arrayDescriptions
-     this.$store.state.newGrades.dates = arrayDates
+     storeGrades.marks = arrayMarks
+     storeGrades.weights = arrayWeights
+     storeGrades.descriptions = arrayDescriptions
+     storeGrades.dates = arrayDates
 
-     //divs in EditStudentGrades.vue and grades in Student.vue
-     route.marks = this.marks;
-     route.weights = this.weights;
-     route.descriptions = this.descriptions;
-     route.dates = this.dates;
 
      //table in EditStudentGrades.vue (gradeWeightColor())
-     this.ourStudent.marks = this.marks;
-     this.ourStudent.weights = this.weights;
-     this.ourStudent.descriptions = this.descriptions;
-     this.ourStudent.dates = this.dates;
+     for(const el in ourStudent){
 
-     //adds to class in state in Vuex and FullClass.vue
-     this.$store.state.students[route.id-1].marks = this.marks;
-     this.$store.state.students[route.id-1].weights = this.weights;
-     this.$store.state.students[route.id-1].descriptions = this.descriptions;
-     this.$store.state.students[route.id-1].dates = this.dates;
+        //divs in EditStudentGrades.vue and grades in Student.vue
+        route[el] = [...this[el]];
+
+       //table in EditStudentGrades.vue (gradeWeightColor())
+       ourStudent[el] = [...this[el]];
+
+       //adds to class in state in Vuex and FullClass.vue
+       store[el] = [...this[el]];
+
+     }
+
+     // //divs in EditStudentGrades.vue and grades in Student.vue
+     // route.marks = [...this.marks];
+     // route.weights = [...this.weights];
+     // route.descriptions = [...this.descriptions];
+     // route.dates = [...this.dates];
+
+     // //table in EditStudentGrades.vue (gradeWeightColor())
+     // this.ourStudent.marks = [...this.marks];
+     // this.ourStudent.weights = [...this.weights];
+     // this.ourStudent.descriptions = [...this.descriptions];
+     // this.ourStudent.dates = [...this.dates];
+
+     // //adds to class in state in Vuex and FullClass.vue
+     // this.$store.state.students[route.id-1].marks = [...this.marks];
+     // this.$store.state.students[route.id-1].weights = [...this.weights];
+     // this.$store.state.students[route.id-1].descriptions = [...this.descriptions];
+     // this.$store.state.students[route.id-1].dates = [...this.dates];
+
+     this.gradesLength = 0;
+
 
      this.possibleSave = false;
-     this.gradesLength = 0;
 
 
    },
    closeThePanel(){
-     this.$router.push({name: "Student", params: {
-       id: this.$route.params.id,
-       lastName: this.$route.params.lastName,
-       firstName: this.$route.params.firstName,
-       marks: this.$route.params.marks,
-       weights: this.$route.params.weights,
-       descriptions: this.$route.params.descriptions,
-       dates: this.$route.params.dates,
-       pesel: this.$route.params.pesel,
-       street: this.$route.params.street,
-       phone: this.$route.params.phone,
-       email: this.$route.params.email,
-       mother: this.$route.params.mother,
-       father: this.$route.params.father
-      }})
+     this.pushMe("Student")
      this.$emit("update:showGradesEditionRouterView", false);
-
    }
  }
 }
@@ -340,34 +284,6 @@ div.gainedGrades .row>div{
   display: grid;
   margin-bottom: 30px;
 }
-select {
-    font-size: 12px;
-    padding-left: 6px;
-    border-radius: 2px;
-    background-color: black;
-    width: 30px;
-    background-image: url("./../assets/arrow_down.png");
-    background-repeat: no-repeat, repeat;
-    background-position: right .3em top 50%, 0 0 ;
-    background-size: .55em auto, 130%
-}
-label {
-    display: block;
-    font-size: 13px;
-    margin-bottom: 0;
-}
-input {
-    margin-top: 10px;
-    width: 90%;
-    height: 23px;
-    font-size: 12px;
-    text-align: center;
-    background-color: black;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    box-sizing: border-box;
-    text-shadow: none;
-}
 .studentPanelSummary{
     width: 80%;
     margin: 150px auto 100px;
@@ -387,27 +303,6 @@ button.save[disabled]{
     top: 50px;
     right: 20px
 }
-.showAnotherGrade  button {
-    background-color: #00c3ff;
-    color: white;
-    text-shadow: -1px 0 #00c3ff, 0 1px #00c3ff, 1px 0 #00c3ff, 0 -1px #00c3ff;
-    -webkit-box-shadow: inset 0px 0px 20px 12px black,  0px 0px 20px 3px black;
-    -moz-box-shadow: inset 0px 0px 20px 12px black,  0px 0px 20px 3px black;
-    box-shadow: inset 0px 0px 20px 12px black,  0px 0px 20px 3px black;
-    border: 1px solid #00c3ff !important;
-    border-radius: 50%;
-    margin-top: 20px;
-    padding: 0 12px;
-    font-size: 29px;
-}
-.showAnotherGrade  button:hover {
-    background-color: black;
-    -webkit-box-shadow: inset 0px 0px 15px 2px #00c3ff ,  0px 0px 15px 3px #00c3ff;
-    -moz-box-shadow: inset 0px 0px 15px 2px #00c3ff ,  0px 0px 15px 3px #00c3ff;
-    box-shadow: inset 0px 0px 15px 2px #00c3ff ,  0px 0px 15px 3px #00c3ff;
-    color: black;
-    border: 1px solid white !important;
-}
 img.closeThePanel{
     position: absolute;
     top: -10px;
@@ -419,37 +314,15 @@ img.closeThePanel{
     box-shadow: 2px 2px 10px 2px #d54545;
     border-radius: 50px;
 }
-span.remove{
-    font-size: 10px;
-    text-decoration: underline;
-}
-span.remove:hover{
-    cursor: pointer;
-}
 @media (max-width: 768px){
   div.EditStudentGrades{
     width: 95%;
     top: -30%;
   }
-  div[class^=col-]{
-      padding: 0;
-  }
-  div.gainedGrades{
-      /* width: 100%; */
-  }
   .showAnotherGrade button{
       font-size: 19px;
       padding: 1px 9px;
       font-weight: 300;
-  }
-  label {
-      font-size: 11px;
-  }
-  span.descriptionCount{
-    font-size: 9.5px;
-  }
-  span.remove{
-      font-size: 9px;
   }
   table td{
     font-size: 11px;
