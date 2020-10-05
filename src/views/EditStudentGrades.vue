@@ -180,71 +180,8 @@ export default {
      this.updater();
      this.possibleSave = true;
    },
+   
 
-   saveChanges(ourStudent){
-     const route = this.$route.params;
-     const store = this.$store.state.students[route.id-1];
-     const storeGrades = this.$store.state.newGrades;
-
-     const arrayMarks = [];
-     const arrayWeights = [];
-     const arrayDescriptions = [];
-     const arrayDates = [];
-
-     for(let i=0; i<storeGrades.marks.length; i++){
-       if((storeGrades.marks[i]!=="")||(storeGrades.weights[i]!=="")){
-         arrayMarks.push(storeGrades.marks[i])
-         arrayWeights.push(storeGrades.weights[i])
-         arrayDescriptions.push(storeGrades.descriptions[i])
-         arrayDates.push(storeGrades.dates[i])
-       }
-     }
-
-     storeGrades.marks = arrayMarks
-     storeGrades.weights = arrayWeights
-     storeGrades.descriptions = arrayDescriptions
-     storeGrades.dates = arrayDates
-
-
-     //table in EditStudentGrades.vue (gradeWeightColor())
-     for(const el in ourStudent){
-
-        //divs in EditStudentGrades.vue and grades in Student.vue
-        route[el] = [...this[el]];
-
-       //table in EditStudentGrades.vue (gradeWeightColor())
-       ourStudent[el] = [...this[el]];
-
-       //adds to class in state in Vuex and FullClass.vue
-       store[el] = [...this[el]];
-
-     }
-
-     // //divs in EditStudentGrades.vue and grades in Student.vue
-     // route.marks = [...this.marks];
-     // route.weights = [...this.weights];
-     // route.descriptions = [...this.descriptions];
-     // route.dates = [...this.dates];
-
-     // //table in EditStudentGrades.vue (gradeWeightColor())
-     // this.ourStudent.marks = [...this.marks];
-     // this.ourStudent.weights = [...this.weights];
-     // this.ourStudent.descriptions = [...this.descriptions];
-     // this.ourStudent.dates = [...this.dates];
-
-     // //adds to class in state in Vuex and FullClass.vue
-     // this.$store.state.students[route.id-1].marks = [...this.marks];
-     // this.$store.state.students[route.id-1].weights = [...this.weights];
-     // this.$store.state.students[route.id-1].descriptions = [...this.descriptions];
-     // this.$store.state.students[route.id-1].dates = [...this.dates];
-
-     this.gradesLength = 0;
-
-
-     this.possibleSave = false;
-
-
-   },
    closeThePanel(){
      this.pushMe("Student")
      this.$emit("update:showGradesEditionRouterView", false);

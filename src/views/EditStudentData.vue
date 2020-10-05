@@ -257,6 +257,7 @@
 
 <script>
 import MainMixins from "../assets/mixins/mixins.js"
+import GradesService from "../assets/mixins/gradesMixins.js"
 
 export default {
   name: 'EditData',
@@ -315,52 +316,9 @@ export default {
     }
   },
   props:["showDataEditionRouterView"],
-  mixins: [MainMixins],
+  mixins: [MainMixins, GradesService],
   methods:{
 
-    saveChanges(ourStudent){
-
-      const params = this.$route.params;
-      const store = this.$store.state.students[this.$route.params.id-1];
-
-      for(const subObject in params){
-
-        if((subObject == "id")||(subObject == "marks")||(subObject == "weights")||(subObject == "descriptions")||(subObject == "dates")){
-          continue;
-        }
-
-        // this is the version dedicated for street, mother and father datas
-        if(params[subObject]!=ourStudent[subObject]){
-          if(typeof(params[subObject])==="object"){
-
-              for(const subObject2 in params[subObject]){
-                if(params[subObject][subObject2]!=ourStudent[subObject][subObject2]){
-
-                      params[subObject] = ourStudent[subObject][subObject2];
-                      store[subObject] = ourStudent[subObject][subObject2];
-                      this.showGreenCheckMark[subObject] = true;
-                      setTimeout(()=>{this.hideCheckMarkWithLayer[subObject]= false},1);
-
-                }
-              }
-
-          }
-          // this is the version dedicated for the rest of datas
-          else{
-
-            params[subObject] = ourStudent[subObject];
-            store[subObject] = ourStudent[subObject];
-            this.showGreenCheckMark[subObject] = true;
-            setTimeout(()=>{this.hideCheckMarkWithLayer[subObject] = false},1);
-
-          }
-        }
-
-      }
-
-
-      this.possibleSave = false;
-    },
 
     closeThePanel(){
       this.pushMe("Student")

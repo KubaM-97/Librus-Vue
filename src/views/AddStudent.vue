@@ -359,7 +359,7 @@ export default {
           next(false)
         }
         else{
-          this.getRidOfEmptyGrades()
+          // this.getRidOfEmptyGrades()
           this.addStudentCancel()
           this.block = true;
           next()
@@ -449,7 +449,7 @@ export default {
              this.add.dates = this.dates;
 
              this.students[this.students.length] = this.add;
-
+             console.log(this.students)
              this.block = false;
              this.$router.push({name: "FullClass"});
           }

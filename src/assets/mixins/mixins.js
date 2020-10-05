@@ -38,9 +38,57 @@ export default {
       }
     },
 
-    // saveChanges(){
-    //
-    // },
+    //saves changes
+    saveChanges(ourStudent){
+
+      const params = this.$route.params;
+      const store = this.$store.state.students[params.id-1];
+
+      for(const el in ourStudent){
+
+        // this is the version dedicated for street, mother and father datas
+        if(params[el]!=ourStudent[el]){
+          if((el==="street")||(el==="mother")||(el==="father")){
+            // alert(params[el])
+              for(const el2 in params[el]){
+                if(params[el][el2]!=ourStudent[el][el2]){
+                      params[el][el2] = ourStudent[el][el2];
+                      store[el][el2] = ourStudent[el][el2];
+                      this.showGreenCheckMark[el] = true;
+                      setTimeout(()=>{this.hideCheckMarkWithLayer[el]= false},1);
+
+                }
+              }
+
+          }
+          // this is the version dedicated for the rest of datas
+          else if((el==="marks")||(el==="weights")||(el==="descriptions")||(el==="dates")){
+
+             this.getRidOfEmptyGrades();
+
+             //divs in EditStudentGrades.vue and grades in Student.vue
+             params[el] = [...this[el]];
+
+             //table in EditStudentGrades.vue (gradeWeightColor())
+             ourStudent[el] = [...this[el]];
+
+             //adds to class in state in Vuex and FullClass.vue
+             store[el] = [...this[el]];
+          }
+          else{
+            params[el] = ourStudent[el];
+            store[el] = ourStudent[el];
+            this.showGreenCheckMark[el] = true;
+            setTimeout(()=>{this.hideCheckMarkWithLayer[el] = false},1);
+          }
+        }
+
+      }
+
+      this.gradesLength = 0;
+      this.possibleSave = false;
+    },
+
     pushMe(componentName){
       this.$router.push({name: componentName, params: {
         id: this.$route.params.id,

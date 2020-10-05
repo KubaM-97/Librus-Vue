@@ -262,30 +262,22 @@ export default {
 
       //removes grades that have marks but don`t have weights or don`t have marks but have weights
       getRidOfEmptyGrades(){
-        let marks = this.marks;
-        let weights = this.weights;
-        let descriptions = this.descriptions;
-        let dates = this.dates;
 
-        const arrayMarks = [];
-        const arrayWeights = [];
-        const arrayDescriptions = [];
-        const arrayDates = [];
+        const marks = this.marks;
+        const weights = this.weights;
+        const descriptions = this.descriptions;
+        const dates = this.dates;
 
-        for(let i=0; i<marks.length; i++){
-          if(!( ((marks[i]!=="") && (weights[i]===""))
-          || ((marks[i]==="") && (weights[i]!=="")))){
-            arrayMarks.push(marks[i])
-            arrayWeights.push(weights[i])
-            arrayDescriptions.push(descriptions[i])
-            arrayDates.push(dates[i])
-          }
+        for(let i=marks.length-1; i>=0; i--){
+            if( ((marks[i]!=="") && (weights[i]===""))
+            || ((marks[i]==="") && (weights[i]!==""))
+            || ((marks[i]==="") && (weights[i]===""))){
+                marks.splice(i, 1)
+                weights.splice(i, 1)
+                descriptions.splice(i, 1)
+                dates.splice(i, 1)
+            }
         }
-
-        marks = arrayMarks
-        weights = arrayWeights
-        descriptions = arrayDescriptions
-        dates = arrayDates
       }
     }
   }
