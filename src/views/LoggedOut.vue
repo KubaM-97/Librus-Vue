@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import LogInButton from './LogInButton.vue'
+import LogInButton from './logInButton.vue'
 import { mapMutations } from "vuex"
 export default {
   name: "LoggedOut",
