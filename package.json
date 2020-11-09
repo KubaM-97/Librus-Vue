@@ -12,6 +12,7 @@
   "dependencies": {
     "@vue/babel-helper-vue-jsx-merge-props": "^1.0.0",
     "@vue/babel-preset-jsx": "^1.1.2",
+    "@vue/cli": "^4.5.8",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "bootstrap-vue": "^2.11.0",
@@ -19,7 +20,7 @@
     "core-js-compat": "^3.4.7",
     "module_name": "^1.0.0",
     "register-service-worker": "^1.7.1",
-    "vue": "^2.6.11",
+    "vue": "^2.6.12",
     "vue-axios": "^2.1.5",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^8.4.1",
@@ -53,7 +54,7 @@
     "sass": "^1.26.3",
     "sass-loader": "^8.0.2",
     "typescript": "~3.8.3",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.12"
   },
   "eslintConfig": {
     "root": true,
