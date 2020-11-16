@@ -1,32 +1,241 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+
+    <div id="app">
+
+      <header class="main-header" v-show="showNavpanel">
+
+          <header>
+
+              <div class="logo">
+                  <img src="./assets/images/Logo.png"/>
+              </div>
+
+              <div class="logo">
+                <div class="logo_info">
+                    Nauczyciel: <span v-html="teacher"></span>
+                </div>
+                <div class="logo_info">
+                    Klasa: <span v-style-me:class="'italic'">{{Class}}</span>
+                </div>
+              </div>
+
+          </header>
+
+          <nav>
+
+            <router-link :to="{name: 'FullClass'}" tag="button" active-class="active" class="btn btn-primary btn-lg">
+                Klasa
+            </router-link>
+
+            <router-link :to="{name: 'AddStudent'}" tag="button" active-class="active" class="btn btn-primary btn-lg">
+                Dodaj ucznia
+            </router-link>
+
+            <log-out-button>
+               Wyloguj się
+            </log-out-button>
+
+          </nav>
+
+      </header>
+
+      <transition name="show-logOutGif" mode="out-in">
+          <div class="loader" v-show="showLoaderGif">
+              <img src="@/assets/images/gifloader.gif" alt="loaderLogo">
+          </div>
+      </transition>
+
+
+      <transition name="router" mode="out-in">
+        <router-view/>
+      </transition>
+
+
     </div>
-    <router-view/>
-  </div>
+
 </template>
 
+
+<script>
+
+import Vue from 'vue'
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex"
+
+//Bootstrap
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+//CSS
+require("./assets/css/main-style.css");
+require("./assets/css/table.css");
+require("./assets/css/grades.css");
+require("./assets/css/animations.css");
+
+export default {
+  name: "App",
+  data(){
+    return{
+      sitename: "Dziennik elektroniczny",
+      teacher: "<em>Kuba Modzelik</em>",
+      Class: "3B"
+    }
+  },
+  computed: {
+    ...mapState([
+      "showNavpanel",
+      "showLoaderGif"
+    ])
+  },
+  created(){
+    this.initFullClass();
+  },
+  methods:{
+    ...mapActions([
+      'initFullClass'
+    ])
+  }
+};
+
+
+// Log-Out-Button Component
+Vue.component('log-out-button', {
+  render: function (createElement) {
+    return createElement(
+      'button',   // tag name
+      {
+        "class": "btn btn-primary btn-lg with-logout-icon",
+          on: {
+            click:(e)=>{
+              this.logMeOut()
+            }
+          }
+      },
+      [
+        createElement('img',
+          {
+            attrs: {
+              src: "./img/logout2.png",
+              alt: "logout icon",
+              height: "20"
+            }
+          }
+        ),
+        this.$slots.default // array of children
+      ]
+    )
+  },
+  methods:{
+    ...mapMutations([
+      "changeNavpanel",
+      "changeLoaderGif"
+    ]),
+    logMeOut(){
+      this.$router.push({name: "LoggedOut"});
+
+      this.changeNavpanel();
+      this.changeLoaderGif();
+
+      setTimeout(()=>{
+        this.changeLoaderGif();
+      },600);
+
+    }
+  }
+});
+</script>
+
+
+
+
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+header.main-header {
+    width: 100%;
+    filter: blur(0.44px);
+    background-color: rgba(0, 0, 0, .55);
+    -webkit-box-shadow: 3px 3px 30px 5px #00c3ff;
+    -moz-box-shadow: 3px 3px 30px 5px #00c3ff;
+    box-shadow: 3px 3px 30px 5px #00c3ff;
+    padding: 10px 0 15px;
+    font-size: 8.5px;
 }
-
-#nav {
-  padding: 30px;
+header, nav {
+    display: inline-block;
+    vertical-align: bottom;
 }
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+header > header {
+    width: 50%;
 }
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+header .logo img {
+    border-radius: 6px;
+    height: 100px;
+    vertical-align: bottom;
+    margin: 5px 45px 10px 30px;
+}
+header .logo_info{
+  display: inline-block;
+  margin-left: 25px;
+}
+nav {
+    width: 47%;
+    text-align: right;
+}
+nav button.btn{
+    background-color: rgba(0, 162, 255, 0.822);
+    margin-right: 10px;
+    font-size: 13px;
+    padding: 8px 16px;
+}
+nav button.btn.with-logout-icon{
+    padding: 7px 18px 7px 15px;
+    vertical-align: top;
+}
+nav button.btn.active{
+    background-color: rgba(15, 88, 223, 0.55);
+  }
+.loader{
+    display: block;
+    position: absolute;
+    width: 350px;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.loader img{
+    width: 100%;
+}
+@media (max-width: 768px){
+  header{
+    width: 55%;
+    position: relative;
+  }
+  header .logo img{
+    height: 100px;
+  }
+  header .logo_info{
+    display: inline-block;
+    margin-left: 20px;
+  }
+  nav{
+    width: 44%;
+    float: right;
+    position: absolute;
+    bottom: 0;
+  }
+  nav button.btn{
+    display: inline-block;
+    font-size: 11px;
+    padding: 7px 11px;
+    margin: 4px 5px;
+  }
+  nav button.btn.with-logout-icon{
+    padding-left: 10px;
+  }
+  nav img{
+    height: 18px;
+  }
 }
 </style>

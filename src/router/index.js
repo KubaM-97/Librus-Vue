@@ -1,24 +1,68 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import FullClass from '../views/FullClass.vue'
+import Student from '../views/Student.vue'
+import EditStudentData from '../views/EditStudentData.vue'
+import EditStudentGrades from '../views/EditStudentGrades.vue'
+import AddStudent from '../views/AddStudent.vue'
+import LoggedOut from '../views/LoggedOut.vue'
+import Error404 from '../views/Error404.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Start',
+    component: FullClass,
+    props: true
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/About.vue')
-    }
+    path: '/FullClass',
+    name: 'FullClass',
+    component: FullClass,
+    props: true
+  },
+  {
+    path: '/Student/:lastName:firstName',
+    name: 'Student',
+    component: Student,
+    props: true,
+    children: [
+      {
+        path: 'EditData',
+        name: 'EditData',
+        component: EditStudentData,
+        props: true
+      },
+      {
+        path: 'editGrades',
+        name: 'EditGrades',
+        component: EditStudentGrades,
+        props: true
+      }
+    ]
+  },{
+    path: '/AddStudent',
+    name: 'AddStudent',
+    component: AddStudent,
+    props: true
+  },
+  {
+    path: '/LoggedOut',
+    name: 'LoggedOut',
+    component: LoggedOut,
+    props: true
+  },
+  {
+    path: '/Error404',
+    name: 'Error404',
+    component: Error404,
+    props: false
+  },
+   {
+    path: '*',
+    redirect: "/Error404"
   }
 ]
 
