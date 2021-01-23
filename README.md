@@ -10,6 +10,7 @@ An application that allows you to manage the class and its students (actions suc
 +   Open your terminal
 +   Change your directory
 +   Run: git clone https://github.com/KubaM-97/Dziennik-Elektroniczny.git
++   Run: npm install
 +   Run: npm run serve
 +   Run: set your URL to the given address (by default it's: localhost:8080)
 
