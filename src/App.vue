@@ -117,7 +117,7 @@ Vue.component('log-out-button', {
         createElement('img',
           {
             attrs: {
-              src: "./img/logout2.png",
+              src: require('./assets/images/logout.png'),
               alt: "logout icon",
               height: "20"
             }
