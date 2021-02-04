@@ -1,10 +1,10 @@
 <template>
 
-    <div id="app">
+    <div id="app_main">
 
-      <header class="main-header" v-show="showNavpanel">
+      <header class="main-header" v-show="showNavpanel">  
 
-          <header>
+         <header> 
 
               <div class="logo">
                   <img src="./assets/images/Logo.png"/>
@@ -15,7 +15,8 @@
                     Nauczyciel: <span v-html="teacher"></span>
                 </div>
                 <div class="logo_info">
-                    Klasa: <span v-style-me:class="'italic'">{{Class}}</span>
+                    <!-- Klasa: <span v-styleMe:class="'italic'">{{Class}}</span> -->
+                    <!-- <p v-highlight="'yellow'">Highlight this text bright yellow</p> -->
                 </div>
               </div>
 
@@ -23,21 +24,29 @@
 
           <nav>
 
-            <router-link :to="{name: 'FullClass'}" tag="button" active-class="active" class="btn btn-primary btn-lg">
-                Klasa
+            <router-link :to="{name: 'FullClass'}">
+                
+                <button active-class="active" class="btn btn-primary btn-lg">
+                  Klasa
+                </button>
+                
             </router-link>
 
-            <router-link :to="{name: 'AddStudent'}" tag="button" active-class="active" class="btn btn-primary btn-lg">
-                Dodaj ucznia
-            </router-link>
+            <router-link :to="{name: 'AddStudent'}">
 
+                <button active-class="active" class="btn btn-primary btn-lg">
+                  Dodaj ucznia
+                </button>
+                
+            </router-link>
+<!-- 
             <log-out-button>
                Wyloguj się
-            </log-out-button>
+            </log-out-button> -->
 
-          </nav>
-
-      </header>
+          </nav> 
+          
+          </header>
 
       <transition name="show-logOutGif" mode="out-in">
           <div class="loader" v-show="showLoaderGif">
@@ -46,9 +55,13 @@
       </transition>
 
 
-      <transition name="router" mode="out-in">
-        <router-view/>
-      </transition>
+      
+      <router-view />
+
+          <!-- <transition name="router" mode="out-in"> </transition>  -->
+
+      <!-- </router-view> -->
+     
 
 
     </div>
@@ -58,10 +71,14 @@
 
 <script>
 
-import { mapState, mapMutations, mapActions } from "vuex"
+import { mapState,  mapActions } from "vuex"
 
 //Bootstrap
 import 'bootstrap/dist/css/bootstrap.css'
+
+
+import { ref, computed, onMounted } from "vue";
+import { useStore } from 'vuex'
 
 //CSS
 require("./assets/css/main-style.css");
@@ -71,26 +88,25 @@ require("./assets/css/animations.css");
 
 export default {
   name: "App",
-  data(){
-    return{
-      sitename: "Dziennik elektroniczny",
-      teacher: "<em>Kuba Modzelik</em>",
-      Class: "3B"
+  setup(){
+
+    const store = useStore()
+
+    const sitename = ref("Dziennik elektroniczny");
+    const teacher = ref("<em>Kuba Modzelik</em>");
+    const Class = ref("3B");
+    onMounted(() => {
+      store.dispatch('initFullClass');
+    })
+
+    return { 
+      sitename, 
+      teacher, 
+      Class,
+      showNavpanel: computed(() => store.state.showNavpanel),
+      showLoaderGif: computed(() => store.state.showLoaderGif),
     }
-  },
-  computed: {
-    ...mapState([
-      "showNavpanel",
-      "showLoaderGif"
-    ])
-  },
-  created(){
-    this.initFullClass();
-  },
-  methods:{
-    ...mapActions([
-      'initFullClass'
-    ])
+    
   }
 };
 

@@ -96,53 +96,75 @@
 
 //Axios
 import axios from 'axios'
-import VueAxios from 'vue-axios'
 
 import { mapGetters } from "vuex"
 import MainMixins from "../assets/mixins/mixins.js"
 import GradesService from "../assets/mixins/gradesMixins.js"
 
+
+import { ref, computed } from "vue";
+import { useStore } from 'vuex'
+
 export default {
   name: "Student",
-  data(){
-    return{
-      student: '',
-      showDataEditionRouterView: false,
-      showGradesEditionRouterView: false
+  setup(){
+
+    const student = ref("");
+    const showDataEditionRouterView = ref(false);
+    const showGradesEditionRouterView = ref(false);
+    
+    const fullName = computed( () => {
+      return this.$store.getters.fullNameGetters(this.$route.params);
+    })
+
+    return { 
+      student, 
+      showDataEditionRouterView, 
+      showGradesEditionRouterView, 
+      fullName,
+      fullNameGetters: computed(() => store.getters.fullNameGetters)
     }
-  },
-  computed:{
-    ...mapGetters(['fullNameGetters']),
-    fullName(){
-      return this.$store.getters.fullNameGetters(this.$route.params)
-    }
-  },
-  created(){
-    axios.get("/static/students.json")
-    .then((response) => {
-      this.student = response.data.students.filter(
-        data => data.id == this.$route.params.id)[0];
-    });
-  },
-  beforeRouteEnter (to, from, next) {
-     next(vm => {
-       vm.showTooltip(vm.$refs.editStudentPanel, vm.$route.params);
-     })
-  },
-  updated(){
-    this.showTooltip(this.$refs.editStudentPanel, this.$route.params);
-  },
-  mixins: [MainMixins, GradesService],
-  methods:{
-    showEditStudentDataPanel(){
-      this.pushMe("EditData")
-      this.showDataEditionRouterView = true;
-    },
-    showEditStudentGradesPanel(){
-      this.pushMe("EditGrades")
-      this.showGradesEditionRouterView = true;
-    }
+    
   }
+  // data(){
+  //   return{
+  //     student: '',
+  //     showDataEditionRouterView: false,
+  //     showGradesEditionRouterView: false
+  //   }
+  // },
+  // computed:{
+  //   ...mapGetters(['fullNameGetters']),
+  //   fullName(){
+  //     return this.$store.getters.fullNameGetters(this.$route.params)
+  //   }
+  // },
+  // created(){
+  //   axios.get("/static/students.json")
+  //   .then((response) => {
+  //     this.student = response.data.students.filter(
+  //       data => data.id == this.$route.params.id)[0];
+  //   });
+  // },
+  // beforeRouteEnter (to, from, next) {
+  //    next(vm => {
+  //      vm.showTooltip(vm.$refs.editStudentPanel, vm.$route.params);
+  //    })
+  // },
+  // updated(){
+  //   this.showTooltip(this.$refs.editStudentPanel, this.$route.params);
+  // },
+  // mixins: [MainMixins, GradesService],
+  // methods:{
+  //   showEditStudentDataPanel(){
+  //     this.pushMe("EditData")
+  //     this.showDataEditionRouterView = true;
+  //   },
+  //   showEditStudentGradesPanel(){
+  //     this.pushMe("EditGrades")
+  //     this.showGradesEditionRouterView = true;
+  //   }
+  // }
 }
 
 </script>
