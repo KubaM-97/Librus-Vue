@@ -58,15 +58,10 @@
 
 <script>
 
-import Vue from 'vue'
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex"
+import { mapState, mapMutations, mapActions } from "vuex"
 
 //Bootstrap
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-Vue.use(BootstrapVue)
-Vue.use(IconsPlugin)
 import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 //CSS
 require("./assets/css/main-style.css");
@@ -100,51 +95,7 @@ export default {
 };
 
 
-// Log-Out-Button Component
-Vue.component('log-out-button', {
-  render: function (createElement) {
-    return createElement(
-      'button',   // tag name
-      {
-        "class": "btn btn-primary btn-lg with-logout-icon",
-          on: {
-            click:(e)=>{
-              this.logMeOut()
-            }
-          }
-      },
-      [
-        createElement('img',
-          {
-            attrs: {
-              src: require('./assets/images/logout.png'),
-              alt: "logout icon",
-              height: "20"
-            }
-          }
-        ),
-        this.$slots.default // array of children
-      ]
-    )
-  },
-  methods:{
-    ...mapMutations([
-      "changeNavpanel",
-      "changeLoaderGif"
-    ]),
-    logMeOut(){
-      this.$router.push({name: "LoggedOut"});
 
-      this.changeNavpanel();
-      this.changeLoaderGif();
-
-      setTimeout(()=>{
-        this.changeLoaderGif();
-      },600);
-
-    }
-  }
-});
 </script>
 
 

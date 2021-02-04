@@ -90,10 +90,8 @@
 <script>
 
 //Axios
-import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-Vue.use(VueAxios, axios)
 
 import GradesService from "../assets/mixins/gradesMixins.js"
 

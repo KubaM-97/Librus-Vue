@@ -95,10 +95,8 @@
 <script>
 
 //Axios
-import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-Vue.use(VueAxios, axios)
 
 import { mapGetters } from "vuex"
 import MainMixins from "../assets/mixins/mixins.js"

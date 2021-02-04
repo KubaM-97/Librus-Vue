@@ -1,16 +1,11 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import { createStore } from 'vuex'
 
 //Vuex
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-Vue.use(VueAxios, axios)
-
-// load Vuex
-Vue.use(Vuex)
 
 
-export default new Vuex.Store({
+export default createStore({
   state: {
     students: {},
     showNavpanel: true,
