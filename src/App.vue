@@ -95,6 +95,7 @@ export default {
     const sitename = ref("Dziennik elektroniczny");
     const teacher = ref("<em>Kuba Modzelik</em>");
     const Class = ref("3B");
+    
     onMounted(() => {
       store.dispatch('initFullClass');
     })
