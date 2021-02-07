@@ -89,23 +89,23 @@
                     <div class="col-md-6 offset-md-2">
                       <label>Adres:</label>
 
-                      <input name="#" type="text" autocomplete="off" v-model="ourStudent.street.streetName" id="Street" placeholder="ulica" @keyup="validatorData('Street', '^[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]*$', 'Bez znaków specjalnych.')">
+                      <input name="#" type="text" autocomplete="off" v-model="ourStudent.street.name" id="Street" placeholder="ulica" @keyup="validatorData('Street', '^[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]*$', 'Bez znaków specjalnych.')">
                       <span class="wrongAdditionalInfo" id="wrongStreet"></span>
 
-                      <input name="#" type="text" autocomplete="off" v-model="ourStudent.street.streetNr" id="HouseNr" placeholder="nr_domu" @keyup="validatorData('HouseNr', '^[0-9]+[a-zA-Z]?(/?[0-9]*[a-zA-Z]?)?$', 'Nr, Nr/Nr, Nr Litera <br /> np. 11 11/13 11A')">
+                      <input name="#" type="text" autocomplete="off" v-model="ourStudent.street.nr" id="HouseNr" placeholder="nr_domu" @keyup="validatorData('HouseNr', '^[0-9]+[a-zA-Z]?(/?[0-9]*[a-zA-Z]?)?$', 'Nr, Nr/Nr, Nr Litera <br /> np. 11 11/13 11A')">
                       <span class="wrongAdditionalInfo" id="wrongHouseNr"></span>
 
-                      <input name="#" type="text" autocomplete="off" v-model="ourStudent.street.streetFlat" id="FlatNr" placeholder="nr_mieszkania" @keyup="validatorData('FlatNr', '^[0-9]+[a-zA-Z]?$', 'Liczba + ew.litera np.116F')">
+                      <input name="#" type="text" autocomplete="off" v-model="ourStudent.street.flat" id="FlatNr" placeholder="nr_mieszkania" @keyup="validatorData('FlatNr', '^[0-9]+[a-zA-Z]?$', 'Liczba + ew.litera np.116F')">
                       <span class="wrongAdditionalInfo" id="wrongFlatNr"></span>
 
-                      <input name="#" type="text" autocomplete="off" v-model="ourStudent.street.streetPostCode" id="PostCode" placeholder="kod pocztowy" @keyup="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
+                      <input name="#" type="text" autocomplete="off" v-model="ourStudent.street.postcode" id="PostCode" placeholder="kod pocztowy" @keyup="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
                       <span class="wrongAdditionalInfo" id="wrongPostCode"></span>
 
-                      <input name="#" type="text" autocomplete="off" v-model="ourStudent.street.streetCity" id="City" placeholder="miasto" @keyup="validatorData('City', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( (- )?[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)*$', 'Brak Cyfr i znaków specjalnych. <br />')">
+                      <input name="#" type="text" autocomplete="off" v-model="ourStudent.street.city" id="City" placeholder="miasto" @keyup="validatorData('City', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( (- )?[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)*$', 'Brak Cyfr i znaków specjalnych. <br />')">
                       <span class="wrongAdditionalInfo" id="wrongCity"></span>
                     </div>
                     <div class="col-md-4">
-                      ul.{{ourStudent.street.streetName}} {{ourStudent.street.streetNr}} m.{{ourStudent.street.streetFlat}} <br />  {{ourStudent.street.streetPostCode}} {{ourStudent.street.streetCity}}
+                      ul.{{ourStudent.street.name}} {{ourStudent.street.nr}} m.{{ourStudent.street.flat}} <br />  {{ourStudent.street.postcode}} {{ourStudent.street.city}}
                     </div>
                   </div>
                 </div>
@@ -268,11 +268,11 @@ export default {
         lastName: this.$route.params.lastName,
         pesel: this.$route.params.pesel,
         street: {
-            streetName: this.$route.params.street.streetName,
-            streetNr: this.$route.params.street.streetNr,
-            streetFlat: this.$route.params.street.streetFlat,
-            streetPostCode: this.$route.params.street.streetPostCode,
-            streetCity: this.$route.params.street.streetCity,
+            name: this.$route.params.street.name,
+            nr: this.$route.params.street.nr,
+            flat: this.$route.params.street.flat,
+            postcode: this.$route.params.street.postcode,
+            city: this.$route.params.street.city,
         },
         phone: this.$route.params.phone,
         email: this.$route.params.email,

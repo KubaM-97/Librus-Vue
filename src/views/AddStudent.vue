@@ -49,19 +49,19 @@
 
                                    <label>Adres:</label>
 
-                                   <input name="#" type="text" v-model.trim="add.street.streetName" id="Street" autocomplete="off" placeholder="ulica" @keyup="validatorData('Street', '^[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]*$', 'Bez znaków specjalnych.')">
+                                   <input name="#" type="text" v-model.trim="add.street.name" id="Street" autocomplete="off" placeholder="ulica" @keyup="validatorData('Street', '^[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]*$', 'Bez znaków specjalnych.')">
                                    <span class="wrongAdditionalInfo" id="wrongStreet"></span>
 
-                                   <input name="#" type="text" v-model.trim="add.street.streetNr" id="HouseNr" autocomplete="off" placeholder="nr_domu" @keyup="validatorData('HouseNr', '^[0-9]+[a-zA-Z]?(/?[0-9]*[a-zA-Z]?)?$', 'Nr, Nr/Nr, Nr Litera <br /> np. 11 11/13 11A 11A/13B')">
+                                   <input name="#" type="text" v-model.trim="add.street.nr" id="HouseNr" autocomplete="off" placeholder="nr_domu" @keyup="validatorData('HouseNr', '^[0-9]+[a-zA-Z]?(/?[0-9]*[a-zA-Z]?)?$', 'Nr, Nr/Nr, Nr Litera <br /> np. 11 11/13 11A 11A/13B')">
                                    <span class="wrongAdditionalInfo" id="wrongHouseNr"></span>
 
-                                   <input name="#" type="text" v-model.trim="add.street.streetFlat" id="FlatNr" autocomplete="off" placeholder="nr_mieszkania" @keyup="validatorData('FlatNr', '^[0-9]+[a-zA-Z]?$', 'Liczba + ew.litera np.116F')">
+                                   <input name="#" type="text" v-model.trim="add.street.flat" id="FlatNr" autocomplete="off" placeholder="nr_mieszkania" @keyup="validatorData('FlatNr', '^[0-9]+[a-zA-Z]?$', 'Liczba + ew.litera np.116F')">
                                    <span class="wrongAdditionalInfo" id="wrongFlatNr"></span>
 
-                                   <input name="#" type="text" v-model.trim="add.street.streetPostCode" id="PostCode" autocomplete="off" placeholder="kod pocztowy" @blur="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
+                                   <input name="#" type="text" v-model.trim="add.street.postcode" id="PostCode" autocomplete="off" placeholder="kod pocztowy" @blur="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
                                    <span class="wrongAdditionalInfo" id="wrongPostCode"></span>
 
-                                   <input name="#" type="text" v-model.trim="add.street.streetCity" id="City" autocomplete="off" placeholder="miasto" @keyup="validatorData('City', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( (- )?[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)*$', 'Brak Cyfr i znaków specjalnych. <br />')">
+                                   <input name="#" type="text" v-model.trim="add.street.city" id="City" autocomplete="off" placeholder="miasto" @keyup="validatorData('City', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( (- )?[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)*$', 'Brak Cyfr i znaków specjalnych. <br />')">
                                    <span class="wrongAdditionalInfo" id="wrongCity"></span>
 
                                  </div>
@@ -244,11 +244,11 @@ export default {
              dates: "",
              pesel: "",
              street: {
-                 streetName: "",
-                 streetNr: "",
-                 streetFlat: "",
-                 streetPostCode: "",
-                 streetCity: ""
+                 name: "",
+                 nr: "",
+                 flat: "",
+                 postcode: "",
+                 city: ""
              },
              phone: "",
              email: "",

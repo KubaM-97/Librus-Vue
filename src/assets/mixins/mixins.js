@@ -1,13 +1,12 @@
-export default {
-  methods:{
+export default function mainMixin(){
 
     //updates component
-    updater(){
+    function updater(){
       this.$forceUpdate()
-    },
+    }
 
     //regular expressions
-    validatorData(Data, RegularExpression, Format) {
+    function validatorData(Data, RegularExpression, Format) {
       //gets inserted value
       const insertedData = document.querySelector("#"+Data).value;
 
@@ -36,10 +35,10 @@ export default {
            this.possibleSave = true;
         }
       }
-    },
+    }
 
     //saves changes
-    saveChanges(ourStudent){
+    function saveChanges(ourStudent){
 
       const params = this.$route.params;
       const store = this.$store.state.students[params.id-1];
@@ -87,9 +86,9 @@ export default {
 
       this.gradesLength = 0;
       this.possibleSave = false;
-    },
+    }
 
-    pushMe(componentName){
+    function pushMe(componentName){
       this.$router.push({name: componentName, params: {
         id: this.$route.params.id,
         lastName: this.$route.params.lastName,
@@ -105,7 +104,13 @@ export default {
         mother: this.$route.params.mother,
         father: this.$route.params.father
        }})
-    },
+    }
 
-  }
+    return{
+      updater,
+      validatorData,
+      saveChanges,
+      pushMe
+    }
+
 }

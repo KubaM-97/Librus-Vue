@@ -10,11 +10,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100001,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 1,
-                "streetFlat": 1,
-                "streetPostCode": "00-001",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 1,
+                "flat": 1,
+                "postcode": "00-001",
+                "city": "Warszawa"
             },
             "phone": 111222333,
             "email": "aleksandra.anon@gmail.com",
@@ -41,11 +41,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100002,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 2,
-                "streetFlat": 2,
-                "streetPostCode": "00-002",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 2,
+                "flat": 2,
+                "postcode": "00-002",
+                "city": "Warszawa"
             },
             "phone": 222333444,
             "email": "bartlomiej.bosak@gmail.com",
@@ -72,11 +72,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100004,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 3,
-                "streetFlat": 3,
-                "streetPostCode": "00-003",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 3,
+                "flat": 3,
+                "postcode": "00-003",
+                "city": "Warszawa"
             },
             "phone": 333444555,
             "email": "czeslaw.czosnek@gmail.com",
@@ -103,11 +103,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100003,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 4,
-                "streetFlat": 4,
-                "streetPostCode": "00-004",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 4,
+                "flat": 4,
+                "postcode": "00-004",
+                "city": "Warszawa"
             },
             "phone": 444555676,
             "email": "daria.dziurman@gmail.com",
@@ -134,11 +134,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100006,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 5,
-                "streetFlat": 5,
-                "streetPostCode": "00-005",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 5,
+                "flat": 5,
+                "postcode": "00-005",
+                "city": "Warszawa"
             },
             "phone": 555676777,
             "email": "eryk.eliksir@gmail.com",
@@ -165,11 +165,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100008,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 6,
-                "streetFlat": 6,
-                "streetPostCode": "00-006",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 6,
+                "flat": 6,
+                "postcode": "00-006",
+                "city": "Warszawa"
             },
             "phone": 676777888,
             "email": "franciszek.figurski@gmail.com",
@@ -196,11 +196,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100005,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 7,
-                "streetFlat": 7,
-                "streetPostCode": "00-007",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 7,
+                "flat": 7,
+                "postcode": "00-007",
+                "city": "Warszawa"
             },
             "phone": 777888999,
             "email": "gabrysia.gołębiowska@gmail.com",
@@ -227,11 +227,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100010,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 8,
-                "streetFlat": 8,
-                "streetPostCode": "00-008",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 8,
+                "flat": 8,
+                "postcode": "00-008",
+                "city": "Warszawa"
             },
             "phone": 888999000,
             "email": "henryk.helikopterek@gmail.com",
@@ -258,11 +258,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100012,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 9,
-                "streetFlat": 9,
-                "streetPostCode": "00-009",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 9,
+                "flat": 9,
+                "postcode": "00-009",
+                "city": "Warszawa"
             },
             "phone": 999000111,
             "email": "igor.irytek@gmail.com",
@@ -289,11 +289,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100014,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 10,
-                "streetFlat": 10,
-                "streetPostCode": "00-010",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 10,
+                "flat": 10,
+                "postcode": "00-010",
+                "city": "Warszawa"
             },
             "phone": 100111222,
             "email": "jacek.jastrzebski@gmail.com",
@@ -320,11 +320,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100007,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 11,
-                "streetFlat": 11,
-                "streetPostCode": "00-011",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 11,
+                "flat": 11,
+                "postcode": "00-011",
+                "city": "Warszawa"
             },
             "phone": 111333555,
             "email": "kasia.kulesza@gmail.com",
@@ -351,11 +351,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100009,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 12,
-                "streetFlat": 12,
-                "streetPostCode": "00-012",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 12,
+                "flat": 12,
+                "postcode": "00-012",
+                "city": "Warszawa"
             },
             "phone": 222444676,
             "email": "laura.lemańska@gmail.com",
@@ -382,11 +382,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100011,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 13,
-                "streetFlat": 13,
-                "streetPostCode": "00-013",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 13,
+                "flat": 13,
+                "postcode": "00-013",
+                "city": "Warszawa"
             },
             "phone": 333555777,
             "email": "matylda.mkbewe@gmail.com",
@@ -413,11 +413,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100013,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 14,
-                "streetFlat": 14,
-                "streetPostCode": "00-014",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 14,
+                "flat": 14,
+                "postcode": "00-014",
+                "city": "Warszawa"
             },
             "phone": 444676888,
             "email": "natalia.nykiel@gmail.com",
@@ -444,11 +444,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100016,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 15,
-                "streetFlat": 15,
-                "streetPostCode": "00-015",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 15,
+                "flat": 15,
+                "postcode": "00-015",
+                "city": "Warszawa"
             },
             "phone": 555777999,
             "email": "oliwier.opona@gmail.com",
@@ -475,11 +475,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100018,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 16,
-                "streetFlat": 16,
-                "streetPostCode": "00-016",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 16,
+                "flat": 16,
+                "postcode": "00-016",
+                "city": "Warszawa"
             },
             "phone": 676888000,
             "email": "patryk.prot@gmail.com",
@@ -506,11 +506,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100020,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 17,
-                "streetFlat": 17,
-                "streetPostCode": "00-017",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 17,
+                "flat": 17,
+                "postcode": "00-017",
+                "city": "Warszawa"
             },
             "phone": 777999111,
             "email": "ryszard.rarytas@gmail.com",
@@ -537,11 +537,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100022,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 18,
-                "streetFlat": 18,
-                "streetPostCode": "00-018",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 18,
+                "flat": 18,
+                "postcode": "00-018",
+                "city": "Warszawa"
             },
             "phone": 888000222,
             "email": "szymon.stonoga@gmail.com",
@@ -568,11 +568,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100024,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 19,
-                "streetFlat": 19,
-                "streetPostCode": "00-019",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 19,
+                "flat": 19,
+                "postcode": "00-019",
+                "city": "Warszawa"
             },
             "phone": 999111333,
             "email": "tadeusz.torpeda@gmail.com",
@@ -599,11 +599,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100015,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 20,
-                "streetFlat": 20,
-                "streetPostCode": "00-020",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 20,
+                "flat": 20,
+                "postcode": "00-020",
+                "city": "Warszawa"
             },
             "phone": 100222444,
             "email": "urszula.ukwial@gmail.com",
@@ -630,11 +630,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100026,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 21,
-                "streetFlat": 21,
-                "streetPostCode": "00-021",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 21,
+                "flat": 21,
+                "postcode": "00-021",
+                "city": "Warszawa"
             },
             "phone": 111444777,
             "email": "witold.walaszek@gmail.com",
@@ -661,11 +661,11 @@
             "dates": ["02.05.2020 12:00:00", "02.05.2020 12:00:00", "02.05.2020 12:00:00"],
             "pesel": 90010100028,
             "street": {
-                "streetName": "Sezamkowa",
-                "streetNr": 22,
-                "streetFlat": 22,
-                "streetPostCode": "00-022",
-                "streetCity": "Warszawa"
+                "name": "Sezamkowa",
+                "nr": 22,
+                "flat": 22,
+                "postcode": "00-022",
+                "city": "Warszawa"
             },
             "phone": 222555888,
             "email": "zbigniew.zagloba@gmail.com",

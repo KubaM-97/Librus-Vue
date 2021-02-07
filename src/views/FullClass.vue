@@ -30,8 +30,8 @@
           <th>Średnia ocen:</th>
           <th>Zagrożenia:</th>
         </thead>
-        <tbody v-for="student in students" :key="student.id">
-          <router-link
+        <tbody>
+          <router-link v-for="student in students" :key="student.id"
             custom
             v-slot="{ navigate }"
             :to="{
@@ -45,11 +45,11 @@
                 descriptions: student.descriptions,
                 dates: student.dates,
                 pesel: student.pesel,
-                street: student.street,
+                street: JSON.stringify(student.street),
                 phone: student.phone,
                 email: student.email,
-                mother: student.mother,
-                father: student.father,
+                mother: JSON.stringify(student.mother),
+                father: JSON.stringify(student.father),
               },
             }">
             <tr @click="navigate" @keypress.enter="navigate" role="link">
@@ -81,7 +81,7 @@ import { useStore } from "vuex";
 export default {
   name: "FullClass",
 
-  setup(_, context) {
+  setup() {
     const store = useStore();
 
     const students = computed(() => store.state.students);

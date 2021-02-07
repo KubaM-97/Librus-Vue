@@ -14,7 +14,7 @@ export default function gradesMixins(){
 
     //colors grades
     function gradeWeightColor(oneStudentMarks, oneStudentsWeights) {
-
+      
       //adds new classes to divs with grades, what causes coloring them on green, yellow or red
       let content = "";
 
@@ -49,8 +49,8 @@ export default function gradesMixins(){
     }
 
     //show tooltip after hovering on every grade
-    const showTooltip = (RootElement, SingleStudent) => {
-
+    function showTooltip(RootElement, SingleStudent) {
+      
       const gradesInDiv = RootElement.querySelectorAll(".gradeWeightColor");
       const marksArrayWithoutEmptyValues = [];
       const weightsArrayWithoutEmptyValues = [];
@@ -90,7 +90,7 @@ export default function gradesMixins(){
     }
 
     //draws tooltip
-    const canvas = (SingleGrade, SingleWeight, SingleDescription, SingleDate, anotherDivWithGrade) => {
+    function canvas(SingleGrade, SingleWeight, SingleDescription, SingleDate, anotherDivWithGrade) {
 
       const canvas = document.createElement("CANVAS");
       anotherDivWithGrade.appendChild(canvas);
@@ -135,7 +135,7 @@ export default function gradesMixins(){
     }
 
     //returns grades' average
-    const avg = (oneStudentMarksArray, oneStudentWeightsArray) => {
+    function avg(oneStudentMarksArray, oneStudentWeightsArray) {
 
       let MarksSuperValue = 0;
       let weightSum = 0;
@@ -160,7 +160,7 @@ export default function gradesMixins(){
     }
 
     //decides if student is threated
-    const threatness = myAVG => {
+    function threatness(myAVG) {
       if ((myAVG < 2) && (myAVG != "")) {
         return "<span class='fire'>ZAGROŻENIE</span>"
       } else {
@@ -169,7 +169,7 @@ export default function gradesMixins(){
     }
 
     //returns current Date in an Array
-    const whatsTheDatePlease = () => {
+    function whatsTheDatePlease() {
       const today = new Date();
       const currentYear = today.getFullYear();
       let currentMonth = today.getMonth() + 1;
@@ -215,12 +215,12 @@ export default function gradesMixins(){
     }
 
     //adds a new grade to the student
-    const moreGrades = () => {
+    function moreGrades() {
       this.gradesLength++;
     }
 
     //clears newGrades object in Vuex
-    const clearNewGradesArray = (figure, index) => {
+    function clearNewGradesArray(figure, index) {
 
       const store = this.$store.state.newGrades;
 
@@ -235,7 +235,7 @@ export default function gradesMixins(){
     }
 
     //removes grades that have marks but don`t have weights or don`t have marks but have weights
-    const getRidOfEmptyGrades = () => {
+    function getRidOfEmptyGrades() {
 
       const marks = this.marks;
       const weights = this.weights;
