@@ -32,7 +32,7 @@
           <div class="form-group">
 
                 <log-in-button>
-                    <button name="logMeIn" @click="logMeIn()" slot="logIn">
+                    <button name="logMeIn" @click="logMeIn()">
                         Zaloguj się
                     </button>
                 </log-in-button>
@@ -48,26 +48,17 @@
 </template>
 
 <script>
+
 import LogInButton from './LogInButton.vue'
-import { mapMutations } from "vuex"
+
 export default {
   name: "LoggedOut",
   components:{
     "log-in-button": LogInButton
   },
-  beforeCreate(){
-    this.$store.state.showNavpanel = false;
-  },
-  methods: {
+  setup(props, { emit }){
 
-        ...mapMutations([
-          "changeMainLogPanel",
-          "changeLoaderGif",
-          "changeNavpanel"
-        ]),
-
-        //Main Log Panel
-        logMeIn() {
+    function logMeIn(){
 
           //gets inserted login
           const userLogin = document.querySelector(".mainLogPanel input[type=text]").value;
@@ -78,17 +69,14 @@ export default {
           //if inserted login and password are correct
           if ((userLogin === "Login1") && (userPassword === "Hasło1")) {
 
-            // this.changeMainLogPanel();
-            this.changeLoaderGif();
 
             setTimeout(()=>{
-              this.changeLoaderGif();
-              this.changeNavpanel();
+              emit(props.changeLogStatus)
             },800);
 
-            this.$router.push({name: "FullClass"})
+            // this.$router.push({name: "FullClass"})
           }
-
+            
           //if inserted login or password are incorrect
           else {
               const wrong = document.querySelectorAll(".mainLogPanel span.wrongLoginPassword");
@@ -96,12 +84,12 @@ export default {
                   wrong[i].innerHTML = "Login i hasło muszą się zgadzać!"
               }
           }
-
-        }
-
-      }
-
-
+    }
+    
+    return{
+      logMeIn
+    }
+  }
 }
 </script>
 

@@ -8,8 +8,6 @@ import VueAxios from 'vue-axios'
 export default createStore({
   state: {
     students: {},
-    showNavpanel: true,
-    showLoaderGif: false,
     newGrades:{
         marks: [],
         weights: [],
@@ -25,13 +23,6 @@ export default createStore({
     }
   },
   mutations: {
-    changeNavpanel(state){
-      state.showNavpanel = !state.showNavpanel;
-    },
-    changeLoaderGif(state){
-      state.showLoaderGif = !state.showLoaderGif;
-    },
-
     setFullClass(state, students){
       state.students = students
     }
@@ -39,10 +30,7 @@ export default createStore({
   actions: {
     initFullClass:({commit})=>{
       axios.get("static/students.json")
-      .then((response)=>{
-        console.log(response.data.students);
-        commit("setFullClass", response.data.students)
-      })
+      .then((response)=> commit("setFullClass", response.data.students))
     }
   },
 })

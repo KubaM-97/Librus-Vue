@@ -136,12 +136,11 @@ export default {
     };
 
     onMounted(() => {
-
+// store.dispatch('initFullClass');
       sortMyStudents();
       addNumberingToTheTable();
 
     });
-
     onUpdated(() => {
 
       for (let i = 0; i < students.value.length; i++) {

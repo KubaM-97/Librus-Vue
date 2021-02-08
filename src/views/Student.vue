@@ -4,7 +4,7 @@
       <div class="editStudentPanelNameTitle">
         <span>Imię i Nazwisko ucznia</span>
       </div>
-
+      
       <div class="editStudentPanelNameValue">
         {{ fullName }}
       </div>
@@ -85,7 +85,7 @@
       </div>
 
       <div class="editStudentPanelAvgValue">
-        {{ avg(marks, weights) }}
+        {{ avg(gradesMarks, gradesWeights) }}
       </div>
 
       <div class="editStudentPanelThreatnessTitle">
@@ -94,7 +94,7 @@
 
       <div
         class="editStudentPanelThreatnessValue"
-        v-html="threatness(avg(marks, weights))"
+        v-html="threatness(avg(gradesMarks, gradesWeights))"
       ></div>
     </div>
     <transition-group name="EditStudentDataPanel" mode="out-in">

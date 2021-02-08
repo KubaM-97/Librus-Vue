@@ -1,6 +1,5 @@
 <template>
   <div>
-    <slot name="logIn">
-    </slot>
+    <slot></slot>
   </div>
 </template>

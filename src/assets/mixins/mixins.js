@@ -1,9 +1,14 @@
+import { useRouter, useRoute } from 'vue-router'
+import { useStore } from "vuex";
+import { computed } from "vue" 
+
 export default function mainMixin(){
 
-    //updates component
-    function updater(){
-      this.$forceUpdate()
-    }
+    const router = useRouter();
+    const route = useRoute();
+
+    const store = useStore();
+
 
     //regular expressions
     function validatorData(Data, RegularExpression, Format) {
@@ -40,19 +45,24 @@ export default function mainMixin(){
     //saves changes
     function saveChanges(ourStudent){
 
-      const params = this.$route.params;
-      const store = this.$store.state.students[params.id-1];
+      // console.log(ourStudent)
+      // console.log(ourStudent.value)
+      const params = route.params;
+      // const student = computed(() => store.state.newGrades ).value;
+      console.log(params)
+      // computed(() => store.state.students[params.id-1];
+      const store2 = store.state.students[params.id-1];
+      console.log(store2.marks)
 
       for(const el in ourStudent){
 
         // this is the version dedicated for street, mother and father datas
         if(params[el]!=ourStudent[el]){
           if((el==="street")||(el==="mother")||(el==="father")){
-            // alert(params[el])
               for(const el2 in params[el]){
                 if(params[el][el2]!=ourStudent[el][el2]){
                       params[el][el2] = ourStudent[el][el2];
-                      store[el][el2] = ourStudent[el][el2];
+                      store2[el][el2] = ourStudent[el][el2];
                       this.showGreenCheckMark[el] = true;
                       setTimeout(()=>{this.hideCheckMarkWithLayer[el]= false},1);
 
@@ -62,7 +72,7 @@ export default function mainMixin(){
           }
           // this is the version dedicated for the rest of datas
           else if((el==="marks")||(el==="weights")||(el==="descriptions")||(el==="dates")){
-
+            
              this.getRidOfEmptyGrades();
 
              //divs in EditStudentGrades.vue and grades in Student.vue
@@ -72,11 +82,11 @@ export default function mainMixin(){
              ourStudent[el] = [...this[el]];
 
              //adds to class in state in Vuex and FullClass.vue
-             store[el] = [...this[el]];
+             store2[el] = [...this[el]];
           }
           else{
             params[el] = ourStudent[el];
-            store[el] = ourStudent[el];
+            store2[el] = ourStudent[el];
             this.showGreenCheckMark[el] = true;
             setTimeout(()=>{this.hideCheckMarkWithLayer[el] = false},1);
           }
@@ -89,25 +99,24 @@ export default function mainMixin(){
     }
 
     function pushMe(componentName){
-      this.$router.push({name: componentName, params: {
-        id: this.$route.params.id,
-        lastName: this.$route.params.lastName,
-        firstName: this.$route.params.firstName,
-        marks: this.$route.params.marks,
-        weights: this.$route.params.weights,
-        descriptions: this.$route.params.descriptions,
-        dates: this.$route.params.dates,
-        pesel: this.$route.params.pesel,
-        street: this.$route.params.street,
-        phone: this.$route.params.phone,
-        email: this.$route.params.email,
-        mother: this.$route.params.mother,
-        father: this.$route.params.father
+      router.push({name: componentName, params: {
+        id: route.params.id,
+        lastName: route.params.lastName,
+        firstName: route.params.firstName,
+        marks: route.params.marks,
+        weights: route.params.weights,
+        descriptions: route.params.descriptions,
+        dates: route.params.dates,
+        pesel: route.params.pesel,
+        street: route.params.street,
+        phone: route.params.phone,
+        email: route.params.email,
+        mother: route.params.mother,
+        father: route.params.father
        }})
     }
 
     return{
-      updater,
       validatorData,
       saveChanges,
       pushMe

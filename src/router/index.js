@@ -12,12 +12,6 @@ import Error404 from '../views/Error404.vue'
 const routes = [
   {
     path: '/',
-    name: 'Start',
-    component: FullClass,
-    props: true
-  },
-  {
-    path: '/FullClass',
     name: 'FullClass',
     component: FullClass,
     props: true
