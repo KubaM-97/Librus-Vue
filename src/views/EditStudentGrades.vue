@@ -13,7 +13,7 @@
                      <div class="addStudentPanelGradesContentSingleGrade">
                        <label for="marks">Ocena:</label>
                        <div class="select">
-                         <select id="marks" v-model.number="grades.marks[k-1]" @change="changeGrade(k-1, grades.marks[k-1], 'marks')">
+                         <select id="marks" v-model.number="ourStudent.marks[k-1]" @change="changeGrade(k-1, ourStudent.marks[k-1], 'marks')">
                              <option value="1">1</option>
                              <option value="2">2</option>
                              <option value="3">3</option>
@@ -29,7 +29,7 @@
                      <div class="addStudentPanelGradesContentSingleWeight">
                        <label for="weight">Waga oceny:</label>
                        <div class="select">
-                         <select id="weights" v-model.number="grades.weights[k-1]" @change="changeGrade(k-1, grades.weights[k-1], 'weights')">
+                         <select id="weights" v-model.number="ourStudent.weights[k-1]" @change="changeGrade(k-1, ourStudent.weights[k-1], 'weights')">
                                <option value="1">1</option>
                                <option value="2">2</option>
                                <option value="3">3</option>
@@ -40,9 +40,9 @@
 
                  <div class="col-5">
                      <div class="addStudentPanelGradesContentSingleDescription">
-                         <span class="descriptionCount">Pozostało: {{ characters - grades.descriptions[k-1].length }} znaków.</span>
+                         <span class="descriptionCount">Pozostało: {{ characters - ourStudent.descriptions[k-1].length }} znaków.</span>
                       <label>Opis oceny:
-                        <input autocomplete="off" name="#" type="text" v-model="grades.descriptions[k-1]" @change="changeGrade(k-1, grades.descriptions[k-1], 'descriptions')" class="description" maxlength="30">
+                        <input autocomplete="off" name="#" type="text" v-model="ourStudent.descriptions[k-1]" @change="changeGrade(k-1, ourStudent.descriptions[k-1], 'descriptions')" class="description" maxlength="30">
                       </label>
                      </div>
                  </div>
@@ -59,7 +59,7 @@
 
       <div class="col-12 col-md-11" v-for="(n, index) in gradesLength" :key="n">
 
-          <grade-component :index="index+grades.marks.length" :gradesLength="gradesLength" v-on:updater="updater" :possibleSave.sync="possibleSave"></grade-component>
+          <grade-component :index="index+grades.marks.length" :gradesLength="gradesLength" v-on:updater="updater" v-model:possibleSave="possibleSave"></grade-component>
 
       </div>
 
@@ -77,19 +77,19 @@
                </td>
 
                <td ref="allnewGrades">
-                   <span class="grades" v-html="gradeWeightColor(grades.marks, grades.weights)">
+                   <span class="grades" v-html="gradeWeightColor(ourStudent.marks, ourStudent.weights)">
 
                    </span>
                </td>
 
                <td>
                    <span>
-                     {{avg(grades.marks, grades.weights)}}
+                     {{avg(ourStudent.marks, ourStudent.weights)}}
                    </span>
                </td>
 
                <td>
-                 <span v-html="threatness(avg(grades.marks, grades.weights))">
+                 <span v-html="threatness(avg(ourStudent.marks, ourStudent.weights))">
 
                  </span>
                </td>
@@ -97,7 +97,10 @@
          </table>
        </div>
      </div>
-     <button name="possibleSaveGrades" v-if="possibleSave" @click="saveChanges(grades)" class="btn btn-success btn-lg save">Zapisz zmiany</button>
+     o{{ourStudent.marks}}
+     g{{grades.marks}}
+      p{{params.marks}}
+     <button name="possibleSaveGrades" v-if="possibleSave" @click="saveChanges(ourStudent)" class="btn btn-success btn-lg save">Zapisz zmiany</button>
      <button name="impossibleSaveGrades" v-else class="btn btn-success btn-lg save" disabled>Zapisz zmiany</button>
    </div>
    <button name="closeTheGradesPanel" @click="closeThePanel()"><img class="closeThePanel" src="../assets/images/eXit.png"/></button>
@@ -127,8 +130,8 @@ export default {
   const editStudentGrades = ref(null)
  
   const ourStudent = ref({
-    marks: [...route.params.marks],
-    weights: [...route.params.weights],
+    marks: [...route.params.marks].map(el => parseInt(el)),
+    weights: [...route.params.weights].map(el => parseInt(el)),
     descriptions: [...route.params.descriptions],
     dates: [...route.params.dates],
   });
@@ -137,10 +140,13 @@ export default {
   const gradesLength = ref(0);
   const possibleSave = ref(true);
   const grades = computed(() => store.state.newGrades ).value;
-  
-   for(const el in grades){
-     grades[el] = [...route.params[el]]
-   }
+
+  route.params.marks = route.params.marks.map(el => parseInt(el));
+  route.params.weights = route.params.weights.map(el => parseInt(el));
+
+  for(const el in grades){
+    grades[el] = [...route.params[el]]
+  }
    
   function remove(index){
 
@@ -191,11 +197,12 @@ export default {
   })
 
   return{
+    params: route.params,
     store,
     grades,
     props,
     editStudentGrades,
-    // ourStudent,
+    ourStudent,
     characters,
     gradesLength,
     possibleSave,

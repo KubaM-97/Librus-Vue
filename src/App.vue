@@ -46,7 +46,7 @@ export default {
       else if(chosenComponent.value == LoggedOut){
 
         chosenComponent.value = Main;
-        router.push({name: "Main"})
+        router.push({name: "FullClass"})
 
       }
 

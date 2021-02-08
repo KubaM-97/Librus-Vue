@@ -4,7 +4,6 @@
       <div class="editStudentPanelNameTitle">
         <span>Imię i Nazwisko ucznia</span>
       </div>
-      
       <div class="editStudentPanelNameValue">
         {{ fullName }}
       </div>
@@ -97,15 +96,18 @@
         v-html="threatness(avg(gradesMarks, gradesWeights))"
       ></div>
     </div>
+    
+      g{{gradesMarks}}
+      p{{params.marks}}
     <transition-group name="EditStudentDataPanel" mode="out-in">
       <router-view
         v-if="showDataEditionRouterView"
-        :showDataEditionRouterView.sync="showDataEditionRouterView"
+        v-model:showDataEditionRouterView="showDataEditionRouterView"
         key="1"
       ></router-view>
       <router-view
         v-if="showGradesEditionRouterView"
-        :showGradesEditionRouterView.sync="showGradesEditionRouterView"
+        v-model:showGradesEditionRouterView="showGradesEditionRouterView"
         key="2"
       ></router-view>
     </transition-group>
@@ -161,11 +163,15 @@ export default {
     const email = route.params.email;
     const mother = JSON.parse(route.params.mother);
     const father = JSON.parse(route.params.father);
-    const gradesMarks = route.params.marks;
-    const gradesWeights = route.params.weights;
+    route.params.marks = route.params.marks.map(el => parseInt(el));
+     const gradesMarks = computed(() =>
+     route.params.marks.map(el => parseInt(el))
+    );
+    // const gradesMarks = ref(route.params.marks.map(el => parseInt(el)));
+    const gradesWeights = route.params.weights.map(el => parseInt(el));
 
     return {
-
+      params: route.params,
       editStudentPanel,
 
       pesel,

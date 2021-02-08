@@ -44,55 +44,61 @@ export default function mainMixin(){
 
     //saves changes
     function saveChanges(ourStudent){
+      // console.log(forceUpdate)
+      // forceUpdate();
+      // route.params.marks = ourStudent.marks 
+      // console.log("ourStudent", ourStudent)
+      // const store2 = store.state.students[route.params.id-1];
+      // console.log("params", route.params.marks)
+      // console.log("store, student", store2)
 
-      // console.log(ourStudent)
-      // console.log(ourStudent.value)
-      const params = route.params;
-      // const student = computed(() => store.state.newGrades ).value;
-      console.log(params)
-      // computed(() => store.state.students[params.id-1];
-      const store2 = store.state.students[params.id-1];
-      console.log(store2.marks)
+      store.state.students[route.params.id-1].marks = ourStudent.marks
 
-      for(const el in ourStudent){
+      console.log(route.params.marks)
+      route.params.marks = ourStudent.marks
+      console.log(route.params.marks)
+      
+      // router.push({name: "FullClass"})
+      // for(const el in ourStudent){
 
-        // this is the version dedicated for street, mother and father datas
-        if(params[el]!=ourStudent[el]){
-          if((el==="street")||(el==="mother")||(el==="father")){
-              for(const el2 in params[el]){
-                if(params[el][el2]!=ourStudent[el][el2]){
-                      params[el][el2] = ourStudent[el][el2];
-                      store2[el][el2] = ourStudent[el][el2];
-                      this.showGreenCheckMark[el] = true;
-                      setTimeout(()=>{this.hideCheckMarkWithLayer[el]= false},1);
+      //   // this is the version dedicated for street, mother and father datas
+      //   if(route.params[el]!=ourStudent[el]){
+      //     if((el==="street")||(el==="mother")||(el==="father")){
+      //         for(const el2 in route.params[el]){
+      //           if(route.params[el][el2]!=ourStudent[el][el2]){
+      //                 route.params[el][el2] = ourStudent[el][el2];
+      //                 store2[el][el2] = ourStudent[el][el2];
+      //                 this.showGreenCheckMark[el] = true;
+      //                 setTimeout(()=>{this.hideCheckMarkWithLayer[el]= false},1);
 
-                }
-              }
+      //           }
+      //         }
 
-          }
-          // this is the version dedicated for the rest of datas
-          else if((el==="marks")||(el==="weights")||(el==="descriptions")||(el==="dates")){
+      //     }
+      //     // this is the version dedicated for the rest of datas
+      //     else if((el==="marks")||(el==="weights")||(el==="descriptions")||(el==="dates")){
             
-             this.getRidOfEmptyGrades();
+      //        this.getRidOfEmptyGrades();
+ 
+      //        //divs in EditStudentGrades.vue and grades in Student.vue
+      //        route.params[el] = [...this[el]];
 
-             //divs in EditStudentGrades.vue and grades in Student.vue
-             params[el] = [...this[el]];
+      //        //table in EditStudentGrades.vue (gradeWeightColor())
+      //        ourStudent[el] = [...this[el]];
 
-             //table in EditStudentGrades.vue (gradeWeightColor())
-             ourStudent[el] = [...this[el]];
+      //        //adds to class in state in Vuex and FullClass.vue
+      //        store2[el] = [...this[el]];
 
-             //adds to class in state in Vuex and FullClass.vue
-             store2[el] = [...this[el]];
-          }
-          else{
-            params[el] = ourStudent[el];
-            store2[el] = ourStudent[el];
-            this.showGreenCheckMark[el] = true;
-            setTimeout(()=>{this.hideCheckMarkWithLayer[el] = false},1);
-          }
-        }
+      //     }
+      //     else{
+      //       route.params[el] = ourStudent[el];
+      //       store2[el] = ourStudent[el];
+      //       this.showGreenCheckMark[el] = true;
+      //       setTimeout(()=>{this.hideCheckMarkWithLayer[el] = false},1);
+      //     }
+      //   }
 
-      }
+      // }
 
       this.gradesLength = 0;
       this.possibleSave = false;

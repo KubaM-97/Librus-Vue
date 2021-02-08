@@ -140,13 +140,10 @@ export default function gradesMixins(){
       let MarksSuperValue = 0;
       let weightSum = 0;
 
-      const marks = oneStudentMarksArray.map(el => parseInt(el))
-      const weights = oneStudentWeightsArray.map(el => parseInt(el))
-
-      for (let i = 0; i < marks.length; i++) {
-        if ((marks[i] !== "") && (weights[i] !== "")) {
-          MarksSuperValue += marks[i] * weights[i];
-          weightSum += weights[i]
+      for (let i = 0; i < oneStudentMarksArray.length; i++) {
+        if ((oneStudentMarksArray[i] !== "") && (oneStudentWeightsArray[i] !== "")) {
+          MarksSuperValue += oneStudentMarksArray[i] * oneStudentWeightsArray[i];
+          weightSum += oneStudentWeightsArray[i]
         }
       }
 
