@@ -74,7 +74,6 @@ export default {
               emit(props.changeLogStatus)
             },800);
 
-            // this.$router.push({name: "FullClass"})
           }
             
           //if inserted login or password are incorrect

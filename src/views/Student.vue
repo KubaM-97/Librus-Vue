@@ -17,9 +17,9 @@
         <div class="form-group">
           <span class="title">Adres:</span>
           <span class="data"
-            >ul.{{ street.name }} {{ street.nr }} m.{{ street.flat }}
+            >ul.{{ streetName }} {{ streetNr }} m.{{ streetFlat }}
             <br />
-            {{ street.postCode }} {{ street.city }}</span
+            {{ streetPostcode }} {{ streetCity }}</span
           >
         </div>
 
@@ -36,18 +36,18 @@
         <div class="form-group">
           <span class="title">Matka:</span>
           <span class="data"
-            >{{ mother.firstName }} {{ mother.lastName }} <br />
-            {{ mother.phone }} <br />
-            {{ mother.email }}
+            >{{ motherFirstName }} {{ motherLastName }} <br />
+            {{ motherPhone }} <br />
+            {{ motherEmail }}
           </span>
         </div>
 
         <div class="form-group">
           <span class="title">Ojciec:</span>
           <span class="data"
-            >{{ father.firstName }} {{ father.lastName }} <br />
-            {{ father.phone }} <br />
-            {{ father.email }}</span
+            >{{ fatherFirstName }} {{ fatherLastName }} <br />
+            {{ fatherPhone }} <br />
+            {{ fatherEmail }}</span
           >
         </div>
       </div>
@@ -97,8 +97,6 @@
       ></div>
     </div>
     
-      g{{gradesMarks}}
-      p{{params.marks}}
     <transition-group name="EditStudentDataPanel" mode="out-in">
       <router-view
         v-if="showDataEditionRouterView"
@@ -119,7 +117,7 @@
 import mainMixin from "../assets/mixins/mixins.js";
 import gradesService from "../assets/mixins/gradesMixins.js";
 
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { ref, computed, onMounted, onUpdated } from "vue";
 import { useStore } from "vuex";
 
@@ -129,7 +127,8 @@ export default {
     const editStudentPanel = ref(null);
 
     const route = useRoute();
-
+    const router = useRouter();
+    
     const store = useStore();
 
     const showDataEditionRouterView = ref(false);
@@ -140,12 +139,13 @@ export default {
     );
 
     function showEditStudentDataPanel() {
-      this.pushMe("EditData");
+      console.log(route.params)
+      router.push({name: "EditData", params: route.params})
       this.showDataEditionRouterView = true;
     }
 
     function showEditStudentGradesPanel() {
-      this.pushMe("EditGrades");
+      router.push({name: "EditGrades", params: route.params})
       this.showGradesEditionRouterView = true;
     }
 
@@ -157,29 +157,55 @@ export default {
       gradesService().showTooltip(editStudentPanel.value, route.params);
     });
 
-    const pesel = route.params.pesel;
-    const street = JSON.parse(route.params.street);
-    const phone = route.params.phone;
-    const email = route.params.email;
-    const mother = JSON.parse(route.params.mother);
-    const father = JSON.parse(route.params.father);
-    route.params.marks = route.params.marks.map(el => parseInt(el));
-     const gradesMarks = computed(() =>
-     route.params.marks.map(el => parseInt(el))
-    );
-    // const gradesMarks = ref(route.params.marks.map(el => parseInt(el)));
-    const gradesWeights = route.params.weights.map(el => parseInt(el));
+    const pesel = computed(() => route.params.pesel );
+
+    const streetName = computed(() => route.params.streetName );
+    const streetNr = computed(() => route.params.streetNr );
+    const streetFlat = computed(() => route.params.streetFlat );
+    const streetPostcode = computed(() => route.params.streetPostcode );
+    const streetCity = computed(() => route.params.streetCity );
+
+    const phone = computed(() => route.params.phone );
+    const email = computed(() => route.params.email );
+
+    const motherFirstName = computed(() => route.params.motherFirstName );
+    const motherLastName = computed(() => route.params.motherLastName );
+    const motherPhone = computed(() => route.params.motherPhone );
+    const motherEmail = computed(() => route.params.motherEmail );
+
+    const fatherFirstName = computed(() => route.params.fatherFirstName );
+    const fatherLastName = computed(() => route.params.fatherLastName );
+    const fatherPhone = computed(() => route.params.fatherPhone );
+    const fatherEmail = computed(() => route.params.fatherEmail );
+
+    const gradesMarks = computed( () => route.params.marks.map(el => parseInt(el)) );
+    const gradesWeights = computed( () => route.params.weights.map(el => parseInt(el)) );
 
     return {
-      params: route.params,
+
       editStudentPanel,
 
       pesel,
-      street,
+
+      streetName,
+      streetNr,
+      streetFlat,
+      streetPostcode,
+      streetCity,
+
       phone,
       email,
-      mother,
-      father,
+
+      motherFirstName,
+      motherLastName,
+      motherPhone,
+      motherEmail,
+
+      fatherFirstName,
+      fatherLastName,
+      fatherPhone,
+      fatherEmail,
+
       gradesMarks,
       gradesWeights,
 

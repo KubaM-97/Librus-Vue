@@ -89,23 +89,23 @@
                     <div class="col-md-6 offset-md-2">
                       <label>Adres:</label>
 
-                      <input name="#" type="text" autocomplete="off" v-model="ourStudent.street.name" id="Street" placeholder="ulica" @keyup="validatorData('Street', '^[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]*$', 'Bez znaków specjalnych.')">
+                      <input name="#" type="text" autocomplete="off" v-model="ourStudent.streetName" id="Street" placeholder="ulica" @keyup="validatorData('Street', '^[0-9a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ ]*$', 'Bez znaków specjalnych.')">
                       <span class="wrongAdditionalInfo" id="wrongStreet"></span>
 
-                      <input name="#" type="text" autocomplete="off" v-model="ourStudent.street.nr" id="HouseNr" placeholder="nr_domu" @keyup="validatorData('HouseNr', '^[0-9]+[a-zA-Z]?(/?[0-9]*[a-zA-Z]?)?$', 'Nr, Nr/Nr, Nr Litera <br /> np. 11 11/13 11A')">
+                      <input name="#" type="text" autocomplete="off" v-model="ourStudent.streetNr" id="HouseNr" placeholder="nr_domu" @keyup="validatorData('HouseNr', '^[0-9]+[a-zA-Z]?(/?[0-9]*[a-zA-Z]?)?$', 'Nr, Nr/Nr, Nr Litera <br /> np. 11 11/13 11A')">
                       <span class="wrongAdditionalInfo" id="wrongHouseNr"></span>
 
-                      <input name="#" type="text" autocomplete="off" v-model="ourStudent.street.flat" id="FlatNr" placeholder="nr_mieszkania" @keyup="validatorData('FlatNr', '^[0-9]+[a-zA-Z]?$', 'Liczba + ew.litera np.116F')">
+                      <input name="#" type="text" autocomplete="off" v-model="ourStudent.streetFlat" id="FlatNr" placeholder="nr_mieszkania" @keyup="validatorData('FlatNr', '^[0-9]+[a-zA-Z]?$', 'Liczba + ew.litera np.116F')">
                       <span class="wrongAdditionalInfo" id="wrongFlatNr"></span>
 
-                      <input name="#" type="text" autocomplete="off" v-model="ourStudent.street.postcode" id="PostCode" placeholder="kod pocztowy" @keyup="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
+                      <input name="#" type="text" autocomplete="off" v-model="ourStudent.streetPostcode" id="PostCode" placeholder="kod pocztowy" @keyup="validatorData('PostCode', '^[0-9]{2}-[0-9]{3}$', '_ _ - _ _ _')">
                       <span class="wrongAdditionalInfo" id="wrongPostCode"></span>
 
-                      <input name="#" type="text" autocomplete="off" v-model="ourStudent.street.city" id="City" placeholder="miasto" @keyup="validatorData('City', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( (- )?[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)*$', 'Brak Cyfr i znaków specjalnych. <br />')">
+                      <input name="#" type="text" autocomplete="off" v-model="ourStudent.streetCity" id="City" placeholder="miasto" @keyup="validatorData('City', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( (- )?[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)*$', 'Brak Cyfr i znaków specjalnych. <br />')">
                       <span class="wrongAdditionalInfo" id="wrongCity"></span>
                     </div>
                     <div class="col-md-4">
-                      ul.{{ourStudent.street.name}} {{ourStudent.street.nr}} m.{{ourStudent.street.flat}} <br />  {{ourStudent.street.postcode}} {{ourStudent.street.city}}
+                      ul.{{ourStudent.streetName}} {{ourStudent.streetNr}} m.{{ourStudent.streetFlat}} <br />  {{ourStudent.streetPostcode}} {{ourStudent.streetCity}}
                     </div>
                   </div>
                 </div>
@@ -179,21 +179,21 @@
                   <div class="row">
                     <div class="col-md-6 offset-md-2">
                       <label>Matka</label>
-                      <input name="#" type="text" autocomplete="off" id="MothersFirstName" v-model="ourStudent.mother.firstName" @keyup="validatorData('MothersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')">
+                      <input name="#" type="text" autocomplete="off" id="MothersFirstName" v-model="ourStudent.motherFirstName" @keyup="validatorData('MothersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Anna Maria')">
                       <span class="wrongAdditionalInfo" id="wrongMothersFirstName"></span>
 
-                      <input name="#" type="text" autocomplete="off" id="MothersLastName" v-model="ourStudent.mother.lastName" @keyup="validatorData('MothersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')">
+                      <input name="#" type="text" autocomplete="off" id="MothersLastName" v-model="ourStudent.motherLastName" @keyup="validatorData('MothersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')">
                       <span class="wrongAdditionalInfo" id="wrongMothersLastName"></span>
 
-                      <input name="#" type="text" autocomplete="off" id="Mothersphone" v-model="ourStudent.mother.phone" @keyup="validatorData('Mothersphone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
+                      <input name="#" type="text" autocomplete="off" id="Mothersphone" v-model="ourStudent.motherPhone" @keyup="validatorData('Mothersphone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
                       <span class="wrongAdditionalInfo" id="wrongMothersphone"></span>
 
-                      <input name="#" type="text" autocomplete="off" id="MothersEmail" v-model="ourStudent.mother.email" @keyup="validatorData('MothersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                      <input name="#" type="text" autocomplete="off" id="MothersEmail" v-model="ourStudent.motherEmail" @keyup="validatorData('MothersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
                       <span class="wrongAdditionalInfo" id="wrongMothersEmail"></span>
 
                     </div>
                     <div class="col-md-4">
-                      {{ourStudent.mother.firstName}}<br />{{ourStudent.mother.lastName}}<br />{{ourStudent.mother.phone}}<br />{{ourStudent.mother.email}}<br />
+                      {{ourStudent.motherFirstName}}<br />{{ourStudent.motherLastName}}<br />{{ourStudent.motherPhone}}<br />{{ourStudent.motherEmail}}<br />
                     </div>
                   </div>
                 </div>
@@ -215,21 +215,21 @@
               <div class="row">
                 <div class="col-md-6 offset-md-2">
                   <label>Ojciec</label>
-                  <input name="#" type="text" autocomplete="off" id="FathersFirstName" v-model="ourStudent.father.firstName" @keyup="validatorData('FathersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Jan Maria')">
+                  <input name="#" type="text" autocomplete="off" id="FathersFirstName" v-model="ourStudent.fatherFirstName" @keyup="validatorData('FathersFirstName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br /> Możliwe drugie imię <br />np. Jan Maria')">
                   <span class="wrongAdditionalInfo" id="wrongFathersFirstName"></span>
 
-                  <input name="#" type="text" autocomplete="off" id="FathersLastName" v-model="ourStudent.father.lastName" @keyup="validatorData('FathersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')">
+                  <input name="#" type="text" autocomplete="off" id="FathersLastName" v-model="ourStudent.fatherLastName" @keyup="validatorData('FathersLastName', '^[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*(-[A-ZĄĆĘŁŃÓŚŹŻ][a-ząćęłńóśźż]*)?$', 'Brak cyfr i znaków specjalnych. <br /><br />Możliwe drugie nazwisko po myślniku <br />np. Ćwierć-Parzącha')">
                   <span class="wrongAdditionalInfo" id="wrongFathersLastName"></span>
 
-                  <input name="#" type="text" autocomplete="off" id="Fathersphone" v-model="ourStudent.father.phone" @keyup="validatorData('Fathersphone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
+                  <input name="#" type="text" autocomplete="off" id="Fathersphone" v-model="ourStudent.fatherPhone" @keyup="validatorData('Fathersphone', '^[0-9]{7}([0-9]{2})?$', 'Dokładnie 7 lub 9 cyfr.')">
                   <span class="wrongAdditionalInfo" id="wrongFathersphone"></span>
 
-                  <input name="#" type="text" autocomplete="off" id="FathersEmail" v-model="ourStudent.father.email" @keyup="validatorData('FathersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
+                  <input name="#" type="text" autocomplete="off" id="FathersEmail" v-model="ourStudent.fatherEmail" @keyup="validatorData('FathersEmail', '^[a-zA-Z0-9-_\.]+@[a-zA-Z0-9-]+\.[a-z]+$', 'nazwa@domena.pl')">
                   <span class="wrongAdditionalInfo" id="wrongFathersEmail"></span>
 
                 </div>
                 <div class="col-md-4">
-                  {{ourStudent.father.firstName}}<br />{{ourStudent.father.lastName}}<br />{{ourStudent.father.phone}}<br />{{ourStudent.father.email}}<br />
+                  {{ourStudent.fatherFirstName}}<br />{{ourStudent.fatherLastName}}<br />{{ourStudent.fatherPhone}}<br />{{ourStudent.fatherEmail}}<br />
                 </div>
               </div>
             </div>
@@ -245,7 +245,7 @@
         </div>
       </div>
       </form>
-      <button name="possibleSaveData" v-if="possibleSave" @click="saveChanges(ourStudent)" class="btn btn-success btn-lg save">Zapisz zmiany</button>
+      <button name="possibleSaveData" v-if="possibleSave" @click="saveChanges(ourStudent, showGreenCheckMark, hideCheckMarkWithLayer)" class="btn btn-success btn-lg save">Zapisz zmiany</button>
       <button name="impossibleSaveData" v-else class="btn btn-success btn-lg save" disabled>Zapisz zmiany</button>
     </div>
 
@@ -256,52 +256,39 @@
 </template>
 
 <script>
-import MainMixins from "../assets/mixins/mixins.js"
-import GradesService from "../assets/mixins/gradesMixins.js"
+import mainMixins from "../assets/mixins/mixins.js"
+import gradesService from "../assets/mixins/gradesMixins.js"
+
+import{ ref, reactive, onMounted } from "vue";
+import{ useRoute, useRouter } from "vue-router";
 
 export default {
   name: 'EditData',
-  data(){
-    return{
-      ourStudent:{
-        firstName: this.$route.params.firstName,
-        lastName: this.$route.params.lastName,
-        pesel: this.$route.params.pesel,
-        street: {
-            name: this.$route.params.street.name,
-            nr: this.$route.params.street.nr,
-            flat: this.$route.params.street.flat,
-            postcode: this.$route.params.street.postcode,
-            city: this.$route.params.street.city,
-        },
-        phone: this.$route.params.phone,
-        email: this.$route.params.email,
-        mother: {
-            firstName: this.$route.params.mother.firstName,
-            lastName: this.$route.params.mother.lastName,
-            phone: this.$route.params.mother.phone,
-            email: this.$route.params.mother.email,
-        },
-        father: {
-            firstName: this.$route.params.father.firstName,
-            lastName: this.$route.params.father.lastName,
-            phone: this.$route.params.father.phone,
-            email: this.$route.params.father.email
-        }
-      },
+  setup(props, { emit }){
 
-      showGreenCheckMark:{
+    const route = useRoute()
+    const router = useRouter()
+    
+
+    const ourStudent = ref(Object.assign({}, route.params)).value
+    
+    delete ourStudent.marks
+    delete ourStudent.weights
+    delete ourStudent.descriptions
+    delete ourStudent.dates
+
+    const showGreenCheckMark = ref({
         firstName: false,
         lastName: false,
-        pesel: false,
+        pesel: true,
         street: false,
         phone: false,
         email: false,
         mother: false,
-        father: false
-      },
+        father: true
+      })
 
-      hideCheckMarkWithLayer:{
+    const hideCheckMarkWithLayer = ref({
         firstName: true,
         lastName: true,
         pesel: true,
@@ -310,19 +297,23 @@ export default {
         email: true,
         mother: true,
         father: true
-      },
+      })
+    const possibleSave = ref(true);
 
-      possibleSave: true
+    function closeThePanel(){
+
+      router.push({name: "Student", params: route.params})
+      emit("update:showDataEditionRouterView", false);
+
     }
-  },
-  props:["showDataEditionRouterView"],
-  mixins: [MainMixins, GradesService],
-  methods:{
-
-
-    closeThePanel(){
-      this.pushMe("Student")
-      this.$emit("update:showDataEditionRouterView", false)
+    return{
+      ourStudent,
+      showGreenCheckMark,
+      hideCheckMarkWithLayer,
+      possibleSave,
+      closeThePanel,
+    ...mainMixins(),
+    ...gradesService()
     }
 
   }
@@ -400,10 +391,9 @@ button.save[disabled]{
 }
 div.blackLayer{
   background-color: black;
-  width: 150%;
+  width: 100%;
   height: 100%;
   position: absolute;
-  top: -20px;
   right: 0;
 }
 @media (max-width: 768px){

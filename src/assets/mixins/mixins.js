@@ -43,89 +43,138 @@ export default function mainMixin(){
     }
 
     //saves changes
-    function saveChanges(ourStudent){
-      // console.log(forceUpdate)
-      // forceUpdate();
-      // route.params.marks = ourStudent.marks 
-      // console.log("ourStudent", ourStudent)
-      // const store2 = store.state.students[route.params.id-1];
-      // console.log("params", route.params.marks)
-      // console.log("store, student", store2)
+    function saveChanges(ourStudent, showGreenCheckMark, hideCheckMarkWithLayer){
 
-      store.state.students[route.params.id-1].marks = ourStudent.marks
-
-      console.log(route.params.marks)
-      route.params.marks = ourStudent.marks
-      console.log(route.params.marks)
+      const fromParams = route.params;
+      const fromState = store.state.students[fromParams.id-1];
       
-      // router.push({name: "FullClass"})
-      // for(const el in ourStudent){
-
-      //   // this is the version dedicated for street, mother and father datas
-      //   if(route.params[el]!=ourStudent[el]){
-      //     if((el==="street")||(el==="mother")||(el==="father")){
-      //         for(const el2 in route.params[el]){
-      //           if(route.params[el][el2]!=ourStudent[el][el2]){
-      //                 route.params[el][el2] = ourStudent[el][el2];
-      //                 store2[el][el2] = ourStudent[el][el2];
-      //                 this.showGreenCheckMark[el] = true;
-      //                 setTimeout(()=>{this.hideCheckMarkWithLayer[el]= false},1);
-
-      //           }
-      //         }
-
-      //     }
-      //     // this is the version dedicated for the rest of datas
-      //     else if((el==="marks")||(el==="weights")||(el==="descriptions")||(el==="dates")){
+      for(const category in ourStudent){
+        console.log(fromParams[category])
+        console.log(ourStudent[category])
+        if(fromParams[category]!=ourStudent[category]){
+          console.log("c")
+          fromParams[category] = ourStudent[category];
+          fromState[category] = ourStudent[category];
+          switch(ourStudent[category]){
+            case ourStudent.streetName:
+            case ourStudent.streetNr:
+            case ourStudent.streetFlat:
+            case ourStudent.streetPostcode:
+            case ourStudent.streetCity:
+              showGreenCheckMark.street = true;
+              setTimeout(()=>{hideCheckMarkWithLayer.street = false},1);
+              break;
             
-      //        this.getRidOfEmptyGrades();
- 
-      //        //divs in EditStudentGrades.vue and grades in Student.vue
-      //        route.params[el] = [...this[el]];
+            case ourStudent.motherFirstName:
+            case ourStudent.motherLastName:
+            case ourStudent.motherPhone:
+            case ourStudent.motherEmail:
+              showGreenCheckMark.mother = true;
+              setTimeout(()=>{hideCheckMarkWithLayer.mother = false},1);
+              break;
+            
+            case ourStudent.fatherFirstName:
+            case ourStudent.fatherLastName:
+            case ourStudent.fatherPhone:
+            case ourStudent.fatherEmail:
+              showGreenCheckMark.father = true;
+              setTimeout(()=>{hideCheckMarkWithLayer.father = false},1);
+              break;
+            
+            default: 
+            showGreenCheckMark[category] = true
+            setTimeout(()=>{hideCheckMarkWithLayer[category] = false},1);
+            break;
+            
+          }
 
-      //        //table in EditStudentGrades.vue (gradeWeightColor())
-      //        ourStudent[el] = [...this[el]];
+        // // this is the version dedicated for street, mother and father datas
+        // // if(fromParams[category]!=ourStudent[category]){
 
-      //        //adds to class in state in Vuex and FullClass.vue
-      //        store2[el] = [...this[el]];
+        //   if((category==="street")||(category==="mother")||(category==="father")){
 
-      //     }
-      //     else{
-      //       route.params[el] = ourStudent[el];
-      //       store2[el] = ourStudent[el];
-      //       this.showGreenCheckMark[el] = true;
-      //       setTimeout(()=>{this.hideCheckMarkWithLayer[el] = false},1);
-      //     }
-      //   }
+        //       // console.log(JSON.parse(fromParams.street))
+        //       // console.log(ourStudent.street)
+        //       // console.log(fromState.street)
 
-      // }
+        //       // console.log("=====================")
 
+        //       // console.log(JSON.parse(fromParams.street).city)
+        //       // console.log(ourStudent.street.city)
+        //       // console.log(fromState.street.city)
+
+        //       for(const subCategory in ourStudent[category]){
+        //         if(fromParams[category][subCategory]!=ourStudent[category][subCategory]){
+
+        //           // console.log(fromParams[category][subCategory])
+        //           // console.log(ourStudent[category][subCategory])
+                  
+        //             if(typeof fromParams[category] === "string") fromParams[category] = JSON.parse(fromParams[category])
+                  
+        //             fromParams[category][subCategory] = ourStudent[category][subCategory];
+        //             fromState[category][subCategory] = ourStudent[category][subCategory];
+
+        //             if(typeof fromParams[category] === "object") fromParams[category] = JSON.stringify(fromParams[category])
+
+        //             showGreenCheckMark[category] = true;
+        //             setTimeout(()=>{hideCheckMarkWithLayer[category]= false},1);
+        //         }
+
+        //       }
+
+        //   }
+        //   // this is the version dedicated for the rest of datas
+        //   else if((category==="marks")||(category==="weights")||(category==="descriptions")||(category==="dates")){
+             
+        //      //updates route.params, divs in EditStudentGrades.vue and divs in Student.vue
+        //      fromParams[category] = ourStudent[category];
+
+        //     //  //table in EditStudentGrades.vue (gradeWeightColor())
+        //     //  ourStudent[category] = [...this[category]];
+
+        //      //adds to class in state in Vuex and FullClass.vue
+        //      fromState[category] = ourStudent[category];
+
+        //   }
+        //   else{
+        //     // console.log(showGreenCheckMark)
+        //     fromParams[category] = ourStudent[category];
+        //     fromState[category] = ourStudent[category];
+        //     // console.log(showGreenCheckMark[category] )
+        //     showGreenCheckMark[category] = true;
+        //     setTimeout(()=>{hideCheckMarkWithLayer[category] = false},1);
+        //   }
+        }
+        }
+
+      // } 
+        
       this.gradesLength = 0;
       this.possibleSave = false;
     }
 
-    function pushMe(componentName){
-      router.push({name: componentName, params: {
-        id: route.params.id,
-        lastName: route.params.lastName,
-        firstName: route.params.firstName,
-        marks: route.params.marks,
-        weights: route.params.weights,
-        descriptions: route.params.descriptions,
-        dates: route.params.dates,
-        pesel: route.params.pesel,
-        street: route.params.street,
-        phone: route.params.phone,
-        email: route.params.email,
-        mother: route.params.mother,
-        father: route.params.father
-       }})
-    }
+    // function pushMe(componentName){
+    //   router.push({name: componentName, params: {
+    //     id: route.params.id,
+    //     lastName: route.params.lastName,
+    //     firstName: route.params.firstName,
+    //     marks: route.params.marks,
+    //     weights: route.params.weights,
+    //     descriptions: route.params.descriptions,
+    //     dates: route.params.dates,
+    //     pesel: route.params.pesel,
+    //     street: route.params.street,
+    //     phone: route.params.phone,
+    //     email: route.params.email,
+    //     mother: route.params.mother,
+    //     father: route.params.father
+    //    }})
+    // }
 
     return{
       validatorData,
       saveChanges,
-      pushMe
+      // pushMe
     }
 
 }

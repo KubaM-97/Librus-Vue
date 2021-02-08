@@ -37,19 +37,38 @@
             :to="{
               name: 'Student',
               params: {
+                
                 id: student.id,
+
                 lastName: student.lastName,
                 firstName: student.firstName,
+
                 marks: student.marks,
                 weights: student.weights,
                 descriptions: student.descriptions,
                 dates: student.dates,
+
                 pesel: student.pesel,
-                street: JSON.stringify(student.street),
+
+                streetName: student.street.name,
+                streetNr: student.street.nr,
+                streetFlat: student.street.flat,
+                streetPostcode: student.street.postcode,
+                streetCity: student.street.city,
+
                 phone: student.phone,
                 email: student.email,
-                mother: JSON.stringify(student.mother),
-                father: JSON.stringify(student.father),
+
+                motherFirstName: student.mother.firstName,
+                motherLastName: student.mother.lastName,
+                motherPhone: student.mother.phone,
+                motherEmail: student.mother.email,
+
+                fatherFirstName: student.father.firstName,
+                fatherLastName: student.father.lastName,
+                fatherPhone: student.father.phone,
+                fatherEmail: student.father.email,
+                
               },
             }">
             <tr @click="navigate" @keypress.enter="navigate" role="link">

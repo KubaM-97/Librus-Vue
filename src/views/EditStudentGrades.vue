@@ -13,7 +13,7 @@
                      <div class="addStudentPanelGradesContentSingleGrade">
                        <label for="marks">Ocena:</label>
                        <div class="select">
-                         <select id="marks" v-model.number="ourStudent.marks[k-1]" @change="changeGrade(k-1, ourStudent.marks[k-1], 'marks')">
+                         <select id="marks" v-model.number="ourStudent.marks[k-1]">
                              <option value="1">1</option>
                              <option value="2">2</option>
                              <option value="3">3</option>
@@ -29,7 +29,7 @@
                      <div class="addStudentPanelGradesContentSingleWeight">
                        <label for="weight">Waga oceny:</label>
                        <div class="select">
-                         <select id="weights" v-model.number="ourStudent.weights[k-1]" @change="changeGrade(k-1, ourStudent.weights[k-1], 'weights')">
+                         <select id="weights" v-model.number="ourStudent.weights[k-1]">
                                <option value="1">1</option>
                                <option value="2">2</option>
                                <option value="3">3</option>
@@ -42,13 +42,13 @@
                      <div class="addStudentPanelGradesContentSingleDescription">
                          <span class="descriptionCount">Pozostało: {{ characters - ourStudent.descriptions[k-1].length }} znaków.</span>
                       <label>Opis oceny:
-                        <input autocomplete="off" name="#" type="text" v-model="ourStudent.descriptions[k-1]" @change="changeGrade(k-1, ourStudent.descriptions[k-1], 'descriptions')" class="description" maxlength="30">
+                        <input autocomplete="off" name="#" type="text" v-model="ourStudent.descriptions[k-1]" class="description" maxlength="30">
                       </label>
                      </div>
                  </div>
 
                  <div class="col-1">
-                     <span @click="remove(k-1)" class="remove"><em>Usuń</em></span>
+                     <span @click="removeGrade(k-1)" class="removeGrade"><em>Usuń</em></span>
                  </div>
 
                </div>
@@ -59,7 +59,7 @@
 
       <div class="col-12 col-md-11" v-for="(n, index) in gradesLength" :key="n">
 
-          <grade-component :index="index+grades.marks.length" :gradesLength="gradesLength" v-on:updater="updater" v-model:possibleSave="possibleSave"></grade-component>
+          <grade-component :index="index+grades.marks.length" :gradesLength="gradesLength" @updater="updater" v-model:possibleSave="possibleSave"></grade-component>
 
       </div>
 
@@ -97,9 +97,7 @@
          </table>
        </div>
      </div>
-     o{{ourStudent.marks}}
-     g{{grades.marks}}
-      p{{params.marks}}
+     
      <button name="possibleSaveGrades" v-if="possibleSave" @click="saveChanges(ourStudent)" class="btn btn-success btn-lg save">Zapisz zmiany</button>
      <button name="impossibleSaveGrades" v-else class="btn btn-success btn-lg save" disabled>Zapisz zmiany</button>
    </div>
@@ -115,17 +113,19 @@ import Grade from "./Grade.vue"
 
 import{ ref, computed, onMounted, onUpdated, onUnmounted } from "vue";
 import{ useStore } from "vuex";
-import{ useRoute } from "vue-router";
+import{ useRoute, useRouter } from "vue-router";
 
 export default {
  name:"EditGrades",
  components: {
    "grade-component": Grade
  },
- setup(props, { emit }){
+ setup(_, { emit }){
 
    const store = useStore()
+   
    const route = useRoute()
+   const router = useRouter()
 
   const editStudentGrades = ref(null)
  
@@ -139,6 +139,7 @@ export default {
   const characters = ref(30);
   const gradesLength = ref(0);
   const possibleSave = ref(true);
+
   const grades = computed(() => store.state.newGrades ).value;
 
   route.params.marks = route.params.marks.map(el => parseInt(el));
@@ -148,7 +149,7 @@ export default {
     grades[el] = [...route.params[el]]
   }
    
-  function remove(index){
+  function removeGrade(index){
 
     // here there are vuex and this component stud
     const sourcesArray = [grades];
@@ -162,16 +163,10 @@ export default {
     this.possibleSave = true;
 
   }
-
-  function changeGrade(index, newVal, what){
-    this[what][index] = newVal;
-    this.dates[index] = this.whatsTheDatePlease();
-    this.possibleSave = true;
-  }
    
 
   function closeThePanel(){
-    this.pushMe("Student")
+    router.push({name: "Student", params: route.params})
     emit("update:showGradesEditionRouterView", false);
   }
 
@@ -200,14 +195,13 @@ export default {
     params: route.params,
     store,
     grades,
-    props,
     editStudentGrades,
     ourStudent,
     characters,
     gradesLength,
     possibleSave,
-    remove,
-    changeGrade,
+    removeGrade,
+    // changeGrade,
     closeThePanel,
     ...mainMixins(),
     ...gradesService()
