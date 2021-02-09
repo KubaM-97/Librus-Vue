@@ -139,14 +139,13 @@ export default {
     );
 
     function showEditStudentDataPanel() {
-      console.log(route.params)
       router.push({name: "EditData", params: route.params})
-      this.showDataEditionRouterView = true;
+      showDataEditionRouterView.value = true;
     }
 
     function showEditStudentGradesPanel() {
       router.push({name: "EditGrades", params: route.params})
-      this.showGradesEditionRouterView = true;
+      showGradesEditionRouterView.value = true;
     }
 
     onMounted(() => {

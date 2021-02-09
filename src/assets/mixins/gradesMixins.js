@@ -4,7 +4,7 @@ import { useStore } from "vuex";
 export default function gradesMixins(){
 
     const store = useStore();
-
+    
     const students = computed(() => store.state.students);
     const marks = computed(() => store.state.newGrades.marks);
     const weights = computed(() => store.state.newGrades.weights);
@@ -220,15 +220,16 @@ export default function gradesMixins(){
 
     //clears newGrades object in Vuex
     function clearNewGradesArray(figure, index) {
+      console.log(store)
+      console.log(store)
+      const store2 = store.state.newGrades;
 
-      const store = this.$store.state.newGrades;
-
-      for (const whatToChange in store) {
+      for (const gradeProperty in store2) {
         if (index !== undefined) {
-          store[whatToChange][index] = figure;
+          store2[gradeProperty][index] = figure;
         }
         else {
-          store[whatToChange] = figure;
+          store2[gradeProperty] = figure;
         }
       }
     }
@@ -269,7 +270,7 @@ export default function gradesMixins(){
       getRidOfEmptyGrades,
     }
   // watch: {
-  //   "payload.description": {
+  //   "grade.description": {
   //     handler() {
   //       const inputGradeDescription = document.querySelectorAll("input.description")[this.index].value;
   //       const descriptionCount = document.querySelectorAll("span.descriptionCount")[this.index];

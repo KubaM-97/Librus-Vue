@@ -264,7 +264,7 @@ import{ useRoute, useRouter } from "vue-router";
 
 export default {
   name: 'EditData',
-  setup(props, { emit }){
+  setup(_, { emit }){
 
     const route = useRoute()
     const router = useRouter()

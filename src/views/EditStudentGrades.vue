@@ -48,7 +48,7 @@
                  </div>
 
                  <div class="col-1">
-                     <span @click="removeGrade(k-1)" class="removeGrade"><em>Usuń</em></span>
+                     <span @click="removeGrade(k-1)" class="remove"><em>Usuń</em></span>
                  </div>
 
                </div>
@@ -111,7 +111,7 @@ import gradesService from "../assets/mixins/gradesMixins.js"
 
 import Grade from "./Grade.vue"
 
-import{ ref, computed, onMounted, onUpdated, onUnmounted } from "vue";
+import{ ref, reactive, computed, onMounted, onUpdated, onUnmounted } from "vue";
 import{ useStore } from "vuex";
 import{ useRoute, useRouter } from "vue-router";
 
@@ -129,7 +129,7 @@ export default {
 
   const editStudentGrades = ref(null)
  
-  const ourStudent = ref({
+  const ourStudent = reactive({
     marks: [...route.params.marks].map(el => parseInt(el)),
     weights: [...route.params.weights].map(el => parseInt(el)),
     descriptions: [...route.params.descriptions],
@@ -152,7 +152,7 @@ export default {
   function removeGrade(index){
 
     // here there are vuex and this component stud
-    const sourcesArray = [grades];
+    const sourcesArray = [grades, ourStudent];
 
     for(let i=0; i<sourcesArray.length; i++){
       for(const el in sourcesArray[i]){

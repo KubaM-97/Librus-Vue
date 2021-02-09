@@ -1,7 +1,7 @@
 <template>
 
       <component :is="chosenComponent" @changeLogStatus="logInOrLogOut"/>
-
+      
 </template>
 
 
@@ -38,6 +38,10 @@ export default {
 
       if(chosenComponent.value == Main){
 
+
+        // setTimeout(()=>{
+
+        // }, 600)
         chosenComponent.value = LoggedOut;
         router.push({name: "LoggedOut"})
 

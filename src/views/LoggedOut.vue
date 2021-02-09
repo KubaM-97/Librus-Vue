@@ -156,9 +156,6 @@ export default {
 }
 
 @media (max-width: 768px){
-  .mainLogPanel {
-      /* width: 90%; */
-  }
 
   .mainLogPanel .form-group {
       font-size: 16px;
@@ -169,7 +166,6 @@ export default {
   .mainLogPanel .form-group label + input {
       height: 28px;
       width: 75%;
-      color: black;
   }
 }
 </style>

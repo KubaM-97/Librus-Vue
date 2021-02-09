@@ -146,7 +146,7 @@
                          </div>
 
                          <div class="addStudentPanelGradesContent" v-for="(n, index) in gradesLength" :key="n">
-                           <grade-component :index="index" :gradesLength.sync="gradesLength"  v-on:updater="updater"></grade-component>
+                           <grade-component :index="index" v-model:gradesLength="gradesLength"></grade-component>
                          </div>
 
 
@@ -167,7 +167,7 @@
 
                             <tr>
                                 <td>
-                                  <span v-if="name!==''">{{name | formatName}}</span>
+                                  <span v-if="name!==''">{{formatName(name)}}</span>
                                 </td>
 
                                 <td ref="allnewGrades">
@@ -217,6 +217,8 @@
           <button name="showConfirmStay" @click="showConfirmWindow('stay')">Racja, zostaję!</button>
         </div>
 
+
+  {{JSON.stringify(store.state.newGrades)}}
     </div>
 
 </template>
@@ -225,79 +227,103 @@
 
 <script>
 
-import MainMixins from "../assets/mixins/mixins.js"
-import GradesService from "../assets/mixins/gradesMixins.js"
+import mainMixins from "../assets/mixins/mixins.js"
+import gradesService from "../assets/mixins/gradesMixins.js"
+
+import { ref, reactive, computed, onUpdated, onBeforeMount, onMounted } from "vue"
+import { useStore } from "vuex"
+import { onBeforeRouteLeave, useRouter } from "vue-router"
 
 import Grade from "./Grade.vue"
 
 export default {
   name: "AddStudent",
-  data(){
-       return{
-         add: {
-             id: "",
-             lastName: "",
-             firstName: "",
-             marks: "",
-             weights: "",
-             descriptions: "",
-             dates: "",
-             pesel: "",
-             street: {
-                 name: "",
-                 nr: "",
-                 flat: "",
-                 postcode: "",
-                 city: ""
-             },
-             phone: "",
-             email: "",
-             mother: {
-                 firstName: "",
-                 lastName: "",
-                 phone: "",
-                 email: ""
-             },
-             father: {
-                 firstName: "",
-                 lastName: "",
-                 phone: "",
-                 email: ""
-             }
-        },
-        name: "",
-        info: false,
-        confirm: false,
-        exitPath: "",
-        block: true,
-        quit: false,
-        stay: false,
-        showError: false,
-        gradesLength: 1
-      }
-  },
   components: {
     "grade-component": Grade
   },
-  filters: {
+  setup(){
+    
+    
+    const store = useStore()
+    const router = useRouter()
+
+    const students = computed(() => store.state.students)
+    //const ourStudent = ref(Object.assign({}, route.params)).value
+    const add = {
+          id: "",
+          lastName: "",
+          firstName: "",
+          marks: "",
+          weights: "",
+          descriptions: "",
+          dates: "",
+          pesel: "",
+          street: {
+              name: "",
+              nr: "",
+              flat: "",
+              postcode: "",
+              city: ""
+          },
+          phone: "",
+          email: "",
+          mother: {
+              firstName: "",
+              lastName: "",
+              phone: "",
+              email: ""
+          },
+          father: {
+              firstName: "",
+              lastName: "",
+              phone: "",
+              email: ""
+          }
+    }
+    console.log(add)
+
+    const name = ref("")
+    const info = ref(false)
+    const confirm = ref(false)
+    const exitPath = ref("")
+    const block = ref(true)
+    const quit = ref(false)
+    const stay = ref(false)
+    const showError = ref(false)
+    const gradesLength = ref(1)
+
+    const marks = computed(() =>
+      store.state.newGrades.marks
+    );
+    const weights = computed(() =>
+      store.state.newGrades.weights
+    );
+    const descriptions = computed(() =>
+      store.state.newGrades.descriptions
+    );
+    const dates = computed(() =>
+      store.state.newGrades.dates
+    );
+    
     //converts student's full name to correct form
     //e.g jan kowalski => KOWALSKI Jan
-    formatName(name) {
+    function formatName(name) {
 
       const wrongName = document.querySelector(".required");
       const reg = new RegExp("^[A-ZĄĆĘŁŃÓŚŹŻ]?[a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ]?[a-ząćęłńóśźż]*)+(-[A-ZĄĆĘŁŃÓŚŹŻ]?[a-ząćęłńóśźż]+)?$");
-      if(reg.test(name) == true){
+      if(reg.test(name)){
         wrongName.innerHTML = "";
-        const array = [];
+        const fullName = [];
 
         //splits name into firstName and lastName
         //e.g jan kowalski => ["jan", "kowalski"]
         const nameArray = name.split(" ");
-        nameArray[0].toLowerCase();
+        const firstName = nameArray[0]
+        firstName.toLowerCase();
 
         //splits firstName and lastName into single letters
         //e.g jan => ["j", "a", "n"]
-        const singleLetter = nameArray[0].split("");
+        const singleLetter = firstName.split("");
 
         //makes the first letter bigger
         //e.g jan[0] => ["j"] => ["J"]
@@ -305,37 +331,30 @@ export default {
 
         //replaces firts small letter of firstName to Big letter
         //e.g jan => Jan
-        array.push(nameArray[0].replace(singleLetter[0], bigFirstLetter));
+        fullName.push(firstName.replace(singleLetter[0], bigFirstLetter));
 
         if (nameArray.length > 1) {
             //replaces lastname to BIG LETTERS
             //e.g kowalski => KOWALSKI
-            array.push(nameArray[1].toUpperCase());
+            const lastName = nameArray[1]
+            fullName.push(lastName.toUpperCase());
+            
+            add.firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1)
+            add.lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1)
+            
         }
+
         //converts array into string
-        return array.reverse().join(" ");
+        return fullName.reverse().join(" ");
       }
-      else if(reg.test(name) == false){
+      else {
         wrongName.innerHTML = "Bez cyfr i znaków specjalnych."
       }
-    },
-  },
-  updated(){
-
-    if(this.name!=""){
-      const arrName = this.name.split(" ");
-      this.add.firstName = arrName[0];
-      this.add.lastName = arrName[1];
     }
 
-    for(let i=0; i<this.marks.length; i++){
-        this.showTooltip(document, this);
-    }
-
-  },
-  beforeRouteLeave(to,from,next){
+    onBeforeRouteLeave((to,from,next)=>{
     if(to.path == "/LoggedOut"){
-      this.addStudentCancel()
+      addStudentCancel()
       next()
     }
     else{
@@ -346,128 +365,192 @@ export default {
         // 2. a grade doesn`t have a mark but has a weight
         // 3. there is neither a mark nor a weight but there is a description
         // 4. there is no name but there is at least one mark, one weight or one description
-        if((     ((this.marks[i]!=="")&&(this.weights[i]===""))
-              || ((this.marks[i]==="")&&(this.weights[i]!==""))
-              // || ((this.marks[i]!=="")&&(this.weights[i]!==""))
-              || ((this.marks[i]==="")&&(this.weights[i]==="")&&(this.descriptions[i]!==""))
-              || ((this.name==="")&&((this.marks[i]!=="")||(this.weights[i]!=="")||(this.descriptions[i]!=="")))
+        if((     ((marks[i]!=="")&&(weights[i]===""))
+              || ((marks[i]==="")&&(weights[i]!==""))
+              || ((marks[i]==="")&&(weights[i]==="")&&(descriptions[i]!==""))
+              || ((name.value==="")&&((marks[i]!=="")||(weights[i]!=="")||(descriptions[i]!=="")))
             )
-              && (this.block==true))
+              && (block.value==true))
         {
-          this.exitPath = to.path;
-          this.confirm = true;
+          exitPath.value = to.path;
+          confirm.value = true;
           next(false)
         }
         else{
-          // this.getRidOfEmptyGrades()
-          this.addStudentCancel()
-          this.block = true;
+          // getRidOfEmptyGrades()
+          addStudentCancel()
+          block.value = true;
           next()
         }
         i++;
-      } while (i<=this.marks.length);
+      } while (i<=marks.length);
     }
-  },
-  beforeDestroy(){
-    const store = this.$store.state.newGrades;
-    for(const el in store){
-      store[el] = [];
+  })
+    
+    onUpdated(() => {
+
+      // if(name.value!=""){
+      //   const arrName = name.value.split(" ");
+      //   add.firstName = arrName[0];
+      //   add.lastName = arrName[1];
+      // }
+
+      for(let i=0; i<marks.value.length; i++){
+          gradesService().showTooltip(document, store.state.newGrades);
+      }
+      
+      // add.value.marks = store.state.newGrades.marks
+      // add.value.weights = store.state.newGrades.weights
+      // add.value.descriptions = store.state.newGrades.descriptions
+      // add.value.dates = store.state.newGrades.dates
+
+    })
+
+    onBeforeMount(()=>{
+
+      for(const el in store.state.newGrades){
+        store.state.newGrades[el] = [];
+      }
+
+    }) 
+
+    onMounted(()=>{
+
+      if(name!=""){
+        const arrName = name.value.split(" ");
+        add.firstName = arrName[0];
+        add.lastName = arrName[1];
+      }
+
+      for(let i=0; i<marks.length; i++){
+          gradeService().showTooltip(document, this);
+      }
+
+    }) 
+    
+    //starts animation of Student's detail data
+    function enter(el, done){
+      el.addEventListener("animationend", function(){
+        el.style="";
+        done();
+      });
+      el.style.animationName="showDetailData";
+      el.style.animationDuration="1s"
     }
-  },
-  mixins: [MainMixins, GradesService],
-  methods: {
 
+    //ends animation of Student's detail data
+    function leave(el, done){
+      el.addEventListener("animationend", function(){
+        el.style="";
+        done();
+      });
+      el.style.animationName="showDetailData";
+      el.style.animationDuration="1s";
+      el.style.animationDirection="reverse"
+    }
 
-      //starts animation of Student's detail data
-      enter(el, done){
-        el.addEventListener("animationend", function(){
-          el.style="";
-          done();
-        });
-        el.style.animationName="showDetailData";
-        el.style.animationDuration="1s"
-      },
+    //shows additional information
+    function additionalInfoSwitcher() {
+      const spanInfoSwitcher = document.querySelector(".addStudentPanelNameInfo span.showInfo");
+      info.value = !info.value;
+      spanInfoSwitcher.innerHTML=="Rozwiń" ? spanInfoSwitcher.innerHTML="Zwiń" : spanInfoSwitcher.innerHTML="Rozwiń";
+    }
 
-      //ends animation of Student's detail data
-      leave(el, done){
-        el.addEventListener("animationend", function(){
-          el.style="";
-          done();
-        });
-        el.style.animationName="showDetailData";
-        el.style.animationDuration="1s";
-        el.style.animationDirection="reverse"
-      },
+    //shows confirm window
+    function showConfirmWindow(action){
 
-      //shows additional information
-      additionalInfoSwitcher() {
-        const spanInfoSwitcher = document.querySelector(".addStudentPanelNameInfo span.showInfo");
-        this.info = !this.info;
-        spanInfoSwitcher.innerHTML=="Rozwiń" ? spanInfoSwitcher.innerHTML="Zwiń" : spanInfoSwitcher.innerHTML="Rozwiń";
-      },
+      if(action=="quit"){
+        block.value = false;
+        router.push({path: exitPath.value})
+        confirm.value = false;
+      }
+      else if(action == "stay"){
+        console.log(confirm)
+        confirm.value = false;
+        exitPath.value = "";
+      }
+    }
 
-      //shows confirm window
-      showConfirmWindow(action){
-        if(action=="quit"){
-          this.block = false;
-          this.$router.push({path: this.exitPath})
-          this.confirm = false;
+    //resets addStudent Panel
+    function addStudentCancel() {
+
+      name.value = "";
+      store.state.newGrades.marks = []
+      store.state.newGrades.weights = []
+      store.state.newGrades.descriptions = []
+      store.state.newGrades.dates = []
+      gradesLength.value = 0;
+      setTimeout(()=>{
+        gradesLength.value = 1;
+      },10);
+    }
+
+    //adds a new student to the class table
+    function addStudentToClass() {
+
+      //this is inserted by user (by teacher) name for a new student
+      const addedStudentName = name.value;
+
+      //splits name into firstname and lastname
+      const addedStudentNameArray = addedStudentName.split(" ");
+
+      //if we've got both firstname and lastname
+          if (addedStudentNameArray.length >= 2) {
+            // getRidOfEmptyGrades()
+            
+          
+            add.id = students.value.length + 1;
+            add.marks = store.state.newGrades.marks;
+            add.weights = store.state.newGrades.weights;
+            add.descriptions = store.state.newGrades.descriptions;
+            add.dates = store.state.newGrades.dates;
+
+            store.state.students[store.state.students.length] = add;
+
+            block.value = false;
+            router.push({name: "FullClass"});
         }
-        else if(action == "stay"){
-          this.confirm = false;
-          this.exitPath = "";
+        else{
+            showError.value = true;
+            if(showError.value==true){
+              showError.value = false;
+              setTimeout(()=>{
+                showError.value = true
+              },10)
+            }
         }
-      },
 
-      //resets addStudent Panel
-      addStudentCancel() {
+    }
 
-        this.name = "";
-
-        this.gradesLength = 0;
-        setTimeout(()=>{
-          this.gradesLength = 1;
-        },10);
-      },
-
-      //adds a new student to the class table
-      addStudentToClass() {
-
-        //this is inserted by user (by teacher) name for a new student
-        const addedStudentName = this.name;
-
-        //splits name into firstname and lastname
-        const addedStudentNameArray = addedStudentName.split(" ");
-
-        //if we've got both firstname and lastname
-           if (addedStudentNameArray.length >= 2) {
-             this.getRidOfEmptyGrades()
-             this.add.id = this.students.length + 1;
-             this.add.marks = this.marks;
-             this.add.weights = this.weights;
-             this.add.descriptions = this.descriptions;
-             this.add.dates = this.dates;
-
-             this.students[this.students.length] = this.add;
-             console.log(this.students)
-             this.block = false;
-             this.$router.push({name: "FullClass"});
-          }
-          else{
-              this.showError = true;
-              if(this.showError==true){
-                this.showError = false;
-                setTimeout(()=>{
-                  this.showError = true
-                },10)
-              }
-          }
-
-      },
-
-
-   }
+    
+    return{
+      store,
+      marks,
+      weights,
+      add,
+      name,
+      info,
+      confirm,
+      exitPath,
+      block,
+      quit,
+      stay,
+      showError,
+      gradesLength,
+      formatName,
+      enter,
+      leave,
+      additionalInfoSwitcher,
+      showConfirmWindow,
+      addStudentCancel,
+      addStudentToClass,
+      ...mainMixins(),
+      ...gradesService()
+    }
+    
+  }
 }
+ 
 </script>
 
 

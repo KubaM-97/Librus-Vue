@@ -49,42 +49,46 @@ export default function mainMixin(){
       const fromState = store.state.students[fromParams.id-1];
       
       for(const category in ourStudent){
-        console.log(fromParams[category])
-        console.log(ourStudent[category])
+
         if(fromParams[category]!=ourStudent[category]){
-          console.log("c")
+
           fromParams[category] = ourStudent[category];
           fromState[category] = ourStudent[category];
-          switch(ourStudent[category]){
-            case ourStudent.streetName:
-            case ourStudent.streetNr:
-            case ourStudent.streetFlat:
-            case ourStudent.streetPostcode:
-            case ourStudent.streetCity:
-              showGreenCheckMark.street = true;
-              setTimeout(()=>{hideCheckMarkWithLayer.street = false},1);
-              break;
+
+          if(showGreenCheckMark){
             
-            case ourStudent.motherFirstName:
-            case ourStudent.motherLastName:
-            case ourStudent.motherPhone:
-            case ourStudent.motherEmail:
-              showGreenCheckMark.mother = true;
-              setTimeout(()=>{hideCheckMarkWithLayer.mother = false},1);
+            switch(ourStudent[category]){
+              case ourStudent.streetName:
+              case ourStudent.streetNr:
+              case ourStudent.streetFlat:
+              case ourStudent.streetPostcode:
+              case ourStudent.streetCity:
+                showGreenCheckMark.street = true;
+                setTimeout(()=>{hideCheckMarkWithLayer.street = false},1);
+                break;
+              
+              case ourStudent.motherFirstName:
+              case ourStudent.motherLastName:
+              case ourStudent.motherPhone:
+              case ourStudent.motherEmail:
+                showGreenCheckMark.mother = true;
+                setTimeout(()=>{hideCheckMarkWithLayer.mother = false},1);
+                break;
+              
+              case ourStudent.fatherFirstName:
+              case ourStudent.fatherLastName:
+              case ourStudent.fatherPhone:
+              case ourStudent.fatherEmail:
+                showGreenCheckMark.father = true;
+                setTimeout(()=>{hideCheckMarkWithLayer.father = false},1);
+                break;
+              
+              default: 
+              showGreenCheckMark[category] = true
+              setTimeout(()=>{hideCheckMarkWithLayer[category] = false},1);
               break;
-            
-            case ourStudent.fatherFirstName:
-            case ourStudent.fatherLastName:
-            case ourStudent.fatherPhone:
-            case ourStudent.fatherEmail:
-              showGreenCheckMark.father = true;
-              setTimeout(()=>{hideCheckMarkWithLayer.father = false},1);
-              break;
-            
-            default: 
-            showGreenCheckMark[category] = true
-            setTimeout(()=>{hideCheckMarkWithLayer[category] = false},1);
-            break;
+              
+            }
             
           }
 
