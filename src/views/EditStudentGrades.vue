@@ -4,7 +4,7 @@
    <div class="container">
      <div class="row">
        <div class="col-12 col-md-11">
-         <div v-for="k in grades.marks.length" :key="k">
+         <div v-for="k in ourStudent.marks.length" :key="k">
            <div class="addStudentPanelGradesContentSingle">
              <div class="container gainedGrades">
                <div class="row">
@@ -40,6 +40,7 @@
 
                  <div class="col-5">
                      <div class="addStudentPanelGradesContentSingleDescription">
+                       {{k-1}}
                          <span class="descriptionCount">Pozostało: {{ characters - ourStudent.descriptions[k-1].length }} znaków.</span>
                       <label>Opis oceny:
                         <input autocomplete="off" name="#" type="text" v-model="ourStudent.descriptions[k-1]" class="description" maxlength="30">

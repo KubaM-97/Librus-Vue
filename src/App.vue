@@ -1,19 +1,28 @@
 <template>
 
-      <component :is="chosenComponent" @changeLogStatus="logInOrLogOut"/>
-      
+  <Suspense>
+    
+    <template #default>
+      <component :is="chosenComponent" @changeLogStatus="logInOrLogOut" />
+    </template>
+
+    <template #fallback>
+      <div>Loading...</div>
+    </template>
+
+  </Suspense>
+
 </template>
 
 
 <script>
-
 //Bootstrap
-import 'bootstrap/dist/css/bootstrap.css'
+import "bootstrap/dist/css/bootstrap.css";
 
-import Main from "./views/Main"
-import LoggedOut from "./views/LoggedOut"
+import Main from "./views/Main";
+import LoggedOut from "./views/LoggedOut";
 
-import { shallowRef } from "vue";
+import { ref, shallowRef } from "vue";
 import { useRouter } from "vue-router";
 
 //CSS
@@ -26,46 +35,42 @@ export default {
   name: "App",
   components: {
     Main,
-    LoggedOut
+    LoggedOut,
   },
-  setup(){
+  setup() {
+    const isDisplayGif = ref(false);
 
-    const router = useRouter()
-    
-    const chosenComponent = shallowRef(Main)
+    const router = useRouter();
 
-    function logInOrLogOut(){
+    const chosenComponent = shallowRef(Main);
 
-      if(chosenComponent.value == Main){
+    function logInOrLogOut() {
+      if (chosenComponent.value == Main) {
+        isDisplayGif.value = true;
 
+        setTimeout(() => {
+          chosenComponent.value = LoggedOut;
+          router.push({ name: "LoggedOut" });
+          isDisplayGif.value = false;
+        }, 600);
+      } else if (chosenComponent.value == LoggedOut) {
+        isDisplayGif.value = true;
 
-        // setTimeout(()=>{
-
-        // }, 600)
-        chosenComponent.value = LoggedOut;
-        router.push({name: "LoggedOut"})
-
+        setTimeout(() => {
+          chosenComponent.value = Main;
+          router.push({ name: "FullClass" });
+          isDisplayGif.value = false;
+        }, 1100);
       }
-
-      else if(chosenComponent.value == LoggedOut){
-
-        chosenComponent.value = Main;
-        router.push({name: "FullClass"})
-
-      }
-
     }
 
-  return { 
-    chosenComponent,
-    logInOrLogOut
-  }
-    
-  }
+    return {
+      isDisplayGif,
+      chosenComponent,
+      logInOrLogOut,
+    };
+  },
 };
-
-
-
 </script>
 
 
@@ -73,5 +78,4 @@ export default {
 
 
 <style>
-
 </style>

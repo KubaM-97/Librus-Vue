@@ -79,7 +79,7 @@
 
 import gradesService from "../assets/mixins/gradesMixins.js"
 
-import { ref, reactive, onBeforeMount, onBeforeUpdate, onMounted, destroy, deactivated  } from "vue"
+import { ref, reactive, onBeforeMount, onBeforeUpdate, onMounted, destroy, deactivated, watch  } from "vue"
 import { useStore } from "vuex"
 
 export default {
@@ -99,6 +99,26 @@ export default {
       date: ""
     })
     
+    watch(() => [...grade.description], () => {
+        const inputGradeDescription = document.querySelectorAll("input.description")[props.index].value;
+        const descriptionCount = document.querySelectorAll("span.descriptionCount")[props.index];
+        const counter = (30 - (inputGradeDescription.length));
+        switch (counter) {
+          case 2:
+          case 3:
+          case 4:
+          case 22:
+          case 23:
+          case 24:
+            descriptionCount.innerHTML = `Pozostały: ${counter} znaki.`;
+            break;
+          case 1:
+            descriptionCount.innerHTML = `Pozostał: ${counter} znak.`;
+            break;
+          default:
+            descriptionCount.innerHTML = `Pozostało: ${counter} znaków.`;
+        }
+    })
     const characters = ref(30);
 
     const index = props.index

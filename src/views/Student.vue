@@ -96,19 +96,27 @@
         v-html="threatness(avg(gradesMarks, gradesWeights))"
       ></div>
     </div>
+<router-view v-slot="{ Component }"
+    v-model:showDataEditionRouterView="showDataEditionRouterView">
+
+        <transition name="EditStudentDataPanel" mode="out-in">
+          <component :is="Component" v-if="showDataEditionRouterView" />
+        </transition>
+
+      </router-view>
     
-    <transition-group name="EditStudentDataPanel" mode="out-in">
-      <router-view
-        v-if="showDataEditionRouterView"
-        v-model:showDataEditionRouterView="showDataEditionRouterView"
-        key="1"
-      ></router-view>
-      <router-view
-        v-if="showGradesEditionRouterView"
-        v-model:showGradesEditionRouterView="showGradesEditionRouterView"
-        key="2"
-      ></router-view>
-    </transition-group>
+<div>
+
+</div>
+      <router-view v-slot="{ Component }" 
+    v-model:showGradesEditionRouterView="showGradesEditionRouterView">
+
+        <transition name="EditStudentDataPanel" mode="out-in">
+          <component :is="Component" v-if="showGradesEditionRouterView"/>
+        </transition>
+        
+      </router-view>
+
   </div>
 </template>
 

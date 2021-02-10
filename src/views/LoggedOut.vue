@@ -56,8 +56,13 @@ export default {
   components:{
     "log-in-button": LogInButton
   },
+  props:{
+    // changeLogStatus
+  },
+  emits: ['changeLogStatus'],
   setup(props, { emit }){
-
+    // console.log(changeLogStatus)
+    // console.log(emit(changeLogStatus))
     function logMeIn(){
 
           //gets inserted login
@@ -71,7 +76,8 @@ export default {
 
 
             setTimeout(()=>{
-              emit(props.changeLogStatus)
+              emit('changeLogStatus')
+              // $emit(props.changeLogStatus)
             },800);
 
           }

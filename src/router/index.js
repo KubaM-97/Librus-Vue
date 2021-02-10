@@ -54,7 +54,7 @@ const routes = [
     props: false
   },
    {
-    path: '/*/',
+    path: '/:pathMatch(.*)*',
     redirect: "/Error404"
   }
 ]

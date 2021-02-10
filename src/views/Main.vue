@@ -8,8 +8,7 @@
       <div class="logo">
         <div class="logo_info">Nauczyciel: <span v-html="teacher"></span></div>
         <div class="logo_info">
-          <!-- Klasa: <span v-styleMe:class="'italic'">{{Class}}</span> -->
-          <!-- <p v-highlight="'yellow'">Highlight this text bright yellow</p> -->
+          Klasa: <span v-style-me:class="'italic'">{{Class}}</span> 
         </div>
       </div>
     </header>
@@ -37,22 +36,20 @@
     </header>
 
 
+      <router-view v-slot="{ Component }">
+        <transition name="router" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
 
-      <router-view />
-
-          <!-- <transition name="router" mode="out-in"> </transition>  -->
-
-      <!-- </router-view> -->
 
 
 </template>
 
 
 <script>
-//Bootstrap
-import "bootstrap/dist/css/bootstrap.css";
 
-import { ref, emits, onMounted } from "vue";
+import { ref } from "vue";
 import { useStore } from "vuex";
 
 
@@ -66,19 +63,15 @@ export default {
   name: "Main",
   emits: ["changeLogStatus"],
   setup() {
+
     const store = useStore();
 
-    const sitename = ref("Dziennik elektroniczny");
     const teacher = ref("<em>Kuba Modzelik</em>");
     const Class = ref("3B");
 
-
-    onMounted(() => {
-      store.dispatch("initFullClass");
-    });
+    store.dispatch("initFullClass");
 
     return {
-      sitename,
       teacher,
       Class,
     };

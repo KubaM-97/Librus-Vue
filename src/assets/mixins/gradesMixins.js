@@ -1,8 +1,7 @@
-import { computed, watch } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 
 export default function gradesMixins(){
-
     const store = useStore();
     
     const students = computed(() => store.state.students);
@@ -234,25 +233,7 @@ export default function gradesMixins(){
       }
     }
 
-    //removes grades that have marks but don`t have weights or don`t have marks but have weights
-    function getRidOfEmptyGrades() {
-
-      const marks = this.marks;
-      const weights = this.weights;
-      const descriptions = this.descriptions;
-      const dates = this.dates;
-
-      for (let i = marks.length - 1; i >= 0; i--) {
-        if (((marks[i] !== "") && (weights[i] === ""))
-          || ((marks[i] === "") && (weights[i] !== ""))
-          || ((marks[i] === "") && (weights[i] === ""))) {
-          marks.splice(i, 1)
-          weights.splice(i, 1)
-          descriptions.splice(i, 1)
-          dates.splice(i, 1)
-        }
-      }
-    }
+   
     return {
       students,
       marks,
@@ -267,31 +248,7 @@ export default function gradesMixins(){
       whatsTheDatePlease,
       moreGrades,
       clearNewGradesArray,
-      getRidOfEmptyGrades,
+      
     }
-  // watch: {
-  //   "grade.description": {
-  //     handler() {
-  //       const inputGradeDescription = document.querySelectorAll("input.description")[this.index].value;
-  //       const descriptionCount = document.querySelectorAll("span.descriptionCount")[this.index];
-  //       const counter = (30 - (inputGradeDescription.length));
-  //       switch (counter) {
-  //         case 2:
-  //         case 3:
-  //         case 4:
-  //         case 22:
-  //         case 23:
-  //         case 24:
-  //           descriptionCount.innerHTML = `Pozostały: ${counter} znaki.`;
-  //           break;
-  //         case 1:
-  //           descriptionCount.innerHTML = `Pozostał: ${counter} znak.`;
-  //           break;
-  //         default:
-  //           descriptionCount.innerHTML = `Pozostało: ${counter} znaków.`;
-  //       }
-  //     },
-  //     deep: true
-  //   }
-  // }
+  
 }

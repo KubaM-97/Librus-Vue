@@ -10,7 +10,7 @@
 
                  <div class="col-lg-4">
 
-                   <!-- <form action="#" enctype="application/x-www-form-urlencoded" method="get"> -->
+                   <form action="#" enctype="application/x-www-form-urlencoded" method="get">
 
                      <div class="addStudentPanelName">
 
@@ -135,7 +135,7 @@
 
                      </div>
 
-                   <!-- </form> -->
+                   </form>
 
                  </div>
 
@@ -210,15 +210,14 @@
           </div>
 
         </div>
+        <teleport to="body">
+          <div class="confirm" v-show="confirm">
+            <p>Na pewno? Dane zostaną utracone...</p>
+            <button name="showConfirmQuit" @click="showConfirmWindow('quit')">Wychodzę</button>
+            <button name="showConfirmStay" @click="showConfirmWindow('stay')">Racja, zostaję!</button>
+          </div>
+        </teleport>
 
-        <div class="confirm" v-show="confirm">
-          <p>Na pewno? Dane zostaną utracone...</p>
-          <button name="showConfirmQuit" @click="showConfirmWindow('quit')">Wychodzę</button>
-          <button name="showConfirmStay" @click="showConfirmWindow('stay')">Racja, zostaję!</button>
-        </div>
-
-
-  {{JSON.stringify(store.state.newGrades)}}
     </div>
 
 </template>
@@ -280,7 +279,6 @@ export default {
               email: ""
           }
     }
-    console.log(add)
 
     const name = ref("")
     const info = ref(false)
@@ -377,7 +375,7 @@ export default {
           next(false)
         }
         else{
-          // getRidOfEmptyGrades()
+          getRidOfEmptyGrades()
           addStudentCancel()
           block.value = true;
           next()
@@ -496,7 +494,7 @@ export default {
 
       //if we've got both firstname and lastname
           if (addedStudentNameArray.length >= 2) {
-            // getRidOfEmptyGrades()
+            getRidOfEmptyGrades()
             
           
             add.id = students.value.length + 1;
@@ -521,7 +519,25 @@ export default {
         }
 
     }
+ //removes grades that have marks but don`t have weights or don`t have marks but have weights
+    function getRidOfEmptyGrades() {
+      
+      const marks2 = store.state.newGrades.marks;
+      const weights2 = store.state.newGrades.weights;
+      const descriptions2 = store.state.newGrades.descriptions;
+      const dates2 = store.state.newGrades.dates;
 
+      for (let i = marks2.length - 1; i >= 0; i--) {
+        if (((marks2[i] !== "") && (weights2[i] === ""))
+          || ((marks2[i] === "") && (weights2[i] !== ""))
+          || ((marks2[i] === "") && (weights2[i] === ""))) {
+          marks2.splice(i, 1)
+          weights2.splice(i, 1)
+          descriptions2.splice(i, 1)
+          dates2.splice(i, 1)
+        }
+      }
+    }
     
     return{
       store,
@@ -692,6 +708,7 @@ export default {
   padding-top: 50px;
   background-color: black;
   box-shadow: 3px 3px 30px 5px #00c3ff;
+  text-align: center;
 }
 .confirm p{
   margin-bottom: 50px;
