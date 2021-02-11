@@ -3,7 +3,7 @@
 
     <div class="mainLogPanel">
 
-      <!-- <form action="#" enctype="application/x-www-form-urlencoded" method="post"> -->
+      <form action="#" enctype="application/x-www-form-urlencoded" method="post" @submit="logMeIn">
 
           <div class="form-group">
 
@@ -31,15 +31,13 @@
 
           <div class="form-group">
 
-                <log-in-button>
-                    <button name="logMeIn" @click="logMeIn()" slot="logIn">
-                        Zaloguj się
-                    </button>
-                </log-in-button>
+              <button>
+                  Zaloguj się
+              </button>
 
           </div>
 
-      <!-- </form> -->
+      </form>
 
     </div>
 
@@ -48,26 +46,16 @@
 </template>
 
 <script>
-import LogInButton from './LogInButton.vue'
-import { mapMutations } from "vuex"
+
+
 export default {
   name: "LoggedOut",
-  components:{
-    "log-in-button": LogInButton
-  },
-  beforeCreate(){
-    this.$store.state.showNavpanel = false;
-  },
-  methods: {
+  emits: ['changeLogStatus'],
+  setup(_, { emit }){
 
-        ...mapMutations([
-          "changeMainLogPanel",
-          "changeLoaderGif",
-          "changeNavpanel"
-        ]),
+    function logMeIn(e){
 
-        //Main Log Panel
-        logMeIn() {
+          e.preventDefault();
 
           //gets inserted login
           const userLogin = document.querySelector(".mainLogPanel input[type=text]").value;
@@ -78,40 +66,39 @@ export default {
           //if inserted login and password are correct
           if ((userLogin === "Login1") && (userPassword === "Hasło1")) {
 
-            // this.changeMainLogPanel();
-            this.changeLoaderGif();
 
             setTimeout(()=>{
-              this.changeLoaderGif();
-              this.changeNavpanel();
+              emit('changeLogStatus')
             },800);
 
-            this.$router.push({name: "FullClass"})
           }
-
+            
           //if inserted login or password are incorrect
           else {
+
               const wrong = document.querySelectorAll(".mainLogPanel span.wrongLoginPassword");
+
               for (let i = 0; i < wrong.length; i++) {
                   wrong[i].innerHTML = "Login i hasło muszą się zgadzać!"
               }
+
           }
-
-        }
-
-      }
-
-
+    }
+    
+    return{
+      logMeIn
+    }
+  }
 }
 </script>
 
 <style scoped>
 
 .mainLogPanel {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-image: url(../assets/images/Logo.png);
     background-position: center;
     background-size: cover;
@@ -169,9 +156,6 @@ export default {
 }
 
 @media (max-width: 768px){
-  .mainLogPanel {
-      /* width: 90%; */
-  }
 
   .mainLogPanel .form-group {
       font-size: 16px;
@@ -182,7 +166,6 @@ export default {
   .mainLogPanel .form-group label + input {
       height: 28px;
       width: 75%;
-      color: black;
   }
 }
 </style>

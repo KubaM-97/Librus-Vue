@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
+
 import FullClass from '../views/FullClass.vue'
 import Student from '../views/Student.vue'
 import EditStudentData from '../views/EditStudentData.vue'
@@ -8,17 +8,9 @@ import AddStudent from '../views/AddStudent.vue'
 import LoggedOut from '../views/LoggedOut.vue'
 import Error404 from '../views/Error404.vue'
 
-Vue.use(VueRouter)
-
 const routes = [
   {
     path: '/',
-    name: 'Start',
-    component: FullClass,
-    props: true
-  },
-  {
-    path: '/FullClass',
     name: 'FullClass',
     component: FullClass,
     props: true
@@ -61,15 +53,18 @@ const routes = [
     props: false
   },
    {
-    path: '*',
-    redirect: "/Error404"
+    path: '/:pathMatch(.*)*',
+    redirect: "/Error404",
   }
 ]
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+
+const router = createRouter({
+  history: createWebHistory(),
   routes
 })
 
 export default router
+
+
+

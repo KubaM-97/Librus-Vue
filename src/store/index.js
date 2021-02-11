@@ -1,20 +1,11 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import { createStore } from 'vuex'
 
 //Vuex
 import axios from 'axios'
-import VueAxios from 'vue-axios'
-Vue.use(VueAxios, axios)
 
-// load Vuex
-Vue.use(Vuex)
-
-
-export default new Vuex.Store({
+export default createStore({
   state: {
     students: {},
-    showNavpanel: true,
-    showLoaderGif: false,
     newGrades:{
         marks: [],
         weights: [],
@@ -30,13 +21,6 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    changeNavpanel(state){
-      state.showNavpanel = !state.showNavpanel;
-    },
-    changeLoaderGif(state){
-      state.showLoaderGif = !state.showLoaderGif;
-    },
-
     setFullClass(state, students){
       state.students = students
     }
@@ -44,10 +28,7 @@ export default new Vuex.Store({
   actions: {
     initFullClass:({commit})=>{
       axios.get("static/students.json")
-      .then((response)=>{
-        console.log(response.data.students);
-        commit("setFullClass", response.data.students)
-      })
+      .then((response)=> commit("setFullClass", response.data.students))
     }
   },
 })
