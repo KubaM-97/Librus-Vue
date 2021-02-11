@@ -2,6 +2,7 @@ import { computed } from "vue";
 import { useStore } from "vuex";
 
 export default function gradesMixins(){
+  
     const store = useStore();
     
     const students = computed(() => store.state.students);
@@ -19,18 +20,18 @@ export default function gradesMixins(){
 
       for (let i = 0; i < oneStudentMarks.length; i++) {
         if (oneStudentMarks[i] !== "") {
-          if (oneStudentsWeights[i] == 1) {
+          if (oneStudentsWeights[i] === 1) {
             content += `<div class="gradeWeightColor gradeWeightGreen">${oneStudentMarks[i]}</div>`
-          } else if (oneStudentsWeights[i] == 2) {
+          } else if (oneStudentsWeights[i] === 2) {
             content += `<div class="gradeWeightColor gradeWeightYellow">${oneStudentMarks[i]}</div>`
-          } else if (oneStudentsWeights[i] == 3) {
+          } else if (oneStudentsWeights[i] === 3) {
             content += `<div class="gradeWeightColor gradeWeightRed">${oneStudentMarks[i]}</div>`
           }
-          else if (oneStudentsWeights[i] == "") {
+          else if (oneStudentsWeights[i] === "") {
             content += `<div class="gradeWeightColor">${oneStudentMarks[i]}</div>`
           }
         }
-        else if (oneStudentMarks[i] == "") {
+        else if (oneStudentMarks[i] === "") {
           if (oneStudentsWeights[i] === 1) {
             content += `<div class="gradeWeightColor gradeWeightGreen" style="width: 30px; height: 36px;"> </div>`
           }
@@ -51,31 +52,34 @@ export default function gradesMixins(){
     function showTooltip(RootElement, SingleStudent) {
       
       const gradesInDiv = RootElement.querySelectorAll(".gradeWeightColor");
-      const marksArrayWithoutEmptyValues = [];
-      const weightsArrayWithoutEmptyValues = [];
-      const descriptionsArrayWithoutEmptyValues = [];
-      const datesArrayWithoutEmptyValues = [];
 
-      for (let i = 0; i < SingleStudent.marks.length; i++) {
-        if ((SingleStudent.marks[i] !== "") && (SingleStudent.weights[i] !== "")) {
-          if (SingleStudent.descriptions[i] === "") {
-            SingleStudent.descriptions[i] = "BRAK OPISU"
-          }
-          marksArrayWithoutEmptyValues.push(SingleStudent.marks[i]);
-          weightsArrayWithoutEmptyValues.push(SingleStudent.weights[i]);
-          descriptionsArrayWithoutEmptyValues.push(SingleStudent.descriptions[i]);
-          datesArrayWithoutEmptyValues.push(SingleStudent.dates[i]);
+
+      const SingleStudentMarks = SingleStudent.marks
+      const SingleStudentWeights = SingleStudent.weights
+      const SingleStudentDescriptions = SingleStudent.descriptions
+      const SingleStudentDates = SingleStudent.dates
+
+      for (let i = 0; i < SingleStudentMarks.length; i++) {
+        
+        if (SingleStudentDescriptions[i] === "") {
+          SingleStudentDescriptions[i] = "BRAK OPISU"
         }
 
+        for(const gradeProperty in store.state.newGrades){
+          SingleStudent[gradeProperty].map((el)=>{ SingleStudent.marks[el] !== "" && SingleStudent.weights[el] !== "" })
+        }
+        
+        
       }
+      
 
       for (let i = 0; i < gradesInDiv.length; i++) {
-        // alert(gradesInDiv.length)
-        if ((marksArrayWithoutEmptyValues[i] !== undefined) || (weightsArrayWithoutEmptyValues[i] !== undefined)) {
+
+        if ((SingleStudentMarks[i] !== undefined) || (SingleStudentWeights[i] !== undefined)) {
 
           //draws tooltip after hovering
           gradesInDiv[i].addEventListener("mouseenter", function () {
-            canvas(marksArrayWithoutEmptyValues[i], weightsArrayWithoutEmptyValues[i], descriptionsArrayWithoutEmptyValues[i], datesArrayWithoutEmptyValues[i], gradesInDiv[i])
+            canvas(SingleStudentMarks[i], SingleStudentWeights[i], SingleStudentDescriptions[i], SingleStudentDates[i], gradesInDiv[i])
           }.bind(this), false);
 
 
@@ -85,6 +89,7 @@ export default function gradesMixins(){
             canv.parentNode.removeChild(canv);
           });
         }
+
       }
     }
 
@@ -211,28 +216,6 @@ export default function gradesMixins(){
       return dateFullStr;
 
     }
-
-    //adds a new grade to the student
-    function moreGrades() {
-      this.gradesLength++;
-    }
-
-    //clears newGrades object in Vuex
-    function clearNewGradesArray(figure, index) {
-      console.log(store)
-      console.log(store)
-      const store2 = store.state.newGrades;
-
-      for (const gradeProperty in store2) {
-        if (index !== undefined) {
-          store2[gradeProperty][index] = figure;
-        }
-        else {
-          store2[gradeProperty] = figure;
-        }
-      }
-    }
-
    
     return {
       students,
@@ -245,10 +228,7 @@ export default function gradesMixins(){
       canvas,
       avg,
       threatness,
-      whatsTheDatePlease,
-      moreGrades,
-      clearNewGradesArray,
-      
+      whatsTheDatePlease           
     }
   
 }

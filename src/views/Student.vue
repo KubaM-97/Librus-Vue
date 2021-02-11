@@ -78,7 +78,7 @@
           Edytuj / Dodaj ocenę
         </button>
       </div>
-
+  
       <div class="editStudentPanelAvgTitle">
         <span>Średnia</span>
       </div>
@@ -96,33 +96,28 @@
         v-html="threatness(avg(gradesMarks, gradesWeights))"
       ></div>
     </div>
-<router-view v-slot="{ Component }"
-    v-model:showDataEditionRouterView="showDataEditionRouterView">
+    <router-view
+      v-slot="{ Component }"
+      v-model:showDataEditionRouterView="showDataEditionRouterView"
+    >
+      <transition name="EditStudentDataPanel" mode="out-in">
+        <component :is="Component" v-if="showDataEditionRouterView" />
+      </transition>
+    </router-view>
 
-        <transition name="EditStudentDataPanel" mode="out-in">
-          <component :is="Component" v-if="showDataEditionRouterView" />
-        </transition>
-
-      </router-view>
-    
-<div>
-
-</div>
-      <router-view v-slot="{ Component }" 
-    v-model:showGradesEditionRouterView="showGradesEditionRouterView">
-
-        <transition name="EditStudentDataPanel" mode="out-in">
-          <component :is="Component" v-if="showGradesEditionRouterView"/>
-        </transition>
-        
-      </router-view>
-
+    <div></div>
+    <router-view
+      v-slot="{ Component }"
+      v-model:showGradesEditionRouterView="showGradesEditionRouterView"
+    >
+      <transition name="EditStudentDataPanel" mode="out-in">
+        <component :is="Component" v-if="showGradesEditionRouterView" />
+      </transition>
+    </router-view>
   </div>
 </template>
 
 <script>
-
-import mainMixin from "../assets/mixins/mixins.js";
 import gradesService from "../assets/mixins/gradesMixins.js";
 
 import { useRoute, useRouter } from "vue-router";
@@ -136,23 +131,21 @@ export default {
 
     const route = useRoute();
     const router = useRouter();
-    
+
     const store = useStore();
 
     const showDataEditionRouterView = ref(false);
     const showGradesEditionRouterView = ref(false);
 
-    const fullName = computed(() =>
-      store.getters.fullNameGetters(route.params)
-    );
+    const fullName = computed(() => store.getters.fullNameGetters(route.params));
 
     function showEditStudentDataPanel() {
-      router.push({name: "EditData", params: route.params})
+      router.push({ name: "EditData", params: route.params });
       showDataEditionRouterView.value = true;
     }
 
     function showEditStudentGradesPanel() {
-      router.push({name: "EditGrades", params: route.params})
+      router.push({ name: "EditGrades", params: route.params });
       showGradesEditionRouterView.value = true;
     }
 
@@ -164,32 +157,33 @@ export default {
       gradesService().showTooltip(editStudentPanel.value, route.params);
     });
 
-    const pesel = computed(() => route.params.pesel );
+    const pesel = computed(() => route.params.pesel);
 
-    const streetName = computed(() => route.params.streetName );
-    const streetNr = computed(() => route.params.streetNr );
-    const streetFlat = computed(() => route.params.streetFlat );
-    const streetPostcode = computed(() => route.params.streetPostcode );
-    const streetCity = computed(() => route.params.streetCity );
+    const streetName = computed(() => route.params.streetName);
+    const streetNr = computed(() => route.params.streetNr);
+    const streetFlat = computed(() => route.params.streetFlat);
+    const streetPostcode = computed(() => route.params.streetPostcode);
+    const streetCity = computed(() => route.params.streetCity);
 
-    const phone = computed(() => route.params.phone );
-    const email = computed(() => route.params.email );
+    const phone = computed(() => route.params.phone);
+    const email = computed(() => route.params.email);
 
-    const motherFirstName = computed(() => route.params.motherFirstName );
-    const motherLastName = computed(() => route.params.motherLastName );
-    const motherPhone = computed(() => route.params.motherPhone );
-    const motherEmail = computed(() => route.params.motherEmail );
+    const motherFirstName = computed(() => route.params.motherFirstName);
+    const motherLastName = computed(() => route.params.motherLastName);
+    const motherPhone = computed(() => route.params.motherPhone);
+    const motherEmail = computed(() => route.params.motherEmail);
 
-    const fatherFirstName = computed(() => route.params.fatherFirstName );
-    const fatherLastName = computed(() => route.params.fatherLastName );
-    const fatherPhone = computed(() => route.params.fatherPhone );
-    const fatherEmail = computed(() => route.params.fatherEmail );
+    const fatherFirstName = computed(() => route.params.fatherFirstName);
+    const fatherLastName = computed(() => route.params.fatherLastName);
+    const fatherPhone = computed(() => route.params.fatherPhone);
+    const fatherEmail = computed(() => route.params.fatherEmail);
 
-    const gradesMarks = computed( () => route.params.marks.map(el => parseInt(el)) );
-    const gradesWeights = computed( () => route.params.weights.map(el => parseInt(el)) );
+    const gradesMarks = computed( () =>route.params.marks.map((el) => parseInt(el)) );
+    const gradesWeights = computed( () => route.params.weights.map((el) => parseInt(el) )
+    );
 
     return {
-
+      route,
       editStudentPanel,
 
       pesel,
@@ -224,7 +218,6 @@ export default {
       showEditStudentDataPanel,
       showEditStudentGradesPanel,
 
-      ...mainMixin(),
       ...gradesService(),
     };
   },

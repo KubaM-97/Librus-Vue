@@ -70,7 +70,6 @@
           </div>
 
        </div>
-
   </div>
 
 </template>
@@ -79,7 +78,7 @@
 
 import gradesService from "../assets/mixins/gradesMixins.js"
 
-import { ref, reactive, onBeforeMount, onBeforeUpdate, onMounted, destroy, deactivated, watch  } from "vue"
+import { ref, reactive, onBeforeUpdate, watch  } from "vue"
 import { useStore } from "vuex"
 
 export default {
@@ -87,10 +86,15 @@ export default {
   props: {
     index: Number
   },
-  setup(props, { emit }){
+  emits: ["letMeSave"],
+  setup(props, {emit}){
+
+    const index = props.index
 
     const store = useStore()
-
+    const gradesVuex = store.state.newGrades;
+    
+    const characters = ref(30);
 
     const grade = reactive({
       mark: "",
@@ -100,9 +104,9 @@ export default {
     })
     
     watch(() => [...grade.description], () => {
-        const inputGradeDescription = document.querySelectorAll("input.description")[props.index].value;
-        const descriptionCount = document.querySelectorAll("span.descriptionCount")[props.index];
-        const counter = (30 - (inputGradeDescription.length));
+        const inputGradeDescription = document.querySelectorAll("input.description")[index].value;
+        const descriptionCount = document.querySelectorAll("span.descriptionCount")[index];
+        const counter = (characters.value - (inputGradeDescription.length));
         switch (counter) {
           case 2:
           case 3:
@@ -119,19 +123,15 @@ export default {
             descriptionCount.innerHTML = `Pozostało: ${counter} znaków.`;
         }
     })
-    const characters = ref(30);
-
-    const index = props.index
 
     onBeforeUpdate(() => {
       grade.date = gradesService().whatsTheDatePlease();
       addNewItem("date");
     })
 
-
+    //places a new mark, weight, description or date in appropriate place according to the provided index inside newGrades in Vuex
     function addNewItem(gradeProperty){
-
-        //places a new mark, weight, description or date in appropriate place according to the provided index inside newGrades Array in Vuex
+        
         //e.g    for second component Grade.vue:   store.state.newGrades.grades[1] = 5                           store.state.newGrades.grades=[3,5]
         //e.g    for second component Grade.vue:   store.state.newGrades.weights[1] = 5                          store.state.newGrades.weights=[3,5]
         //e.g    for second component Grade.vue:   store.state.newGrades.descriptions[1] = "Praca domowa"        store.state.newGrades.descriptions=["Kartkówka", "Praca domowa"]
@@ -142,54 +142,37 @@ export default {
         //       store.state.newGrades.descriptions[1] = grade[description]
         //       store.state.newGrades.dates[1] = grade[date]
 
-        store.state.newGrades[gradeProperty+"s"][index]=grade[gradeProperty];
+        gradesVuex[gradeProperty+"s"][index]=grade[gradeProperty];
 
-        for(const el in store.state.newGrades){
-          if( store.state.newGrades[el][index] === undefined){
+        for(const gradeProperty in gradesVuex){
 
-          store.state.newGrades[el][index]="";
-          }
+          if(gradesVuex[gradeProperty][index] === undefined)    gradesVuex[gradeProperty][index]="";
+
         }
-        
-        
 
-        emit("update:possibleSave", true);
+        emit('letMeSave')
 
     }
 
     //clears newGrades object in Vuex
     function remove(index){
 
-      const store2 = store.state.newGrades;
-
-      for (const gradeProperty in store2) {
-        if (index !== undefined) {
-          store2[gradeProperty][index] = "";
-        }
-        else {
-          store2[gradeProperty] = "";
-        }
+      for (const gradeProperty in gradesVuex) {
+          gradesVuex[gradeProperty][index] = "";
       }
     
       document.querySelectorAll(".addStudentPanelGradesContentSingle")[index].style.display = "none";
-      document.querySelectorAll(".addStudentPanelGradesContentSingle")[index].style.marginBottom = "0px";
-
-      emit("update:possibleSave", true);
 
     }
 
     return {
       store,
-      index,
       characters,
       grade,
       addNewItem,
-      remove,
-      ...gradesService()
+      remove
     }
   }
-
-  // props:["index", "updater", "possibleSave"],
   
 
 }

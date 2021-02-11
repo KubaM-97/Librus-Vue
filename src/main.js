@@ -5,7 +5,7 @@ import store from './store'
 
 const app = createApp(App)
 
- //Custom directive
+//Custom directive
 app.directive("styleMe",{
   mounted(el,binding){
       if((binding.value == 'italic')&&(binding.arg == 'class')){
@@ -16,12 +16,6 @@ app.directive("styleMe",{
       }
     }
 });
-// app.directive('highlight', {
-//   beforeMount(el, binding, vnode) {
-//     el.style.background = binding.value
-//   }
-// })
-
 
 app.use(store).use(router).mount('#app')
 

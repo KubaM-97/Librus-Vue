@@ -1,4 +1,3 @@
-// import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 import FullClass from '../views/FullClass.vue'
@@ -55,13 +54,13 @@ const routes = [
   },
    {
     path: '/:pathMatch(.*)*',
-    redirect: "/Error404"
+    redirect: "/Error404",
   }
 ]
 
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(),
   routes
 })
 

@@ -107,7 +107,7 @@ export default {
 
     //adds Numbering to the first table's cell <td> of every table's row <tr>
     //e.g   1. 2. 3. 4. 5. .....
-    const addNumberingToTheTable = function () {
+    function addNumberingToTheTable () {
       //gets table
       const table = document.getElementById("tableStudents");
 
@@ -120,7 +120,7 @@ export default {
     };
 
     //sorts students in table
-    const sortMyStudents = function () {
+    function sortMyStudents() {
       const table = document.getElementById("tableStudents");
       let switching = true;
       let Switch, i;
@@ -155,22 +155,24 @@ export default {
     };
 
     onMounted(() => {
-// store.dispatch('initFullClass');
-      sortMyStudents();
-      addNumberingToTheTable();
-
-    });
-    onUpdated(() => {
 
       for (let i = 0; i < students.value.length; i++) {
         gradesService().showTooltip(document.querySelectorAll("tr")[i], students.value[i]);
       }
-
+      
+      sortMyStudents();
       addNumberingToTheTable();
+
     });
 
+    onUpdated(() => {
+
+      addNumberingToTheTable();
+
+    });
+
+
     return {
-      store,
       addNumberingToTheTable,
       sortMyStudents,
       students,

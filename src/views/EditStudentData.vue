@@ -256,10 +256,9 @@
 </template>
 
 <script>
-import mainMixins from "../assets/mixins/mixins.js"
-import gradesService from "../assets/mixins/gradesMixins.js"
+import dataService from "../assets/mixins/dataMixins.js"
 
-import{ ref, reactive, onMounted } from "vue";
+import{ ref } from "vue";
 import{ useRoute, useRouter } from "vue-router";
 
 export default {
@@ -268,7 +267,6 @@ export default {
 
     const route = useRoute()
     const router = useRouter()
-    
 
     const ourStudent = ref(Object.assign({}, route.params)).value
     
@@ -278,26 +276,27 @@ export default {
     delete ourStudent.dates
 
     const showGreenCheckMark = ref({
-        firstName: false,
-        lastName: false,
-        pesel: true,
-        street: false,
-        phone: false,
-        email: false,
-        mother: false,
-        father: true
-      })
+      firstName: false,
+      lastName: false,
+      pesel: true,
+      street: false,
+      phone: false,
+      email: false,
+      mother: false,
+      father: true
+    })
 
     const hideCheckMarkWithLayer = ref({
-        firstName: true,
-        lastName: true,
-        pesel: true,
-        street: true,
-        phone: true,
-        email: true,
-        mother: true,
-        father: true
-      })
+      firstName: true,
+      lastName: true,
+      pesel: true,
+      street: true,
+      phone: true,
+      email: true,
+      mother: true,
+      father: true
+    })
+
     const possibleSave = ref(true);
 
     function closeThePanel(){
@@ -306,14 +305,14 @@ export default {
       emit("update:showDataEditionRouterView", false);
 
     }
+
     return{
       ourStudent,
       showGreenCheckMark,
       hideCheckMarkWithLayer,
       possibleSave,
       closeThePanel,
-    ...mainMixins(),
-    ...gradesService()
+    ...dataService()
     }
 
   }
@@ -368,12 +367,19 @@ img.greenCheckMark{
   box-shadow: 2px 2px 10px 2px #199c05;
   opacity: 0.8;
 }
-img.closeThePanel{
+
+button[name="closeTheDataPanel"]{
   position: absolute;
   top: -10px;
   right: -10px;
   width: 40px;
   height: 40px;
+  border-radius: 50px;
+  outline: none;
+}
+img.closeThePanel{
+  width: 100%;
+  height: 100%;
   -webkit-box-shadow: 2px 2px 10px 2px #d54545;
   -moz-box-shadow: 2px 2px 10px 2px #d54545;
   box-shadow: 2px 2px 10px 2px #d54545;

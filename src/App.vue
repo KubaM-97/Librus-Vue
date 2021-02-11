@@ -1,28 +1,20 @@
 <template>
 
-  <Suspense>
-    
-    <template #default>
-      <component :is="chosenComponent" @changeLogStatus="logInOrLogOut" />
-    </template>
-
-    <template #fallback>
-      <div>Loading...</div>
-    </template>
-
-  </Suspense>
+  <component :is="chosenComponent" @changeLogStatus="logInOrLogOut" />
+  <img v-if="showImg" src="./assets/images/gifloader.gif" alt="gifloader">
 
 </template>
 
 
 <script>
+
 //Bootstrap
 import "bootstrap/dist/css/bootstrap.css";
 
 import Main from "./views/Main";
 import LoggedOut from "./views/LoggedOut";
 
-import { ref, shallowRef } from "vue";
+import { shallowRef, ref } from "vue";
 import { useRouter } from "vue-router";
 
 //CSS
@@ -38,44 +30,63 @@ export default {
     LoggedOut,
   },
   setup() {
-    const isDisplayGif = ref(false);
 
     const router = useRouter();
 
     const chosenComponent = shallowRef(Main);
+    const showImg = ref(false)
 
     function logInOrLogOut() {
+
       if (chosenComponent.value == Main) {
-        isDisplayGif.value = true;
 
-        setTimeout(() => {
-          chosenComponent.value = LoggedOut;
-          router.push({ name: "LoggedOut" });
-          isDisplayGif.value = false;
-        }, 600);
+          chosenComponent.value = null
+          showImg.value = true
+
+          setTimeout(()=>{
+
+            showImg.value = false
+            chosenComponent.value = LoggedOut;
+            router.push({ name: "LoggedOut" });
+
+          },700)
+
+
       } else if (chosenComponent.value == LoggedOut) {
-        isDisplayGif.value = true;
 
-        setTimeout(() => {
-          chosenComponent.value = Main;
-          router.push({ name: "FullClass" });
-          isDisplayGif.value = false;
-        }, 1100);
+          chosenComponent.value = null
+          showImg.value = true
+
+          setTimeout(()=>{
+
+            showImg.value = false
+            router.push({ name: "FullClass" });
+
+            setTimeout(()=>{
+              chosenComponent.value = Main;
+            },300)
+
+          },1500)
+
+
       }
+
     }
 
     return {
-      isDisplayGif,
       chosenComponent,
+      showImg,
       logInOrLogOut,
     };
   },
 };
 </script>
 
-
-
-
-
-<style>
+<style scoped>
+img{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 </style>

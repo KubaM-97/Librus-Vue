@@ -3,7 +3,7 @@
 
     <div class="mainLogPanel">
 
-      <!-- <form action="#" enctype="application/x-www-form-urlencoded" method="post"> -->
+      <form action="#" enctype="application/x-www-form-urlencoded" method="post" @submit="logMeIn">
 
           <div class="form-group">
 
@@ -31,15 +31,13 @@
 
           <div class="form-group">
 
-                <log-in-button>
-                    <button name="logMeIn" @click="logMeIn()">
-                        Zaloguj się
-                    </button>
-                </log-in-button>
+              <button>
+                  Zaloguj się
+              </button>
 
           </div>
 
-      <!-- </form> -->
+      </form>
 
     </div>
 
@@ -49,21 +47,15 @@
 
 <script>
 
-import LogInButton from './LogInButton.vue'
 
 export default {
   name: "LoggedOut",
-  components:{
-    "log-in-button": LogInButton
-  },
-  props:{
-    // changeLogStatus
-  },
   emits: ['changeLogStatus'],
-  setup(props, { emit }){
-    // console.log(changeLogStatus)
-    // console.log(emit(changeLogStatus))
-    function logMeIn(){
+  setup(_, { emit }){
+
+    function logMeIn(e){
+
+          e.preventDefault();
 
           //gets inserted login
           const userLogin = document.querySelector(".mainLogPanel input[type=text]").value;
@@ -77,17 +69,19 @@ export default {
 
             setTimeout(()=>{
               emit('changeLogStatus')
-              // $emit(props.changeLogStatus)
             },800);
 
           }
             
           //if inserted login or password are incorrect
           else {
+
               const wrong = document.querySelectorAll(".mainLogPanel span.wrongLoginPassword");
+
               for (let i = 0; i < wrong.length; i++) {
                   wrong[i].innerHTML = "Login i hasło muszą się zgadzać!"
               }
+
           }
     }
     
@@ -101,10 +95,10 @@ export default {
 <style scoped>
 
 .mainLogPanel {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-image: url(../assets/images/Logo.png);
     background-position: center;
     background-size: cover;

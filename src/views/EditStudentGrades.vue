@@ -13,7 +13,7 @@
                      <div class="addStudentPanelGradesContentSingleGrade">
                        <label for="marks">Ocena:</label>
                        <div class="select">
-                         <select id="marks" v-model.number="ourStudent.marks[k-1]">
+                         <select id="marks" v-model.number="grades.marks[k-1]" @change="changeGrade(k-1, 'marks')">
                              <option value="1">1</option>
                              <option value="2">2</option>
                              <option value="3">3</option>
@@ -29,7 +29,7 @@
                      <div class="addStudentPanelGradesContentSingleWeight">
                        <label for="weight">Waga oceny:</label>
                        <div class="select">
-                         <select id="weights" v-model.number="ourStudent.weights[k-1]">
+                         <select id="weights" v-model.number="grades.weights[k-1]" @change="changeGrade(k-1, 'weights')">
                                <option value="1">1</option>
                                <option value="2">2</option>
                                <option value="3">3</option>
@@ -40,10 +40,9 @@
 
                  <div class="col-5">
                      <div class="addStudentPanelGradesContentSingleDescription">
-                       {{k-1}}
-                         <span class="descriptionCount">Pozostało: {{ characters - ourStudent.descriptions[k-1].length }} znaków.</span>
+                         <span class="descriptionCount">Pozostało: {{ characters - grades.descriptions[k-1].length }} znaków.</span>
                       <label>Opis oceny:
-                        <input autocomplete="off" name="#" type="text" v-model="ourStudent.descriptions[k-1]" class="description" maxlength="30">
+                        <input autocomplete="off" name="#" type="text" v-model="grades.descriptions[k-1]" @change="changeGrade(k-1, 'descriptions')" class="description" maxlength="30">
                       </label>
                      </div>
                  </div>
@@ -60,12 +59,12 @@
 
       <div class="col-12 col-md-11" v-for="(n, index) in gradesLength" :key="n">
 
-          <grade-component :index="index+grades.marks.length" :gradesLength="gradesLength" @updater="updater" v-model:possibleSave="possibleSave"></grade-component>
+          <grade-component :index="index+ourStudent.marks.length" :gradesLength="gradesLength" @letMeSave="letMeSave"></grade-component>
 
       </div>
 
       <div class="showAnotherGrade">
-        <button name="moreGradesEditGrades" @click="moreGrades()">  +  </button>
+        <button name="moreGradesEditGrades" @click="gradesLength++">  +  </button>
       </div>
      </div>
      <div class="row">
@@ -78,19 +77,18 @@
                </td>
 
                <td ref="allnewGrades">
-                   <span class="grades" v-html="gradeWeightColor(ourStudent.marks, ourStudent.weights)">
+                   <span class="grades" v-html="gradeWeightColor(grades.marks, grades.weights)">
 
                    </span>
                </td>
-
                <td>
                    <span>
-                     {{avg(ourStudent.marks, ourStudent.weights)}}
+                     {{avg(grades.marks, grades.weights)}}
                    </span>
                </td>
 
                <td>
-                 <span v-html="threatness(avg(ourStudent.marks, ourStudent.weights))">
+                 <span v-html="threatness(avg(grades.marks, grades.weights))">
 
                  </span>
                </td>
@@ -99,7 +97,7 @@
        </div>
      </div>
      
-     <button name="possibleSaveGrades" v-if="possibleSave" @click="saveChanges(ourStudent)" class="btn btn-success btn-lg save">Zapisz zmiany</button>
+     <button name="possibleSaveGrades" v-if="possibleSave" @click="saveChanges(grades)" class="btn btn-success btn-lg save">Zapisz zmiany</button>
      <button name="impossibleSaveGrades" v-else class="btn btn-success btn-lg save" disabled>Zapisz zmiany</button>
    </div>
    <button name="closeTheGradesPanel" @click="closeThePanel()"><img class="closeThePanel" src="../assets/images/eXit.png"/></button>
@@ -107,7 +105,7 @@
 </template>
 
 <script>
-import mainMixins from "../assets/mixins/mixins.js"
+import dataService from "../assets/mixins/dataMixins.js"
 import gradesService from "../assets/mixins/gradesMixins.js"
 
 import Grade from "./Grade.vue"
@@ -123,10 +121,10 @@ export default {
  },
  setup(_, { emit }){
 
-   const store = useStore()
-   
-   const route = useRoute()
-   const router = useRouter()
+  const store = useStore()
+  
+  const route = useRoute()
+  const router = useRouter()
 
   const editStudentGrades = ref(null)
  
@@ -143,25 +141,33 @@ export default {
 
   const grades = computed(() => store.state.newGrades ).value;
 
+  
   route.params.marks = route.params.marks.map(el => parseInt(el));
   route.params.weights = route.params.weights.map(el => parseInt(el));
 
-  for(const el in grades){
-    grades[el] = [...route.params[el]]
+  for(const gradeProperty in grades){
+    grades[gradeProperty] = [...route.params[gradeProperty]]
   }
-   
+
+  function changeGrade(index){
+     grades.dates[index] = gradesService().whatsTheDatePlease();
+     possibleSave.value = true;
+   }
+  function letMeSave(){
+    possibleSave.value = true
+  }
   function removeGrade(index){
 
     // here there are vuex and this component stud
     const sourcesArray = [grades, ourStudent];
 
     for(let i=0; i<sourcesArray.length; i++){
-      for(const el in sourcesArray[i]){
-        sourcesArray[i][el].splice(index,1)
+      for(const category in sourcesArray[i]){
+        sourcesArray[i][category].splice(index,1)
       }
     }
 
-    this.possibleSave = true;
+    possibleSave.value = true
 
   }
    
@@ -180,11 +186,11 @@ export default {
    gradesService().showTooltip(editStudentGrades.value, grades);
    for(let i=0; i<grades.marks.length; i++){
      if( ((grades.marks[i]!=="") && (grades.weights[i]==="")) || ((grades.marks[i]==="") && (grades.weights[i]!==""))){
-       possibleSave = false;
+       possibleSave.value = false;
      }
    }
   })
-
+  
   onUnmounted(()=>{
     store.state.newGrades.marks = [];
     store.state.newGrades.weights = [];
@@ -200,11 +206,12 @@ export default {
     ourStudent,
     characters,
     gradesLength,
+    changeGrade,
     possibleSave,
+    letMeSave,
     removeGrade,
-    // changeGrade,
     closeThePanel,
-    ...mainMixins(),
+    ...dataService(),
     ...gradesService()
   }
  }
@@ -261,12 +268,18 @@ button.save[disabled] {
   top: 50px;
   right: 20px;
 }
-img.closeThePanel {
+button[name="closeTheGradesPanel"]{
   position: absolute;
   top: -10px;
   right: -10px;
   width: 40px;
   height: 40px;
+  border-radius: 50px;
+  outline: none;
+}
+img.closeThePanel{
+  width: 100%;
+  height: 100%;
   -webkit-box-shadow: 2px 2px 10px 2px #d54545;
   -moz-box-shadow: 2px 2px 10px 2px #d54545;
   box-shadow: 2px 2px 10px 2px #d54545;

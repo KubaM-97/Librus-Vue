@@ -1,16 +1,18 @@
 <template>
+
   <header class="main-header">
+
     <header>
+
       <div class="logo">
         <img src="../assets/images/Logo.png" />
       </div>
 
       <div class="logo">
-        <div class="logo_info">Nauczyciel: <span v-html="teacher"></span></div>
-        <div class="logo_info">
-          Klasa: <span v-style-me:class="'italic'">{{Class}}</span> 
-        </div>
+        <div class="logo_info">Nauczyciel: <span v-html="teacher"></span> </div>
+        <div class="logo_info">Klasa: <span v-style-me:class="'italic'">{{Class}}</span> </div>
       </div>
+      
     </header>
 
     <nav>
@@ -26,21 +28,20 @@
         </button>
       </router-link>
 
-        <button class="btn btn-primary btn-lg with-logout-icon" @click="$emit('changeLogStatus')" >
-          <img src="../assets/images/logout.png" alt="logout icon" height="20" /> Wyloguj się
-          <slot></slot>
-        </button>
+      <button class="btn btn-primary btn-lg with-logout-icon" @click="$emit('changeLogStatus')" >
+        <img src="../assets/images/logout.png" alt="logout icon" height="20" /> Wyloguj się
+      </button>
 
-        </nav> 
+    </nav> 
         
-    </header>
+  </header>
 
 
-      <router-view v-slot="{ Component }">
-        <transition name="router" mode="out-in">
-          <component :is="Component" />
-        </transition>
-      </router-view>
+  <router-view v-slot="{ Component }">
+    <transition name="router" mode="out-in">
+      <component :is="Component" />
+    </transition>
+  </router-view>
 
 
 

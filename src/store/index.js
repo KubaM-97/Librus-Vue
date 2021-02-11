@@ -2,8 +2,6 @@ import { createStore } from 'vuex'
 
 //Vuex
 import axios from 'axios'
-import VueAxios from 'vue-axios'
-
 
 export default createStore({
   state: {
