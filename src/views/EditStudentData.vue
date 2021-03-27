@@ -358,15 +358,6 @@ input {
     box-sizing: border-box;
     text-shadow: none;
 }
-img.greenCheckMark{
-  width: 27px;
-  height: 27px;
-  margin: auto;
-  -webkit-box-shadow: 2px 2px 10px 2px #199c05;
-  -moz-box-shadow: 2px 2px 10px 2px #199c05;
-  box-shadow: 2px 2px 10px 2px #199c05;
-  opacity: 0.8;
-}
 
 button[name="closeTheDataPanel"]{
   position: absolute;
@@ -394,6 +385,15 @@ button.save{
 button.save[disabled]{
   background-color: red;
   cursor: not-allowed;
+}
+img.greenCheckMark{
+  width: 27px;
+  height: 27px;
+  margin: auto;
+  -webkit-box-shadow: 2px 2px 10px 2px #199c05;
+  -moz-box-shadow: 2px 2px 10px 2px #199c05;
+  box-shadow: 2px 2px 10px 2px #199c05;
+  opacity: 0.8;
 }
 div.blackLayer{
   background-color: black;
