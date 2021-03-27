@@ -7,14 +7,14 @@ export default function mainMixin(){
     const store = useStore();
 
     //regular expressions
-    function validatorData(Data, RegularExpression, Format) {
+    function validatorData(this: any, Data: string, RegularExpression: string, Format: string): void {
       
       //gets inserted value
-      const insertedData = document.querySelector("#"+Data).value;
+      const insertedData = (document.querySelector("#"+Data) as HTMLInputElement) .value;
 
       //gets regular expression
       const reg = new RegExp(RegularExpression);
-      const span = document.querySelector("#wrong"+Data);
+      const span = document.querySelector("#wrong"+Data) as HTMLSpanElement;
 
       if((insertedData !== '') && (reg.test(insertedData)==false)){
           span.innerHTML = `Podaj prawidłowy format :<br /> ${Format}`;
@@ -45,9 +45,9 @@ export default function mainMixin(){
     }
 
     //saves changes
-    function saveChanges(ourStudent, showGreenCheckMark, hideCheckMarkWithLayer){
+    function saveChanges(this: any, ourStudent: any, showGreenCheckMark: any, hideCheckMarkWithLayer: any): void{
 
-      const fromParams = route.params;
+      const fromParams: any = route.params;
       const fromState = store.state.students[fromParams.id-1];
       
       for(const category in ourStudent){

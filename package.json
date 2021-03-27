@@ -2,12 +2,11 @@
   "name": "dziennik2",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://KubaM-97.github.io/Dziennik_elektroniczny/",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "predeploy": "npm run build"
   },
   "dependencies": {
     "@vue/compiler-sfc": "^3.0.5",
@@ -17,18 +16,22 @@
     "gh-pages": "^3.1.0",
     "vue": "^3.0.5",
     "vue-axios": "^3.2.0",
+    "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-typescript": "^4.5.12",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
+    "typescript": "~4.1.5",
     "vue-template-compiler": "^2.6.11"
   },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "homepage": "https://KubaM-97.github.io/Dziennik_elektroniczny/"
 }

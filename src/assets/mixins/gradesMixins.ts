@@ -13,13 +13,13 @@ export default function gradesMixins(){
 
 
     //colors grades
-    function gradeWeightColor(oneStudentMarks, oneStudentsWeights) {
+    function gradeWeightColor(oneStudentMarks: number[], oneStudentsWeights: number[]): string {
       
       //adds new classes to divs with grades, what causes coloring them on green, yellow or red
       let content = "";
 
       for (let i = 0; i < oneStudentMarks.length; i++) {
-        if (oneStudentMarks[i] !== "") {
+        if (!isNaN(oneStudentMarks[i])) {
           if (oneStudentsWeights[i] === 1) {
             content += `<div class="gradeWeightColor gradeWeightGreen">${oneStudentMarks[i]}</div>`
           } else if (oneStudentsWeights[i] === 2) {
@@ -27,11 +27,11 @@ export default function gradesMixins(){
           } else if (oneStudentsWeights[i] === 3) {
             content += `<div class="gradeWeightColor gradeWeightRed">${oneStudentMarks[i]}</div>`
           }
-          else if (oneStudentsWeights[i] === "") {
+          else if (isNaN(oneStudentsWeights[i])) {
             content += `<div class="gradeWeightColor">${oneStudentMarks[i]}</div>`
           }
         }
-        else if (oneStudentMarks[i] === "") {
+        else if (!isNaN(oneStudentMarks[i])) {
           if (oneStudentsWeights[i] === 1) {
             content += `<div class="gradeWeightColor gradeWeightGreen" style="width: 30px; height: 36px;"> </div>`
           }
@@ -48,11 +48,11 @@ export default function gradesMixins(){
 
     }
 
-    //show tooltip after hovering on every grade
-    function showTooltip(RootElement, SingleStudent) {
-      
-      const gradesInDiv = RootElement.querySelectorAll(".gradeWeightColor");
 
+    //show tooltip after hovering on every grade
+    function showTooltip(this: any, RootElement: any, SingleStudent: any): void {
+      
+      const gradesInDiv: NodeListOf<Element> = RootElement.querySelectorAll(".gradeWeightColor");
 
       const SingleStudentMarks = SingleStudent.marks
       const SingleStudentWeights = SingleStudent.weights
@@ -66,7 +66,7 @@ export default function gradesMixins(){
         }
 
         for(const gradeProperty in store.state.newGrades){
-          SingleStudent[gradeProperty].map((el)=>{ SingleStudent.marks[el] !== "" && SingleStudent.weights[el] !== "" })
+          SingleStudent[gradeProperty].map( (el: string | number)=>{ SingleStudent.marks[el] !== "" && SingleStudent.weights[el] !== "" })
         }
         
         
@@ -94,18 +94,18 @@ export default function gradesMixins(){
     }
 
     //draws tooltip
-    function canvas(SingleGrade, SingleWeight, SingleDescription, SingleDate, anotherDivWithGrade) {
+    function canvas(SingleGrade: number, SingleWeight: number, SingleDescription: string, SingleDate: string, anotherDivWithGrade: any): void {
 
-      const canvas = document.createElement("CANVAS");
+      const canvas = document.createElement("CANVAS") as HTMLCanvasElement;
       anotherDivWithGrade.appendChild(canvas);
 
-      const canv = document.querySelector("canvas");
-      const ctx = canv.getContext("2d");
+      const canv = document.querySelector("canvas") as HTMLCanvasElement;
+      const ctx = canv.getContext("2d")!;
 
-      canvas.style['z-index'] = 2;
+      // canvas.style['z-index'] = `${2}`;
       canvas.style.position = 'absolute';
-      canvas.style.padding = 0;
-      canvas.style.border = 0;
+      canvas.style.padding = `${0}`;
+      canvas.style.border = `${0}`;
 
       ctx.beginPath();
       ctx.moveTo(0, 10);
@@ -139,23 +139,23 @@ export default function gradesMixins(){
     }
 
     //returns grades' average
-    function avg(oneStudentMarksArray, oneStudentWeightsArray) {
+    function avg(oneStudentMarksArray: number[], oneStudentWeightsArray: number[]): string | number {
 
       let MarksSuperValue = 0;
       let weightSum = 0;
 
       for (let i = 0; i < oneStudentMarksArray.length; i++) {
-        if ((oneStudentMarksArray[i] !== "") && (oneStudentWeightsArray[i] !== "")) {
+        if ((!isNaN(oneStudentMarksArray[i])) && (!isNaN(oneStudentWeightsArray[i]))) {
           MarksSuperValue += oneStudentMarksArray[i] * oneStudentWeightsArray[i];
           weightSum += oneStudentWeightsArray[i]
         }
       }
 
       //round avg to 2 decimal places
-      const average = MarksSuperValue / weightSum;
-      let averageRounded = (Math.round(average * 100) / 100).toFixed(2);
+      const average: number = MarksSuperValue / weightSum;
+      let averageRounded: number  = +(Math.round(average * 100) / 100).toFixed(2) as number;
       if (isNaN(averageRounded)) {
-        averageRounded = ""
+        return ""
       }
 
       return averageRounded;
@@ -163,8 +163,8 @@ export default function gradesMixins(){
     }
 
     //decides if student is threated
-    function threatness(myAVG) {
-      if ((myAVG < 2) && (myAVG != "")) {
+    function threatness(myAVG: number) {
+      if ((myAVG < 2) && (isNaN(myAVG))) {
         return "<span class='fire'>ZAGROŻENIE</span>"
       } else {
         return ""
@@ -172,14 +172,14 @@ export default function gradesMixins(){
     }
 
     //returns current Date in an Array
-    function whatsTheDatePlease() {
+    function whatsTheDatePlease(): string {
       const today = new Date();
       const currentYear = today.getFullYear();
-      let currentMonth = today.getMonth() + 1;
-      let currentDay = today.getDate();
-      let currentHours = today.getHours();
-      let currentMinutes = today.getMinutes();
-      let currentSeconds = today.getSeconds();
+      let currentMonth: number | string = today.getMonth() + 1;
+      let currentDay: number | string = today.getDate();
+      let currentHours: number | string = today.getHours();
+      let currentMinutes: number | string = today.getMinutes();
+      let currentSeconds: number | string = today.getSeconds();
       if (currentMonth < 10) {
         currentMonth = `0${currentMonth}`;
       }

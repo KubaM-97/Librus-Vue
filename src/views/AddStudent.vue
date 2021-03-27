@@ -470,8 +470,8 @@
 
 
 <script>
-import dataService from "../assets/mixins/dataMixins.js";
-import gradesService from "../assets/mixins/gradesMixins.js";
+import dataService from "../assets/mixins/dataMixins.ts";
+import gradesService from "../assets/mixins/gradesMixins.ts";
 
 import { ref, computed, onUpdated, onBeforeMount, onMounted } from "vue";
 

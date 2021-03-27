@@ -118,7 +118,7 @@
 </template>
 
 <script>
-import gradesService from "../assets/mixins/gradesMixins.js";
+import gradesService from "../assets/mixins/gradesMixins.ts";
 
 import { useRoute, useRouter } from "vue-router";
 import { ref, computed, onMounted, onUpdated } from "vue";

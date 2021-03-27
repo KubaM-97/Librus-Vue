@@ -92,7 +92,7 @@
 
 <script>
 
-import gradesService from "../assets/mixins/gradesMixins.js";
+import gradesService from "../assets/mixins/gradesMixins.ts";
 
 import { computed, onMounted, onUpdated } from "vue";
 import { useStore } from "vuex";

@@ -256,7 +256,7 @@
 </template>
 
 <script>
-import dataService from "../assets/mixins/dataMixins.js"
+import dataService from "../assets/mixins/dataMixins.ts"
 
 import{ ref } from "vue";
 import{ useRoute, useRouter } from "vue-router";

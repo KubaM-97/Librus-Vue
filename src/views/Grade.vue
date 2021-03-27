@@ -76,7 +76,7 @@
 
 <script>
 
-import gradesService from "../assets/mixins/gradesMixins.js"
+import gradesService from "../assets/mixins/gradesMixins.ts"
 
 import { ref, reactive, onBeforeUpdate, watch  } from "vue"
 import { useStore } from "vuex"

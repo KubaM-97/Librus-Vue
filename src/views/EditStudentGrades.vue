@@ -105,8 +105,8 @@
 </template>
 
 <script>
-import dataService from "../assets/mixins/dataMixins.js"
-import gradesService from "../assets/mixins/gradesMixins.js"
+import dataService from "../assets/mixins/dataMixins.ts"
+import gradesService from "../assets/mixins/gradesMixins.ts"
 
 import Grade from "./Grade.vue"
 
