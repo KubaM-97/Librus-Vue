@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { RouteRecordRaw, createRouter, createWebHistory } from 'vue-router'
 
 import FullClass from '../views/FullClass.vue'
 import Student from '../views/Student.vue'
@@ -8,7 +8,7 @@ import AddStudent from '../views/AddStudent.vue'
 import LoggedOut from '../views/LoggedOut.vue'
 import Error404 from '../views/Error404.vue'
 
-const routes = [
+const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'FullClass',

@@ -255,16 +255,16 @@
 
 </template>
 
-<script>
-import dataService from "../assets/mixins/dataMixins.ts"
+<script lang="ts">
+import dataService from "../assets/mixins/dataMixins"
 
 import{ ref } from "vue";
 import{ useRoute, useRouter } from "vue-router";
 
 export default {
   name: 'EditData',
-  setup(_, { emit }){
-
+  setup(_: object[],  emit: any ){
+    
     const route = useRoute()
     const router = useRouter()
 

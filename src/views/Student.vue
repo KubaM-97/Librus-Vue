@@ -117,8 +117,8 @@
   </div>
 </template>
 
-<script>
-import gradesService from "../assets/mixins/gradesMixins.ts";
+<script lang="ts">
+import gradesService from "../assets/mixins/gradesMixins";
 
 import { useRoute, useRouter } from "vue-router";
 import { ref, computed, onMounted, onUpdated } from "vue";
@@ -178,9 +178,9 @@ export default {
     const fatherPhone = computed(() => route.params.fatherPhone);
     const fatherEmail = computed(() => route.params.fatherEmail);
 
-    const gradesMarks = computed( () =>route.params.marks.map((el) => parseInt(el)) );
-    const gradesWeights = computed( () => route.params.weights.map((el) => parseInt(el) )
-    );
+    // const gradesMarks = computed( () =>route.params.marks.map((el: string) => parseInt(el)) );
+    // const gradesWeights = computed( () => route.params.weights.map((el: string) => parseInt(el) )
+    // );
 
     return {
       route,
@@ -207,8 +207,8 @@ export default {
       fatherPhone,
       fatherEmail,
 
-      gradesMarks,
-      gradesWeights,
+      gradesMarks: [1,3],
+      gradesWeights: [2,2],
 
       showDataEditionRouterView,
       showGradesEditionRouterView,

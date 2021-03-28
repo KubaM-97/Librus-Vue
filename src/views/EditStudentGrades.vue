@@ -104,9 +104,9 @@
  </div>
 </template>
 
-<script>
-import dataService from "../assets/mixins/dataMixins.ts"
-import gradesService from "../assets/mixins/gradesMixins.ts"
+<script lang="ts">
+import dataService from "../assets/mixins/dataMixins"
+import gradesService from "../assets/mixins/gradesMixins"
 
 import Grade from "./Grade.vue"
 
@@ -119,7 +119,7 @@ export default {
  components: {
    "grade-component": Grade
  },
- setup(_, { emit }){
+ setup(_: any,  emit: any ){
 
   const store = useStore()
   
@@ -142,21 +142,21 @@ export default {
   const grades = computed(() => store.state.newGrades ).value;
 
   
-  route.params.marks = route.params.marks.map(el => parseInt(el));
-  route.params.weights = route.params.weights.map(el => parseInt(el));
+  // route.params.marks: number[] = route.params.marks.map((el: string) => parseInt(el));
+  // route.params.weights = route.params.weights.map((el: string) => parseInt(el));
 
   for(const gradeProperty in grades){
     grades[gradeProperty] = [...route.params[gradeProperty]]
   }
 
-  function changeGrade(index){
+  function changeGrade(index: string|number){
      grades.dates[index] = gradesService().whatsTheDatePlease();
      possibleSave.value = true;
    }
   function letMeSave(){
     possibleSave.value = true
   }
-  function removeGrade(index){
+  function removeGrade(index: any){
 
     // here there are vuex and this component stud
     const sourcesArray = [grades, ourStudent];

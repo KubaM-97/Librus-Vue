@@ -90,11 +90,11 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 
-import gradesService from "../assets/mixins/gradesMixins.ts";
+import gradesService from "../assets/mixins/gradesMixins";
 
-import { computed, onMounted, onUpdated } from "vue";
+import { computed, ComputedRef, onMounted, onUpdated, toRefs } from "vue";
 import { useStore } from "vuex";
 
 export default {
@@ -103,13 +103,13 @@ export default {
   setup() {
     const store = useStore();
 
-    const students = computed(() => store.state.students);
+    const students: ComputedRef<any> = computed(() => store.state.students);
 
     //adds Numbering to the first table's cell <td> of every table's row <tr>
     //e.g   1. 2. 3. 4. 5. .....
     function addNumberingToTheTable () {
       //gets table
-      const table = document.getElementById("tableStudents");
+      const table = document.getElementById("tableStudents") as HTMLTableElement;
 
       //adds Nr (first <td> in every <tr>) in table
       const rowsNr = table.rows;
@@ -121,14 +121,14 @@ export default {
 
     //sorts students in table
     function sortMyStudents() {
-      const table = document.getElementById("tableStudents");
+      const table = document.getElementById("tableStudents") as HTMLTableElement;
       let switching = true;
       let Switch, i;
 
       // Run loop until no switching is needed
       while (switching == true) {
         switching = false;
-        const rows = table.rows;
+        const rows = table.rows as HTMLCollectionOf<HTMLTableRowElement>;
 
         //goes through all rows
         for (i = 0; i < rows.length - 1; i++) {
@@ -148,7 +148,7 @@ export default {
 
         if (Switch) {
           // Function to switch rows and mark switch as completed
-          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          rows[i].parentNode!.insertBefore(rows[i + 1], rows[i]);
           switching = true;
         }
       }
@@ -175,7 +175,7 @@ export default {
     return {
       addNumberingToTheTable,
       sortMyStudents,
-      students,
+      ...toRefs(students),
       ...gradesService()
     };
   },

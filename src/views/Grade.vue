@@ -74,11 +74,11 @@
 
 </template>
 
-<script>
+<script lang="ts">
 
-import gradesService from "../assets/mixins/gradesMixins.ts"
+import gradesService from "../assets/mixins/gradesMixins"
 
-import { ref, reactive, onBeforeUpdate, watch  } from "vue"
+import { ref, reactive, onBeforeUpdate, watch, SetupContext  } from "vue"
 import { useStore } from "vuex"
 
 export default {
@@ -87,7 +87,7 @@ export default {
     index: Number
   },
   emits: ["letMeSave"],
-  setup(props, {emit}){
+  setup(props: any, emit: any){
 
     const index = props.index
 
@@ -104,7 +104,7 @@ export default {
     })
     
     watch(() => [...grade.description], () => {
-        const inputGradeDescription = document.querySelectorAll("input.description")[index].value;
+        const inputGradeDescription = (document.querySelectorAll("input.description")[index] as HTMLInputElement).value;
         const descriptionCount = document.querySelectorAll("span.descriptionCount")[index];
         const counter = (characters.value - (inputGradeDescription.length));
         switch (counter) {
@@ -130,7 +130,7 @@ export default {
     })
 
     //places a new mark, weight, description or date in appropriate place according to the provided index inside newGrades in Vuex
-    function addNewItem(gradeProperty){
+    function addNewItem(gradeProperty: string){
         
         //e.g    for second component Grade.vue:   store.state.newGrades.grades[1] = 5                           store.state.newGrades.grades=[3,5]
         //e.g    for second component Grade.vue:   store.state.newGrades.weights[1] = 5                          store.state.newGrades.weights=[3,5]
@@ -142,7 +142,7 @@ export default {
         //       store.state.newGrades.descriptions[1] = grade[description]
         //       store.state.newGrades.dates[1] = grade[date]
 
-        gradesVuex[gradeProperty+"s"][index]=grade[gradeProperty];
+        // gradesVuex[gradeProperty+"s"][index]=grade[gradeProperty];
 
         for(const gradeProperty in gradesVuex){
 
@@ -155,13 +155,13 @@ export default {
     }
 
     //clears newGrades object in Vuex
-    function remove(index){
+    function remove(index: number){
 
       for (const gradeProperty in gradesVuex) {
           gradesVuex[gradeProperty][index] = "";
       }
     
-      document.querySelectorAll(".addStudentPanelGradesContentSingle")[index].style.display = "none";
+  (document.querySelectorAll(".addStudentPanelGradesContentSingle")[index] as HTMLDivElement).style.display = "none";
 
     }
 

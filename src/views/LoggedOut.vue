@@ -45,23 +45,23 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 
 
 export default {
   name: "LoggedOut",
   emits: ['changeLogStatus'],
-  setup(_, { emit }){
+  setup( props: any,  emit: any){
 
-    function logMeIn(e){
+    function logMeIn(e: Event){
 
           e.preventDefault();
 
           //gets inserted login
-          const userLogin = document.querySelector(".mainLogPanel input[type=text]").value;
+          const userLogin = (document.querySelector(".mainLogPanel input[type=text]") as HTMLInputElement).value;
 
           //gets inserted password
-          const userPassword = document.querySelector(".mainLogPanel input[type=password]").value;
+          const userPassword = (document.querySelector(".mainLogPanel input[type=password]") as HTMLInputElement).value;
 
           //if inserted login and password are correct
           if ((userLogin === "Login1") && (userPassword === "Hasło1")) {

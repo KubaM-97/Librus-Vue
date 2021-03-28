@@ -6,15 +6,15 @@
 </template>
 
 
-<script>
+<script lang="ts">
 
 //Bootstrap
 import "bootstrap/dist/css/bootstrap.css";
 
-import Main from "./views/Main";
-import LoggedOut from "./views/LoggedOut";
+import Main from "./views/Main.vue";
+import LoggedOut from "./views/LoggedOut.vue";
 
-import { shallowRef, ref } from "vue";
+import { shallowRef, ref, DefineComponent, Ref } from "vue";
 import { useRouter } from "vue-router";
 
 //CSS
@@ -33,7 +33,7 @@ export default {
 
     const router = useRouter();
 
-    const chosenComponent = shallowRef(Main);
+    const chosenComponent: any = shallowRef(Main);
     const showImg = ref(false)
 
     function logInOrLogOut() {

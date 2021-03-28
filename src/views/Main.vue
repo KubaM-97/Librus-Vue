@@ -48,7 +48,7 @@
 </template>
 
 
-<script>
+<script lang="ts">
 
 import { ref } from "vue";
 import { useStore } from "vuex";

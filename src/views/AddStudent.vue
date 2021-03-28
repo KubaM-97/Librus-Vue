@@ -469,11 +469,11 @@
 
 
 
-<script>
-import dataService from "../assets/mixins/dataMixins.ts";
-import gradesService from "../assets/mixins/gradesMixins.ts";
+<script lang="ts">
+import dataService from "../assets/mixins/dataMixins";
+import gradesService from "../assets/mixins/gradesMixins";
 
-import { ref, computed, onUpdated, onBeforeMount, onMounted } from "vue";
+import { ref, computed, onUpdated, onBeforeMount, onMounted, toRefs } from "vue";
 
 import { onBeforeRouteLeave, useRouter } from "vue-router";
 import { useStore } from "vuex";
@@ -534,14 +534,14 @@ export default {
     const showError = ref(false);
     const gradesLength = ref(1);
 
-    const marks = computed(() => gradesVuex.marks);
+    const marks: any = computed(() => gradesVuex.marks);
     const weights = computed(() => gradesVuex.weights);
     const descriptions = computed(() => gradesVuex.descriptions);
 
     //converts student's full name to correct form
     //e.g jan kowalski => KOWALSKI Jan
-    function formatName(name) {
-      const wrongName = document.querySelector(".required");
+    function formatName(name: string): string | void {
+      const wrongName = document.querySelector(".required") as HTMLSpanElement;
       const reg = new RegExp(
         "^[A-ZĄĆĘŁŃÓŚŹŻ]?[a-ząćęłńóśźż]*( [A-ZĄĆĘŁŃÓŚŹŻ]?[a-ząćęłńóśźż]*)+(-[A-ZĄĆĘŁŃÓŚŹŻ]?[a-ząćęłńóśźż]+)?$"
       );
@@ -631,19 +631,19 @@ export default {
     });
 
     onMounted(() => {
-      if (name != "") {
+      if (name) {
         const arrName = name.value.split(" ");
         add.firstName = arrName[0];
         add.lastName = arrName[1];
       }
 
       for (let i = 0; i < marks.length; i++) {
-        gradeService().showTooltip(document, this);
+        gradesService().showTooltip(document, this);
       }
     });
 
     //starts animation of Student's detail data
-    function enter(el, done) {
+    function enter(el: any, done: () => void) {
       el.addEventListener("animationend", function () {
         el.style = "";
         done();
@@ -652,7 +652,7 @@ export default {
     }
 
     //ends animation of Student's detail data
-    function leave(el, done) {
+    function leave(el: any, done: () => void) {
       el.addEventListener("animationend", function () {
         el.style = "";
         done();
@@ -665,14 +665,14 @@ export default {
     //shows additional information
     function additionalInfoSwitcher() {
 
-      const spanInfoSwitcher = document.querySelector(".addStudentPanelNameInfo span.showInfo");
+      const spanInfoSwitcher = document.querySelector(".addStudentPanelNameInfo span.showInfo") as HTMLSpanElement;
       info.value = !info.value;
       spanInfoSwitcher.innerHTML == "Rozwiń" ? (spanInfoSwitcher.innerHTML = "Zwiń")   : (spanInfoSwitcher.innerHTML = "Rozwiń");
 
     }
 
     //shows confirm window
-    function showConfirmWindow(action) {
+    function showConfirmWindow(action: string) {
       if (action == "quit") {
         block.value = false;
         router.push({ path: exitPath.value });
@@ -707,8 +707,8 @@ export default {
 
         add.id = students.value.length + 1;
 
-        for (const gradeProperty in gradesVuex) {
-          add[gradeProperty] = gradesVuex[gradeProperty];
+        for (let gradeProperty in gradesVuex) {
+          (add: object[])=>[gradeProperty] = gradesVuex[gradeProperty];
         }
 
         store.state.students[store.state.students.length] = add;
@@ -749,8 +749,8 @@ export default {
     }
 
     return {
-      marks,
-      weights,
+      ...toRefs(marks),
+      ...toRefs(weights),
       add,
       name,
       info,
