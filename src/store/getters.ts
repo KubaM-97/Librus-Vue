@@ -3,7 +3,7 @@ type Getters = {
 }
 
 export const getters: Getters = {
-    fullNameGetters(bar: { lastName: string; firstName: string; }): string {
-        return `${bar.lastName.toUpperCase()} ${bar.firstName}`; 
+    fullNameGetters(x: any): string {
+        return `${x.lastName.toUpperCase()} ${x.firstName}`; 
     }
 }

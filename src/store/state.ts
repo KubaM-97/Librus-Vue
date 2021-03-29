@@ -1,4 +1,4 @@
-type NewGrades = {
+export type NewGrades = {
     marks: number[],
     weights: number[],
     descriptions: string[],

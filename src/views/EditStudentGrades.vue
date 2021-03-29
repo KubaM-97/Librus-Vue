@@ -110,7 +110,7 @@ import gradesService from "../assets/mixins/gradesMixins"
 
 import Grade from "./Grade.vue"
 
-import{ ref, reactive, computed, onMounted, onUpdated, onUnmounted } from "vue";
+import{ ref, reactive, computed, onMounted, onUpdated, onUnmounted, SetupContext } from "vue";
 import{ useStore } from "vuex";
 import{ useRoute, useRouter } from "vue-router";
 
@@ -119,14 +119,14 @@ export default {
  components: {
    "grade-component": Grade
  },
- setup(_: any,  emit: any ){
+ setup(props: object,  context: SetupContext<"update:showGradesEditionRouterView"[]> ){
 
   const store = useStore()
   
   const route = useRoute()
   const router = useRouter()
 
-  const editStudentGrades = ref(null)
+  const editStudentGrades: any = ref(null)
  
   const ourStudent = reactive({
     marks: [...route.params.marks].map(el => parseInt(el)),
@@ -139,24 +139,26 @@ export default {
   const gradesLength = ref(0);
   const possibleSave = ref(true);
 
-  const grades = computed(() => store.state.newGrades ).value;
+  const grades: any = computed(() => store.state.newGrades ).value;
 
-  
-  // route.params.marks: number[] = route.params.marks.map((el: string) => parseInt(el));
-  // route.params.weights = route.params.weights.map((el: string) => parseInt(el));
+  let marksArray: any = route.params.marks
+  route.params.marks = marksArray.map((el: string) => parseInt(el));
+
+  let weightsArray: any = route.params.weights
+  route.params.weights = weightsArray.map((el: string) => parseInt(el));
 
   for(const gradeProperty in grades){
     grades[gradeProperty] = [...route.params[gradeProperty]]
   }
 
-  function changeGrade(index: string|number){
+  function changeGrade(index: number){
      grades.dates[index] = gradesService().whatsTheDatePlease();
      possibleSave.value = true;
    }
   function letMeSave(){
     possibleSave.value = true
   }
-  function removeGrade(index: any){
+  function removeGrade(index: number){
 
     // here there are vuex and this component stud
     const sourcesArray = [grades, ourStudent];
@@ -174,7 +176,7 @@ export default {
 
   function closeThePanel(){
     router.push({name: "Student", params: route.params})
-    emit("update:showGradesEditionRouterView", false);
+    context.emit("update:showGradesEditionRouterView", false);
   }
 
  

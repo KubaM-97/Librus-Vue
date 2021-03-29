@@ -9,7 +9,7 @@ import { actions } from "./actions";
 // define injection key
 export const key: InjectionKey<Store<State>> = Symbol()
 
-export const store = createStore<State>({
+export const store = createStore({
   state,
   getters,
   mutations,

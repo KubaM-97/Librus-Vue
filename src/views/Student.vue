@@ -121,13 +121,13 @@
 import gradesService from "../assets/mixins/gradesMixins";
 
 import { useRoute, useRouter } from "vue-router";
-import { ref, computed, onMounted, onUpdated } from "vue";
+import { ref, computed, onMounted, onUpdated, Ref } from "vue";
 import { useStore } from "vuex";
 
 export default {
   name: "Student",
   setup() {
-    const editStudentPanel = ref(null);
+    const editStudentPanel: Ref<any> = ref(null);
 
     const route = useRoute();
     const router = useRouter();
@@ -137,7 +137,12 @@ export default {
     const showDataEditionRouterView = ref(false);
     const showGradesEditionRouterView = ref(false);
 
-    const fullName = computed(() => store.getters.fullNameGetters(route.params));
+    let fullName: string = "";
+
+    if (typeof route.params.lastName === 'string') {
+        fullName = `${route.params.lastName.toUpperCase()} ${route.params.firstName}`
+    }
+    
 
     function showEditStudentDataPanel() {
       router.push({ name: "EditData", params: route.params });
@@ -150,11 +155,11 @@ export default {
     }
 
     onMounted(() => {
-      gradesService().showTooltip(editStudentPanel.value, route.params);
+      gradesService().showTooltip(editStudentPanel.value, route.params as any);
     });
 
     onUpdated(() => {
-      gradesService().showTooltip(editStudentPanel.value, route.params);
+      gradesService().showTooltip(editStudentPanel.value, route.params as any);
     });
 
     const pesel = computed(() => route.params.pesel);
@@ -178,9 +183,8 @@ export default {
     const fatherPhone = computed(() => route.params.fatherPhone);
     const fatherEmail = computed(() => route.params.fatherEmail);
 
-    // const gradesMarks = computed( () =>route.params.marks.map((el: string) => parseInt(el)) );
-    // const gradesWeights = computed( () => route.params.weights.map((el: string) => parseInt(el) )
-    // );
+    const gradesMarks = computed( () => [...route.params.marks].map((el: string) => parseInt(el)) );
+    const gradesWeights = computed( () => [...route.params.weights].map((el: string) => parseInt(el) ));
 
     return {
       route,
@@ -207,8 +211,8 @@ export default {
       fatherPhone,
       fatherEmail,
 
-      gradesMarks: [1,3],
-      gradesWeights: [2,2],
+      gradesMarks,
+      gradesWeights,
 
       showDataEditionRouterView,
       showGradesEditionRouterView,
@@ -377,3 +381,7 @@ div[class^="editStudentPanelThreatness"] {
   }
 }
 </style>
+
+function RouteParams(value: any, params: RouteParams, RouteParams: any) {
+  throw new Error('Function not implemented.');
+}

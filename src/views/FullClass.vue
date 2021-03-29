@@ -175,7 +175,7 @@ export default {
     return {
       addNumberingToTheTable,
       sortMyStudents,
-      ...toRefs(students),
+      toRefs(students: object){},
       ...gradesService()
     };
   },

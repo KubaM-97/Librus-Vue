@@ -84,23 +84,29 @@ import { useStore } from "vuex"
 export default {
   name: "Grade",
   props: {
-    index: Number
+    index: {
+      type: Number,
+      default: 0,
+      readonly: true
+    }
   },
   emits: ["letMeSave"],
-  setup(props: any, emit: any){
+  setup( props: Readonly<{} & {
+    index?: number | undefined;
+}>,  context: SetupContext<"letMeSave"[]>){
 
-    const index = props.index
+    const index: number = props.index! | 0;
 
     const store = useStore()
-    const gradesVuex = store.state.newGrades;
+    const gradesVuex: any = store.state.newGrades;
     
     const characters = ref(30);
 
     const grade = reactive({
-      mark: "",
-      weight: "",
-      description: "",
-      date: ""
+      mark: "" as String,
+      weight: "" as String,
+      description: "" as String,
+      date: "" as String
     })
     
     watch(() => [...grade.description], () => {
@@ -142,7 +148,7 @@ export default {
         //       store.state.newGrades.descriptions[1] = grade[description]
         //       store.state.newGrades.dates[1] = grade[date]
 
-        // gradesVuex[gradeProperty+"s"][index]=grade[gradeProperty];
+        // gradesVuex[gradeProperty+"s"][index]=grade["gradeProperty"];
 
         for(const gradeProperty in gradesVuex){
 
@@ -150,7 +156,7 @@ export default {
 
         }
 
-        emit('letMeSave')
+        context.emit('letMeSave')
 
     }
 

@@ -1,3 +1,4 @@
+import { NewGrades } from "@/store/state";
 import { computed } from "vue";
 import { useStore } from "vuex";
 
@@ -50,25 +51,28 @@ export default function gradesMixins(){
 
 
     //show tooltip after hovering on every grade
-    function showTooltip(this: any, RootElement: any, SingleStudent: any): void {
+    function showTooltip(this: any, RootElement: HTMLDivElement, SingleStudent: NewGrades): void {
       
       const gradesInDiv: NodeListOf<Element> = RootElement.querySelectorAll(".gradeWeightColor");
 
       const SingleStudentMarks = SingleStudent.marks
       const SingleStudentWeights = SingleStudent.weights
       const SingleStudentDescriptions = SingleStudent.descriptions
-      const SingleStudentDates = SingleStudent.dates
+      const SingleStudentDates: Date[] = SingleStudent.dates
 
+      console.log(SingleStudent)
       for (let i = 0; i < SingleStudentMarks.length; i++) {
         
         if (SingleStudentDescriptions[i] === "") {
           SingleStudentDescriptions[i] = "BRAK OPISU"
         }
 
-        for(const gradeProperty in store.state.newGrades){
-          SingleStudent[gradeProperty].map( (el: string | number)=>{ SingleStudent.marks[el] !== "" && SingleStudent.weights[el] !== "" })
-        }
-        
+        // for(const gradeProperty in store.state.newGrades){
+        //   SingleStudent[gradeProperty].map( (el: string | number)=>{ 
+        //     SingleStudent.marks[el] !== "" && SingleStudent.weights[el] !== "" 
+        //   })
+        // }
+        // SingleStudent.marks.map(el=>{})
         
       }
       
@@ -85,8 +89,8 @@ export default function gradesMixins(){
 
           //destroyes tooltip after leaving
           gradesInDiv[i].addEventListener("mouseleave", function () {
-            const canv = RootElement.querySelector("canvas");
-            canv.parentNode.removeChild(canv);
+            const canv = RootElement.querySelector("canvas") as HTMLCanvasElement;
+            canv.parentNode!.removeChild(canv);
           });
         }
 
@@ -94,7 +98,7 @@ export default function gradesMixins(){
     }
 
     //draws tooltip
-    function canvas(SingleGrade: number, SingleWeight: number, SingleDescription: string, SingleDate: string, anotherDivWithGrade: any): void {
+    function canvas(SingleGrade: number, SingleWeight: number, SingleDescription: string, SingleDate: Date, anotherDivWithGrade: any): void {
 
       const canvas = document.createElement("CANVAS") as HTMLCanvasElement;
       anotherDivWithGrade.appendChild(canvas);
@@ -102,7 +106,7 @@ export default function gradesMixins(){
       const canv = document.querySelector("canvas") as HTMLCanvasElement;
       const ctx = canv.getContext("2d")!;
 
-      // canvas.style['z-index'] = `${2}`;
+      canvas.style.zIndex = `${2}`;
       canvas.style.position = 'absolute';
       canvas.style.padding = `${0}`;
       canvas.style.border = `${0}`;

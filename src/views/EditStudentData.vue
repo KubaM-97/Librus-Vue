@@ -258,12 +258,12 @@
 <script lang="ts">
 import dataService from "../assets/mixins/dataMixins"
 
-import{ ref } from "vue";
+import{ ref, SetupContext } from "vue";
 import{ useRoute, useRouter } from "vue-router";
 
 export default {
   name: 'EditData',
-  setup(_: object[],  emit: any ){
+  setup(props: object,  context: SetupContext<"update:showDataEditionRouterView"[]> ){
     
     const route = useRoute()
     const router = useRouter()
@@ -302,7 +302,7 @@ export default {
     function closeThePanel(){
 
       router.push({name: "Student", params: route.params})
-      emit("update:showDataEditionRouterView", false);
+      context.emit("update:showDataEditionRouterView", false);
 
     }
 

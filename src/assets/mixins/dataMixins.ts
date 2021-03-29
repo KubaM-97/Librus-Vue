@@ -48,8 +48,10 @@ export default function mainMixin(){
     function saveChanges(this: any, ourStudent: any, showGreenCheckMark: any, hideCheckMarkWithLayer: any): void{
 
       const fromParams: any = route.params;
-      const fromState = store.state.students[fromParams.id-1];
       
+      let fromState: any = store.state.students;
+      fromState = fromState[fromParams.id-1];
+
       for(const category in ourStudent){
 
         if(fromParams[category]!=ourStudent[category]){

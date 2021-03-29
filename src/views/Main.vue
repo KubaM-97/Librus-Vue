@@ -50,7 +50,7 @@
 
 <script lang="ts">
 
-import { ref } from "vue";
+import { ref, defineComponent } from "vue";
 import { useStore } from "vuex";
 
 
@@ -60,24 +60,22 @@ require("../assets/css/table.css");
 require("../assets/css/grades.css");
 require("../assets/css/animations.css");
 
-export default {
+export default defineComponent({
   name: "Main",
   emits: ["changeLogStatus"],
   setup() {
 
     const store = useStore();
-
     const teacher = ref("<em>Kuba Modzelik</em>");
     const Class = ref("3B");
 
-    store.dispatch("initFullClass");
-
+    store.dispatch("INIT_FULL_CLASS");
     return {
       teacher,
       Class,
     };
   },
-};
+});
 </script>
 
 

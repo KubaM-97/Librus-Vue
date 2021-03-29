@@ -473,12 +473,13 @@
 import dataService from "../assets/mixins/dataMixins";
 import gradesService from "../assets/mixins/gradesMixins";
 
-import { ref, computed, onUpdated, onBeforeMount, onMounted, toRefs } from "vue";
+import { ref, computed, onUpdated, onBeforeMount, onMounted, toRefs, ComputedRef } from "vue";
 
 import { onBeforeRouteLeave, useRouter } from "vue-router";
 import { useStore } from "vuex";
 
 import Grade from "./Grade.vue";
+import { NewGrades } from '@/store/state';
 
 export default {
   name: "AddStudent",
@@ -490,11 +491,11 @@ export default {
     const router = useRouter();
 
     const store = useStore();
-    const gradesVuex = store.state.newGrades;
+    const gradesVuex: NewGrades = store.state.newGrades;
 
-    const students = computed(() => store.state.students);
+    const students: any = computed(() => store.state.students);
 
-    const add = {
+    const add: any = {
       id: "",
       lastName: "",
       firstName: "",
@@ -535,7 +536,7 @@ export default {
     const gradesLength = ref(1);
 
     const marks: any = computed(() => gradesVuex.marks);
-    const weights = computed(() => gradesVuex.weights);
+    const weights: ComputedRef<number[]> = computed(() => gradesVuex.weights);
     const descriptions = computed(() => gradesVuex.descriptions);
 
     //converts student's full name to correct form
@@ -574,8 +575,7 @@ export default {
           const lastName = nameArray[1];
           fullName.push(lastName.toUpperCase());
 
-          add.firstName =
-            firstName.charAt(0).toUpperCase() + firstName.slice(1);
+          add.firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
           add.lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1);
         }
 
@@ -620,14 +620,15 @@ export default {
 
     onUpdated(() => {
       for (let i = 0; i < marks.value.length; i++) {
-        gradesService().showTooltip(document, gradesVuex);
+        gradesService().showTooltip(document as any, gradesVuex);
       }
     });
 
     onBeforeMount(() => {
-      for (const gradeProperty in gradesVuex) {
-        gradesVuex[gradeProperty] = [];
-      }
+      gradesVuex.marks = []
+      gradesVuex.weights = []
+      gradesVuex.descriptions = []
+      gradesVuex.dates = []
     });
 
     onMounted(() => {
@@ -638,7 +639,7 @@ export default {
       }
 
       for (let i = 0; i < marks.length; i++) {
-        gradesService().showTooltip(document, this);
+        gradesService().showTooltip(document as any, this as any);
       }
     });
 
@@ -686,9 +687,10 @@ export default {
     function addStudentCancel() {
       name.value = "";
 
-      for (const gradeProperty in gradesVuex) {
-        gradesVuex[gradeProperty] = [];
-      }
+      gradesVuex.marks = []
+      gradesVuex.weights = []
+      gradesVuex.descriptions = []
+      gradesVuex.dates = []
 
       gradesLength.value = 1;
     }
@@ -706,12 +708,15 @@ export default {
         getRidOfEmptyGrades();
 
         add.id = students.value.length + 1;
+        
+        add.marks = gradesVuex.marks
+        add.weights = gradesVuex.weights
+        add.descriptions = gradesVuex.descriptions
+        add.dates = gradesVuex.dates
 
-        for (let gradeProperty in gradesVuex) {
-          (add: object[])=>[gradeProperty] = gradesVuex[gradeProperty];
-        }
 
-        store.state.students[store.state.students.length] = add;
+        students[students.length] = add
+        // store.state.students[store.state.students.length] = add;
 
         block.value = false;
         router.push({ name: "FullClass" });
@@ -736,11 +741,12 @@ export default {
         const m = marks.value[i];
         const w = weights.value[i];
 
-        if ( (m !== "" && w === "") || (m === "" && w !== "") || (m === "" && w === "") ) {
+        if ( (m !== "" && w.toString() === "") || (m === "" && w.toString() !== "") || (m === "" && w.toString() === "") ) {
 
-          for (const gradeProperty in gradesVuex) {
-            gradesVuex[gradeProperty].splice(i, 1);
-          }
+          gradesVuex.marks.splice(i, 1)
+          gradesVuex.weights.splice(i, 1)
+          gradesVuex.descriptions.splice(i, 1)
+          gradesVuex.dates.splice(i, 1)
 
         }
 
@@ -749,8 +755,7 @@ export default {
     }
 
     return {
-      ...toRefs(marks),
-      ...toRefs(weights),
+      toRefs(marks: object, weights: object){},
       add,
       name,
       info,

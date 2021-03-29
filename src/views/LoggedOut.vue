@@ -47,11 +47,12 @@
 
 <script lang="ts">
 
+import { SetupContext } from 'node_modules/vue/dist/vue';
 
 export default {
   name: "LoggedOut",
   emits: ['changeLogStatus'],
-  setup( props: any,  emit: any){
+  setup( props: object,  context: SetupContext<"changeLogStatus"[]>){
 
     function logMeIn(e: Event){
 
@@ -68,7 +69,7 @@ export default {
 
 
             setTimeout(()=>{
-              emit('changeLogStatus')
+              context.emit('changeLogStatus')
             },800);
 
           }
