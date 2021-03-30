@@ -1,7 +1,10 @@
 <template>
 
-  <component :is="chosenComponent" @changeLogStatus="logInOrLogOut" />
-  <img v-if="showImg" src="./assets/images/gifloader.gif" alt="gifloader">
+    <Suspense>
+      <component :is="chosenComponent" @changeLogStatus="logInOrLogOut" />
+    </Suspense>
+
+    <img v-if="showImg" src="./assets/images/gifloader.gif" alt="gifloader">
 
 </template>
 
@@ -14,7 +17,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import Main from "./views/Main.vue";
 import LoggedOut from "./views/LoggedOut.vue";
 
-import { shallowRef, ref, DefineComponent, Ref } from "vue";
+import { shallowRef, ref, defineComponent } from "vue";
 import { useRouter } from "vue-router";
 
 //CSS
@@ -23,7 +26,7 @@ require("./assets/css/table.css");
 require("./assets/css/grades.css");
 require("./assets/css/animations.css");
 
-export default {
+export default defineComponent({
   name: "App",
   components: {
     Main,
@@ -79,7 +82,7 @@ export default {
       logInOrLogOut,
     };
   },
-};
+});
 </script>
 
 <style scoped>

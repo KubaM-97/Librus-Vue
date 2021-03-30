@@ -96,7 +96,6 @@
          </table>
        </div>
      </div>
-     
      <button name="possibleSaveGrades" v-if="possibleSave" @click="saveChanges(grades)" class="btn btn-success btn-lg save">Zapisz zmiany</button>
      <button name="impossibleSaveGrades" v-else class="btn btn-success btn-lg save" disabled>Zapisz zmiany</button>
    </div>
@@ -110,11 +109,11 @@ import gradesService from "../assets/mixins/gradesMixins"
 
 import Grade from "./Grade.vue"
 
-import{ ref, reactive, computed, onMounted, onUpdated, onUnmounted, SetupContext } from "vue";
+import{ ref, reactive, computed, onMounted, onUpdated, onUnmounted, SetupContext, defineComponent } from "vue";
 import{ useStore } from "vuex";
 import{ useRoute, useRouter } from "vue-router";
 
-export default {
+export default defineComponent({
  name:"EditGrades",
  components: {
    "grade-component": Grade
@@ -217,7 +216,7 @@ export default {
     ...gradesService()
   }
  }
-}
+});
 </script>
 <style lang="css" scoped>
 div.EditStudentGrades {

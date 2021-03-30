@@ -473,7 +473,7 @@
 import dataService from "../assets/mixins/dataMixins";
 import gradesService from "../assets/mixins/gradesMixins";
 
-import { ref, computed, onUpdated, onBeforeMount, onMounted, toRefs, ComputedRef } from "vue";
+import { ref, computed, onUpdated, onBeforeMount, onMounted, ComputedRef, defineComponent } from "vue";
 
 import { onBeforeRouteLeave, useRouter } from "vue-router";
 import { useStore } from "vuex";
@@ -481,7 +481,7 @@ import { useStore } from "vuex";
 import Grade from "./Grade.vue";
 import { NewGrades } from '@/store/state';
 
-export default {
+export default defineComponent({
   name: "AddStudent",
   components: {
     "grade-component": Grade,
@@ -716,7 +716,6 @@ export default {
 
 
         students[students.length] = add
-        // store.state.students[store.state.students.length] = add;
 
         block.value = false;
         router.push({ name: "FullClass" });
@@ -773,7 +772,7 @@ export default {
       ...gradesService(),
     };
   },
-};
+});
 </script>
 
 

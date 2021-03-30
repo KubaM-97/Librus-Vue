@@ -94,10 +94,10 @@
 
 import gradesService from "../assets/mixins/gradesMixins";
 
-import { computed, ComputedRef, onMounted, onUpdated, toRefs } from "vue";
+import { computed, ComputedRef, defineComponent, onMounted, onUpdated } from "vue";
 import { useStore } from "vuex";
 
-export default {
+export default defineComponent({
   name: "FullClass",
 
   setup() {
@@ -108,6 +108,7 @@ export default {
     //adds Numbering to the first table's cell <td> of every table's row <tr>
     //e.g   1. 2. 3. 4. 5. .....
     function addNumberingToTheTable () {
+
       //gets table
       const table = document.getElementById("tableStudents") as HTMLTableElement;
 
@@ -117,6 +118,7 @@ export default {
       for (let j = 1; j < rowsNr.length + 1; j++) {
         rowsNr[j - 1].getElementsByTagName("TD")[0].innerHTML = j + ".";
       }
+
     };
 
     //sorts students in table
@@ -135,11 +137,11 @@ export default {
           Switch = false;
 
           //fetches 2 elements that will be compared
-          const x = rows[i].getElementsByTagName("TD")[1];
-          const y = rows[i + 1].getElementsByTagName("TD")[1];
+          const previousStudent = rows[i].getElementsByTagName("TD")[1];
+          const nextStudent = rows[i + 1].getElementsByTagName("TD")[1];
 
           //checks if these 2 rows need to be switched
-          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          if (previousStudent.innerHTML.toLowerCase() > nextStudent.innerHTML.toLowerCase()) {
             //if yes, updates Switch and breaks loop
             Switch = true;
             break;
@@ -147,6 +149,7 @@ export default {
         }
 
         if (Switch) {
+
           // Function to switch rows and mark switch as completed
           rows[i].parentNode!.insertBefore(rows[i + 1], rows[i]);
           switching = true;
@@ -154,7 +157,11 @@ export default {
       }
     };
 
-    onMounted(() => {
+    onMounted(() => { updateTable() });
+
+    onUpdated(() => { updateTable() });
+
+    function updateTable(){
 
       for (let i = 0; i < students.value.length; i++) {
         gradesService().showTooltip(document.querySelectorAll("tr")[i], students.value[i]);
@@ -163,13 +170,7 @@ export default {
       sortMyStudents();
       addNumberingToTheTable();
 
-    });
-
-    onUpdated(() => {
-
-      addNumberingToTheTable();
-
-    });
+    }
 
 
     return {
@@ -179,7 +180,7 @@ export default {
       ...gradesService()
     };
   },
-};
+});
 </script>
 
 <style>

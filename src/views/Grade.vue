@@ -78,10 +78,10 @@
 
 import gradesService from "../assets/mixins/gradesMixins"
 
-import { ref, reactive, onBeforeUpdate, watch, SetupContext  } from "vue"
+import { ref, reactive, onBeforeUpdate, watch, SetupContext, defineComponent  } from "vue"
 import { useStore } from "vuex"
 
-export default {
+export default defineComponent({
   name: "Grade",
   props: {
     index: {
@@ -96,13 +96,13 @@ export default {
 }>,  context: SetupContext<"letMeSave"[]>){
 
     const index: number = props.index! | 0;
-
+ 
     const store = useStore()
     const gradesVuex: any = store.state.newGrades;
     
     const characters = ref(30);
 
-    const grade = reactive({
+    const grade: any = reactive({
       mark: "" as String,
       weight: "" as String,
       description: "" as String,
@@ -148,7 +148,7 @@ export default {
         //       store.state.newGrades.descriptions[1] = grade[description]
         //       store.state.newGrades.dates[1] = grade[date]
 
-        // gradesVuex[gradeProperty+"s"][index]=grade["gradeProperty"];
+        gradesVuex[gradeProperty+"s"][index] = grade[gradeProperty];
 
         for(const gradeProperty in gradesVuex){
 
@@ -181,7 +181,7 @@ export default {
   }
   
 
-}
+})
 </script>
 
 <style scoped>

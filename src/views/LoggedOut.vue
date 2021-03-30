@@ -48,8 +48,9 @@
 <script lang="ts">
 
 import { SetupContext } from 'node_modules/vue/dist/vue';
+import { defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
   name: "LoggedOut",
   emits: ['changeLogStatus'],
   setup( props: object,  context: SetupContext<"changeLogStatus"[]>){
@@ -90,7 +91,7 @@ export default {
       logMeIn
     }
   }
-}
+})
 </script>
 
 <style scoped>

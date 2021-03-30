@@ -14,25 +14,26 @@ export default function gradesMixins(){
 
 
     //colors grades
-    function gradeWeightColor(oneStudentMarks: number[], oneStudentsWeights: number[]): string {
+    function gradeWeightColor(oneStudentsMarks: (number | string)[], oneStudentsWeights: (number | string)[]): string {
       
       //adds new classes to divs with grades, what causes coloring them on green, yellow or red
       let content = "";
+      
 
-      for (let i = 0; i < oneStudentMarks.length; i++) {
-        if (!isNaN(oneStudentMarks[i])) {
+      for (let i = 0; i < oneStudentsMarks.length; i++) {
+        if (oneStudentsMarks[i] !== "") {
           if (oneStudentsWeights[i] === 1) {
-            content += `<div class="gradeWeightColor gradeWeightGreen">${oneStudentMarks[i]}</div>`
+            content += `<div class="gradeWeightColor gradeWeightGreen">${oneStudentsMarks[i]}</div>`
           } else if (oneStudentsWeights[i] === 2) {
-            content += `<div class="gradeWeightColor gradeWeightYellow">${oneStudentMarks[i]}</div>`
+            content += `<div class="gradeWeightColor gradeWeightYellow">${oneStudentsMarks[i]}</div>`
           } else if (oneStudentsWeights[i] === 3) {
-            content += `<div class="gradeWeightColor gradeWeightRed">${oneStudentMarks[i]}</div>`
+            content += `<div class="gradeWeightColor gradeWeightRed">${oneStudentsMarks[i]}</div>`
           }
-          else if (isNaN(oneStudentsWeights[i])) {
-            content += `<div class="gradeWeightColor">${oneStudentMarks[i]}</div>`
+          else if (oneStudentsWeights[i] === "") {
+            content += `<div class="gradeWeightColor">${oneStudentsMarks[i]}</div>`
           }
         }
-        else if (!isNaN(oneStudentMarks[i])) {
+        else if (oneStudentsWeights[i] !== "") {
           if (oneStudentsWeights[i] === 1) {
             content += `<div class="gradeWeightColor gradeWeightGreen" style="width: 30px; height: 36px;"> </div>`
           }
@@ -54,25 +55,16 @@ export default function gradesMixins(){
     function showTooltip(this: any, RootElement: HTMLDivElement, SingleStudent: NewGrades): void {
       
       const gradesInDiv: NodeListOf<Element> = RootElement.querySelectorAll(".gradeWeightColor");
-
       const SingleStudentMarks = SingleStudent.marks
       const SingleStudentWeights = SingleStudent.weights
       const SingleStudentDescriptions = SingleStudent.descriptions
       const SingleStudentDates: Date[] = SingleStudent.dates
 
-      console.log(SingleStudent)
       for (let i = 0; i < SingleStudentMarks.length; i++) {
         
         if (SingleStudentDescriptions[i] === "") {
           SingleStudentDescriptions[i] = "BRAK OPISU"
         }
-
-        // for(const gradeProperty in store.state.newGrades){
-        //   SingleStudent[gradeProperty].map( (el: string | number)=>{ 
-        //     SingleStudent.marks[el] !== "" && SingleStudent.weights[el] !== "" 
-        //   })
-        // }
-        // SingleStudent.marks.map(el=>{})
         
       }
       
@@ -143,13 +135,13 @@ export default function gradesMixins(){
     }
 
     //returns grades' average
-    function avg(oneStudentMarksArray: number[], oneStudentWeightsArray: number[]): string | number {
+    function avg(oneStudentMarksArray: (any)[], oneStudentWeightsArray: (any)[]): string | number {
 
-      let MarksSuperValue = 0;
-      let weightSum = 0;
+      let MarksSuperValue: number = 0;
+      let weightSum: number = 0;
 
       for (let i = 0; i < oneStudentMarksArray.length; i++) {
-        if ((!isNaN(oneStudentMarksArray[i])) && (!isNaN(oneStudentWeightsArray[i]))) {
+        if ((oneStudentMarksArray[i]!==0) && (oneStudentWeightsArray[i]!==0)) {
           MarksSuperValue += oneStudentMarksArray[i] * oneStudentWeightsArray[i];
           weightSum += oneStudentWeightsArray[i]
         }
@@ -157,8 +149,12 @@ export default function gradesMixins(){
 
       //round avg to 2 decimal places
       const average: number = MarksSuperValue / weightSum;
-      let averageRounded: number  = +(Math.round(average * 100) / 100).toFixed(2) as number;
-      if (isNaN(averageRounded)) {
+      let averageRounded: string = (Math.round(average * 100) / 100).toFixed(2)
+      
+      const isThereEmptyMark: boolean = oneStudentMarksArray.some(el=>{el==""})
+      const isThereEmptyWeight: boolean = oneStudentWeightsArray.some(el=>{el==""})
+      
+      if (isThereEmptyMark || isThereEmptyWeight ||  oneStudentWeightsArray.length == 0) {
         return ""
       }
 
@@ -168,10 +164,10 @@ export default function gradesMixins(){
 
     //decides if student is threated
     function threatness(myAVG: number) {
-      if ((myAVG < 2) && (isNaN(myAVG))) {
-        return "<span class='fire'>ZAGROŻENIE</span>"
-      } else {
+      if (Number(myAVG) > 2) {
         return ""
+      } else if((Number(myAVG) > 0) && (Number(myAVG) < 2)){
+        return "<span class='fire'>ZAGROŻENIE</span>"
       }
     }
 

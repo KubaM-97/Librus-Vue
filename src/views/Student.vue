@@ -121,10 +121,10 @@
 import gradesService from "../assets/mixins/gradesMixins";
 
 import { useRoute, useRouter } from "vue-router";
-import { ref, computed, onMounted, onUpdated, Ref } from "vue";
-import { useStore } from "vuex";
+import { ref, computed, onMounted, onUpdated, Ref, defineComponent } from "vue";
+import { getters } from "@/store/getters";
 
-export default {
+export default defineComponent({
   name: "Student",
   setup() {
     const editStudentPanel: Ref<any> = ref(null);
@@ -132,17 +132,10 @@ export default {
     const route = useRoute();
     const router = useRouter();
 
-    const store = useStore();
-
     const showDataEditionRouterView = ref(false);
     const showGradesEditionRouterView = ref(false);
 
-    let fullName: string = "";
-
-    if (typeof route.params.lastName === 'string') {
-        fullName = `${route.params.lastName.toUpperCase()} ${route.params.firstName}`
-    }
-    
+    const fullName = getters.fullNameGetters(route.params)
 
     function showEditStudentDataPanel() {
       router.push({ name: "EditData", params: route.params });
@@ -225,7 +218,7 @@ export default {
       ...gradesService(),
     };
   },
-};
+});
 </script>
 
 

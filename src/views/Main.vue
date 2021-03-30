@@ -63,13 +63,14 @@ require("../assets/css/animations.css");
 export default defineComponent({
   name: "Main",
   emits: ["changeLogStatus"],
-  setup() {
+  async setup() {
 
     const store = useStore();
     const teacher = ref("<em>Kuba Modzelik</em>");
     const Class = ref("3B");
 
-    store.dispatch("INIT_FULL_CLASS");
+    await store.dispatch("INIT_FULL_CLASS");
+    
     return {
       teacher,
       Class,

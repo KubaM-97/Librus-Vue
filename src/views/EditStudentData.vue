@@ -258,10 +258,10 @@
 <script lang="ts">
 import dataService from "../assets/mixins/dataMixins"
 
-import{ ref, SetupContext } from "vue";
+import{ ref, SetupContext, defineComponent } from "vue";
 import{ useRoute, useRouter } from "vue-router";
 
-export default {
+export default defineComponent({
   name: 'EditData',
   setup(props: object,  context: SetupContext<"update:showDataEditionRouterView"[]> ){
     
@@ -316,7 +316,7 @@ export default {
     }
 
   }
-}
+});
 </script>
 
 <style lang="css" scoped>

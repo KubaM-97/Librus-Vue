@@ -1,9 +1,9 @@
 type Getters = {
-    fullNameGetters(bar: object): string;
+    fullNameGetters(params: object): string;
 }
 
 export const getters: Getters = {
-    fullNameGetters(x: any): string {
-        return `${x.lastName.toUpperCase()} ${x.firstName}`; 
+    fullNameGetters(params: any): string {
+        return `${params.lastName.toUpperCase()} ${params.firstName}`; 
     }
 }
