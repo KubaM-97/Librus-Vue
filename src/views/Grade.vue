@@ -142,33 +142,24 @@ export default defineComponent({
         //e.g    for second component Grade.vue:   store.state.newGrades.weights[1] = 5                          store.state.newGrades.weights=[3,5]
         //e.g    for second component Grade.vue:   store.state.newGrades.descriptions[1] = "Praca domowa"        store.state.newGrades.descriptions=["Kartkówka", "Praca domowa"]
         //e.g    for second component Grade.vue:   store.state.newGrades.dates[1] = "23.08.2020 14:00:00"        store.state.newGrades.dates=["21.08.2020 11:30:00", "23.08.2020 14:00:00"]
-
         //       store.state.newGrades.marks[1] = grade[mark]
         //       store.state.newGrades.weights[1] = grade[weight]
         //       store.state.newGrades.descriptions[1] = grade[description]
         //       store.state.newGrades.dates[1] = grade[date]
-
-        gradesVuex[gradeProperty+"s"][index] = grade[gradeProperty];
-
+        gradesVuex[gradeProperty+"s"][index]=grade[gradeProperty];
         for(const gradeProperty in gradesVuex){
-
           if(gradesVuex[gradeProperty][index] === undefined)    gradesVuex[gradeProperty][index]="";
-
         }
-
         context.emit('letMeSave')
-
     }
-
     //clears newGrades object in Vuex
-    function remove(index: number){
-
+    function remove(index:number){
+      
       for (const gradeProperty in gradesVuex) {
           gradesVuex[gradeProperty][index] = "";
       }
     
-  (document.querySelectorAll(".addStudentPanelGradesContentSingle")[index] as HTMLDivElement).style.display = "none";
-
+      (document.querySelectorAll(".addStudentPanelGradesContentSingle")[index] as HTMLDivElement).style.display = "none";
     }
 
     return {

@@ -100,6 +100,8 @@
      <button name="impossibleSaveGrades" v-else class="btn btn-success btn-lg save" disabled>Zapisz zmiany</button>
    </div>
    <button name="closeTheGradesPanel" @click="closeThePanel()"><img class="closeThePanel" src="../assets/images/eXit.png"/></button>
+   {{grades.marks}}
+   {{grades.weights}}
  </div>
 </template>
 
@@ -157,19 +159,15 @@ export default defineComponent({
   function letMeSave(){
     possibleSave.value = true
   }
-  function removeGrade(index: number){
-
+    function removeGrade(index: number){
     // here there are vuex and this component stud
     const sourcesArray = [grades, ourStudent];
-
     for(let i=0; i<sourcesArray.length; i++){
       for(const category in sourcesArray[i]){
         sourcesArray[i][category].splice(index,1)
       }
     }
-
     possibleSave.value = true
-
   }
    
 

@@ -134,28 +134,25 @@ export default function gradesMixins(){
 
     }
 
-    //returns grades' average
-    function avg(oneStudentMarksArray: (any)[], oneStudentWeightsArray: (any)[]): string | number {
 
-      let MarksSuperValue: number = 0;
-      let weightSum: number = 0;
+    //returns grades' average
+    function avg(oneStudentMarksArray: any[], oneStudentWeightsArray: any[]) {
+
+      let MarksSuperValue = 0;
+      let weightSum = 0;
 
       for (let i = 0; i < oneStudentMarksArray.length; i++) {
-        if ((oneStudentMarksArray[i]!==0) && (oneStudentWeightsArray[i]!==0)) {
+        if ((oneStudentMarksArray[i] !== "") && (oneStudentWeightsArray[i] !== "")) {
           MarksSuperValue += oneStudentMarksArray[i] * oneStudentWeightsArray[i];
           weightSum += oneStudentWeightsArray[i]
         }
       }
 
       //round avg to 2 decimal places
-      const average: number = MarksSuperValue / weightSum;
-      let averageRounded: string = (Math.round(average * 100) / 100).toFixed(2)
-      
-      const isThereEmptyMark: boolean = oneStudentMarksArray.some(el=>{el==""})
-      const isThereEmptyWeight: boolean = oneStudentWeightsArray.some(el=>{el==""})
-      
-      if (isThereEmptyMark || isThereEmptyWeight ||  oneStudentWeightsArray.length == 0) {
-        return ""
+      const average = MarksSuperValue / weightSum;
+      let averageRounded = (Math.round(average * 100) / 100).toFixed(2);
+      if (isNaN(Number(averageRounded))) {
+        averageRounded = ""
       }
 
       return averageRounded;

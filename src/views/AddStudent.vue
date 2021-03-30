@@ -707,16 +707,15 @@ export default defineComponent({
       if (addedStudentNameArray.length >= 2) {
         getRidOfEmptyGrades();
 
-        add.id = students.value.length + 1;
+        add.id = students.value.length;
         
         add.marks = gradesVuex.marks
         add.weights = gradesVuex.weights
         add.descriptions = gradesVuex.descriptions
         add.dates = gradesVuex.dates
 
-
-        students[students.length] = add
-
+        students.value[students.value.length] = add
+        
         block.value = false;
         router.push({ name: "FullClass" });
       } else {
