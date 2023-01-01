@@ -10,7 +10,7 @@
     "deploy": "gh-pages -d build"
   },
   "dependencies": {
-    "@vue/compiler-sfc": "^3.0.5",
+    "@vue/compiler-sfc": "^3.2.45",
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
     "bootstrap-vue": "^2.19.0",
@@ -23,7 +23,7 @@
   "devDependencies": {
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
+    "@vue/cli-service": "~5.0.8",
     "vue-template-compiler": "^2.6.11"
   },
   "browserslist": [
